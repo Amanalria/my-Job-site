@@ -1,7 +1,7 @@
 import os
 import re
 import json
-import urllib.parse
+import uuid
 from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
@@ -23,6 +23,15 @@ PRIMARY_CATEGORIES = [
     'certificate-verification', 'important', 'contact', 'disclaimer', 'privacy-policy'
 ]
 
+COL_MAPPING = {
+    '0b76599a': 'result',
+    'e64d3148': 'admit-card',
+    'c7488d9a': 'latest-jobs',
+    'd19ddc59': 'answer-key',
+    'b48dca36': 'syllabus',
+    '51daea0e': 'admission'
+}
+
 def load_settings():
     if os.path.exists(SETTINGS_FILE):
         try:
@@ -35,6 +44,12 @@ def load_settings():
         'domain': 'yourdomain.com',
         'tagline': 'Sarkari Result ™ 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results',
         'top_banner_text': 'Sarkari Result ™ 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place.',
+        'marquee_items': [],
+        'highlight_cards': [],
+        'grid_headers': {},
+        'info_sections': [],
+        'faq_items': [],
+        'footer_text': 'Copyright © 2026. All Rights Reserved.',
         'adsense': {'enabled': False, 'client_id': ''}
     }
 
@@ -49,7 +64,6 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     # 1. Strip external ad scripts, iframes, push notifications
     for s in soup.find_all(['script', 'iframe', 'ins']):
         src = s.get('src', '')
-        txt = s.get_text()
         classes = s.get('class', [])
         if any(ad in src.lower() for ad in ['pagead2', 'googlesyndication', 'izooto', 'googletagmanager', 'cloudflare']):
             s.decompose()
@@ -82,62 +96,494 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             margin: 0.6% !important;
         }
     }
+    .alria-edit-btn {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border: none !important;
+        padding: 3px 10px !important;
+        border-radius: 4px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+        margin: 4px 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+        text-decoration: none !important;
+        z-index: 1000 !important;
+    }
+    .alria-edit-btn:hover {
+        background: #dc2626 !important;
+    }
     """
     if soup.head:
         soup.head.append(center_style)
 
-    # 4. Inject /alria Live Editor Toolbar if in edit mode
+    # 4. Bind dynamic Top Banner Text
+    top_p = soup.find(class_='gb-headline-d55a09d3')
+    if top_p and settings.get('top_banner_text'):
+        top_p.string = settings.get('top_banner_text')
+
+    # 5. Bind dynamic Top 8 Cards
+    cards = settings.get('highlight_cards', [])
+    if cards:
+        card_containers = soup.find_all(class_=re.compile(r'gb-grid-column-(81c81cf2|c2e36bcf|1838ae6f|eef7c02b|62b661d9|2ad1104e|04597b83|a25e1b9b)'))
+        for idx, col in enumerate(card_containers[:len(cards)]):
+            a_tag = col.find('a')
+            if a_tag:
+                a_tag['href'] = cards[idx].get('url', '#')
+                a_tag.string = cards[idx].get('title', '')
+
+    # 6. Bind dynamic Grid Headers (6 Columns)
+    grid_headers = settings.get('grid_headers', {})
+    for col_cls, cat_key in COL_MAPPING.items():
+        col_div = soup.find(class_=f'gb-grid-column-{col_cls}')
+        if col_div:
+            container = col_div.find(class_='gb-container')
+            if container:
+                h2 = container.find(class_=re.compile(r'gb-headline.*-text'))
+                if h2 and cat_key in grid_headers:
+                    h2.string = grid_headers[cat_key].get('title', h2.get_text())
+
+    # 7. Bind dynamic Info & FAQ sections inside container 08c3e704
+    c08 = soup.find(class_='gb-container-08c3e704')
+    if c08:
+        inside = c08.find(class_='gb-inside-container')
+        if inside:
+            info_secs = settings.get('info_sections', [])
+            faq_items = settings.get('faq_items', [])
+            if info_secs or faq_items:
+                inside.clear()
+                # Info sections
+                for sec in info_secs:
+                    h2_tag = soup.new_tag('h2', **{'class': 'gb-headline gb-headline-02a5ae4c gb-headline-text'}, style='background-color:#a80909; color:#fff; padding:6px 10px; margin:15px 0 8px; font-size:16px;')
+                    h2_tag.string = sec.get('title', '')
+                    inside.append(h2_tag)
+                    p_tag = soup.new_tag('p', **{'class': 'has-text-align-center wp-block-paragraph'}, style='padding:8px 12px; font-size:15px; line-height:1.6; text-align:left;')
+                    p_tag.string = sec.get('content', '')
+                    inside.append(p_tag)
+                # FAQs
+                if faq_items:
+                    faq_h2 = soup.new_tag('h2', **{'class': 'gb-headline gb-headline-02a5ae4c gb-headline-text'}, style='background-color:#a80909; color:#fff; padding:6px 10px; margin:15px 0 8px; font-size:16px;')
+                    faq_h2.string = "FAQ – Frequently Asked Questions"
+                    inside.append(faq_h2)
+                    faq_box = soup.new_tag('div', style='padding:10px 12px; margin-bottom:15px;')
+                    for i, faq in enumerate(faq_items, 1):
+                        qp = soup.new_tag('p', style='text-align:left; margin:10px 0 3px; font-weight:700; color:#a80909; font-size:15px;')
+                        qp.append(BeautifulSoup(f"<span style='color:#000;'>Q {i}.</span> {faq.get('q', '')}", 'html.parser'))
+                        faq_box.append(qp)
+                        ap = soup.new_tag('p', style='text-align:justify; margin:0 0 12px; font-size:14px; line-height:1.5; color:#222;')
+                        ap.append(BeautifulSoup(f"<strong style='color:#077822;'>Ans.</strong> {faq.get('a', '')}", 'html.parser'))
+                        faq_box.append(ap)
+                    inside.append(faq_box)
+
+    # 8. Inject /alria Live Editor Toolbar & In-place Edit Buttons
     if is_alria_mode:
+        # In-place button on header
+        header = soup.find('header') or soup.find(class_='site-header')
+        if header:
+            h_btn = soup.new_tag('div', style='text-align:center; padding:4px;')
+            h_btn.append(BeautifulSoup("<button class='alria-edit-btn' onclick=\"openModal('modal-branding')\">✏️ Edit Branding &amp; Banner</button>", 'html.parser'))
+            header.insert(0, h_btn)
+
+        # In-place button on 8 cards
+        grid_top = soup.find(class_='gb-grid-wrapper-5aaa8125')
+        if grid_top:
+            cards_btn = soup.new_tag('div', style='text-align:center; margin:8px 0;')
+            cards_btn.append(BeautifulSoup("<button class='alria-edit-btn' onclick=\"openModal('modal-cards')\">✏️ Edit Top 8 Cards</button>", 'html.parser'))
+            grid_top.insert_before(cards_btn)
+
+        # In-place buttons on 6 columns
+        for col_cls, cat_key in COL_MAPPING.items():
+            col_div = soup.find(class_=f'gb-grid-column-{col_cls}')
+            if col_div:
+                container = col_div.find(class_='gb-container')
+                if container:
+                    c_btn = soup.new_tag('div', style='text-align:center; margin:4px 0;')
+                    c_btn.append(BeautifulSoup(f"<button class='alria-edit-btn' onclick=\"openModal('modal-grid-titles')\">✏️ Edit Titles</button>", 'html.parser'))
+                    container.insert(0, c_btn)
+
+        # In-place buttons on Info & FAQ
+        if c08:
+            info_btn = soup.new_tag('div', style='text-align:center; margin:10px 0;')
+            info_btn.append(BeautifulSoup("<button class='alria-edit-btn' onclick=\"openModal('modal-info-faq')\">✏️ Edit Guidelines &amp; FAQs</button>", 'html.parser'))
+            c08.insert(0, info_btn)
+
+        # In-place button on footer
+        footer = soup.find('footer') or soup.find(class_='site-footer')
+        if footer:
+            foot_btn = soup.new_tag('div', style='text-align:center; margin:8px 0;')
+            foot_btn.append(BeautifulSoup("<button class='alria-edit-btn' onclick=\"openModal('modal-footer-socials')\">✏️ Edit Footer &amp; Social Links</button>", 'html.parser'))
+            footer.insert(0, foot_btn)
+
+        # Floating Toolbar & All Interactive Modals
+        info_secs_list = settings.get('info_sections', [])
+        info_t1 = info_secs_list[0].get('title', '') if info_secs_list else ''
+        info_c1 = info_secs_list[0].get('content', '') if info_secs_list else ''
+        settings_json_escaped = json.dumps(settings)
         alria_html = f'''
-        <div id="alria-bar" style="position:fixed; top:0; left:0; right:0; z-index:999999; background:rgba(15,23,42,0.95); backdrop-filter:blur(10px); color:#fff; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 20px rgba(0,0,0,0.3); border-bottom:2px solid #ef4444; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;">
+        <!-- ALRIA FLOATING TOOLBAR -->
+        <div id="alria-bar" style="position:fixed; top:0; left:0; right:0; z-index:999999; background:rgba(15,23,42,0.96); backdrop-filter:blur(10px); color:#fff; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 20px rgba(0,0,0,0.4); border-bottom:2px solid #ef4444; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;">
             <div style="display:flex; align-items:center; gap:12px;">
                 <span style="background:#ef4444; color:#fff; padding:3px 8px; border-radius:4px; font-weight:800; font-size:12px;">⚡ ALRIA LIVE EDITOR</span>
-                <span style="font-size:13px; color:#cbd5e1;">Live visual editing on Official Clone</span>
+                <span style="font-size:13px; color:#cbd5e1;">Click any red ✏️ button on the page to edit that section</span>
             </div>
-            <div style="display:flex; align-items:center; gap:10px;">
-                <button onclick="openModal('modal-edit-settings')" style="background:#3b82f6; color:#fff; border:none; padding:6px 14px; border-radius:4px; font-weight:700; cursor:pointer; font-size:13px;">⚙️ Edit Branding &amp; Ads</button>
-                <a href="/admin/dashboard" style="background:#475569; color:#fff; text-decoration:none; padding:6px 14px; border-radius:4px; font-weight:700; font-size:13px;">Admin Dashboard</a>
-                <a href="/" style="background:#64748b; color:#fff; text-decoration:none; padding:6px 14px; border-radius:4px; font-weight:700; font-size:13px;">Exit Live Mode</a>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button onclick="openModal('modal-branding')" style="background:#2563eb; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🏷️ Branding</button>
+                <button onclick="openModal('modal-cards')" style="background:#0891b2; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🃏 Top 8 Cards</button>
+                <button onclick="openModal('modal-grid-titles')" style="background:#7c3aed; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">📊 6 Grid Titles</button>
+                <button onclick="openModal('modal-info-faq')" style="background:#059669; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">❓ FAQs &amp; Info</button>
+                <button onclick="openModal('modal-footer-socials')" style="background:#d97706; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🔗 Footer &amp; Socials</button>
+                <a href="/admin/dashboard" style="background:#475569; color:#fff; text-decoration:none; padding:5px 12px; border-radius:4px; font-weight:700; font-size:12px;">Admin Panel</a>
+                <a href="/" style="background:#ef4444; color:#fff; text-decoration:none; padding:5px 12px; border-radius:4px; font-weight:700; font-size:12px;">Exit Live Mode</a>
             </div>
         </div>
 
-        <!-- Modals -->
-        <div id="modal-edit-settings" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:1000000; align-items:center; justify-content:center; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;">
-            <div style="background:#fff; border-radius:8px; width:90%; max-width:550px; padding:24px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.2);">
-                <h3 style="margin-top:0; font-size:18px; color:#0f172a; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">Edit Portal Branding &amp; AdSense</h3>
-                <label style="display:block; font-weight:600; font-size:13px; margin:10px 0 4px;">Site Name</label>
-                <input type="text" id="alria-site-name" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px; box-sizing:border-box;" value="{settings.get('site_name', '')}">
-                <label style="display:block; font-weight:600; font-size:13px; margin:10px 0 4px;">Domain Name</label>
-                <input type="text" id="alria-domain" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px; box-sizing:border-box;" value="{settings.get('domain', '')}">
-                <label style="display:block; font-weight:600; font-size:13px; margin:10px 0 4px;">Google AdSense Publisher ID</label>
-                <input type="text" id="alria-adsense-id" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px; box-sizing:border-box;" value="{adsense_cfg.get('client_id', '')}" placeholder="ca-pub-1234567890123456">
-                <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; cursor:pointer; margin:10px 0;">
-                    <input type="checkbox" id="alria-adsense-enabled" {'checked' if adsense_cfg.get('enabled') else ''}> Enable AdSense Auto Ads
-                </label>
-                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px;">
-                    <button onclick="closeModal('modal-edit-settings')" style="padding:8px 16px; border:1px solid #cbd5e1; background:#fff; border-radius:4px; cursor:pointer;">Cancel</button>
-                    <button onclick="saveSiteSettings()" style="padding:8px 16px; background:#ef4444; color:#fff; border:none; border-radius:4px; font-weight:700; cursor:pointer;">Save Changes</button>
+        <style>
+            .alria-modal-backdrop {{
+                display: none;
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0, 0, 0, 0.65);
+                z-index: 1000000;
+                align-items: center;
+                justify-content: center;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            }}
+            .alria-modal-card {{
+                background: #ffffff;
+                border-radius: 8px;
+                width: 92%;
+                max-width: 650px;
+                max-height: 88vh;
+                overflow-y: auto;
+                padding: 24px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                color: #1e293b;
+            }}
+            .alria-modal-card h3 {{
+                margin-top: 0;
+                font-size: 18px;
+                border-bottom: 2px solid #f1f5f9;
+                padding-bottom: 10px;
+                color: #0f172a;
+            }}
+            .alria-input-group {{
+                margin-bottom: 12px;
+            }}
+            .alria-input-group label {{
+                display: block;
+                font-size: 13px;
+                font-weight: 600;
+                margin-bottom: 4px;
+                color: #475569;
+            }}
+            .alria-modal-card input[type="text"], .alria-modal-card textarea {{
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid #cbd5e1;
+                border-radius: 4px;
+                font-size: 14px;
+                box-sizing: border-box;
+            }}
+            .alria-modal-actions {{
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+                margin-top: 18px;
+                border-top: 1px solid #e2e8f0;
+                padding-top: 12px;
+            }}
+            .alria-btn-cancel {{
+                padding: 8px 16px;
+                border: 1px solid #cbd5e1;
+                background: #fff;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: 600;
+            }}
+            .alria-btn-save {{
+                padding: 8px 18px;
+                background: #ef4444;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                font-weight: 700;
+                cursor: pointer;
+            }}
+        </style>
+
+        <!-- 1. MODAL: BRANDING & BANNER -->
+        <div id="modal-branding" class="alria-modal-backdrop">
+            <div class="alria-modal-card">
+                <h3>🏷️ Edit Portal Branding &amp; Banner</h3>
+                <div class="alria-input-group">
+                    <label>Portal Site Name</label>
+                    <input type="text" id="b-site-name" value="{settings.get('site_name', '')}">
+                </div>
+                <div class="alria-input-group">
+                    <label>Domain Name</label>
+                    <input type="text" id="b-domain" value="{settings.get('domain', '')}">
+                </div>
+                <div class="alria-input-group">
+                    <label>Site Tagline</label>
+                    <input type="text" id="b-tagline" value="{settings.get('tagline', '')}">
+                </div>
+                <div class="alria-input-group">
+                    <label>Top Red Headline Banner Text</label>
+                    <textarea id="b-top-banner" rows="3">{settings.get('top_banner_text', '')}</textarea>
+                </div>
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-branding')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveBranding()">Save Changes</button>
                 </div>
             </div>
         </div>
 
+        <!-- 2. MODAL: TOP 8 CARDS -->
+        <div id="modal-cards" class="alria-modal-backdrop">
+            <div class="alria-modal-card">
+                <h3>🃏 Edit Top 8 Colored Highlight Cards</h3>
+                <div id="cards-container">
+                    <!-- Populated via JS -->
+                </div>
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-cards')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveCards()">Save All 8 Cards</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. MODAL: 6 GRID TITLES -->
+        <div id="modal-grid-titles" class="alria-modal-backdrop">
+            <div class="alria-modal-card">
+                <h3>📊 Edit 6 Grid Column Section Titles</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="alria-input-group">
+                        <label>Column 1 (Results)</label>
+                        <input type="text" id="gt-result" value="{grid_headers.get('result', {}).get('title', 'Result')}">
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Column 2 (Admit Card)</label>
+                        <input type="text" id="gt-admit" value="{grid_headers.get('admit-card', {}).get('title', 'Admit Card')}">
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Column 3 (Latest Jobs)</label>
+                        <input type="text" id="gt-jobs" value="{grid_headers.get('latest-jobs', {}).get('title', 'Latest Jobs')}">
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Column 4 (Answer Key)</label>
+                        <input type="text" id="gt-key" value="{grid_headers.get('answer-key', {}).get('title', 'Answer Key')}">
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Column 5 (Syllabus)</label>
+                        <input type="text" id="gt-syl" value="{grid_headers.get('syllabus', {}).get('title', 'Syllabus')}">
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Column 6 (Admission)</label>
+                        <input type="text" id="gt-adm" value="{grid_headers.get('admission', {}).get('title', 'Admission')}">
+                    </div>
+                </div>
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-grid-titles')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveGridTitles()">Save Titles</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. MODAL: GUIDELINES & FAQS -->
+        <div id="modal-info-faq" class="alria-modal-backdrop">
+            <div class="alria-modal-card">
+                <h3>❓ Edit Guidelines &amp; FAQs</h3>
+                <h4>Guidelines Block 1</h4>
+                <div class="alria-input-group">
+                    <label>Title</label>
+                    <input type="text" id="info-t1" value="{info_t1}">
+                    <label style="margin-top:6px;">Content</label>
+                    <textarea id="info-c1" rows="3">{info_c1}</textarea>
+                </div>
+                <h4 style="margin-top:16px;">FAQ Q&amp;A Items</h4>
+                <div id="faq-list-container">
+                    <!-- Populated via JS -->
+                </div>
+                <button onclick="addNewFaqItem()" style="background:#0891b2; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:12px; cursor:pointer;">+ Add New FAQ Question</button>
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-info-faq')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveInfoFaq()">Save Info &amp; FAQs</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. MODAL: FOOTER & SOCIALS -->
+        <div id="modal-footer-socials" class="alria-modal-backdrop">
+            <div class="alria-modal-card">
+                <h3>🔗 Edit Footer &amp; Social Links</h3>
+                <div class="alria-input-group">
+                    <label>Footer Copyright / Disclaimer Text</label>
+                    <textarea id="f-text" rows="2">{settings.get('footer_text', '')}</textarea>
+                </div>
+                <h4>Official Social Channels</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div class="alria-input-group">
+                        <label>Telegram Link</label>
+                        <input type="text" id="soc-tg" value="{settings.get('socials', {}).get('telegram', '')}">
+                    </div>
+                    <div class="alria-input-group">
+                        <label>WhatsApp Link</label>
+                        <input type="text" id="soc-wa" value="{settings.get('socials', {}).get('whatsapp', '')}">
+                    </div>
+                    <div class="alria-input-group">
+                        <label>YouTube Link</label>
+                        <input type="text" id="soc-yt" value="{settings.get('socials', {}).get('youtube', '')}">
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Instagram Link</label>
+                        <input type="text" id="soc-ig" value="{settings.get('socials', {}).get('instagram', '')}">
+                    </div>
+                </div>
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-footer-socials')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveFooterSocials()">Save Footer &amp; Socials</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ALRIA JS HANDLER -->
         <script>
+            let siteSettings = {settings_json_escaped};
+
             function openModal(id) {{ document.getElementById(id).style.display = 'flex'; }}
             function closeModal(id) {{ document.getElementById(id).style.display = 'none'; }}
-            async function saveSiteSettings() {{
-                const payload = {{
-                    site_name: document.getElementById('alria-site-name').value,
-                    domain: document.getElementById('alria-domain').value,
-                    adsense_id: document.getElementById('alria-adsense-id').value,
-                    adsense_enabled: document.getElementById('alria-adsense-enabled').checked
-                }};
-                const res = await fetch('/api/admin/save-settings', {{
-                    method: 'POST',
-                    headers: {{'Content-Type': 'application/json'}},
-                    body: JSON.stringify(payload)
+
+            // Render 8 Cards Inputs
+            function renderCardsInputs() {{
+                const cont = document.getElementById('cards-container');
+                if(!cont) return;
+                cont.innerHTML = '';
+                const cards = siteSettings.highlight_cards || [];
+                for(let i=0; i<8; i++) {{
+                    const c = cards[i] || {{title: '', url: '#'}};
+                    cont.innerHTML += `
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; background: #f8fafc; padding: 6px 10px; border-radius: 4px;">
+                            <div>
+                                <label style="font-size:11px; font-weight:700;">Card ${{i+1}} Title</label>
+                                <input type="text" id="card-title-${{i}}" value="${{c.title || ''}}">
+                            </div>
+                            <div>
+                                <label style="font-size:11px; font-weight:700;">Card ${{i+1}} Link (URL)</label>
+                                <input type="text" id="card-url-${{i}}" value="${{c.url || '#'}}">
+                            </div>
+                        </div>
+                    `;
+                }}
+            }}
+            renderCardsInputs();
+
+            // Render FAQ Inputs
+            function renderFaqInputs() {{
+                const cont = document.getElementById('faq-list-container');
+                if(!cont) return;
+                cont.innerHTML = '';
+                const faqs = siteSettings.faq_items || [];
+                faqs.forEach((faq, idx) => {{
+                    cont.innerHTML += `
+                        <div style="border: 1px solid #e2e8f0; padding: 8px 10px; border-radius: 4px; margin-bottom: 10px; background: #f8fafc;">
+                            <label style="font-size:12px; font-weight:700;">Question ${{idx+1}}</label>
+                            <input type="text" id="faq-q-${{idx}}" value="${{faq.q || ''}}" style="margin-bottom:6px;">
+                            <label style="font-size:12px; font-weight:700;">Answer</label>
+                            <textarea id="faq-a-${{idx}}" rows="2">${{faq.a || ''}}</textarea>
+                        </div>
+                    `;
                 }});
-                if(res.ok) {{ alert('Settings saved successfully!'); location.reload(); }}
-                else {{ alert('Error saving'); }}
+            }}
+            renderFaqInputs();
+
+            function addNewFaqItem() {{
+                if(!siteSettings.faq_items) siteSettings.faq_items = [];
+                siteSettings.faq_items.push({{q: "New Question Title", a: "Answer text goes here..."}});
+                renderFaqInputs();
+            }}
+
+            async function saveSettingsPayload(payload) {{
+                try {{
+                    const res = await fetch('/api/admin/save-settings', {{
+                        method: 'POST',
+                        headers: {{'Content-Type': 'application/json'}},
+                        body: JSON.stringify(payload)
+                    }});
+                    if(res.ok) {{
+                        alert('Section updated successfully!');
+                        location.reload();
+                    }} else {{
+                        alert('Error updating section');
+                    }}
+                }} catch(e) {{
+                    alert('Save failed: ' + e);
+                }}
+            }}
+
+            function saveBranding() {{
+                saveSettingsPayload({{
+                    site_name: document.getElementById('b-site-name').value,
+                    domain: document.getElementById('b-domain').value,
+                    tagline: document.getElementById('b-tagline').value,
+                    top_banner_text: document.getElementById('b-top-banner').value
+                }});
+            }}
+
+            function saveCards() {{
+                const cards = [];
+                for(let i=0; i<8; i++) {{
+                    cards.push({{
+                        title: document.getElementById(`card-title-${{i}}`).value,
+                        url: document.getElementById(`card-url-${{i}}`).value
+                    }});
+                }}
+                saveSettingsPayload({{ highlight_cards: cards }});
+            }}
+
+            function saveGridTitles() {{
+                const headers = {{
+                    'result': {{ title: document.getElementById('gt-result').value, more_url: '/result/' }},
+                    'admit-card': {{ title: document.getElementById('gt-admit').value, more_url: '/admit-card/' }},
+                    'latest-jobs': {{ title: document.getElementById('gt-jobs').value, more_url: '/latest-jobs/' }},
+                    'answer-key': {{ title: document.getElementById('gt-key').value, more_url: '/answer-key/' }},
+                    'syllabus': {{ title: document.getElementById('gt-syl').value, more_url: '/syllabus/' }},
+                    'admission': {{ title: document.getElementById('gt-adm').value, more_url: '/admission/' }}
+                }};
+                saveSettingsPayload({{ grid_headers: headers }});
+            }}
+
+            function saveInfoFaq() {{
+                const info_secs = [
+                    {{
+                        title: document.getElementById('info-t1').value,
+                        content: document.getElementById('info-c1').value
+                    }}
+                ];
+                const faqs = [];
+                const len = siteSettings.faq_items ? siteSettings.faq_items.length : 0;
+                for(let i=0; i<len; i++) {{
+                    const qEl = document.getElementById(`faq-q-${{i}}`);
+                    const aEl = document.getElementById(`faq-a-${{i}}`);
+                    if(qEl && aEl) {{
+                        faqs.push({{ q: qEl.value, a: aEl.value }});
+                    }}
+                }}
+                saveSettingsPayload({{ info_sections: info_secs, faq_items: faqs }});
+            }}
+
+            function saveFooterSocials() {{
+                saveSettingsPayload({{
+                    footer_text: document.getElementById('f-text').value,
+                    socials: {{
+                        telegram: document.getElementById('soc-tg').value,
+                        whatsapp: document.getElementById('soc-wa').value,
+                        youtube: document.getElementById('soc-yt').value,
+                        instagram: document.getElementById('soc-ig').value
+                    }}
+                }});
             }}
         </script>
         '''
@@ -145,7 +591,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             soup.body['style'] = 'padding-top: 55px !important;'
             soup.body.insert(0, BeautifulSoup(alria_html, 'html.parser'))
 
-    # 5. Domain Rewrite for All Links
+    # 9. Domain Rewrite for All Links
     for a in soup.find_all('a'):
         href = a.get('href', '')
         if 'sarkariresult.com.cm' in href:
@@ -247,7 +693,6 @@ def dynamic_page_router(slug):
         res = requests.get(url, headers=headers, timeout=10)
         if res.status_code == 200:
             cleaned = sanitize_html(res.text, request.host)
-            # Cache locally
             with open(page_file, 'w', encoding='utf-8') as f:
                 f.write(cleaned)
             return Response(cleaned, mimetype='text/html')
@@ -272,7 +717,6 @@ def candidate_tools(tool_name):
 @app.route('/admin/dashboard')
 def admin_dashboard():
     settings = load_settings()
-    # Count local posts
     post_count = 0
     if os.path.exists(PAGES_DIR):
         post_count = len([f for f in os.listdir(PAGES_DIR) if f.endswith('.html')])
@@ -297,13 +741,8 @@ def api_save_settings():
     settings = load_settings()
     data = request.get_json(silent=True) or request.form
 
-    if 'site_name' in data: settings['site_name'] = data['site_name']
-    if 'domain' in data: settings['domain'] = data['domain']
-    if 'adsense_id' in data: settings['adsense']['client_id'] = data['adsense_id']
-    if 'adsense_enabled' in data: settings['adsense']['enabled'] = bool(data['adsense_enabled'])
-    if 'supabase_url' in data: settings['supabase']['url'] = data['supabase_url']
-    if 'supabase_key' in data: settings['supabase']['key'] = data['supabase_key']
-    if 'supabase_enabled' in data: settings['supabase']['enabled'] = bool(data['supabase_enabled'])
+    for k, v in data.items():
+        settings[k] = v
 
     save_settings_data(settings)
     if request.is_json:

@@ -1,14 +1,114 @@
 {
-  "site_name": "SARKARI RESULT",
+  "site_name": "SARKARI RESULT OFFICIAL",
   "domain": "yourdomain.com",
-  "tagline": "Sarkari Result ™ 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
-  "top_banner_text": "Sarkari Result ™ 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place.",
+  "tagline": "Sarkari Result \u2122 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
+  "top_banner_text": "Sarkari Result \u2122 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place.",
+  "marquee_items": [
+    {
+      "text": "BPSC 72nd Combined Competitive Exam Online Form 2026",
+      "url": "/bpsc-72nd-pre-2026/"
+    },
+    {
+      "text": "SSC Combined Higher Secondary Level CHSL Online Form 2026",
+      "url": "/ssc-chsl-2026/"
+    },
+    {
+      "text": "Railway RRB Assistant Loco Pilot ALP Online Form 2026",
+      "url": "/railway-rrb-alp-2026/"
+    },
+    {
+      "text": "UPSC Civil Services IAS / IFS Pre Exam 2026 Online Form",
+      "url": "/upsc-civil-services-ias-ifs-2026/"
+    }
+  ],
+  "highlight_cards": [
+    {
+      "title": "BPSC 72nd Pre Form",
+      "url": "/bpsc-72nd-pre-2026/"
+    },
+    {
+      "title": "SSC CHSL Form",
+      "url": "/ssc-chsl-2026/"
+    },
+    {
+      "title": "Railway RRB ALP Form",
+      "url": "/railway-rrb-alp-2026/"
+    },
+    {
+      "title": "UPSC IAS/IFS Form",
+      "url": "/upsc-civil-services-ias-ifs-2026/"
+    },
+    {
+      "title": "UP Police OTR Form",
+      "url": "/up-police-upprpb-one-time-registration-otr-online-form-2025/"
+    },
+    {
+      "title": "NTA CSIR NET Form",
+      "url": "/nta-csir-ugc-net-june-2026/"
+    },
+    {
+      "title": "BPSC School Teacher TRE 4.0",
+      "url": "/bpsc-school-teacher-tre-4-0-2026/"
+    },
+    {
+      "title": "NTA NEET UG 2026",
+      "url": "/nta-neet-ug-2026/"
+    }
+  ],
+  "grid_headers": {
+    "result": {
+      "title": "Result",
+      "more_url": "/result/"
+    },
+    "admit-card": {
+      "title": "Admit Card",
+      "more_url": "/admit-card/"
+    },
+    "latest-jobs": {
+      "title": "Latest Jobs",
+      "more_url": "/latest-jobs/"
+    },
+    "answer-key": {
+      "title": "Answer Key",
+      "more_url": "/answer-key/"
+    },
+    "syllabus": {
+      "title": "Syllabus",
+      "more_url": "/syllabus/"
+    },
+    "admission": {
+      "title": "Admission",
+      "more_url": "/admission/"
+    }
+  },
+  "info_sections": [
+    {
+      "title": "Welcome to India's Leading Job Notification Portal",
+      "content": "Get fastest and verified updates on central and state government exams, online application forms, answer keys, results, admit cards, and counselling notices across India."
+    },
+    {
+      "title": "How to Apply for Government Jobs (Sarkari Naukri)",
+      "content": "1. Check notification eligibility criteria, age relaxation, and required documents.\n2. Fill online application on the official recruitment board portal before the last date.\n3. Pay examination fees and preserve final submitted PDF copy for future reference."
+    }
+  ],
+  "faq_items": [
+    {
+      "q": "What is Sarkari Result and how does it help candidates?",
+      "a": "Sarkari Result is a premier educational information platform providing instant, verified alerts for government vacancies, exam syllabus, admit cards, answer keys, and merit lists."
+    },
+    {
+      "q": "How frequently are exam results and admit cards updated?",
+      "a": "Our automated notification engine updates all official notifications 24/7 in real-time as soon as released by government recruiting agencies."
+    },
+    {
+      "q": "Is any registration fee required to browse notifications?",
+      "a": "No, all recruitment updates, syllabus downloads, and candidate tools are 100% free for all aspirants."
+    }
+  ],
+  "footer_text": "Copyright \u00a9 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
   "adsense": {
     "enabled": false,
-    "client_id": "ca-pub-XXXXXXXXXXXXXXXX",
-    "header_ad_slot": "",
-    "in_article_ad_slot": "",
-    "footer_ad_slot": ""
+    "client_id": ""
   },
   "supabase": {
     "url": "",
@@ -21,11 +121,6 @@
     "youtube": "https://youtube.com/",
     "instagram": "https://instagram.com/",
     "facebook": "https://facebook.com/",
-    "twitter": "https://x.com/",
-    "mobile_app": "https://play.google.com/store"
-  },
-  "admin": {
-    "username": "admin",
-    "pin": "2026"
+    "twitter": "https://x.com/"
   }
 }
