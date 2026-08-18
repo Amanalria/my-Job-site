@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Photo &amp; Signature Resizer (20KB - 50KB) – {{ settings.site_name }}</title>
+    <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css">
+    <link rel="stylesheet" href="/wp-content/uploads/generateblocks/style-32.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tool-card { background: #fff; border: 1px solid #cecece; border-radius: 6px; padding: 24px; max-width: 650px; margin: 20px auto; }
+        .input-row { margin-bottom: 16px; }
+        .input-row label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; color: #334155; }
+        .input-row input, .input-row select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; }
+        .btn-action { background: #a80909; color: #fff; border: none; padding: 12px 24px; border-radius: 4px; font-weight: 700; font-size: 15px; cursor: pointer; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="site-header">
+    <header class="site-header" style="text-align:center; padding:15px 10px 10px; background:#fff;">
+        <h1 style="font-size:32px; font-weight:800; color:#ab183d; margin:0; text-transform:uppercase; font-family:'Noto Sans', sans-serif;">
+            <a href="/" style="color:#ab183d; text-decoration:none;">{{ settings.site_name }}</a>
+        </h1>
+        <p class="site-description" style="font-size:14px; font-weight:700; color:#222; margin:2px 0 0; text-transform:uppercase;">
+            WWW.{{ settings.domain }}
+        </p>
+    </header>
+    <nav class="main-navigation" style="background:#a80909; text-align:center; padding:0;">
+        <div style="max-width:1100px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:center;">
+            <a href="/" style="color:#fff; padding:10px 16px; text-decoration:none; font-weight:700; font-size:14px;">Home</a>
+            <a href="/latest-jobs/" style="color:#fff; padding:10px 16px; text-decoration:none; font-weight:700; font-size:14px;">Latest Jobs</a>
+            <a href="/tools/photo-resizer" style="color:#fff; padding:10px 16px; text-decoration:none; font-weight:700; font-size:14px; background:#8b0000;">Photo Resizer</a>
+        </div>
+    </nav>
+</div>
+
+<div class="site-content" style="max-width:1050px; margin:20px auto; padding:0 12px;">
+    <div class="tool-card">
+        <h2 style="font-size:22px; font-weight:800; color:#a80909; text-align:center; margin-top:0; margin-bottom:20px;">
+            Govt Exam Photo &amp; Signature Compressor / Resizer
+        </h2>
+        <div class="input-row">
+            <label>Select Passport Photo or Signature Image *</label>
+            <input type="file" id="imageInput" accept="image/*">
+        </div>
+        <div class="input-row">
+            <label>Target Compression Preset</label>
+            <select id="preset">
+                <option value="50">Passport Photo (Max 50 KB - SSC/UPSC Standard)</option>
+                <option value="20">Signature Image (10 KB - 20 KB)</option>
+                <option value="100">Document Scan (Max 100 KB)</option>
+            </select>
+        </div>
+        <button class="btn-action" onclick="compressImage()">Resize &amp; Download Image</button>
+        <div id="preview" style="margin-top:20px; text-align:center; display:none;">
+            <p style="font-weight:700; color:#166534;">Image Processed Successfully!</p>
+            <img id="outputImg" style="max-width:200px; border:1px solid #cbd5e1; border-radius:4px; margin-bottom:10px;">
+            <br>
+            <a id="downloadLink" style="background:#16a34a; color:#fff; padding:8px 16px; border-radius:4px; text-decoration:none; font-weight:700; font-size:13px; display:inline-block;" download="resized_photo.jpg">Download Image</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function compressImage() {
+    const file = document.getElementById('imageInput').files[0];
+    if(!file) { alert('Please select an image first'); return; }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            let w = img.width, h = img.height;
+            const maxDim = 800;
+            if(w > maxDim || h > maxDim) {
+                if(w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+                else { w = Math.round(w * maxDim / h); h = maxDim; }
+            }
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            const quality = parseInt(document.getElementById('preset').value) < 30 ? 0.6 : 0.8;
+            const dataUrl = canvas.toDataURL('image/jpeg', quality);
+            document.getElementById('outputImg').src = dataUrl;
+            document.getElementById('downloadLink').href = dataUrl;
+            document.getElementById('preview').style.display = 'block';
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+</script>
+</body>
+</html>

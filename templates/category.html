@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}{{ meta.title }}{% endblock %}
+{% block meta_desc %}{{ meta.desc }}{% endblock %}
+
+{% block content %}
+<div class="category-page-header">
+    <div class="cat-title-badge" style="background-color: {{ meta.color }};">
+        <i class="fas {{ meta.icon }}"></i> {{ meta.name }}
+    </div>
+    <h1 class="cat-heading">{{ meta.title }}</h1>
+    <p class="cat-desc">{{ meta.desc }}</p>
+    <div class="cat-stat-bar">
+        <span><i class="fas fa-list-check"></i> Showing <strong>{{ total_count }}</strong> Live Notifications</span>
+        <span><i class="fas fa-bolt"></i> Real-Time 2026 Updates</span>
+    </div>
+</div>
+
+<!-- In-Category Live Filter -->
+<div class="category-filter-box">
+    <div class="cat-search-row">
+        <div class="search-input-wrap">
+            <i class="fas fa-search"></i>
+            <input type="text" id="catFilterInput" placeholder="Filter {{ meta.name }} by keyword (e.g. Bihar, Railway, Police, Assistant, 2026)...">
+        </div>
+        <div class="cat-tag-links">
+            <span class="tag-title">Filter by:</span>
+            <a href="{{ url_for('category_view', cat_key=cat_key) }}" class="cat-filter-btn {% if not request.args.get('tag') %}active{% endif %}">All</a>
+            <a href="{{ url_for('category_view', cat_key=cat_key) }}?tag=police" class="cat-filter-btn {% if request.args.get('tag') == 'police' %}active{% endif %}">Police</a>
+            <a href="{{ url_for('category_view', cat_key=cat_key) }}?tag=railway" class="cat-filter-btn {% if request.args.get('tag') == 'railway' %}active{% endif %}">Railway</a>
+            <a href="{{ url_for('category_view', cat_key=cat_key) }}?tag=bihar" class="cat-filter-btn {% if request.args.get('tag') == 'bihar' %}active{% endif %}">Bihar</a>
+            <a href="{{ url_for('category_view', cat_key=cat_key) }}?tag=up" class="cat-filter-btn {% if request.args.get('tag') == 'up' %}active{% endif %}">UP</a>
+            <a href="{{ url_for('category_view', cat_key=cat_key) }}?tag=ssc" class="cat-filter-btn {% if request.args.get('tag') == 'ssc' %}active{% endif %}">SSC</a>
+            <a href="{{ url_for('category_view', cat_key=cat_key) }}?tag=teacher" class="cat-filter-btn {% if request.args.get('tag') == 'teacher' %}active{% endif %}">Teaching</a>
+        </div>
+    </div>
+</div>
+
+<!-- Category List Grid / Table -->
+<div class="category-listing-card">
+    <div class="cat-table-header" style="background-color: {{ meta.color }};">
+        <span><i class="fas fa-clipboard-list"></i> {{ meta.name }} - Comprehensive 2026 Catalog</span>
+    </div>
+    <ul class="cat-items-list" id="catItemsList">
+        {% for item in items %}
+        <li class="cat-list-row" data-title="{{ item.title|lower }}">
+            <div class="row-left">
+                <i class="fas fa-angle-right item-bullet-icon"></i>
+                <a href="{{ url_for('post_detail_view', slug=item.slug) }}" class="post-item-link">
+                    {{ item.title }}
+                </a>
+            </div>
+            <div class="row-right">
+                <a href="{{ url_for('post_detail_view', slug=item.slug) }}" class="btn-check-post" style="border-color: {{ meta.color }}; color: {{ meta.color }};">
+                    Open <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </li>
+        {% else %}
+        <li class="no-results-notice">
+            <i class="fas fa-info-circle"></i> No posts found matching this filter. <a href="{{ url_for('category_view', cat_key=cat_key) }}">View all {{ meta.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Category Nav Footer -->
+<div class="other-categories-strip">
+    <h3>Explore Other Sections :</h3>
+    <div class="other-cats-grid">
+        {% for k, v in category_meta.items() %}
+        {% if k != cat_key %}
+        <a href="{{ url_for('category_view', cat_key=k) }}" class="other-cat-btn">
+            <i class="fas {{ v.icon }}"></i> {{ v.name }}
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('catFilterInput');
+    const list = document.getElementById('catItemsList');
+    if (!input || !list) return;
+
+    input.addEventListener('input', function() {
+        const val = this.value.toLowerCase().trim();
+        const rows = list.querySelectorAll('.cat-list-row');
+        let matches = 0;
+        rows.forEach(row => {
+            const title = row.getAttribute('data-title') || '';
+            if (!val || title.includes(val)) {
+                row.style.display = 'flex';
+                matches++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

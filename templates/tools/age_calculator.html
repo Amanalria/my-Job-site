@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Age Calculator for Govt Jobs – {{ settings.site_name }}</title>
+    <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css">
+    <link rel="stylesheet" href="/wp-content/uploads/generateblocks/style-32.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .calc-card { background: #fff; border: 1px solid #cecece; border-radius: 6px; padding: 24px; max-width: 650px; margin: 20px auto; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        .input-row { margin-bottom: 16px; }
+        .input-row label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; color: #334155; }
+        .input-row input, .input-row select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+        .btn-calc { background: #a80909; color: #fff; border: none; padding: 12px 24px; border-radius: 4px; font-weight: 700; font-size: 15px; cursor: pointer; width: 100%; }
+        .btn-calc:hover { background: #8b0000; }
+        .result-box { margin-top: 20px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 16px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="site-header">
+    <header class="site-header" style="text-align:center; padding:15px 10px 10px; background:#fff;">
+        <h1 style="font-size:32px; font-weight:800; color:#ab183d; margin:0; text-transform:uppercase; font-family:'Noto Sans', sans-serif;">
+            <a href="/" style="color:#ab183d; text-decoration:none;">{{ settings.site_name }}</a>
+        </h1>
+        <p class="site-description" style="font-size:14px; font-weight:700; color:#222; margin:2px 0 0; text-transform:uppercase;">
+            WWW.{{ settings.domain }}
+        </p>
+    </header>
+
+    <nav class="main-navigation" style="background:#a80909; text-align:center; padding:0;">
+        <div style="max-width:1100px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:center;">
+            <a href="/" style="color:#fff; padding:10px 16px; text-decoration:none; font-weight:700; font-size:14px;">Home</a>
+            <a href="/latest-jobs/" style="color:#fff; padding:10px 16px; text-decoration:none; font-weight:700; font-size:14px;">Latest Jobs</a>
+            <a href="/admit-card/" style="color:#fff; padding:10px 16px; text-decoration:none; font-weight:700; font-size:14px;">Admit Card</a>
+            <a href="/result/" style="color:#fff; padding:10px 16px; text-decoration:none; font-weight:700; font-size:14px;">Results</a>
+            <a href="/tools/age-calculator" style="color:#fff; padding:10px 16px; text-decoration:none; font-weight:700; font-size:14px; background:#8b0000;">Age Calculator</a>
+        </div>
+    </nav>
+</div>
+
+<div class="site-content" style="max-width:1050px; margin:20px auto; padding:0 12px;">
+    
+    <div class="calc-card">
+        <h2 style="font-size:22px; font-weight:800; color:#a80909; text-align:center; margin-top:0; margin-bottom:20px; font-family:'Noto Sans', sans-serif;">
+            Online Age Calculator (Govt Exam Eligibility)
+        </h2>
+
+        <div class="input-row">
+            <label>Date of Birth (DOB) *</label>
+            <input type="date" id="dob" required>
+        </div>
+
+        <div class="input-row">
+            <label>Age as on Date (Cutoff Date) *</label>
+            <input type="date" id="cutoff">
+        </div>
+
+        <div class="input-row">
+            <label>Category (For Age Relaxation Info)</label>
+            <select id="caste">
+                <option value="GEN">General / UR (No Relaxation)</option>
+                <option value="OBC">OBC (+3 Years Relaxation)</option>
+                <option value="SC_ST">SC / ST (+5 Years Relaxation)</option>
+                <option value="PH">PH / PwD (+10 Years Relaxation)</option>
+            </select>
+        </div>
+
+        <button class="btn-calc" onclick="calculateAge()">Calculate Exact Age</button>
+
+        <div id="result" class="result-box">
+            <h3 style="margin-top:0; color:#166534; font-size:18px;">Your Exact Age:</h3>
+            <p id="age-text" style="font-size:16px; font-weight:700; color:#15803d; margin:6px 0;"></p>
+            <p id="relax-text" style="font-size:13px; color:#475569; margin:0;"></p>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="site-footer" style="background:#1e293b; color:#fff; padding:25px 15px; margin-top:40px; text-align:center;">
+    <p style="margin:0 0 8px; font-weight:700;">Copyright © 2026 | {{ settings.site_name }} | All Rights Reserved</p>
+    <p style="font-size:12px; color:#94a3b8; margin:0;"><a href="/" style="color:#94a3b8; text-decoration:none;">Home</a> | <a href="/latest-jobs/" style="color:#94a3b8; text-decoration:none;">Latest Jobs</a> | <a href="/contact/" style="color:#94a3b8; text-decoration:none;">Contact</a></p>
+</div>
+
+<script>
+    document.getElementById('cutoff').value = new Date().toISOString().split('T')[0];
+    function calculateAge() {
+        const dobVal = document.getElementById('dob').value;
+        const cutVal = document.getElementById('cutoff').value;
+        if (!dobVal || !cutVal) { alert('Please enter Date of Birth and Cutoff date'); return; }
+
+        const dob = new Date(dobVal);
+        const cut = new Date(cutVal);
+        if (dob > cut) { alert('DOB cannot be after cutoff date'); return; }
+
+        let years = cut.getFullYear() - dob.getFullYear();
+        let months = cut.getMonth() - dob.getMonth();
+        let days = cut.getDate() - dob.getDate();
+
+        if (days < 0) {
+            months--;
+            const prevMonth = new Date(cut.getFullYear(), cut.getMonth(), 0);
+            days += prevMonth.getDate();
+        }
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        document.getElementById('age-text').innerText = `${years} Years, ${months} Months, ${days} Days`;
+        const caste = document.getElementById('caste').value;
+        let relaxInfo = 'Standard General Category Age limit applies.';
+        if (caste === 'OBC') relaxInfo = 'Eligible for up to +3 Years OBC Category Age Relaxation in most Central & State exams.';
+        if (caste === 'SC_ST') relaxInfo = 'Eligible for up to +5 Years SC/ST Category Age Relaxation in most exams.';
+        if (caste === 'PH') relaxInfo = 'Eligible for up to +10 Years PwD / PH Category Age Relaxation.';
+        document.getElementById('relax-text').innerText = relaxInfo;
+        document.getElementById('result').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

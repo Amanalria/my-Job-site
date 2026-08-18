@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sarkari Result : SarkariResult.Com.Cm Official Portal 2026, Latest Jobs, Admit Card, Results{% endblock %}</title>
+    <meta name="description" content="{% block meta_desc %}SarkariResult.com.cm is India's leading Sarkari Result portal providing latest Sarkari Naukri 2026 notifications, Admit Card, Results, Answer Key, Syllabus, and Admission forms.{% endblock %}">
+    <link rel="canonical" href="{{ request.url }}">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Top Utility Bar -->
+    <div class="top-util-bar">
+        <div class="site-container top-util-flex">
+            <div class="top-announcement">
+                <span class="pulse-icon"></span> <strong>OFFICIAL PORTAL :</strong> Always visit <span>www.sarkariresult.com.cm</span>
+            </div>
+            <div class="top-actions">
+                <a href="https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L" target="_blank" class="util-btn util-wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://t.me/SarkariExam_info" target="_blank" class="util-btn util-tg"><i class="fab fa-telegram"></i> Telegram</a>
+                <button id="themeToggle" class="util-btn util-theme" title="Toggle Dark/Light Mode"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Branding Header -->
+    <header class="main-header">
+        <div class="site-container header-inner">
+            <div class="logo-area">
+                <h1 class="site-logo">
+                    <a href="{{ url_for('home') }}">
+                        <span class="sr-text">SARKARI RESULT</span>
+                    </a>
+                </h1>
+                <p class="site-tagline">WWW.SARKARIRESULT.COM.CM</p>
+                <div class="since-badge">Official Portal Since 2009 • No Ads • Fast & Free</div>
+            </div>
+            <div class="header-search-wrap">
+                <button class="search-trigger-btn" id="openSearchModal">
+                    <i class="fas fa-search"></i>
+                    <span>Search Sarkari Result, Jobs, Admit Card...</span>
+                    <kbd>Ctrl+K</kbd>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="main-navbar" id="mainNav">
+        <div class="site-container nav-flex">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li class="{% if request.path == '/' %}active{% endif %}">
+                    <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="{% if '/latest-jobs/' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('category_view', cat_key='latest-jobs') }}"><i class="fas fa-briefcase"></i> Latest Jobs</a>
+                </li>
+                <li class="{% if '/admit-card/' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('category_view', cat_key='admit-card') }}"><i class="fas fa-id-card"></i> Admit Card</a>
+                </li>
+                <li class="{% if '/result/' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('category_view', cat_key='result') }}"><i class="fas fa-award"></i> Result</a>
+                </li>
+                <li class="{% if '/answer-key/' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('category_view', cat_key='answer-key') }}"><i class="fas fa-key"></i> Answer Key</a>
+                </li>
+                <li class="{% if '/syllabus/' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('category_view', cat_key='syllabus') }}"><i class="fas fa-book-open"></i> Syllabus</a>
+                </li>
+                <li class="{% if '/admission/' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('category_view', cat_key='admission') }}"><i class="fas fa-graduation-cap"></i> Admission</a>
+                </li>
+                <li class="has-dropdown">
+                    <a href="#"><i class="fas fa-map-marker-alt"></i> State Jobs <i class="fas fa-chevron-down drop-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('state_jobs', state_name='bihar') }}">Bihar Jobs & Result</a></li>
+                        <li><a href="{{ url_for('state_jobs', state_name='up') }}">UP Police & UPSSSC</a></li>
+                        <li><a href="{{ url_for('state_jobs', state_name='rajasthan') }}">Rajasthan RSSB / RPSC</a></li>
+                        <li><a href="{{ url_for('state_jobs', state_name='mp') }}">MP Vyapam & MPESB</a></li>
+                        <li><a href="{{ url_for('state_jobs', state_name='delhi') }}">Delhi DSSSB & High Court</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown">
+                    <a href="#"><i class="fas fa-tools"></i> Tools <i class="fas fa-chevron-down drop-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('age_calculator') }}"><i class="fas fa-calculator"></i> Age Calculator</a></li>
+                        <li><a href="{{ url_for('photo_resizer') }}"><i class="fas fa-image"></i> Photo & Sign Resizer</a></li>
+                        <li><a href="{{ url_for('resume_maker') }}"><i class="fas fa-file-alt"></i> Sarkari Resume Maker</a></li>
+                    </ul>
+                </li>
+                <li class="{% if '/contact/' in request.path %}active{% endif %}">
+                    <a href="{{ url_for('contact') }}"><i class="fas fa-envelope"></i> Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Breaking News Marquee -->
+    <div class="marquee-wrapper">
+        <div class="site-container marquee-flex">
+            <div class="marquee-badge">
+                <i class="fas fa-bullhorn"></i> <span>FLASH NEWS :</span>
+            </div>
+            <div class="marquee-track-wrap">
+                <div class="marquee-track">
+                    {% for tick in ticker_items %}
+                    <a href="{{ url_for('post_detail_view', slug=tick.slug) }}" class="marquee-item">
+                        <span class="badge-new">NEW</span> {{ tick.title }}
+                    </a>
+                    <span class="marquee-sep">★★★</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Body Container -->
+    <main class="site-main-content">
+        <div class="site-container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Quick Utilities Bar -->
+    <div class="quick-tools-strip">
+        <div class="site-container">
+            <div class="tools-grid-mini">
+                <a href="{{ url_for('age_calculator') }}" class="tool-card-mini">
+                    <div class="tool-icon"><i class="fas fa-calculator"></i></div>
+                    <div class="tool-info">
+                        <strong>Age Calculator</strong>
+                        <span>Calculate exact age for govt jobs</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('photo_resizer') }}" class="tool-card-mini">
+                    <div class="tool-icon"><i class="fas fa-compress"></i></div>
+                    <div class="tool-info">
+                        <strong>Photo / Sign Resizer</strong>
+                        <span>Resize to 20KB-50KB for online forms</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('resume_maker') }}" class="tool-card-mini">
+                    <div class="tool-icon"><i class="fas fa-user-edit"></i></div>
+                    <div class="tool-info">
+                        <strong>Free Resume Builder</strong>
+                        <span>Generate Sarkari biodata in PDF</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('category_view', cat_key='latest-jobs') }}?tag=10th" class="tool-card-mini">
+                    <div class="tool-icon"><i class="fas fa-school"></i></div>
+                    <div class="tool-info">
+                        <strong>10th / 12th Pass Jobs</strong>
+                        <span>Browse entry level govt jobs</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Footer -->
+    <footer class="main-footer">
+        <div class="site-container">
+            <div class="footer-top-grid">
+                <div class="footer-col">
+                    <h3 class="footer-heading">About Sarkari Result</h3>
+                    <p class="footer-about-text">
+                        <strong>SarkariResult.com.cm</strong> is the fastest and most trusted informational portal in India since 2009 for Sarkari Naukri, Online Application Forms, Exam Results, Admit Cards, Answer Keys, and Admission updates.
+                    </p>
+                    <div class="footer-social-links">
+                        <a href="https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L" target="_blank" class="soc-icon wa" title="WhatsApp Channel"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://t.me/SarkariExam_info" target="_blank" class="soc-icon tg" title="Telegram Channel"><i class="fab fa-telegram-plane"></i></a>
+                        <a href="https://x.com/CmSarkariresult" target="_blank" class="soc-icon tw" title="Twitter / X"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.facebook.com/SarkariResult.com.cmOfficial/" target="_blank" class="soc-icon fb" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/sarkariresult.com.cm_" target="_blank" class="soc-icon ig" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-nav">
+                        <li><a href="{{ url_for('home') }}"><i class="fas fa-angle-right"></i> Sarkari Result Home</a></li>
+                        <li><a href="{{ url_for('category_view', cat_key='latest-jobs') }}"><i class="fas fa-angle-right"></i> Latest Government Jobs</a></li>
+                        <li><a href="{{ url_for('category_view', cat_key='admit-card') }}"><i class="fas fa-angle-right"></i> Download Admit Cards</a></li>
+                        <li><a href="{{ url_for('category_view', cat_key='result') }}"><i class="fas fa-angle-right"></i> All Exam Results</a></li>
+                        <li><a href="{{ url_for('category_view', cat_key='answer-key') }}"><i class="fas fa-angle-right"></i> Official Answer Keys</a></li>
+                        <li><a href="{{ url_for('category_view', cat_key='syllabus') }}"><i class="fas fa-angle-right"></i> Exam Syllabus & Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-heading">Popular State Portals</h3>
+                    <ul class="footer-nav">
+                        <li><a href="{{ url_for('state_jobs', state_name='bihar') }}"><i class="fas fa-angle-right"></i> Bihar BPSC & CSBC Police</a></li>
+                        <li><a href="{{ url_for('state_jobs', state_name='up') }}"><i class="fas fa-angle-right"></i> UP Police Constable & UPSSSC</a></li>
+                        <li><a href="{{ url_for('state_jobs', state_name='rajasthan') }}"><i class="fas fa-angle-right"></i> Rajasthan RSMSSB & RPSC</a></li>
+                        <li><a href="{{ url_for('state_jobs', state_name='mp') }}"><i class="fas fa-angle-right"></i> MP Vyapam & MPPSC Jobs</a></li>
+                        <li><a href="{{ url_for('state_jobs', state_name='railway') }}"><i class="fas fa-angle-right"></i> Railway RRB NTPC & Group D</a></li>
+                        <li><a href="{{ url_for('state_jobs', state_name='ssc') }}"><i class="fas fa-angle-right"></i> SSC CGL, CHSL, GD, MTS</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-heading">Legal & Tools</h3>
+                    <ul class="footer-nav">
+                        <li><a href="{{ url_for('age_calculator') }}"><i class="fas fa-angle-right"></i> Free Age Calculator Tool</a></li>
+                        <li><a href="{{ url_for('photo_resizer') }}"><i class="fas fa-angle-right"></i> Online Image & Sign Resizer</a></li>
+                        <li><a href="{{ url_for('resume_maker') }}"><i class="fas fa-angle-right"></i> Sarkari Biodata Resume Maker</a></li>
+                        <li><a href="{{ url_for('contact') }}"><i class="fas fa-angle-right"></i> Contact Official Team</a></li>
+                        <li><a href="{{ url_for('privacy_policy') }}"><i class="fas fa-angle-right"></i> Privacy Policy</a></li>
+                        <li><a href="{{ url_for('disclaimer') }}"><i class="fas fa-angle-right"></i> Disclaimer & Copyright</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom-bar">
+                <p>© 2009 - 2026 <strong>SarkariResult.com.cm</strong>. All Rights Reserved. Clean, Verified, No-Ads Replica Edition.</p>
+                <p class="disclaimer-note">Disclaimer : SarkariResult.com.cm is an educational and job alert informational portal. We are not associated with any government department.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Search Modal Dialog -->
+    <div class="search-modal-backdrop" id="searchModal">
+        <div class="search-modal-content">
+            <div class="modal-search-header">
+                <i class="fas fa-search modal-search-icon"></i>
+                <input type="text" id="liveSearchInput" placeholder="Type job title, exam name, state, or post (e.g. Railway, BPSC, Police)..." autofocus autocomplete="off">
+                <button class="close-modal-btn" id="closeSearchModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-filter-tags">
+                <button class="filter-tag active" data-cat="">All</button>
+                <button class="filter-tag" data-cat="latest-jobs">Jobs</button>
+                <button class="filter-tag" data-cat="admit-card">Admit Card</button>
+                <button class="filter-tag" data-cat="result">Result</button>
+                <button class="filter-tag" data-cat="answer-key">Answer Key</button>
+                <button class="filter-tag" data-cat="syllabus">Syllabus</button>
+                <button class="filter-tag" data-cat="admission">Admission</button>
+            </div>
+            <div class="search-results-box" id="searchResultsBox">
+                <div class="search-hint"><i class="fas fa-keyboard"></i> Type above to instantly search through hundreds of live Sarkari notifications...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <a href="https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L" target="_blank" class="float-btn float-wa" title="Join WhatsApp Channel"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://t.me/SarkariExam_info" target="_blank" class="float-btn float-tg" title="Join Telegram Channel"><i class="fab fa-telegram-plane"></i></a>
+        <button id="backToTop" class="float-btn float-top" title="Back to Top"><i class="fas fa-arrow-up"></i></button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

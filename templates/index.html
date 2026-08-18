@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}Sarkari Result™ : SarkariResult.com.cm Official Portal 2026, Sarkari Result Website{% endblock %}
+
+{% block meta_desc %}SarkariResult.com.cm is the official website of Sarkari Result in India since 2009, providing latest Sarkari Result 2026 updates, Sarkari Naukri, government jobs, admit cards and exam results.{% endblock %}
+
+{% block content %}
+<!-- Top Highlight Cards (Hot Updates 8-Box Grid) -->
+<section class="highlight-cards-section">
+    <div class="cards-grid">
+        {% for card in highlight_cards %}
+        <a href="{{ url_for('post_detail_view', slug=card.slug) }}" class="hot-card" style="background: {{ card.bg }};">
+            <span class="card-badge">{{ card.tag }}</span>
+            <h3 class="card-title">{{ card.title }}</h3>
+            <span class="card-action">Check Details <i class="fas fa-arrow-right"></i></span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Quick Filter Chips -->
+<section class="quick-filter-strip">
+    <div class="filter-label"><i class="fas fa-filter"></i> Quick Filter:</div>
+    <div class="filter-chips">
+        <a href="{{ url_for('category_view', cat_key='latest-jobs') }}" class="chip active">All Updates</a>
+        <a href="{{ url_for('category_view', cat_key='latest-jobs') }}?tag=police" class="chip"><i class="fas fa-shield-alt"></i> Police Jobs</a>
+        <a href="{{ url_for('category_view', cat_key='latest-jobs') }}?tag=railway" class="chip"><i class="fas fa-train"></i> Railway RRB</a>
+        <a href="{{ url_for('category_view', cat_key='latest-jobs') }}?tag=bank" class="chip"><i class="fas fa-university"></i> Bank & IBPS</a>
+        <a href="{{ url_for('category_view', cat_key='latest-jobs') }}?tag=teacher" class="chip"><i class="fas fa-chalkboard-teacher"></i> Teaching / BPSC</a>
+        <a href="{{ url_for('category_view', cat_key='latest-jobs') }}?tag=ssc" class="chip"><i class="fas fa-building"></i> SSC / UPSC</a>
+        <a href="{{ url_for('category_view', cat_key='latest-jobs') }}?tag=10th" class="chip"><i class="fas fa-graduation-cap"></i> 10th / 12th Pass</a>
+    </div>
+</section>
+
+<!-- Main Primary 3-Column Table Grid (Result, Admit Card, Latest Jobs) -->
+<section class="sarkari-columns-section">
+    <div class="sarkari-grid-3">
+        <!-- Result Column -->
+        <div class="sarkari-box">
+            <div class="box-header box-header-result">
+                <h2><i class="fas fa-award"></i> Result</h2>
+            </div>
+            <div class="box-body">
+                <ul class="job-list">
+                    {% for item in home_sections['result'] %}
+                    <li class="job-item">
+                        <a href="{{ url_for('post_detail_view', slug=item.slug) }}">
+                            <i class="fas fa-circle-notch item-bullet"></i>
+                            <span class="job-text">{{ item.title }}</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="empty-notice">Loading latest results...</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="box-footer">
+                <a href="{{ url_for('category_view', cat_key='result') }}" class="btn-view-more">
+                    View More Results <i class="fas fa-angle-double-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Admit Card Column -->
+        <div class="sarkari-box">
+            <div class="box-header box-header-admit">
+                <h2><i class="fas fa-id-card"></i> Admit Card</h2>
+            </div>
+            <div class="box-body">
+                <ul class="job-list">
+                    {% for item in home_sections['admit-card'] %}
+                    <li class="job-item">
+                        <a href="{{ url_for('post_detail_view', slug=item.slug) }}">
+                            <i class="fas fa-circle-notch item-bullet"></i>
+                            <span class="job-text">{{ item.title }}</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="empty-notice">Loading latest admit cards...</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="box-footer">
+                <a href="{{ url_for('category_view', cat_key='admit-card') }}" class="btn-view-more">
+                    View More Admit Cards <i class="fas fa-angle-double-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Latest Jobs Column -->
+        <div class="sarkari-box">
+            <div class="box-header box-header-jobs">
+                <h2><i class="fas fa-briefcase"></i> Latest Jobs</h2>
+            </div>
+            <div class="box-body">
+                <ul class="job-list">
+                    {% for item in home_sections['latest-jobs'] %}
+                    <li class="job-item">
+                        <a href="{{ url_for('post_detail_view', slug=item.slug) }}">
+                            <i class="fas fa-circle-notch item-bullet"></i>
+                            <span class="job-text">{{ item.title }}</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="empty-notice">Loading latest jobs...</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="box-footer">
+                <a href="{{ url_for('category_view', cat_key='latest-jobs') }}" class="btn-view-more">
+                    View More Latest Jobs <i class="fas fa-angle-double-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Secondary 3-Column Table Grid (Answer Key, Syllabus/Documents, Admission) -->
+<section class="sarkari-columns-section secondary-section">
+    <div class="sarkari-grid-3">
+        <!-- Answer Key Column -->
+        <div class="sarkari-box">
+            <div class="box-header box-header-answer">
+                <h2><i class="fas fa-key"></i> Answer Key</h2>
+            </div>
+            <div class="box-body">
+                <ul class="job-list">
+                    {% for item in home_sections['answer-key'] %}
+                    <li class="job-item">
+                        <a href="{{ url_for('post_detail_view', slug=item.slug) }}">
+                            <i class="fas fa-circle-notch item-bullet"></i>
+                            <span class="job-text">{{ item.title }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="box-footer">
+                <a href="{{ url_for('category_view', cat_key='answer-key') }}" class="btn-view-more">
+                    View More Answer Keys <i class="fas fa-angle-double-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Syllabus & Documents Column -->
+        <div class="sarkari-box">
+            <div class="box-header box-header-syllabus">
+                <h2><i class="fas fa-book-open"></i> Syllabus & Calendar</h2>
+            </div>
+            <div class="box-body">
+                <ul class="job-list">
+                    {% for item in home_sections['syllabus'] %}
+                    <li class="job-item">
+                        <a href="{{ url_for('post_detail_view', slug=item.slug) }}">
+                            <i class="fas fa-circle-notch item-bullet"></i>
+                            <span class="job-text">{{ item.title }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="box-footer">
+                <a href="{{ url_for('category_view', cat_key='syllabus') }}" class="btn-view-more">
+                    View More Syllabus <i class="fas fa-angle-double-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Admission Column -->
+        <div class="sarkari-box">
+            <div class="box-header box-header-admission">
+                <h2><i class="fas fa-graduation-cap"></i> Admission & Forms</h2>
+            </div>
+            <div class="box-body">
+                <ul class="job-list">
+                    {% for item in home_sections['admission'] %}
+                    <li class="job-item">
+                        <a href="{{ url_for('post_detail_view', slug=item.slug) }}">
+                            <i class="fas fa-circle-notch item-bullet"></i>
+                            <span class="job-text">{{ item.title }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="box-footer">
+                <a href="{{ url_for('category_view', cat_key='admission') }}" class="btn-view-more">
+                    View More Admissions <i class="fas fa-angle-double-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- State-wise Portal Section -->
+<section class="state-portal-section">
+    <div class="section-title-wrap">
+        <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> State-Wise Sarkari Job Portals</h2>
+        <p class="section-subtitle">Find dedicated state recruitment boards, police vacancy, and teaching jobs</p>
+    </div>
+    <div class="state-grid">
+        <a href="{{ url_for('state_jobs', state_name='bihar') }}" class="state-card">
+            <div class="state-flag"><i class="fas fa-landmark"></i></div>
+            <strong>Bihar Jobs</strong>
+            <span>BPSC, CSBC Police, STET</span>
+        </a>
+        <a href="{{ url_for('state_jobs', state_name='up') }}" class="state-card">
+            <div class="state-flag"><i class="fas fa-monument"></i></div>
+            <strong>Uttar Pradesh</strong>
+            <span>UP Police, UPSSSC, UPPSC</span>
+        </a>
+        <a href="{{ url_for('state_jobs', state_name='rajasthan') }}" class="state-card">
+            <div class="state-flag"><i class="fas fa-archway"></i></div>
+            <strong>Rajasthan</strong>
+            <span>RSMSSB, RPSC, Safai Karmchari</span>
+        </a>
+        <a href="{{ url_for('state_jobs', state_name='mp') }}" class="state-card">
+            <div class="state-flag"><i class="fas fa-building-columns"></i></div>
+            <strong>Madhya Pradesh</strong>
+            <span>MPESB, Vyapam, Patwari</span>
+        </a>
+        <a href="{{ url_for('state_jobs', state_name='delhi') }}" class="state-card">
+            <div class="state-flag"><i class="fas fa-city"></i></div>
+            <strong>Delhi (NCT)</strong>
+            <span>DSSSB, High Court, Police</span>
+        </a>
+        <a href="{{ url_for('state_jobs', state_name='railway') }}" class="state-card">
+            <div class="state-flag"><i class="fas fa-train-subway"></i></div>
+            <strong>Indian Railways</strong>
+            <span>RRB NTPC, Group D, ALP, JE</span>
+        </a>
+    </div>
+</section>
+
+<!-- SEO & Editorial Content Section -->
+<section class="seo-content-section">
+    <div class="seo-content-card">
+        <h2>Sarkari Result 2026 : SarkariResult.com.cm Official Portal</h2>
+        <p>
+            <strong>Sarkari Result</strong> (संबद्ध: SarkariResult.com.cm) is India's premier online educational and job alerts portal since 2009. We provide comprehensive, verified, and fastest updates on all Indian government examinations, including SSC, UPSC, State PCS, Indian Railway (RRB/RRC), Defence (Army, Navy, Airforce), Banking (IBPS, SBI, RBI), Teaching (CTET, STET, KVS, NVS), and Police Recruitments.
+        </p>
+
+        <h3>Why Choose SarkariResult.com.cm?</h3>
+        <ul>
+            <li><strong>100% Verified Information :</strong> Direct links to official recruitment portals, notifications, and application gateways.</li>
+            <li><strong>Zero Intrusive Ads :</strong> Clean and fast reading experience built for students and job aspirants across 2G, 3G, 4G, and 5G networks.</li>
+            <li><strong>Instant Hall Tickets & Admit Cards :</strong> One-click direct downloads with exam city slips and instructions.</li>
+            <li><strong>Real-Time Results & Answer Keys :</strong> Timely scorecards, merit lists, and answer key objection windows.</li>
+        </ul>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <div class="faq-accordion">
+            <details class="faq-item">
+                <summary><strong>What is Sarkari Result?</strong></summary>
+                <div class="faq-answer">
+                    Sarkari Result is India's most popular online job portal that delivers notifications about upcoming government jobs, exam results, admit cards, answer keys, syllabus, and admissions.
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary><strong>How can I download my Admit Card on Sarkari Result?</strong></summary>
+                <div class="faq-answer">
+                    Visit the "Admit Card" section on SarkariResult.com.cm, find your respective examination link, and click the direct "Download Admit Card / Exam City" button provided in the Important Links table.
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary><strong>Is SarkariResult.com.cm completely free?</strong></summary>
+                <div class="faq-answer">
+                    Yes, SarkariResult.com.cm is 100% free of charge for all students and job seekers across India.
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+{% endblock %}

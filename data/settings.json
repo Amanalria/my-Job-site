@@ -1,0 +1,31 @@
+{
+  "site_name": "SARKARI RESULT",
+  "domain": "yourdomain.com",
+  "tagline": "Sarkari Result ™ 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
+  "top_banner_text": "Sarkari Result ™ 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place.",
+  "adsense": {
+    "enabled": false,
+    "client_id": "ca-pub-XXXXXXXXXXXXXXXX",
+    "header_ad_slot": "",
+    "in_article_ad_slot": "",
+    "footer_ad_slot": ""
+  },
+  "supabase": {
+    "url": "",
+    "key": "",
+    "enabled": false
+  },
+  "socials": {
+    "telegram": "https://t.me/",
+    "whatsapp": "https://whatsapp.com/",
+    "youtube": "https://youtube.com/",
+    "instagram": "https://instagram.com/",
+    "facebook": "https://facebook.com/",
+    "twitter": "https://x.com/",
+    "mobile_app": "https://play.google.com/store"
+  },
+  "admin": {
+    "username": "admin",
+    "pin": "2026"
+  }
+}

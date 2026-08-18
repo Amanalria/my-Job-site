@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Sarkari Result Official Portal{% endblock %}
+
+{% block content %}
+<div class="category-page-header">
+    <div class="cat-title-badge" style="background-color: #ab183d;">
+        <i class="fas fa-envelope"></i> Official Support
+    </div>
+    <h1 class="cat-heading">Contact Sarkari Result Team</h1>
+    <p class="cat-desc">Have any feedback, update submission, or enquiry? Connect with the official team.</p>
+</div>
+
+<div class="tool-container-card">
+    <div class="tool-body-grid">
+        <div class="tool-form-card">
+            <h3><i class="fas fa-paper-plane"></i> Send Us A Message</h3>
+            <form onsubmit="event.preventDefault(); alert('Thank you for contacting Sarkari Result! Your message has been received.'); this.reset();">
+                <div class="form-group">
+                    <label>Your Full Name :</label>
+                    <input type="text" required class="form-control" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address :</label>
+                    <input type="email" required class="form-control" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Subject / Topic :</label>
+                    <input type="text" required class="form-control" placeholder="e.g. Job update query, typo fix, suggestion">
+                </div>
+                <div class="form-group">
+                    <label>Message Content :</label>
+                    <textarea class="form-control" rows="4" required placeholder="Write your message here..."></textarea>
+                </div>
+                <button type="submit" class="btn-tool-action"><i class="fas fa-paper-plane"></i> Submit Message</button>
+            </form>
+        </div>
+
+        <div class="tool-result-card">
+            <h3><i class="fas fa-share-alt"></i> Official Channels</h3>
+            <div class="contact-channels-list">
+                <a href="https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L" target="_blank" class="contact-box-item wa-box">
+                    <i class="fab fa-whatsapp"></i>
+                    <div>
+                        <strong>WhatsApp Official Channel</strong>
+                        <span>Join 500,000+ Aspirants for Instant Alerts</span>
+                    </div>
+                </a>
+                <a href="https://t.me/SarkariExam_info" target="_blank" class="contact-box-item tg-box">
+                    <i class="fab fa-telegram-plane"></i>
+                    <div>
+                        <strong>Telegram Channel</strong>
+                        <span>Direct PDF notifications and syllabus</span>
+                    </div>
+                </a>
+                <a href="https://x.com/CmSarkariresult" target="_blank" class="contact-box-item tw-box">
+                    <i class="fab fa-twitter"></i>
+                    <div>
+                        <strong>Official Twitter / X Handle</strong>
+                        <span>@CmSarkariresult</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
