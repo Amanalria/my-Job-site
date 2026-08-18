@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>{{ 'Edit Post' if post else 'Add New Post' }} ‹ {{ settings.site_name }} — WordPress Classic</title>
+    <title>{{ 'Edit Post' if post else 'Add New Post' }} ‹ {{ settings.site_name }} — WordPress Classic Editor</title>
     <!-- FontAwesome, Dashicons & Inter -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dashicons/0.9.0/css/dashicons.min.css">
@@ -29,49 +29,71 @@
         .wp-sidebar-backdrop { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 998; }
 
         /* Main Workspace */
-        .wp-main { flex: 1; padding: 25px 30px; overflow-y: auto; }
-        .wp-heading-inline { font-size: 23px; font-weight: 400; line-height: 1.3; color: #1d2327; margin-bottom: 15px; }
+        .wp-main { flex: 1; padding: 20px 25px; overflow-y: auto; }
+        .wp-top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .wp-heading-inline { font-size: 23px; font-weight: 400; line-height: 1.3; color: #1d2327; }
+        .screen-meta-links { display: flex; gap: 10px; font-size: 12px; color: #64748b; }
+        .screen-meta-link { color: #64748b; text-decoration: none; border: 1px solid #dcdcde; background: #fff; padding: 2px 8px; border-radius: 0 0 3px 3px; }
 
-        /* WP Add Media Button */
-        .wp-media-buttons { margin-bottom: 8px; display: flex; gap: 6px; }
-        .button-add-media { display: inline-flex; align-items: center; gap: 6px; background: #f6f7f7; border: 1px solid #dcdcde; color: #2271b1; padding: 5px 12px; font-size: 13px; font-weight: 500; border-radius: 3px; cursor: pointer; text-decoration: none; box-shadow: 0 1px 0 #dcdcde; }
-        .button-add-media:hover { background: #f0f0f1; border-color: #0a4b78; color: #0a4b78; }
-
-        /* Editor Layout: Main + Sidebar */
-        .poststuff { display: grid; grid-template-columns: 1fr 280px; gap: 20px; margin-top: 10px; }
-        
-        /* Title Input */
-        #titlediv { margin-bottom: 15px; }
+        /* Title & Permalink */
+        #titlediv { margin-bottom: 12px; }
         #title { width: 100%; padding: 6px 10px; font-size: 1.7em; line-height: 100%; height: 1.7em; outline: 0; background-color: #fff; border: 1px solid #8c8f94; border-radius: 4px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.07); color: #2c3338; }
         #title:focus { border-color: #2271b1; box-shadow: 0 0 0 1px #2271b1; }
         
-        .permalink-bar { margin-top: 6px; font-size: 12px; color: #64748b; }
-        .permalink-bar code { background: #e2e8f0; padding: 2px 5px; border-radius: 3px; color: #0f172a; }
+        /* WordPress Classic Permalink Box */
+        .permalink-wrapper { margin-top: 6px; font-size: 12px; color: #64748b; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; background: #fff; border: 1px solid #dcdcde; padding: 6px 10px; border-radius: 3px; }
+        .permalink-wrapper strong { color: #1d2327; }
+        .permalink-edit-field { display: none; align-items: center; gap: 4px; }
+        .permalink-edit-input { padding: 2px 6px; font-size: 12px; border: 1px solid #2271b1; border-radius: 2px; width: 260px; outline: none; }
+        .btn-slug-action { background: #f6f7f7; border: 1px solid #dcdcde; color: #2271b1; padding: 2px 8px; font-size: 11px; font-weight: 600; border-radius: 3px; cursor: pointer; text-decoration: none; }
+        .btn-slug-action:hover { background: #2271b1; color: #fff; border-color: #2271b1; }
 
-        /* WP Classic Postbox Cards */
+        /* Media & Editor Tabs Bar */
+        .wp-editor-tools { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 15px; margin-bottom: -1px; }
+        .wp-media-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+        .button-add-media { display: inline-flex; align-items: center; gap: 5px; background: #f6f7f7; border: 1px solid #dcdcde; color: #2271b1; padding: 4px 10px; font-size: 12px; font-weight: 600; border-radius: 3px 3px 0 0; cursor: pointer; text-decoration: none; box-shadow: 0 1px 0 #dcdcde; }
+        .button-add-media:hover { background: #f0f0f1; border-color: #0a4b78; color: #0a4b78; }
+
+        /* WP Visual / Text Tabs */
+        .wp-editor-tabs { display: flex; gap: 2px; }
+        .wp-switch-editor { background: #ebebeb; border: 1px solid #c3c4c7; border-bottom: none; color: #64748b; padding: 4px 12px; font-size: 12px; font-weight: 600; border-radius: 3px 3px 0 0; cursor: pointer; }
+        .wp-switch-editor.active { background: #fff; color: #2c3338; border-bottom: 1px solid #fff; margin-bottom: -1px; z-index: 10; }
+
+        /* Text (HTML) Quicktags Toolbar */
+        #wp-quicktags-bar { display: none; background: #f6f7f7; border: 1px solid #c3c4c7; border-bottom: none; padding: 6px 8px; gap: 4px; flex-wrap: wrap; }
+        .quicktag-btn { background: #fff; border: 1px solid #c3c4c7; color: #2c3338; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 3px; cursor: pointer; min-width: 24px; text-align: center; }
+        .quicktag-btn:hover { background: #f0f0f1; border-color: #8c8f94; }
+
+        /* Editor Wrapper */
+        .wp-editor-container { background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,0.04); margin-bottom: 20px; }
+        #wpTextEditor { display: none; width: 100%; height: 500px; padding: 12px; font-family: Consolas, Monaco, "Courier New", monospace; font-size: 13px; line-height: 1.5; border: none; outline: none; resize: vertical; box-sizing: border-box; }
+
+        /* Poststuff Layout */
+        .poststuff { display: grid; grid-template-columns: 1fr 290px; gap: 20px; }
+
+        /* WP Classic Postbox Meta Boxes */
         .postbox { background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,0.04); margin-bottom: 20px; border-radius: 0; }
         .postbox-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #c3c4c7; padding: 8px 12px; background: #fafafa; }
         .postbox-header h2 { font-size: 14px; font-weight: 600; color: #1d2327; margin: 0; }
         .inside { padding: 12px; }
 
-        /* Publish Box Inside */
+        /* Publish Box */
         .misc-pub-section { padding: 6px 0; border-bottom: 1px solid #f0f0f1; font-size: 13px; color: #64748b; display: flex; justify-content: space-between; align-items: center; }
         .misc-pub-section strong { color: #2c3338; }
         .major-publishing-actions { background: #f6f7f7; border-top: 1px solid #dcdcde; margin: 12px -12px -12px -12px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; }
         .delete-action a { color: #b32d2e; text-decoration: underline; font-size: 12px; cursor: pointer; }
-        .button-primary { background: #2271b1; border: 1px solid #2271b1; color: #fff; font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 3px; cursor: pointer; box-shadow: 0 1px 0 #2271b1; }
+        .button-primary { background: #2271b1; border: 1px solid #2271b1; color: #fff; font-size: 13px; font-weight: 600; padding: 6px 18px; border-radius: 3px; cursor: pointer; box-shadow: 0 1px 0 #2271b1; }
         .button-primary:hover { background: #135e96; border-color: #135e96; }
-        .button-secondary { background: #f6f7f7; border: 1px solid #2271b1; color: #2271b1; font-size: 12px; padding: 4px 10px; border-radius: 3px; cursor: pointer; }
+        .button-secondary { background: #f6f7f7; border: 1px solid #dcdcde; color: #2c3338; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 3px; cursor: pointer; text-decoration: none; }
+        .button-secondary:hover { background: #f0f0f1; border-color: #8c8f94; }
 
         /* Categories Checkbox Box */
-        .categorydiv { margin-bottom: 8px; }
         .category-tabs { display: flex; gap: 4px; border-bottom: 1px solid #dcdcde; margin-bottom: 8px; }
         .category-tab { padding: 4px 8px; font-size: 12px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; }
         .category-tab.active { border-bottom-color: #2271b1; color: #2271b1; }
-        .category-checklist { max-height: 180px; overflow-y: auto; border: 1px solid #dcdcde; padding: 8px 10px; background: #fafafa; }
+        .category-checklist { max-height: 170px; overflow-y: auto; border: 1px solid #dcdcde; padding: 8px 10px; background: #fafafa; }
         .category-checklist label { display: flex; align-items: center; gap: 6px; font-size: 13px; margin-bottom: 6px; cursor: pointer; color: #2c3338; }
 
-        /* Form Inputs */
         .wp-input { width: 100%; padding: 6px 8px; border: 1px solid #8c8f94; border-radius: 3px; font-size: 13px; margin-top: 4px; margin-bottom: 10px; }
         .wp-input:focus { border-color: #2271b1; outline: none; }
         .badge-preview { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; margin-left: 4px; }
@@ -83,9 +105,11 @@
             .wp-sidebar { position: fixed; top: 0; left: 0; height: 100vh; transform: translateX(-100%); width: 220px; }
             .wp-sidebar.open { transform: translateX(0); }
             .wp-sidebar-backdrop.open { display: block; }
-            .wp-main { padding: 15px; }
+            .wp-main { padding: 12px; }
             .poststuff { grid-template-columns: 1fr; }
             #title { font-size: 1.3em; }
+            .permalink-wrapper { font-size: 11px; }
+            .permalink-edit-input { width: 160px; }
         }
     </style>
 </head>
@@ -94,7 +118,7 @@
     <!-- Mobile Top Navigation -->
     <div class="wp-mobile-bar">
         <button class="wp-hamburger" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
-        <span style="font-weight:700; font-size:14px;">⚡ {{ settings.site_name }} Admin</span>
+        <span style="font-weight:700; font-size:14px;">⚡ {{ settings.site_name }} Classic Editor</span>
         <a href="/" target="_blank" style="color:#fff; text-decoration:none;"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
     </div>
     <div class="wp-sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
@@ -122,7 +146,13 @@
 
     <!-- Main Workspace -->
     <div class="wp-main">
-        <h1 class="wp-heading-inline">{{ 'Edit Post' if post else 'Add New Post' }}</h1>
+        <div class="wp-top-header">
+            <h1 class="wp-heading-inline">{{ 'Edit Post' if post else 'Add New Post' }}</h1>
+            <div class="screen-meta-links">
+                <span class="screen-meta-link">Screen Options ▾</span>
+                <span class="screen-meta-link">Help ▾</span>
+            </div>
+        </div>
 
         <form action="/api/admin/save-post" method="POST" id="postForm">
             {% if post %}
@@ -130,27 +160,72 @@
             {% endif %}
 
             <div class="poststuff">
-                <!-- Left Column: Title + WP Classic Editor + Meta -->
+                <!-- Left Column: Title + Classic Permalink + WP Classic Editor + Excerpt -->
                 <div class="post-body-content">
                     <!-- Title Div -->
                     <div id="titlediv">
-                        <input type="text" name="title" id="title" placeholder="Enter title here" value="{{ post.title if post else '' }}" required onkeyup="generateSlug(this.value)">
-                        <div class="permalink-bar">
-                            <strong>Permalink:</strong> https://{{ settings.domain }}/<span id="slugPreview" style="color:#2271b1; font-weight:600;">{{ post.slug if post else 'post-slug' }}</span>/
+                        <input type="text" name="title" id="title" placeholder="Enter title here" value="{{ post.title if post else '' }}" required onkeyup="onTitleKeyUp(this.value)">
+                        
+                        <!-- WordPress Classic Permalink Bar with [Edit] Button -->
+                        <div class="permalink-wrapper" id="sample-permalink">
+                            <strong>Permalink:</strong>
+                            <span>https://{{ settings.domain }}/</span>
+                            <span id="slugDisplay" style="font-weight:600; color:#2271b1;">{{ post.slug if post else 'post-slug' }}</span><span>/</span>
+                            
+                            <!-- Inline Edit Box -->
+                            <span class="permalink-edit-field" id="slugEditBox">
+                                <input type="text" id="slugInput" class="permalink-edit-input" value="{{ post.slug if post else '' }}">
+                                <button type="button" class="btn-slug-action" onclick="saveCustomSlug()">OK</button>
+                                <button type="button" class="btn-slug-action" onclick="cancelSlugEdit()">Cancel</button>
+                            </span>
+
+                            <button type="button" class="btn-slug-action" id="btnEditSlug" onclick="editCustomSlug()">Edit</button>
+                            <a href="/{{ post.slug if post else '' }}/" target="_blank" class="btn-slug-action" id="btnViewPost" {% if not post %}style="display:none;"{% endif %}>View Post</a>
+                            
+                            <!-- Hidden input passed to server -->
                             <input type="hidden" name="slug" id="postSlug" value="{{ post.slug if post else '' }}">
                         </div>
                     </div>
 
-                    <!-- WP Add Media Bar -->
-                    <div class="wp-media-buttons">
-                        <button type="button" class="button-add-media" onclick="insertMediaPlaceholder()"><span class="dashicons dashicons-admin-media"></span> Add Media</button>
-                        <button type="button" class="button-add-media" onclick="insertVacancyTable()"><span class="dashicons dashicons-grid-view"></span> Insert Sarkari Table</button>
-                        <button type="button" class="button-add-media" onclick="insertImportantLinks()"><span class="dashicons dashicons-admin-links"></span> Insert Important Links</button>
+                    <!-- WP Media Buttons & Visual / Text Tabs Bar -->
+                    <div class="wp-editor-tools">
+                        <div class="wp-media-buttons">
+                            <button type="button" class="button-add-media" onclick="insertMediaPlaceholder()"><span class="dashicons dashicons-admin-media"></span> Add Media</button>
+                            <button type="button" class="button-add-media" onclick="insertVacancyTable()"><span class="dashicons dashicons-grid-view"></span> Insert Sarkari Table</button>
+                            <button type="button" class="button-add-media" onclick="insertImportantLinks()"><span class="dashicons dashicons-admin-links"></span> Insert Important Links</button>
+                        </div>
+                        <div class="wp-editor-tabs">
+                            <button type="button" class="wp-switch-editor active" id="tabVisual" onclick="switchEditorMode('visual')">Visual</button>
+                            <button type="button" class="wp-switch-editor" id="tabText" onclick="switchEditorMode('text')">Text (HTML)</button>
+                        </div>
                     </div>
 
-                    <!-- WordPress Classic TinyMCE Editor -->
-                    <div class="postbox" style="margin-bottom:15px;">
-                        <textarea id="wpClassicEditor" name="html_content" style="height:550px;">{{ post.html_content if post and post.html_content else '' }}</textarea>
+                    <!-- Text Mode (HTML) Quicktags Toolbar -->
+                    <div id="wp-quicktags-bar">
+                        <button type="button" class="quicktag-btn" onclick="wrapTextTag('strong')">b</button>
+                        <button type="button" class="quicktag-btn" onclick="wrapTextTag('em')">i</button>
+                        <button type="button" class="quicktag-btn" onclick="wrapTextLink()">link</button>
+                        <button type="button" class="quicktag-btn" onclick="wrapTextTag('blockquote')">b-quote</button>
+                        <button type="button" class="quicktag-btn" onclick="wrapTextTag('del')">del</button>
+                        <button type="button" class="quicktag-btn" onclick="wrapTextTag('ins')">ins</button>
+                        <button type="button" class="quicktag-btn" onclick="insertMediaPlaceholder()">img</button>
+                        <button type="button" class="quicktag-btn" onclick="wrapTextTag('ul')">ul</button>
+                        <button type="button" class="quicktag-btn" onclick="wrapTextTag('ol')">ol</button>
+                        <button type="button" class="quicktag-btn" onclick="wrapTextTag('li')">li</button>
+                        <button type="button" class="quicktag-btn" onclick="wrapTextTag('code')">code</button>
+                        <button type="button" class="quicktag-btn" onclick="insertTextContent('<!--more-->')">more</button>
+                        <button type="button" class="quicktag-btn" onclick="insertVacancyTable()">sarkari-table</button>
+                        <button type="button" class="quicktag-btn" onclick="insertImportantLinks()">links-table</button>
+                    </div>
+
+                    <!-- Editor Box Container -->
+                    <div class="wp-editor-container">
+                        <!-- 1. Visual Mode (TinyMCE) -->
+                        <div id="visualEditorWrapper">
+                            <textarea id="wpClassicEditor" name="html_content" style="height:520px;">{{ post.html_content if post and post.html_content else '' }}</textarea>
+                        </div>
+                        <!-- 2. Text Mode (Pure HTML) -->
+                        <textarea id="wpTextEditor" onkeyup="syncTextToVisual()"></textarea>
                     </div>
 
                     <!-- Excerpt / SEO Meta Box -->
@@ -173,6 +248,10 @@
                             <h2>Publish</h2>
                         </div>
                         <div class="inside">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                                <button type="button" class="button-secondary" onclick="alert('Draft Saved Locally!')">Save Draft</button>
+                                <button type="button" class="button-secondary" onclick="previewPostLive()">Preview</button>
+                            </div>
                             <div class="misc-pub-section">
                                 <span><i class="dashicons dashicons-post-status"></i> Status: <strong>Published</strong></span>
                             </div>
@@ -256,22 +335,28 @@
         </form>
     </div>
 
-    <!-- WordPress Classic Editor Script -->
+    <!-- WordPress Classic Editor & Permalink Scripts -->
     <script>
+        let isSlugManuallyEdited = {{ 'true' if (post and post.slug) else 'false' }};
+
         function toggleSidebar() {
             document.getElementById('wpSidebar').classList.toggle('open');
             document.getElementById('sidebarBackdrop').classList.toggle('open');
         }
 
+        // Initialize TinyMCE with Classic WordPress Toolbar & Formats
         tinymce.init({
             selector: '#wpClassicEditor',
             height: 520,
             skin: 'oxide',
             plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount',
-            toolbar1: 'formatselect | bold italic underline strikethrough | bullist numlist | blockquote hr | alignleft aligncenter alignright alignjustify | link unlink | wp_more | fullscreen code',
-            toolbar2: 'fontselect fontsizeselect | forecolor backcolor | outdent indent | undo redo | table | removeformat | charmap | help',
+            // Row 1: Paragraph/Headings dropdown + B, I, Lists, Align, Link, Read More, Kitchen Sink toggle
+            toolbar1: 'blocks | bold italic underline strikethrough | bullist numlist | blockquote hr | alignleft aligncenter alignright alignjustify | link unlink | wp_more | fullscreen code',
+            // Row 2: Fonts, Size, Color, Indents, Table, Reset, CharMap
+            toolbar2: 'fontfamily fontsize | forecolor backcolor | outdent indent | undo redo | table | removeformat | charmap | help',
+            block_formats: 'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6; Preformatted=pre; Blockquote=blockquote',
             menubar: 'file edit view insert format tools table help',
-            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; line-height: 1.6; color: #2c3338; margin: 15px; } table { border-collapse: collapse; width: 100%; margin: 15px 0; } th, td { border: 1px solid #c3c4c7; padding: 8px 12px; } th { background-color: #f6f7f7; font-weight: 700; } a { color: #2271b1; }',
+            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; line-height: 1.6; color: #2c3338; margin: 15px; } h1,h2,h3,h4,h5,h6 { color: #ab183d; font-weight: 700; margin-top: 15px; margin-bottom: 8px; } table { border-collapse: collapse; width: 100%; margin: 15px 0; } th, td { border: 1px solid #c3c4c7; padding: 8px 12px; } th { background-color: #f6f7f7; font-weight: 700; } a { color: #2271b1; }',
             branding: false,
             setup: function(editor) {
                 editor.ui.registry.addButton('wp_more', {
@@ -284,20 +369,126 @@
             }
         });
 
-        function generateSlug(text) {
-            const slug = text.toLowerCase()
+        // Slug & Permalink Management
+        function slugify(text) {
+            return text.toLowerCase()
                 .trim()
                 .replace(/[^a-z0-9\s-]/g, '')
                 .replace(/[\s-]+/g, '-')
                 .replace(/^-+|-+$/g, '');
-            document.getElementById('postSlug').value = slug;
-            document.getElementById('slugPreview').innerText = slug || 'post-slug';
         }
 
+        function onTitleKeyUp(val) {
+            if (!isSlugManuallyEdited) {
+                const autoSlug = slugify(val);
+                document.getElementById('postSlug').value = autoSlug;
+                document.getElementById('slugInput').value = autoSlug;
+                document.getElementById('slugDisplay').innerText = autoSlug || 'post-slug';
+            }
+        }
+
+        function editCustomSlug() {
+            document.getElementById('slugDisplay').style.display = 'none';
+            document.getElementById('btnEditSlug').style.display = 'none';
+            document.getElementById('slugEditBox').style.display = 'inline-flex';
+            document.getElementById('slugInput').focus();
+        }
+
+        function saveCustomSlug() {
+            const newSlug = slugify(document.getElementById('slugInput').value);
+            document.getElementById('postSlug').value = newSlug;
+            document.getElementById('slugInput').value = newSlug;
+            document.getElementById('slugDisplay').innerText = newSlug || 'post-slug';
+            isSlugManuallyEdited = true;
+            cancelSlugEdit();
+        }
+
+        function cancelSlugEdit() {
+            document.getElementById('slugEditBox').style.display = 'none';
+            document.getElementById('slugDisplay').style.display = 'inline';
+            document.getElementById('btnEditSlug').style.display = 'inline-flex';
+        }
+
+        // Switch between Visual (TinyMCE) and Text (HTML) modes
+        function switchEditorMode(mode) {
+            const visualWrap = document.getElementById('visualEditorWrapper');
+            const textEditor = document.getElementById('wpTextEditor');
+            const quicktagsBar = document.getElementById('wp-quicktags-bar');
+            const tabVisual = document.getElementById('tabVisual');
+            const tabText = document.getElementById('tabText');
+
+            if (mode === 'text') {
+                // Pull HTML from TinyMCE
+                const currentHtml = tinymce.activeEditor ? tinymce.activeEditor.getContent() : '';
+                textEditor.value = currentHtml;
+                
+                visualWrap.style.display = 'none';
+                textEditor.style.display = 'block';
+                quicktagsBar.style.display = 'flex';
+                
+                tabVisual.classList.remove('active');
+                tabText.classList.add('active');
+            } else {
+                // Push HTML back to TinyMCE
+                const textHtml = textEditor.value;
+                if (tinymce.activeEditor) {
+                    tinymce.activeEditor.setContent(textHtml);
+                }
+                
+                visualWrap.style.display = 'block';
+                textEditor.style.display = 'none';
+                quicktagsBar.style.display = 'none';
+                
+                tabText.classList.remove('active');
+                tabVisual.classList.add('active');
+            }
+        }
+
+        function syncTextToVisual() {
+            const textHtml = document.getElementById('wpTextEditor').value;
+            document.getElementById('wpClassicEditor').value = textHtml;
+        }
+
+        // HTML Text Mode Quicktags Helper
+        function wrapTextTag(tagName) {
+            const textarea = document.getElementById('wpTextEditor');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            const replacement = `<${tagName}>${selectedText}</${tagName}>`;
+            textarea.value = textarea.value.substring(0, start) + replacement + textarea.value.substring(end);
+            textarea.focus();
+            textarea.selectionEnd = start + replacement.length;
+        }
+
+        function wrapTextLink() {
+            const url = prompt('Enter destination URL:', 'https://');
+            if(url) {
+                const textarea = document.getElementById('wpTextEditor');
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const selectedText = textarea.value.substring(start, end) || 'Click Here';
+                const replacement = `<a href="${url}">${selectedText}</a>`;
+                textarea.value = textarea.value.substring(0, start) + replacement + textarea.value.substring(end);
+            }
+        }
+
+        function insertTextContent(content) {
+            const textarea = document.getElementById('wpTextEditor');
+            const start = textarea.selectionStart;
+            textarea.value = textarea.value.substring(0, start) + content + textarea.value.substring(start);
+        }
+
+        // WP Media & Sarkari Table Templates
         function insertMediaPlaceholder() {
             const url = prompt('Enter Image URL:', 'https://');
             if(url && url !== 'https://') {
-                tinymce.activeEditor.insertContent(`<p><img src="${url}" alt="Image" style="max-width:100%; height:auto; border-radius:4px;" /></p>`);
+                const imgTag = `<p><img src="${url}" alt="Post Banner" style="max-width:100%; height:auto; border-radius:4px;" /></p>`;
+                if (document.getElementById('wpTextEditor').style.display === 'block') {
+                    insertTextContent(imgTag);
+                } else {
+                    tinymce.activeEditor.insertContent(imgTag);
+                }
             }
         }
 
@@ -319,7 +510,11 @@
                     </tr>
                 </tbody>
             </table>`;
-            tinymce.activeEditor.insertContent(tableHtml);
+            if (document.getElementById('wpTextEditor').style.display === 'block') {
+                insertTextContent(tableHtml);
+            } else {
+                tinymce.activeEditor.insertContent(tableHtml);
+            }
         }
 
         function insertImportantLinks() {
@@ -345,7 +540,27 @@
                     </tr>
                 </tbody>
             </table>`;
-            tinymce.activeEditor.insertContent(linksHtml);
+            if (document.getElementById('wpTextEditor').style.display === 'block') {
+                insertTextContent(linksHtml);
+            } else {
+                tinymce.activeEditor.insertContent(linksHtml);
+            }
+        }
+
+        function previewPostLive() {
+            const title = document.getElementById('title').value;
+            const content = tinymce.activeEditor ? tinymce.activeEditor.getContent() : document.getElementById('wpTextEditor').value;
+            const win = window.open('', '_blank');
+            win.document.write(`
+                <html>
+                <head><title>Preview - ${title}</title></head>
+                <body style="font-family:sans-serif; max-width:900px; margin:30px auto; padding:20px;">
+                    <h1 style="color:#ab183d;">${title || 'Untitled Post'}</h1>
+                    <hr style="margin:20px 0; border:0; border-top:1px solid #ccc;" />
+                    ${content}
+                </body>
+                </html>
+            `);
         }
     </script>
 </body>
