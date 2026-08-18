@@ -1010,9 +1010,12 @@ def api_save_post():
     is_date_extended = bool(data.get('is_date_extended'))
     custom_badge = data.get('custom_badge', '')
 
-    page_file = os.path.join(PAGES_DIR, f"{slug}.html")
-    with open(page_file, 'w', encoding='utf-8') as f:
-        f.write(html_content)
+    try:
+        page_file = os.path.join(PAGES_DIR, f"{slug}.html")
+        with open(page_file, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+    except Exception as e:
+        print(f"Notice: Local HTML page write skipped ({e}) - persisting to Supabase.")
 
     post_item = {
         'id': data.get('id') or f"post_{uuid.uuid4().hex[:8]}",
