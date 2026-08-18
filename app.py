@@ -62,19 +62,6 @@ def save_settings_data(data):
     with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2)
 
-def load_posts():
-    if os.path.exists(POSTS_FILE):
-        try:
-            with open(POSTS_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except Exception:
-            pass
-    return []
-
-def save_posts_data(data):
-    with open(POSTS_FILE, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2)
-
 def sanitize_html(html_content, current_host, is_alria_mode=False):
     soup = BeautifulSoup(html_content, 'html.parser')
     settings = load_settings()
@@ -109,7 +96,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         if '<meta' in gsc_meta:
             soup.head.append(BeautifulSoup(gsc_meta, 'html.parser'))
         else:
-            soup.head.append(soup.new_tag('meta', name="google-site-verification", content=gsc_meta))
+            soup.head.append(soup.new_tag('meta', attrs={'name': 'google-site-verification', 'content': gsc_meta}))
 
     # 4. Inject Global Meta Description & Keywords
     if seo_cfg.get('meta_description') and soup.head:
@@ -117,7 +104,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         if meta_desc:
             meta_desc['content'] = seo_cfg.get('meta_description')
         else:
-            soup.head.append(soup.new_tag('meta', name="description", content=seo_cfg.get('meta_description')))
+            soup.head.append(soup.new_tag('meta', attrs={'name': 'description', 'content': seo_cfg.get('meta_description')}))
 
     # 5. Inject Custom <head> & <body> Code
     if seo_cfg.get('custom_head_code') and soup.head:
@@ -232,7 +219,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     # 12. Inject /alria Live Editor Toolbar & In-place Buttons
     if is_alria_mode:
         if soup.head:
-            soup.head.append(soup.new_tag('meta', name="robots", content="noindex, nofollow"))
+            soup.head.append(soup.new_tag('meta', attrs={'name': 'robots', 'content': 'noindex, nofollow'}))
 
         header = soup.find('header') or soup.find(class_='site-header')
         if header:
@@ -452,6 +439,7 @@ def robots_txt():
 Disallow: /admin/
 Disallow: /admin
 Disallow: /alria
+Disallow: /alria/
 Disallow: /api/
 Allow: /
 
@@ -501,8 +489,9 @@ def dynamic_sitemap():
 
 @app.route('/')
 @app.route('/alria')
+@app.route('/alria/')
 def home():
-    is_alria = (request.path == '/alria') or (request.args.get('alria') == '1')
+    is_alria = (request.path in ['/alria', '/alria/']) or (request.args.get('alria') == '1')
     index_file = os.path.join(PAGES_DIR, 'index.html')
     if os.path.exists(index_file):
         with open(index_file, 'r', encoding='utf-8') as f:
@@ -517,7 +506,7 @@ def home():
 @app.route('/<path:slug>')
 def dynamic_page_router(slug):
     clean_slug = slug.strip('/')
-    if clean_slug in ['favicon.ico', 'robots.txt', 'sitemap.xml', 'ads.txt']:
+    if clean_slug in ['favicon.ico', 'robots.txt', 'sitemap.xml', 'ads.txt', 'alria', 'admin']:
         abort(404)
 
     page_file = os.path.join(PAGES_DIR, f"{clean_slug}.html")
@@ -554,6 +543,7 @@ def candidate_tools(tool_name):
 # ==================== ADMIN PANEL ROUTES ====================
 
 @app.route('/admin')
+@app.route('/admin/')
 @app.route('/admin/dashboard')
 def admin_dashboard():
     settings = load_settings()
@@ -611,7 +601,6 @@ def admin_post_edit(post_id):
         'short_desc': '',
         'html_content': ''
     }
-    # Read existing content if exists
     page_file = os.path.join(PAGES_DIR, f"{post_id}.html")
     if os.path.exists(page_file):
         with open(page_file, 'r', encoding='utf-8') as f:
@@ -664,7 +653,6 @@ def api_save_post():
     slug = data.get('slug') or title.lower().replace(' ', '-').replace('/', '-').replace('(', '').replace(')', '')[:80]
     html_content = data.get('html_content', '')
 
-    # Save to pages HTML
     page_file = os.path.join(PAGES_DIR, f"{slug}.html")
     with open(page_file, 'w', encoding='utf-8') as f:
         f.write(html_content)
