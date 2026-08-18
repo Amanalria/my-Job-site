@@ -120,12 +120,57 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             ad_script = soup.new_tag('script', src=f"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={client_id}", crossorigin="anonymous", **{'async': True})
             soup.head.append(ad_script)
 
-    # 7. Exact Desktop Grid Styling (Mobile version untouched 100% original)
+    # 7. Exact Desktop Grid Styling & Dynamic Theme Colors
+    theme = settings.get('theme_colors', {})
+    hdr_bg = theme.get('header_bg', '#ab183d')
+    hdr_txt = theme.get('header_text', '#ffffff')
+    nav_bg = theme.get('nav_bg', '#0c2340')
+    nav_txt = theme.get('nav_text', '#ffffff')
+    wa_bg = theme.get('whatsapp_btn_bg', '#00a82d')
+    wa_txt = theme.get('whatsapp_btn_text', '#ffffff')
+    foot_bg = theme.get('footer_bg', '#1d2327')
+    foot_txt = theme.get('footer_text', '#ffffff')
+
     center_style = soup.new_tag('style')
-    center_style.string = """
+    center_style.string = f"""
+    :root {{
+        --sarkari-hdr-bg: {hdr_bg};
+        --sarkari-hdr-txt: {hdr_txt};
+        --sarkari-nav-bg: {nav_bg};
+        --sarkari-nav-txt: {nav_txt};
+        --sarkari-wa-bg: {wa_bg};
+        --sarkari-wa-txt: {wa_txt};
+        --sarkari-foot-bg: {foot_bg};
+        --sarkari-foot-txt: {foot_txt};
+    }}
+    header.site-header, .site-header, .site-header .inside-header {{
+        background-color: var(--sarkari-hdr-bg) !important;
+        color: var(--sarkari-hdr-txt) !important;
+    }}
+    header.site-header h1, header.site-header a, .site-header .main-title a {{
+        color: var(--sarkari-hdr-txt) !important;
+    }}
+    #site-navigation, .main-navigation, .main-navigation .inside-navigation {{
+        background-color: var(--sarkari-nav-bg) !important;
+    }}
+    #site-navigation .main-nav ul li a, .main-navigation a {{
+        color: var(--sarkari-nav-txt) !important;
+    }}
+    a.gb-button-f2e1697c, a.gb-button, .gb-container-d1f47294 a.gb-button {{
+        background-color: var(--sarkari-wa-bg) !important;
+        color: var(--sarkari-wa-txt) !important;
+    }}
+    footer.site-footer, .site-footer, .site-info {{
+        background-color: var(--sarkari-foot-bg) !important;
+        color: var(--sarkari-foot-txt) !important;
+    }}
+    footer.site-footer a, .site-info a {{
+        color: var(--sarkari-foot-txt) !important;
+    }}
+
     /* DESKTOP ONLY (min-width: 768px): 3 Boxes in Row 1, 3 Boxes in Row 2 */
-    @media (min-width: 768px) {
-        .gb-grid-wrapper-180dce95 {
+    @media (min-width: 768px) {{
+        .gb-grid-wrapper-180dce95 {{
             display: grid !important;
             grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
             gap: 14px !important;
@@ -134,25 +179,25 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             padding: 0 10px !important;
             box-sizing: border-box !important;
             width: 100% !important;
-        }
-        .gb-grid-wrapper-180dce95 > .gb-grid-column {
+        }}
+        .gb-grid-wrapper-180dce95 > .gb-grid-column {{
             width: 100% !important;
             max-width: 100% !important;
             flex: none !important;
             margin: 0 !important;
             padding: 0 !important;
             box-sizing: border-box !important;
-        }
-        .gb-grid-wrapper-180dce95 > .gb-grid-column > .gb-container {
+        }}
+        .gb-grid-wrapper-180dce95 > .gb-grid-column > .gb-container {{
             height: 100% !important;
             margin: 0 !important;
             display: flex !important;
             flex-direction: column !important;
             box-sizing: border-box !important;
-        }
+        }}
         
         .gb-grid-wrapper-5aaa8125,
-        .gb-grid-wrapper-389edcd7 {
+        .gb-grid-wrapper-389edcd7 {{
             display: grid !important;
             grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
             gap: 8px !important;
@@ -161,18 +206,18 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             padding: 0 10px !important;
             box-sizing: border-box !important;
             width: 100% !important;
-        }
+        }}
         .gb-grid-wrapper-5aaa8125 > .gb-grid-column,
-        .gb-grid-wrapper-389edcd7 > .gb-grid-column {
+        .gb-grid-wrapper-389edcd7 > .gb-grid-column {{
             width: 100% !important;
             max-width: 100% !important;
             flex: none !important;
             margin: 0 !important;
             padding: 0 !important;
             box-sizing: border-box !important;
-        }
-    }
-    .alria-edit-btn {
+        }}
+    }}
+    .alria-edit-btn {{
         background: #ef4444 !important;
         color: #ffffff !important;
         border: none !important;
@@ -188,8 +233,8 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         gap: 4px !important;
         text-decoration: none !important;
         z-index: 1000 !important;
-    }
-    .alria-edit-btn:hover { background: #dc2626 !important; }
+    }}
+    .alria-edit-btn:hover {{ background: #dc2626 !important; }}
     """
     if soup.head:
         soup.head.append(center_style)
@@ -205,11 +250,14 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         card_containers = soup.find_all(class_=re.compile(r'gb-grid-column-(81c81cf2|c2e36bcf|1838ae6f|eef7c02b|62b661d9|2ad1104e|04597b83|a25e1b9b)'))
         for idx, col in enumerate(card_containers[:len(cards)]):
             a_tag = col.find('a')
+            card_bg = theme.get(f'card_{idx+1}_bg')
             if a_tag:
                 a_tag['href'] = cards[idx].get('url', '#')
                 a_tag.string = cards[idx].get('title', '')
+                if card_bg:
+                    a_tag['style'] = f'background-color: {card_bg} !important; color: #fff !important;'
 
-    # 10. Dynamic Grid Column Section Titles
+    # 10. Dynamic Grid Column Section Titles & Colors
     grid_headers = settings.get('grid_headers', {})
     for col_cls, cat_key in COL_MAPPING.items():
         col_div = soup.find(class_=f'gb-grid-column-{col_cls}')
@@ -217,8 +265,13 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             container = col_div.find(class_='gb-container')
             if container:
                 h2 = container.find(class_=re.compile(r'gb-headline.*-text'))
-                if h2 and cat_key in grid_headers:
-                    h2.string = grid_headers[cat_key].get('title', h2.get_text())
+                if h2:
+                    if cat_key in grid_headers:
+                        h2.string = grid_headers[cat_key].get('title', h2.get_text())
+                    cat_norm = cat_key.replace('-', '_')
+                    col_bg = theme.get(f'{cat_norm}_header_bg') or theme.get('result_header_bg', '#ab183d')
+                    col_txt = theme.get(f'{cat_norm}_header_text') or '#ffffff'
+                    h2['style'] = f'background-color:{col_bg} !important; color:{col_txt} !important; text-align:center; font-weight:700;'
 
     # 11. Dynamic Guidelines & FAQ Block
     c08 = soup.find(class_='gb-container-08c3e704')
@@ -292,69 +345,213 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         info_c1 = info_secs_list[0].get('content', '') if info_secs_list else ''
         settings_json_escaped = json.dumps(settings)
 
+        theme = settings.get('theme_colors', {})
+        theme = settings.get('theme_colors', {})
+        t_hdr_bg = theme.get('header_bg', '#ab183d')
+        t_hdr_txt = theme.get('header_text', '#ffffff')
+        t_nav_bg = theme.get('nav_bg', '#0c2340')
+        t_nav_txt = theme.get('nav_text', '#ffffff')
+        t_wa_bg = theme.get('whatsapp_btn_bg', '#00a82d')
+        t_wa_txt = theme.get('whatsapp_btn_text', '#ffffff')
+        t_foot_bg = theme.get('footer_bg', '#1d2327')
+        t_foot_txt = theme.get('footer_text', '#ffffff')
+        t_res_bg = theme.get('result_header_bg', '#ab183d')
+        t_adm_bg = theme.get('admit_header_bg', '#ab183d')
+        t_job_bg = theme.get('jobs_header_bg', '#ab183d')
+        t_key_bg = theme.get('answer_header_bg', '#ab183d')
+        t_syl_bg = theme.get('syllabus_header_bg', '#ab183d')
+        t_adms_bg = theme.get('admission_header_bg', '#ab183d')
+
+        s_site_name = settings.get('site_name', '')
+        s_domain = settings.get('domain', '')
+        s_tagline = settings.get('tagline', '')
+        s_top_banner = settings.get('top_banner_text', '')
+        s_footer_text = settings.get('footer_text', '')
+        s_tg = settings.get('socials', {}).get('telegram', '')
+        s_wa = settings.get('socials', {}).get('whatsapp', '')
+        s_yt = settings.get('socials', {}).get('youtube', '')
+        s_ig = settings.get('socials', {}).get('instagram', '')
+
+        gt_res = grid_headers.get('result', {}).get('title', 'Result')
+        gt_adm = grid_headers.get('admit-card', {}).get('title', 'Admit Card')
+        gt_job = grid_headers.get('latest-jobs', {}).get('title', 'Latest Jobs')
+        gt_key = grid_headers.get('answer-key', {}).get('title', 'Answer Key')
+        gt_syl = grid_headers.get('syllabus', {}).get('title', 'Syllabus')
+        gt_adms = grid_headers.get('admission', {}).get('title', 'Admission')
+
         alria_html = f'''
-        <div id="alria-bar" style="position:fixed; top:0; left:0; right:0; z-index:999999; background:rgba(15,23,42,0.96); backdrop-filter:blur(10px); color:#fff; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 20px rgba(0,0,0,0.4); border-bottom:2px solid #ef4444; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;">
-            <div style="display:flex; align-items:center; gap:12px;">
+        <div id="alria-bar" style="position:fixed; top:0; left:0; right:0; z-index:999999; background:rgba(15,23,42,0.96); backdrop-filter:blur(10px); color:#fff; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 20px rgba(0,0,0,0.4); border-bottom:2px solid #ef4444; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:10px;">
                 <span style="background:#ef4444; color:#fff; padding:3px 8px; border-radius:4px; font-weight:800; font-size:12px;">⚡ ALRIA LIVE EDITOR</span>
-                <span style="font-size:13px; color:#cbd5e1;">Click any red ✏️ button on the page to edit that section</span>
+                <span style="font-size:13px; color:#cbd5e1;">Click any red ✏️ button on page or use top toolbar</span>
             </div>
-            <div style="display:flex; align-items:center; gap:8px;">
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                <button onclick="openModal('modal-theme-colors')" style="background:#ec4899; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🎨 All Colors</button>
                 <button onclick="openModal('modal-branding')" style="background:#2563eb; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🏷️ Branding</button>
                 <button onclick="openModal('modal-cards')" style="background:#0891b2; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🃏 Top 8 Cards</button>
                 <button onclick="openModal('modal-grid-titles')" style="background:#7c3aed; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">📊 6 Grid Titles</button>
                 <button onclick="openModal('modal-info-faq')" style="background:#059669; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">❓ FAQs &amp; Info</button>
                 <button onclick="openModal('modal-footer-socials')" style="background:#d97706; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🔗 Footer &amp; Socials</button>
                 <a href="/admin/dashboard" style="background:#475569; color:#fff; text-decoration:none; padding:5px 12px; border-radius:4px; font-weight:700; font-size:12px;">Admin Panel</a>
-                <a href="/" style="background:#ef4444; color:#fff; text-decoration:none; padding:5px 12px; border-radius:4px; font-weight:700; font-size:12px;">Exit Live Mode</a>
+                <a href="/" style="background:#ef4444; color:#fff; text-decoration:none; padding:5px 12px; border-radius:4px; font-weight:700; font-size:12px;">Exit Live</a>
             </div>
         </div>
 
         <style>
             .alria-modal-backdrop {{ display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.65); z-index: 1000000; align-items: center; justify-content: center; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
-            .alria-modal-card {{ background: #ffffff; border-radius: 8px; width: 92%; max-width: 650px; max-height: 88vh; overflow-y: auto; padding: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); color: #1e293b; }}
-            .alria-modal-card h3 {{ margin-top: 0; font-size: 18px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; color: #0f172a; }}
+            .alria-modal-card {{ background: #ffffff; border-radius: 8px; width: 94%; max-width: 680px; max-height: 88vh; overflow-y: auto; padding: 22px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); color: #1e293b; }}
+            .alria-modal-card h3 {{ margin-top: 0; font-size: 18px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; color: #0f172a; display: flex; justify-content: space-between; align-items: center; }}
             .alria-input-group {{ margin-bottom: 12px; }}
             .alria-input-group label {{ display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #475569; }}
-            .alria-modal-card input[type="text"], .alria-modal-card textarea {{ width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 14px; box-sizing: border-box; }}
+            .alria-modal-card input[type="text"], .alria-modal-card textarea {{ width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; box-sizing: border-box; }}
+            .alria-color-row {{ display: flex; align-items: center; gap: 8px; margin-top: 4px; }}
+            .alria-color-picker {{ width: 42px; height: 34px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; }}
             .alria-modal-actions {{ display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; border-top: 1px solid #e2e8f0; padding-top: 12px; }}
             .alria-btn-cancel {{ padding: 8px 16px; border: 1px solid #cbd5e1; background: #fff; border-radius: 4px; cursor: pointer; font-weight: 600; }}
             .alria-btn-save {{ padding: 8px 18px; background: #ef4444; color: #fff; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; }}
         </style>
 
+        <!-- 1. Dedicated Master Color Customizer Modal -->
+        <div id="modal-theme-colors" class="alria-modal-backdrop">
+            <div class="alria-modal-card">
+                <h3>🎨 Master Homepage Theme &amp; Section Colors</h3>
+                
+                <h4 style="margin:12px 0 8px; color:#2563eb; font-size:14px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">1. Header &amp; Top Navigation</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="alria-input-group">
+                        <label>Header Background</label>
+                        <div class="alria-color-row"><input type="color" id="tc-hdr-bg" value="{t_hdr_bg}" class="alria-color-picker"><input type="text" id="tc-hdr-bg-txt" value="{t_hdr_bg}"></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Header Text Color</label>
+                        <div class="alria-color-row"><input type="color" id="tc-hdr-txt" value="{t_hdr_txt}" class="alria-color-picker"><input type="text" id="tc-hdr-txt-txt" value="{t_hdr_txt}"></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Navigation Bar Background</label>
+                        <div class="alria-color-row"><input type="color" id="tc-nav-bg" value="{t_nav_bg}" class="alria-color-picker"><input type="text" id="tc-nav-bg-txt" value="{t_nav_bg}"></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Navigation Link Color</label>
+                        <div class="alria-color-row"><input type="color" id="tc-nav-txt" value="{t_nav_txt}" class="alria-color-picker"><input type="text" id="tc-nav-txt-txt" value="{t_nav_txt}"></div>
+                    </div>
+                </div>
+
+                <h4 style="margin:16px 0 8px; color:#059669; font-size:14px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">2. WhatsApp / Main Action Button</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="alria-input-group">
+                        <label>Button Background</label>
+                        <div class="alria-color-row"><input type="color" id="tc-wa-bg" value="{t_wa_bg}" class="alria-color-picker"><input type="text" id="tc-wa-bg-txt" value="{t_wa_bg}"></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Button Text Color</label>
+                        <div class="alria-color-row"><input type="color" id="tc-wa-txt" value="{t_wa_txt}" class="alria-color-picker"><input type="text" id="tc-wa-txt-txt" value="{t_wa_txt}"></div>
+                    </div>
+                </div>
+
+                <h4 style="margin:16px 0 8px; color:#7c3aed; font-size:14px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">3. 6 Section Column Header Colors</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+                    <div class="alria-input-group"><label>Results Header</label><input type="color" id="tc-col-result" value="{t_res_bg}" class="alria-color-picker" style="width:100%;"></div>
+                    <div class="alria-input-group"><label>Admit Card Header</label><input type="color" id="tc-col-admit" value="{t_adm_bg}" class="alria-color-picker" style="width:100%;"></div>
+                    <div class="alria-input-group"><label>Latest Jobs Header</label><input type="color" id="tc-col-jobs" value="{t_job_bg}" class="alria-color-picker" style="width:100%;"></div>
+                    <div class="alria-input-group"><label>Answer Key Header</label><input type="color" id="tc-col-key" value="{t_key_bg}" class="alria-color-picker" style="width:100%;"></div>
+                    <div class="alria-input-group"><label>Syllabus Header</label><input type="color" id="tc-col-syl" value="{t_syl_bg}" class="alria-color-picker" style="width:100%;"></div>
+                    <div class="alria-input-group"><label>Admission Header</label><input type="color" id="tc-col-adm" value="{t_adms_bg}" class="alria-color-picker" style="width:100%;"></div>
+                </div>
+
+                <h4 style="margin:16px 0 8px; color:#d97706; font-size:14px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">4. Footer Colors</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="alria-input-group">
+                        <label>Footer Background</label>
+                        <div class="alria-color-row"><input type="color" id="tc-foot-bg" value="{t_foot_bg}" class="alria-color-picker"><input type="text" id="tc-foot-bg-txt" value="{t_foot_bg}"></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Footer Text Color</label>
+                        <div class="alria-color-row"><input type="color" id="tc-foot-txt" value="{t_foot_txt}" class="alria-color-picker"><input type="text" id="tc-foot-txt-txt" value="{t_foot_txt}"></div>
+                    </div>
+                </div>
+
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-theme-colors')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveMasterThemeColors()">Save Theme Colors</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Branding Modal with Color Controls -->
         <div id="modal-branding" class="alria-modal-backdrop">
             <div class="alria-modal-card">
-                <h3>🏷️ Edit Portal Branding &amp; Banner</h3>
-                <div class="alria-input-group"><label>Portal Site Name</label><input type="text" id="b-site-name" value="{settings.get('site_name', '')}"></div>
-                <div class="alria-input-group"><label>Domain Name</label><input type="text" id="b-domain" value="{settings.get('domain', '')}"></div>
-                <div class="alria-input-group"><label>Site Tagline</label><input type="text" id="b-tagline" value="{settings.get('tagline', '')}"></div>
-                <div class="alria-input-group"><label>Top Red Headline Banner Text</label><textarea id="b-top-banner" rows="3">{settings.get('top_banner_text', '')}</textarea></div>
+                <h3>🏷️ Edit Portal Branding, Banner &amp; Header Color</h3>
+                <div class="alria-input-group"><label>Portal Site Name</label><input type="text" id="b-site-name" value="{s_site_name}"></div>
+                <div class="alria-input-group"><label>Domain Name</label><input type="text" id="b-domain" value="{s_domain}"></div>
+                <div class="alria-input-group"><label>Site Tagline</label><input type="text" id="b-tagline" value="{s_tagline}"></div>
+                <div class="alria-input-group"><label>Top Headline Banner Text</label><textarea id="b-top-banner" rows="3">{s_top_banner}</textarea></div>
+                
+                <h4 style="margin-top:14px; font-size:13px;">Header Background &amp; Text Color</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div class="alria-input-group">
+                        <label>Header Color</label>
+                        <div class="alria-color-row"><input type="color" id="b-hdr-bg" value="{t_hdr_bg}" class="alria-color-picker"><input type="text" id="b-hdr-bg-txt" value="{t_hdr_bg}"></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Header Text Color</label>
+                        <div class="alria-color-row"><input type="color" id="b-hdr-txt" value="{t_hdr_txt}" class="alria-color-picker"><input type="text" id="b-hdr-txt-txt" value="{t_hdr_txt}"></div>
+                    </div>
+                </div>
+
                 <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-branding')">Cancel</button><button class="alria-btn-save" onclick="saveBranding()">Save Changes</button></div>
             </div>
         </div>
 
+        <!-- 3. Cards Modal with Color Controls -->
         <div id="modal-cards" class="alria-modal-backdrop">
             <div class="alria-modal-card">
-                <h3>🃏 Edit Top 8 Colored Highlight Cards</h3>
+                <h3>🃏 Edit Top 8 Highlight Cards (Titles, Links &amp; Colors)</h3>
                 <div id="cards-container"></div>
                 <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-cards')">Cancel</button><button class="alria-btn-save" onclick="saveCards()">Save All 8 Cards</button></div>
             </div>
         </div>
 
+        <!-- 4. 6 Grid Titles & Colors Modal -->
         <div id="modal-grid-titles" class="alria-modal-backdrop">
             <div class="alria-modal-card">
-                <h3>📊 Edit 6 Grid Column Section Titles</h3>
+                <h3>📊 Edit 6 Grid Column Titles &amp; Header Colors</h3>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                    <div class="alria-input-group"><label>Column 1 (Results)</label><input type="text" id="gt-result" value="{grid_headers.get('result', {}).get('title', 'Result')}"></div>
-                    <div class="alria-input-group"><label>Column 2 (Admit Card)</label><input type="text" id="gt-admit" value="{grid_headers.get('admit-card', {}).get('title', 'Admit Card')}"></div>
-                    <div class="alria-input-group"><label>Column 3 (Latest Jobs)</label><input type="text" id="gt-jobs" value="{grid_headers.get('latest-jobs', {}).get('title', 'Latest Jobs')}"></div>
-                    <div class="alria-input-group"><label>Column 4 (Answer Key)</label><input type="text" id="gt-key" value="{grid_headers.get('answer-key', {}).get('title', 'Answer Key')}"></div>
-                    <div class="alria-input-group"><label>Column 5 (Syllabus)</label><input type="text" id="gt-syl" value="{grid_headers.get('syllabus', {}).get('title', 'Syllabus')}"></div>
-                    <div class="alria-input-group"><label>Column 6 (Admission)</label><input type="text" id="gt-adm" value="{grid_headers.get('admission', {}).get('title', 'Admission')}"></div>
+                    <div class="alria-input-group">
+                        <label>Col 1 (Results)</label>
+                        <input type="text" id="gt-result" value="{gt_res}">
+                        <div class="alria-color-row" style="margin-top:4px;"><input type="color" id="gc-result" value="{t_res_bg}" class="alria-color-picker"><span style="font-size:11px; color:#64748b;">Header Color</span></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Col 2 (Admit Card)</label>
+                        <input type="text" id="gt-admit" value="{gt_adm}">
+                        <div class="alria-color-row" style="margin-top:4px;"><input type="color" id="gc-admit" value="{t_adm_bg}" class="alria-color-picker"><span style="font-size:11px; color:#64748b;">Header Color</span></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Col 3 (Latest Jobs)</label>
+                        <input type="text" id="gt-jobs" value="{gt_job}">
+                        <div class="alria-color-row" style="margin-top:4px;"><input type="color" id="gc-jobs" value="{t_job_bg}" class="alria-color-picker"><span style="font-size:11px; color:#64748b;">Header Color</span></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Col 4 (Answer Key)</label>
+                        <input type="text" id="gt-key" value="{gt_key}">
+                        <div class="alria-color-row" style="margin-top:4px;"><input type="color" id="gc-key" value="{t_key_bg}" class="alria-color-picker"><span style="font-size:11px; color:#64748b;">Header Color</span></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Col 5 (Syllabus)</label>
+                        <input type="text" id="gt-syl" value="{gt_syl}">
+                        <div class="alria-color-row" style="margin-top:4px;"><input type="color" id="gc-syl" value="{t_syl_bg}" class="alria-color-picker"><span style="font-size:11px; color:#64748b;">Header Color</span></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Col 6 (Admission)</label>
+                        <input type="text" id="gt-adm" value="{gt_adms}">
+                        <div class="alria-color-row" style="margin-top:4px;"><input type="color" id="gc-adm" value="{t_adms_bg}" class="alria-color-picker"><span style="font-size:11px; color:#64748b;">Header Color</span></div>
+                    </div>
                 </div>
-                <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-grid-titles')">Cancel</button><button class="alria-btn-save" onclick="saveGridTitles()">Save Titles</button></div>
+                <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-grid-titles')">Cancel</button><button class="alria-btn-save" onclick="saveGridTitles()">Save Titles &amp; Colors</button></div>
             </div>
         </div>
 
+        <!-- 5. Guidelines & FAQ Modal -->
         <div id="modal-info-faq" class="alria-modal-backdrop">
             <div class="alria-modal-card">
                 <h3>❓ Edit Guidelines &amp; FAQs</h3>
@@ -370,16 +567,30 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             </div>
         </div>
 
+        <!-- 6. Footer & Socials Modal with Color Controls -->
         <div id="modal-footer-socials" class="alria-modal-backdrop">
             <div class="alria-modal-card">
-                <h3>🔗 Edit Footer &amp; Social Links</h3>
-                <div class="alria-input-group"><label>Footer Copyright Text</label><textarea id="f-text" rows="2">{settings.get('footer_text', '')}</textarea></div>
+                <h3>🔗 Edit Footer, Socials &amp; Footer Color</h3>
+                <div class="alria-input-group"><label>Footer Copyright Text</label><textarea id="f-text" rows="2">{s_footer_text}</textarea></div>
+                
+                <h4 style="margin-top:10px;">Footer Colors</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+                    <div class="alria-input-group">
+                        <label>Footer Background</label>
+                        <div class="alria-color-row"><input type="color" id="f-bg" value="{t_foot_bg}" class="alria-color-picker"><input type="text" id="f-bg-txt" value="{t_foot_bg}"></div>
+                    </div>
+                    <div class="alria-input-group">
+                        <label>Footer Text Color</label>
+                        <div class="alria-color-row"><input type="color" id="f-txt" value="{t_foot_txt}" class="alria-color-picker"><input type="text" id="f-txt-txt" value="{t_foot_txt}"></div>
+                    </div>
+                </div>
+
                 <h4>Official Social Channels</h4>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <div class="alria-input-group"><label>Telegram Link</label><input type="text" id="soc-tg" value="{settings.get('socials', {}).get('telegram', '')}"></div>
-                    <div class="alria-input-group"><label>WhatsApp Link</label><input type="text" id="soc-wa" value="{settings.get('socials', {}).get('whatsapp', '')}"></div>
-                    <div class="alria-input-group"><label>YouTube Link</label><input type="text" id="soc-yt" value="{settings.get('socials', {}).get('youtube', '')}"></div>
-                    <div class="alria-input-group"><label>Instagram Link</label><input type="text" id="soc-ig" value="{settings.get('socials', {}).get('instagram', '')}"></div>
+                    <div class="alria-input-group"><label>Telegram Link</label><input type="text" id="soc-tg" value="{s_tg}"></div>
+                    <div class="alria-input-group"><label>WhatsApp Link</label><input type="text" id="soc-wa" value="{s_wa}"></div>
+                    <div class="alria-input-group"><label>YouTube Link</label><input type="text" id="soc-yt" value="{s_yt}"></div>
+                    <div class="alria-input-group"><label>Instagram Link</label><input type="text" id="soc-ig" value="{s_ig}"></div>
                 </div>
                 <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-footer-socials')">Cancel</button><button class="alria-btn-save" onclick="saveFooterSocials()">Save Footer &amp; Socials</button></div>
             </div>
@@ -387,17 +598,49 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
 
         <script>
             let siteSettings = {settings_json_escaped};
+            let themeColors = siteSettings.theme_colors || {{}};
+
             function openModal(id) {{ document.getElementById(id).style.display = 'flex'; }}
             function closeModal(id) {{ document.getElementById(id).style.display = 'none'; }}
+
+            function linkColorInputs(colorId, textId) {{
+                const cEl = document.getElementById(colorId);
+                const tEl = document.getElementById(textId);
+                if(cEl && tEl) {{
+                    cEl.addEventListener('input', () => {{ tEl.value = cEl.value; }});
+                    tEl.addEventListener('input', () => {{ if(tEl.value.match(/^#[0-9A-Fa-f]{{6}}$/)) cEl.value = tEl.value; }});
+                }}
+            }}
+            linkColorInputs('tc-hdr-bg', 'tc-hdr-bg-txt');
+            linkColorInputs('tc-hdr-txt', 'tc-hdr-txt-txt');
+            linkColorInputs('tc-nav-bg', 'tc-nav-bg-txt');
+            linkColorInputs('tc-nav-txt', 'tc-nav-txt-txt');
+            linkColorInputs('tc-wa-bg', 'tc-wa-bg-txt');
+            linkColorInputs('tc-wa-txt', 'tc-wa-txt-txt');
+            linkColorInputs('tc-foot-bg', 'tc-foot-bg-txt');
+            linkColorInputs('tc-foot-txt', 'tc-foot-txt-txt');
+            linkColorInputs('b-hdr-bg', 'b-hdr-bg-txt');
+            linkColorInputs('b-hdr-txt', 'b-hdr-txt-txt');
+            linkColorInputs('f-bg', 'f-bg-txt');
+            linkColorInputs('f-txt', 'f-txt-txt');
+
             function renderCardsInputs() {{
                 const cont = document.getElementById('cards-container'); if(!cont) return; cont.innerHTML = '';
                 const cards = siteSettings.highlight_cards || [];
+                const defaultCardBgs = ['#ff2a00', '#ff6600', '#db2777', '#0052cc', '#708238', '#0080ff', '#800000', '#00802b'];
                 for(let i=0; i<8; i++) {{
                     const c = cards[i] || {{title: '', url: '#'}};
-                    cont.innerHTML += `<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; background:#f8fafc; padding:6px 10px; border-radius:4px;"><div><label style="font-size:11px; font-weight:700;">Card ${{i+1}} Title</label><input type="text" id="card-title-${{i}}" value="${{c.title || ''}}"></div><div><label style="font-size:11px; font-weight:700;">Card ${{i+1}} Link</label><input type="text" id="card-url-${{i}}" value="${{c.url || '#'}}"></div></div>`;
+                    const curBg = themeColors['card_' + (i+1) + '_bg'] || defaultCardBgs[i] || '#ff2a00';
+                    cont.innerHTML += `
+                    <div style="display:grid; grid-template-columns:1fr 1fr 90px; gap:8px; margin-bottom:8px; background:#f8fafc; padding:6px 10px; border-radius:4px; align-items:center;">
+                        <div><label style="font-size:11px; font-weight:700;">Card ${{i+1}} Title</label><input type="text" id="card-title-${{i}}" value="${{c.title || ''}}"></div>
+                        <div><label style="font-size:11px; font-weight:700;">Card ${{i+1}} Link</label><input type="text" id="card-url-${{i}}" value="${{c.url || '#'}}"></div>
+                        <div><label style="font-size:11px; font-weight:700;">Color</label><input type="color" id="card-color-${{i}}" value="${{curBg}}" class="alria-color-picker" style="width:100%;"></div>
+                    </div>`;
                 }}
             }}
             renderCardsInputs();
+
             function renderFaqInputs() {{
                 const cont = document.getElementById('faq-list-container'); if(!cont) return; cont.innerHTML = '';
                 const faqs = siteSettings.faq_items || [];
@@ -406,31 +649,103 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 }});
             }}
             renderFaqInputs();
+
             function addNewFaqItem() {{
                 if(!siteSettings.faq_items) siteSettings.faq_items = [];
                 siteSettings.faq_items.push({{q: "New Question Title", a: "Answer text goes here..."}});
                 renderFaqInputs();
             }}
+
             async function saveSettingsPayload(payload) {{
                 const res = await fetch('/api/admin/save-settings', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify(payload) }});
-                if(res.ok) {{ alert('Section updated!'); location.reload(); }} else {{ alert('Error updating'); }}
+                if(res.ok) {{ alert('Section & Colors updated successfully!'); location.reload(); }} else {{ alert('Error updating settings'); }}
             }}
-            function saveBranding() {{ saveSettingsPayload({{ site_name: document.getElementById('b-site-name').value, domain: document.getElementById('b-domain').value, tagline: document.getElementById('b-tagline').value, top_banner_text: document.getElementById('b-top-banner').value }}); }}
+
+            function saveMasterThemeColors() {{
+                const colors = {{
+                    header_bg: document.getElementById('tc-hdr-bg').value,
+                    header_text: document.getElementById('tc-hdr-txt').value,
+                    nav_bg: document.getElementById('tc-nav-bg').value,
+                    nav_text: document.getElementById('tc-nav-txt').value,
+                    whatsapp_btn_bg: document.getElementById('tc-wa-bg').value,
+                    whatsapp_btn_text: document.getElementById('tc-wa-txt').value,
+                    result_header_bg: document.getElementById('tc-col-result').value,
+                    admit_header_bg: document.getElementById('tc-col-admit').value,
+                    jobs_header_bg: document.getElementById('tc-col-jobs').value,
+                    answer_header_bg: document.getElementById('tc-col-key').value,
+                    syllabus_header_bg: document.getElementById('tc-col-syl').value,
+                    admission_header_bg: document.getElementById('tc-col-adm').value,
+                    footer_bg: document.getElementById('tc-foot-bg').value,
+                    footer_text: document.getElementById('tc-foot-txt').value
+                }};
+                saveSettingsPayload({{ theme_colors: colors }});
+            }}
+
+            function saveBranding() {{
+                saveSettingsPayload({{
+                    site_name: document.getElementById('b-site-name').value,
+                    domain: document.getElementById('b-domain').value,
+                    tagline: document.getElementById('b-tagline').value,
+                    top_banner_text: document.getElementById('b-top-banner').value,
+                    theme_colors: {{
+                        header_bg: document.getElementById('b-hdr-bg').value,
+                        header_text: document.getElementById('b-hdr-txt').value
+                    }}
+                }});
+            }}
+
             function saveCards() {{
-                const cards = []; for(let i=0; i<8; i++) {{ cards.push({{ title: document.getElementById(`card-title-${{i}}`).value, url: document.getElementById(`card-url-${{i}}`).value }}); }}
-                saveSettingsPayload({{ highlight_cards: cards }});
+                const cards = [];
+                const cardColors = {{}};
+                for(let i=0; i<8; i++) {{
+                    cards.push({{ title: document.getElementById('card-title-' + i).value, url: document.getElementById('card-url-' + i).value }});
+                    cardColors['card_' + (i+1) + '_bg'] = document.getElementById('card-color-' + i).value;
+                }}
+                saveSettingsPayload({{ highlight_cards: cards, theme_colors: cardColors }});
             }}
+
             function saveGridTitles() {{
-                saveSettingsPayload({{ grid_headers: {{ 'result': {{ title: document.getElementById('gt-result').value, more_url: '/result/' }}, 'admit-card': {{ title: document.getElementById('gt-admit').value, more_url: '/admit-card/' }}, 'latest-jobs': {{ title: document.getElementById('gt-jobs').value, more_url: '/latest-jobs/' }}, 'answer-key': {{ title: document.getElementById('gt-key').value, more_url: '/answer-key/' }}, 'syllabus': {{ title: document.getElementById('gt-syl').value, more_url: '/syllabus/' }}, 'admission': {{ title: document.getElementById('gt-adm').value, more_url: '/admission/' }} }} }});
+                saveSettingsPayload({{
+                    grid_headers: {{
+                        'result': {{ title: document.getElementById('gt-result').value, more_url: '/result/' }},
+                        'admit-card': {{ title: document.getElementById('gt-admit').value, more_url: '/admit-card/' }},
+                        'latest-jobs': {{ title: document.getElementById('gt-jobs').value, more_url: '/latest-jobs/' }},
+                        'answer-key': {{ title: document.getElementById('gt-key').value, more_url: '/answer-key/' }},
+                        'syllabus': {{ title: document.getElementById('gt-syl').value, more_url: '/syllabus/' }},
+                        'admission': {{ title: document.getElementById('gt-adm').value, more_url: '/admission/' }}
+                    }},
+                    theme_colors: {{
+                        result_header_bg: document.getElementById('gc-result').value,
+                        admit_header_bg: document.getElementById('gc-admit').value,
+                        jobs_header_bg: document.getElementById('gc-jobs').value,
+                        answer_header_bg: document.getElementById('gc-key').value,
+                        syllabus_header_bg: document.getElementById('gc-syl').value,
+                        admission_header_bg: document.getElementById('gc-adm').value
+                    }}
+                }});
             }}
+
             function saveInfoFaq() {{
                 const info_secs = [{{ title: document.getElementById('info-t1').value, content: document.getElementById('info-c1').value }}];
                 const faqs = []; const len = siteSettings.faq_items ? siteSettings.faq_items.length : 0;
-                for(let i=0; i<len; i++) {{ const qEl = document.getElementById(`faq-q-${{i}}`); const aEl = document.getElementById(`faq-a-${{i}}`); if(qEl && aEl) faqs.push({{ q: qEl.value, a: aEl.value }}); }}
+                for(let i=0; i<len; i++) {{ const qEl = document.getElementById('faq-q-' + i); const aEl = document.getElementById('faq-a-' + i); if(qEl && aEl) faqs.push({{ q: qEl.value, a: aEl.value }}); }}
                 saveSettingsPayload({{ info_sections: info_secs, faq_items: faqs }});
             }}
+
             function saveFooterSocials() {{
-                saveSettingsPayload({{ footer_text: document.getElementById('f-text').value, socials: {{ telegram: document.getElementById('soc-tg').value, whatsapp: document.getElementById('soc-wa').value, youtube: document.getElementById('soc-yt').value, instagram: document.getElementById('soc-ig').value }} }});
+                saveSettingsPayload({{
+                    footer_text: document.getElementById('f-text').value,
+                    theme_colors: {{
+                        footer_bg: document.getElementById('f-bg').value,
+                        footer_text: document.getElementById('f-txt').value
+                    }},
+                    socials: {{
+                        telegram: document.getElementById('soc-tg').value,
+                        whatsapp: document.getElementById('soc-wa').value,
+                        youtube: document.getElementById('soc-yt').value,
+                        instagram: document.getElementById('soc-ig').value
+                    }}
+                }});
             }}
         </script>
         '''

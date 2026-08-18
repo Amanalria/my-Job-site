@@ -35,6 +35,9 @@
         .wp-input:focus { border-color: #2271b1; outline: none; }
         .form-help { font-size: 11px; color: #64748b; margin-top: 3px; }
 
+        .color-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .color-picker { width: 44px; height: 34px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 3px; cursor: pointer; }
+
         .button-primary { background: #2271b1; border: 1px solid #2271b1; color: #fff; font-size: 13px; font-weight: 600; padding: 8px 24px; border-radius: 3px; cursor: pointer; }
         .button-primary:hover { background: #135e96; }
 
@@ -77,7 +80,7 @@
     </div>
 
     <div class="wp-main">
-        <h1 class="wp-heading-inline">SEO &amp; Webmaster Settings</h1>
+        <h1 class="wp-heading-inline">SEO, Webmaster &amp; Theme Settings</h1>
 
         <form action="/api/admin/save-settings" method="POST">
             <div class="settings-grid">
@@ -103,7 +106,41 @@
                     </div>
                 </div>
 
-                <!-- 2. Google Analytics & Webmaster Verification -->
+                <!-- 2. Homepage Theme & Section Colors -->
+                <div class="postbox">
+                    <h2>🎨 Master Homepage Theme &amp; Section Colors</h2>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                        <div class="form-group">
+                            <label>Header Background</label>
+                            <div class="color-row"><input type="color" name="theme_header_bg" value="{{ settings.theme_colors.header_bg if settings.theme_colors else '#ab183d' }}" class="color-picker"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Header Text Color</label>
+                            <div class="color-row"><input type="color" name="theme_header_text" value="{{ settings.theme_colors.header_text if settings.theme_colors else '#ffffff' }}" class="color-picker"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Navigation Bar BG</label>
+                            <div class="color-row"><input type="color" name="theme_nav_bg" value="{{ settings.theme_colors.nav_bg if settings.theme_colors else '#0c2340' }}" class="color-picker"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Navigation Text Color</label>
+                            <div class="color-row"><input type="color" name="theme_nav_text" value="{{ settings.theme_colors.nav_text if settings.theme_colors else '#ffffff' }}" class="color-picker"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>WhatsApp Button BG</label>
+                            <div class="color-row"><input type="color" name="theme_whatsapp_btn_bg" value="{{ settings.theme_colors.whatsapp_btn_bg if settings.theme_colors else '#00a82d' }}" class="color-picker"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Footer Background</label>
+                            <div class="color-row"><input type="color" name="theme_footer_bg" value="{{ settings.theme_colors.footer_bg if settings.theme_colors else '#1d2327' }}" class="color-picker"></div>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px; border-top:1px solid #f0f0f1; padding-top:8px;">
+                        <a href="/alria" style="color:#2271b1; text-decoration:none; font-weight:700; font-size:12px;">⚡ Open Visual /alria Editor for Section Color Pickers</a>
+                    </div>
+                </div>
+
+                <!-- 3. Google Analytics & Webmaster Verification -->
                 <div class="postbox">
                     <h2>Google &amp; Webmaster Tools</h2>
                     <div class="form-group">
@@ -121,7 +158,7 @@
                     </div>
                 </div>
 
-                <!-- 3. ads.txt & robots.txt -->
+                <!-- 4. ads.txt & robots.txt -->
                 <div class="postbox">
                     <h2>ads.txt Manager</h2>
                     <div class="form-group">
