@@ -120,65 +120,56 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             ad_script = soup.new_tag('script', src=f"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={client_id}", crossorigin="anonymous", **{'async': True})
             soup.head.append(ad_script)
 
-    # 7. Exact 3x2 Grid Layout (3 in Row 1, 3 in Row 2)
+    # 7. Exact Desktop Grid Styling (Mobile version untouched 100% original)
     center_style = soup.new_tag('style')
     center_style.string = """
-    /* 3 Boxes in Row 1, 3 Boxes in Row 2 (100% Exact to Original) */
-    .gb-grid-wrapper-180dce95 {
-        display: grid !important;
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        gap: 14px !important;
-        max-width: 1120px !important;
-        margin: 15px auto !important;
-        padding: 0 10px !important;
-        box-sizing: border-box !important;
-        width: 100% !important;
-    }
-    .gb-grid-wrapper-180dce95 > .gb-grid-column {
-        width: 100% !important;
-        max-width: 100% !important;
-        flex: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        box-sizing: border-box !important;
-    }
-    .gb-grid-wrapper-180dce95 > .gb-grid-column > .gb-container {
-        height: 100% !important;
-        margin: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        box-sizing: border-box !important;
-    }
-    
-    /* Top 8 Cards (4 in Row 1, 4 in Row 2) */
-    .gb-grid-wrapper-5aaa8125,
-    .gb-grid-wrapper-389edcd7 {
-        display: grid !important;
-        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-        gap: 8px !important;
-        max-width: 1120px !important;
-        margin: 0 auto 8px auto !important;
-        padding: 0 10px !important;
-        box-sizing: border-box !important;
-        width: 100% !important;
-    }
-    .gb-grid-wrapper-5aaa8125 > .gb-grid-column,
-    .gb-grid-wrapper-389edcd7 > .gb-grid-column {
-        width: 100% !important;
-        max-width: 100% !important;
-        flex: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        box-sizing: border-box !important;
-    }
-
-    @media (max-width: 680px) {
+    /* DESKTOP ONLY (min-width: 768px): 3 Boxes in Row 1, 3 Boxes in Row 2 */
+    @media (min-width: 768px) {
         .gb-grid-wrapper-180dce95 {
-            grid-template-columns: 1fr !important;
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 14px !important;
+            max-width: 1120px !important;
+            margin: 15px auto !important;
+            padding: 0 10px !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
         }
+        .gb-grid-wrapper-180dce95 > .gb-grid-column {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
+        .gb-grid-wrapper-180dce95 > .gb-grid-column > .gb-container {
+            height: 100% !important;
+            margin: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            box-sizing: border-box !important;
+        }
+        
         .gb-grid-wrapper-5aaa8125,
         .gb-grid-wrapper-389edcd7 {
-            grid-template-columns: repeat(2, 1fr) !important;
+            display: grid !important;
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            gap: 8px !important;
+            max-width: 1120px !important;
+            margin: 0 auto 8px auto !important;
+            padding: 0 10px !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+        .gb-grid-wrapper-5aaa8125 > .gb-grid-column,
+        .gb-grid-wrapper-389edcd7 > .gb-grid-column {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
         }
     }
     .alria-edit-btn {
