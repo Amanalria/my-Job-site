@@ -2,117 +2,165 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Portal Settings – {{ settings.site_name }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>SEO &amp; Site Settings - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #f8fafc; color: #1e293b; display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: #0f172a; color: #fff; padding: 20px; display: flex; flex-direction: column; }
-        .sidebar-brand { font-size: 18px; font-weight: 800; color: #ef4444; margin-bottom: 30px; display: flex; align-items: center; gap: 8px; }
-        .nav-item { display: flex; align-items: center; gap: 12px; color: #cbd5e1; text-decoration: none; padding: 12px 16px; border-radius: 6px; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
-        .nav-item:hover, .nav-item.active { background: #1e293b; color: #fff; }
-        .nav-item i { width: 20px; }
-        .main { flex: 1; padding: 30px; overflow-y: auto; max-width: 900px; }
-        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; margin-bottom: 20px; }
-        .input-group { margin-bottom: 16px; }
-        .label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #334155; }
-        .input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
-        .btn { padding: 10px 20px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; font-size: 14px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background: #f1f5f9; color: #1e293b; display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 250px; background: #0f172a; color: #fff; padding: 20px 0; flex-shrink: 0; }
+        .sidebar-brand { padding: 0 20px 20px; font-size: 18px; font-weight: 800; color: #ef4444; border-bottom: 1px solid #334155; }
+        .sidebar-menu { list-style: none; margin-top: 15px; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: #1e293b; color: #fff; border-left: 4px solid #ef4444; }
+
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .page-title { font-size: 24px; font-weight: 800; color: #0f172a; }
+
+        .card { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; margin-bottom: 24px; }
+        .card-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 16px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; transition: 0.2s; }
+        .form-control:focus { border-color: #ef4444; }
+        .form-help { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; }
         .btn-primary { background: #ef4444; color: #fff; }
+        .btn-primary:hover { background: #dc2626; }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <div class="sidebar-brand">
-        <i class="fa-solid fa-shield-halved"></i> {{ settings.site_name }}
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            ⚡ {{ settings.site_name }}
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/admin/dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+            <li><a href="/admin/posts"><i class="fa-solid fa-file-lines"></i> All Posts</a></li>
+            <li><a href="/admin/posts/new"><i class="fa-solid fa-plus"></i> Add New Post</a></li>
+            <li><a href="/admin/categories"><i class="fa-solid fa-folder-tree"></i> Categories</a></li>
+            <li><a href="/admin/settings" class="active"><i class="fa-solid fa-sliders"></i> SEO &amp; Settings</a></li>
+            <li><a href="/alria"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual /alria Editor</a></li>
+            <li><a href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Website</a></li>
+        </ul>
     </div>
-    <a href="/admin/dashboard" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-    <a href="/admin/posts" class="nav-item"><i class="fa-solid fa-file-lines"></i> All Posts</a>
-    <a href="/admin/posts/new" class="nav-item"><i class="fa-solid fa-plus"></i> Add New Post</a>
-    <a href="/admin/settings" class="nav-item active"><i class="fa-solid fa-sliders"></i> Portal Settings</a>
-    <a href="/alria" class="nav-item" style="color:#ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual Live Editor</a>
-</div>
 
-<div class="main">
-    <h1 style="font-size:24px; font-weight:800; margin-bottom:20px;">Portal Configuration &amp; Supabase Integration</h1>
-
-    <form method="POST" action="/api/admin/save-settings">
-        
-        <!-- BRANDING -->
-        <div class="card">
-            <h3 style="font-size:16px; font-weight:700; margin-bottom:15px; border-bottom:1px solid #f1f5f9; padding-bottom:8px;">Branding &amp; Titles</h3>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-                <div class="input-group">
-                    <label class="label">Portal Name</label>
-                    <input type="text" name="site_name" class="input" value="{{ settings.site_name }}">
-                </div>
-                <div class="input-group">
-                    <label class="label">Domain Name</label>
-                    <input type="text" name="domain" class="input" value="{{ settings.domain }}">
-                </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-nav">
+            <div>
+                <h1 class="page-title">SEO &amp; Integrations Settings</h1>
+                <p style="font-size:13px; color:#64748b; margin-top:3px;">Manage Google Analytics, Search Console, ads.txt, robots.txt crawler rules, and AdSense.</p>
             </div>
-            <div class="input-group">
-                <label class="label">Tagline</label>
-                <input type="text" name="tagline" class="input" value="{{ settings.tagline }}">
-            </div>
-            <div class="input-group">
-                <label class="label">Top Banner Overview Text</label>
-                <textarea name="top_banner_text" class="input" rows="2">{{ settings.top_banner_text }}</textarea>
+            <div>
+                <button onclick="document.getElementById('settingsForm').submit()" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save All Settings</button>
             </div>
         </div>
 
-        <!-- SUPABASE INTEGRATION -->
-        <div class="card">
-            <h3 style="font-size:16px; font-weight:700; margin-bottom:15px; border-bottom:1px solid #f1f5f9; padding-bottom:8px; display:flex; align-items:center; gap:8px;">
-                <i class="fa-solid fa-database" style="color:#3ecf8e;"></i> Supabase Cloud Database (PostgreSQL)
-            </h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom:15px;">
-                Connect your Supabase project for real-time cloud data storage, instant sync, and Vercel edge deployment.
-            </p>
-            <div class="input-group">
-                <label class="label">Supabase Project URL</label>
-                <input type="text" name="supabase_url" class="input" value="{{ settings.supabase.url }}" placeholder="https://xyzcompany.supabase.co">
-            </div>
-            <div class="input-group">
-                <label class="label">Supabase Anon Public API Key</label>
-                <input type="text" name="supabase_key" class="input" value="{{ settings.supabase.key }}" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
-            </div>
-            <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; cursor:pointer;">
-                <input type="checkbox" name="supabase_enabled" value="true" {% if settings.supabase.enabled %}checked{% endif %}>
-                Enable Supabase Cloud Sync
-            </label>
-        </div>
+        <form action="/api/admin/save-settings" method="POST" id="settingsForm">
 
-        <!-- SOCIAL LINKS -->
-        <div class="card">
-            <h3 style="font-size:16px; font-weight:700; margin-bottom:15px; border-bottom:1px solid #f1f5f9; padding-bottom:8px;">Social Channels</h3>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-                <div class="input-group">
-                    <label class="label">Telegram Channel URL</label>
-                    <input type="text" name="social_telegram" class="input" value="{{ settings.socials.telegram }}">
-                </div>
-                <div class="input-group">
-                    <label class="label">WhatsApp Channel URL</label>
-                    <input type="text" name="social_whatsapp" class="input" value="{{ settings.socials.whatsapp }}">
-                </div>
-                <div class="input-group">
-                    <label class="label">YouTube Channel URL</label>
-                    <input type="text" name="social_youtube" class="input" value="{{ settings.socials.youtube }}">
-                </div>
-                <div class="input-group">
-                    <label class="label">Instagram Page URL</label>
-                    <input type="text" name="social_instagram" class="input" value="{{ settings.socials.instagram }}">
+            <!-- 1. Google Search Console & Analytics -->
+            <div class="card">
+                <h2 class="card-title"><i class="fa-brands fa-google" style="color:#ea4335;"></i> Google Analytics &amp; Webmaster Verification</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Google Analytics Measurement ID (GA4)</label>
+                        <input type="text" name="google_analytics_id" class="form-control" placeholder="G-XXXXXXXXXX" value="{{ settings.seo.google_analytics_id if settings.seo else '' }}">
+                        <p class="form-help">Automatically injects the official Google gtag.js tracker on all public pages.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Google Search Console Verification Meta Tag</label>
+                        <input type="text" name="google_site_verification" class="form-control" placeholder='<meta name="google-site-verification" content="..." />' value="{{ settings.seo.google_site_verification if settings.seo else '' }}">
+                        <p class="form-help">Paste your HTML meta verification tag for Google Search Console.</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <button type="submit" class="btn btn-primary" style="font-size:15px; padding:12px 28px;">
-            <i class="fa-solid fa-floppy-disk"></i> Save Portal Settings
-        </button>
-    </form>
-</div>
+            <!-- 2. Global SEO Meta Tags -->
+            <div class="card">
+                <h2 class="card-title"><i class="fa-solid fa-magnifying-glass" style="color:#3b82f6;"></i> Global Search Engine Meta Tags</h2>
+                <div class="form-group">
+                    <label>Global Meta Description</label>
+                    <textarea name="meta_description" class="form-control" rows="2">{{ settings.seo.meta_description if settings.seo else '' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Global Meta Keywords (Comma Separated)</label>
+                    <input type="text" name="meta_keywords" class="form-control" value="{{ settings.seo.meta_keywords if settings.seo else '' }}">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Custom Header Code (&lt;head&gt;)</label>
+                        <textarea name="custom_head_code" class="form-control" rows="3" placeholder="Additional schema, verification scripts, etc.">{{ settings.seo.custom_head_code if settings.seo else '' }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Custom Footer Code (&lt;/body&gt;)</label>
+                        <textarea name="custom_footer_code" class="form-control" rows="3" placeholder="Analytics, pixels, or chat widgets">{{ settings.seo.custom_footer_code if settings.seo else '' }}</textarea>
+                    </div>
+                </div>
+            </div>
 
+            <!-- 3. ads.txt & robots.txt Editors -->
+            <div class="card">
+                <h2 class="card-title"><i class="fa-solid fa-file-code" style="color:#10b981;"></i> ads.txt &amp; robots.txt Direct Editors</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><strong>ads.txt</strong> File Content (<a href="/ads.txt" target="_blank">View /ads.txt</a>)</label>
+                        <textarea name="ads_txt" class="form-control" rows="5" style="font-family:monospace; font-size:13px;">{{ settings.ads_txt if settings.ads_txt else 'google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0' }}</textarea>
+                        <p class="form-help">AdSense authorization record for advertisers.</p>
+                    </div>
+                    <div class="form-group">
+                        <label><strong>robots.txt</strong> Crawler Rules (<a href="/robots.txt" target="_blank">View /robots.txt</a>)</label>
+                        <textarea name="robots_txt" class="form-control" rows="5" style="font-family:monospace; font-size:13px;">{{ settings.robots_txt if settings.robots_txt else 'User-agent: *\nDisallow: /admin/\nDisallow: /admin\nDisallow: /alria\nDisallow: /api/\nAllow: /\n\nSitemap: https://yourdomain.com/sitemap.xml' }}</textarea>
+                        <p class="form-help">🔒 <code>/admin/</code> and <code>/alria</code> are strictly disallowed from crawlers and bots.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Google AdSense & Monetization -->
+            <div class="card">
+                <h2 class="card-title"><i class="fa-solid fa-rectangle-ad" style="color:#f59e0b;"></i> Google AdSense Settings</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>AdSense Publisher Client ID</label>
+                        <input type="text" name="adsense_id" class="form-control" placeholder="ca-pub-1234567890123456" value="{{ settings.adsense.client_id if settings.adsense else '' }}">
+                    </div>
+                    <div class="form-group" style="display:flex; align-items:center; margin-top:28px;">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                            <input type="checkbox" name="adsense_enabled" {% if settings.adsense and settings.adsense.enabled %}checked{% endif %}>
+                            <span>Enable Google AdSense Auto-Ads on all pages</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Supabase Database Sync -->
+            <div class="card">
+                <h2 class="card-title"><i class="fa-solid fa-database" style="color:#06b6d4;"></i> Supabase Cloud Database</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Supabase Project URL</label>
+                        <input type="text" name="supabase_url" class="form-control" placeholder="https://xyzcompany.supabase.co" value="{{ settings.supabase.url if settings.supabase else '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Supabase Anon Public API Key</label>
+                        <input type="password" name="supabase_key" class="form-control" value="{{ settings.supabase.key if settings.supabase else '' }}">
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:right;">
+                <button type="submit" class="btn btn-primary" style="padding:12px 28px; font-size:15px;"><i class="fa-solid fa-floppy-disk"></i> Save All Settings</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

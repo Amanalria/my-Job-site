@@ -2,117 +2,209 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ 'Edit Post' if post else 'Create New Post' }} – {{ settings.site_name }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{{ 'Edit Post' if post else 'Add New Post' }} - Admin Panel</title>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- TinyMCE CDN (WordPress Classic Editor equivalent) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #f8fafc; color: #1e293b; display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: #0f172a; color: #fff; padding: 20px; display: flex; flex-direction: column; }
-        .sidebar-brand { font-size: 18px; font-weight: 800; color: #ef4444; margin-bottom: 30px; display: flex; align-items: center; gap: 8px; }
-        .nav-item { display: flex; align-items: center; gap: 12px; color: #cbd5e1; text-decoration: none; padding: 12px 16px; border-radius: 6px; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
-        .nav-item:hover, .nav-item.active { background: #1e293b; color: #fff; }
-        .nav-item i { width: 20px; }
-        .main { flex: 1; padding: 30px; overflow-y: auto; max-width: 900px; }
-        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; margin-bottom: 20px; }
-        .input-group { margin-bottom: 16px; }
-        .label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #334155; }
-        .input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
-        .btn { padding: 10px 20px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; font-size: 14px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background: #f1f5f9; color: #1e293b; display: flex; min-height: 100vh; }
+        
+        /* Sidebar */
+        .sidebar { width: 250px; background: #0f172a; color: #fff; padding: 20px 0; flex-shrink: 0; }
+        .sidebar-brand { padding: 0 20px 20px; font-size: 18px; font-weight: 800; color: #ef4444; border-bottom: 1px solid #334155; }
+        .sidebar-menu { list-style: none; margin-top: 15px; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: #1e293b; color: #fff; border-left: 4px solid #ef4444; }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .page-title { font-size: 24px; font-weight: 800; color: #0f172a; }
+        
+        /* Form Layout */
+        .editor-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+        .card { background: #fff; border-radius: 8px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; margin-bottom: 20px; }
+        .card-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; transition: 0.2s; }
+        .form-control:focus { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15); }
+        .form-help { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; transition: 0.2s; }
         .btn-primary { background: #ef4444; color: #fff; }
+        .btn-primary:hover { background: #dc2626; }
+        .btn-secondary { background: #64748b; color: #fff; }
+        .btn-outline { background: #fff; border: 1px solid #cbd5e1; color: #334155; }
+        .btn-block { width: 100%; justify-content: center; }
+
+        .badge-preview { display: inline-block; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; margin-left: 6px; }
+        
+        /* Category box */
+        .cat-select-row { display: flex; gap: 8px; }
+        .cat-select-row select { flex: 1; }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <div class="sidebar-brand">
-        <i class="fa-solid fa-shield-halved"></i> {{ settings.site_name }}
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            ⚡ {{ settings.site_name }}
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/admin/dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+            <li><a href="/admin/posts" class="active"><i class="fa-solid fa-file-lines"></i> All Posts</a></li>
+            <li><a href="/admin/posts/new"><i class="fa-solid fa-plus"></i> Add New Post</a></li>
+            <li><a href="/admin/categories"><i class="fa-solid fa-folder-tree"></i> Categories</a></li>
+            <li><a href="/admin/settings"><i class="fa-solid fa-sliders"></i> SEO &amp; Settings</a></li>
+            <li><a href="/alria"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual /alria Editor</a></li>
+            <li><a href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Website</a></li>
+        </ul>
     </div>
-    <a href="/admin/dashboard" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-    <a href="/admin/posts" class="nav-item"><i class="fa-solid fa-file-lines"></i> All Posts</a>
-    <a href="/admin/posts/new" class="nav-item active"><i class="fa-solid fa-plus"></i> Add New Post</a>
-    <a href="/admin/settings" class="nav-item"><i class="fa-solid fa-sliders"></i> Portal Settings</a>
-    <a href="/alria" class="nav-item" style="color:#ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual Live Editor</a>
-</div>
 
-<div class="main">
-    <h1 style="font-size:24px; font-weight:800; margin-bottom:20px;">{{ 'Edit Notification Post' if post else 'Create New Notification Post' }}</h1>
-
-    <form method="POST" action="/api/admin/save-post">
-        {% if post %}<input type="hidden" name="id" value="{{ post.id }}">{% endif %}
-
-        <div class="card">
-            <h3 style="font-size:16px; font-weight:700; margin-bottom:15px; border-bottom:1px solid #f1f5f9; padding-bottom:8px;">Basic Details</h3>
-            
-            <div class="input-group">
-                <label class="label">Post Title *</label>
-                <input type="text" name="title" class="input" value="{{ post.title if post else '' }}" placeholder="e.g. UPSC Civil Services Prelims Online Form 2026" required>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-nav">
+            <div>
+                <h1 class="page-title">{{ 'Edit Post' if post else 'Add New Post (Classic Editor)' }}</h1>
+                <p style="font-size:13px; color:#64748b; margin-top:3px;">Create or modify government vacancy announcements with full WordPress formatting.</p>
             </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-                <div class="input-group">
-                    <label class="label">Category *</label>
-                    <select name="category" class="input">
-                        <option value="latest-jobs" {% if post and post.category == 'latest-jobs' %}selected{% endif %}>Latest Jobs</option>
-                        <option value="admit-card" {% if post and post.category == 'admit-card' %}selected{% endif %}>Admit Card</option>
-                        <option value="result" {% if post and post.category == 'result' %}selected{% endif %}>Results</option>
-                        <option value="answer-key" {% if post and post.category == 'answer-key' %}selected{% endif %}>Answer Key</option>
-                        <option value="syllabus" {% if post and post.category == 'syllabus' %}selected{% endif %}>Documents &amp; Syllabus</option>
-                        <option value="admission" {% if post and post.category == 'admission' %}selected{% endif %}>Admission</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label class="label">Custom Badge (Optional)</label>
-                    <input type="text" name="custom_badge" class="input" value="{{ post.custom_badge if post else '' }}" placeholder="e.g. 5,000 Posts, New, Out Now">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label class="label">Short Description</label>
-                <textarea name="short_desc" class="input" rows="3" placeholder="Brief summary of eligibility and vacancies...">{{ post.short_desc if post else '' }}</textarea>
+            <div>
+                <a href="/admin/posts" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> Back to Posts</a>
             </div>
         </div>
 
-        <div class="card">
-            <h3 style="font-size:16px; font-weight:700; margin-bottom:15px; border-bottom:1px solid #f1f5f9; padding-bottom:8px;">Smart Dates &amp; Expiry Automation</h3>
-            
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-                <div class="input-group">
-                    <label class="label">Application Begin Date</label>
-                    <input type="date" name="application_start_date" class="input" value="{{ post.application_start_date if post else '' }}">
+        <form action="/api/admin/save-post" method="POST" id="postForm">
+            {% if post %}
+            <input type="hidden" name="id" value="{{ post.id }}">
+            {% endif %}
+
+            <div class="editor-layout">
+                <!-- Left Column: Main Editor -->
+                <div>
+                    <!-- Post Title -->
+                    <div class="card">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label style="font-size:15px; font-weight:700;">Post Title</label>
+                            <input type="text" name="title" id="postTitle" class="form-control" style="font-size:16px; font-weight:600; padding:12px;" placeholder="e.g. UPSC Civil Services IAS / IFS Online Form 2026" value="{{ post.title if post else '' }}" required onkeyup="generateSlug(this.value)">
+                            <div style="display:flex; align-items:center; gap:8px; margin-top:8px; font-size:12px; color:#64748b;">
+                                <strong>Permalink:</strong> https://{{ settings.domain }}/<span id="slugPreview" style="color:#ef4444; font-weight:600;">{{ post.slug if post else 'post-slug' }}</span>/
+                                <input type="hidden" name="slug" id="postSlug" value="{{ post.slug if post else '' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WordPress Classic Rich WYSIWYG Editor -->
+                    <div class="card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <h2 class="card-title" style="margin-bottom:0; border-bottom:none; padding-bottom:0;"><i class="fa-brands fa-wordpress"></i> Classic Content Editor</h2>
+                            <span style="font-size:12px; color:#64748b;"><i class="fa-solid fa-table"></i> Tables, Headings &amp; Media Supported</span>
+                        </div>
+                        <textarea id="classicEditor" name="html_content" style="height:550px;">{{ post.html_content if post and post.html_content else '' }}</textarea>
+                    </div>
+
+                    <!-- Short Description / Meta Summary -->
+                    <div class="card">
+                        <h2 class="card-title">SEO Meta Description &amp; Summary</h2>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <textarea name="short_desc" class="form-control" rows="3" placeholder="Brief 2-3 line summary of eligibility, vacancies, and important dates for search engine snippet.">{{ post.short_desc if post else '' }}</textarea>
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label class="label">Application Last Date (Auto-Expiry Trigger)</label>
-                    <input type="date" name="application_last_date" class="input" value="{{ post.application_last_date if post else '' }}">
-                    <span style="font-size:11px; color:#64748b; margin-top:4px; display:block;">Post will automatically hide from homepage 2 days after this date.</span>
+
+                <!-- Right Column: Publishing Controls & Categorization -->
+                <div>
+                    <!-- Publish Box -->
+                    <div class="card">
+                        <h2 class="card-title"><i class="fa-solid fa-paper-plane"></i> Publish Status</h2>
+                        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+                            <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-cloud-arrow-up"></i> {{ 'Update Post' if post else 'Publish Post' }}</button>
+                        </div>
+                    </div>
+
+                    <!-- Category Selector -->
+                    <div class="card">
+                        <h2 class="card-title"><i class="fa-solid fa-folder-open"></i> Category</h2>
+                        <div class="form-group">
+                            <label>Select Section Column</label>
+                            <div class="cat-select-row">
+                                <select name="category" id="catSelect" class="form-control" required>
+                                    {% for cat in settings.categories %}
+                                    <option value="{{ cat.slug }}" {% if post and post.category == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <p class="form-help">Posts appear automatically inside the selected homepage column.</p>
+                    </div>
+
+                    <!-- Important Dates & Auto-Expiry -->
+                    <div class="card">
+                        <h2 class="card-title"><i class="fa-solid fa-calendar-days"></i> Dates &amp; Auto-Expiry</h2>
+                        <div class="form-group">
+                            <label>Application Begin Date</label>
+                            <input type="date" name="application_start_date" class="form-control" value="{{ post.application_start_date if post else '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Application Last Date</label>
+                            <input type="date" name="application_last_date" id="lastDateInput" class="form-control" value="{{ post.application_last_date if post else '' }}">
+                            <p class="form-help">⚡ Post hides from homepage automatically 2 days after this date.</p>
+                        </div>
+                    </div>
+
+                    <!-- Smart Badges & Visibility -->
+                    <div class="card">
+                        <h2 class="card-title"><i class="fa-solid fa-tags"></i> Badges &amp; Sorting</h2>
+                        <div class="form-group">
+                            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                                <input type="checkbox" name="is_date_extended" {% if post and post.is_date_extended %}checked{% endif %}>
+                                <span>Date Extended <span class="badge-preview" style="background:#2ed573; color:#fff;">Date Extended</span></span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                                <input type="checkbox" name="is_pinned" {% if post and post.is_pinned %}checked{% endif %}>
+                                <span>Pin to Top <span class="badge-preview" style="background:#ffa502; color:#fff;">Hot</span></span>
+                            </label>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label>Custom Text Badge (Optional)</label>
+                            <input type="text" name="custom_badge" class="form-control" placeholder="e.g. 5,000 Posts, New" value="{{ post.custom_badge if post else '' }}">
+                        </div>
+                    </div>
                 </div>
             </div>
+        </form>
+    </div>
 
-            <div style="margin-top:10px; display:flex; gap:25px;">
-                <label style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; cursor:pointer;">
-                    <input type="checkbox" name="is_date_extended" value="true" {% if post and post.is_date_extended %}checked{% endif %}>
-                    Date Extended (Auto-Badge)
-                </label>
-                <label style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; cursor:pointer;">
-                    <input type="checkbox" name="is_pinned" value="true" {% if post and post.is_pinned %}checked{% endif %}>
-                    Pin to Top of Category Grid
-                </label>
-            </div>
-        </div>
+    <!-- Initialize TinyMCE Classic Editor -->
+    <script>
+        tinymce.init({
+            selector: '#classicEditor',
+            height: 520,
+            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount',
+            toolbar: 'undo redo | blocks | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table link image media | removeformat code fullscreen help',
+            menubar: 'file edit view insert format tools table help',
+            content_style: 'body { font-family: Inter, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #1e293b; } table { border-collapse: collapse; width: 100%; } th, td { border: 1px solid #cbd5e1; padding: 8px 12px; } th { background-color: #f8fafc; font-weight: 700; }',
+            branding: false
+        });
 
-        <div class="card">
-            <h3 style="font-size:16px; font-weight:700; margin-bottom:15px; border-bottom:1px solid #f1f5f9; padding-bottom:8px;">Direct Action URL</h3>
-            <div class="input-group">
-                <label class="label">Apply Online / Download Link</label>
-                <input type="text" name="url" class="input" value="{{ post.url if post else '#' }}" placeholder="https://...">
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary" style="font-size:15px; padding:12px 28px;">
-            <i class="fa-solid fa-cloud-arrow-up"></i> {{ 'Update Post' if post else 'Publish Post' }}
-        </button>
-    </form>
-</div>
-
+        function generateSlug(text) {
+            const slug = text.toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/[\s-]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            document.getElementById('postSlug').value = slug;
+            document.getElementById('slugPreview').innerText = slug || 'post-slug';
+        }
+    </script>
 </body>
 </html>

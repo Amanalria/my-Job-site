@@ -1,85 +1,51 @@
 {
-  "site_name": "SARKARI RESULT OFFICIAL",
+  "site_name": "SARKARI RESULT",
   "domain": "yourdomain.com",
-  "tagline": "Sarkari Result \u2122 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
-  "top_banner_text": "Sarkari Result \u2122 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place.",
+  "tagline": "Sarkari Result ™ 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
+  "top_banner_text": "Sarkari Result ™ 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place.",
+  "seo": {
+    "google_analytics_id": "",
+    "google_site_verification": "",
+    "meta_description": "Get latest Sarkari Result, Sarkari Naukri, Online Application Forms, Admit Cards, Answer Keys, Syllabus, and Exam Results across all state and central govt exams in India.",
+    "meta_keywords": "sarkari result, sarkari naukri, latest jobs, admit card, answer key, syllabus, admission, recruitment 2026",
+    "custom_head_code": "",
+    "custom_footer_code": ""
+  },
+  "ads_txt": "google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0",
+  "robots_txt": "User-agent: *\nDisallow: /admin/\nDisallow: /admin\nDisallow: /alria\nDisallow: /api/\nAllow: /\n\nSitemap: https://yourdomain.com/sitemap.xml",
+  "categories": [
+    {"id": "cat_1", "name": "Latest Jobs", "slug": "latest-jobs", "desc": "All latest online application forms and recruitment notices."},
+    {"id": "cat_2", "name": "Admit Card", "slug": "admit-card", "desc": "Download Hall Tickets, Exam City Slips and Call Letters."},
+    {"id": "cat_3", "name": "Results", "slug": "result", "desc": "Check Written Exam Results, Cutoff Marks and Merit Lists."},
+    {"id": "cat_4", "name": "Answer Key", "slug": "answer-key", "desc": "Download Official Answer Keys, Question Papers & Objection Forms."},
+    {"id": "cat_5", "name": "Documents & Syllabus", "slug": "syllabus", "desc": "Exam Syllabus, Scheme of Examination, and Annual Calendars."},
+    {"id": "cat_6", "name": "Admission", "slug": "admission", "desc": "University and College Entrance Forms & Counselling Notices."},
+    {"id": "cat_7", "name": "Certificate Verification", "slug": "certificate-verification", "desc": "Voter ID, PAN Card, Aadhar Card, Caste & Income Certificate verification."},
+    {"id": "cat_8", "name": "Important", "slug": "important", "desc": "Scholarship forms, OTR registrations, and essential updates."}
+  ],
   "marquee_items": [
-    {
-      "text": "BPSC 72nd Combined Competitive Exam Online Form 2026",
-      "url": "/bpsc-72nd-pre-2026/"
-    },
-    {
-      "text": "SSC Combined Higher Secondary Level CHSL Online Form 2026",
-      "url": "/ssc-chsl-2026/"
-    },
-    {
-      "text": "Railway RRB Assistant Loco Pilot ALP Online Form 2026",
-      "url": "/railway-rrb-alp-2026/"
-    },
-    {
-      "text": "UPSC Civil Services IAS / IFS Pre Exam 2026 Online Form",
-      "url": "/upsc-civil-services-ias-ifs-2026/"
-    }
+    {"text": "BPSC 72nd Combined Competitive Exam Online Form 2026", "url": "/bpsc-72nd-pre-2026/"},
+    {"text": "SSC Combined Higher Secondary Level CHSL Online Form 2026", "url": "/ssc-chsl-2026/"},
+    {"text": "Railway RRB Assistant Loco Pilot ALP Online Form 2026", "url": "/railway-rrb-alp-2026/"},
+    {"text": "UPSC Civil Services IAS / IFS Pre Exam 2026 Online Form", "url": "/upsc-civil-services-ias-ifs-2026/"}
   ],
   "highlight_cards": [
-    {
-      "title": "BPSC 72nd Pre Form",
-      "url": "/bpsc-72nd-pre-2026/"
-    },
-    {
-      "title": "SSC CHSL Form",
-      "url": "/ssc-chsl-2026/"
-    },
-    {
-      "title": "Railway RRB ALP Form",
-      "url": "/railway-rrb-alp-2026/"
-    },
-    {
-      "title": "UPSC IAS/IFS Form",
-      "url": "/upsc-civil-services-ias-ifs-2026/"
-    },
-    {
-      "title": "UP Police OTR Form",
-      "url": "/up-police-upprpb-one-time-registration-otr-online-form-2025/"
-    },
-    {
-      "title": "NTA CSIR NET Form",
-      "url": "/nta-csir-ugc-net-june-2026/"
-    },
-    {
-      "title": "BPSC School Teacher TRE 4.0",
-      "url": "/bpsc-school-teacher-tre-4-0-2026/"
-    },
-    {
-      "title": "NTA NEET UG 2026",
-      "url": "/nta-neet-ug-2026/"
-    }
+    {"title": "BPSC 72nd Pre Form", "url": "/bpsc-72nd-pre-2026/"},
+    {"title": "SSC CHSL Form", "url": "/ssc-chsl-2026/"},
+    {"title": "Railway RRB ALP Form", "url": "/railway-rrb-alp-2026/"},
+    {"title": "UPSC IAS/IFS Form", "url": "/upsc-civil-services-ias-ifs-2026/"},
+    {"title": "UP Police OTR Form", "url": "/up-police-upprpb-one-time-registration-otr-online-form-2025/"},
+    {"title": "NTA CSIR NET Form", "url": "/nta-csir-ugc-net-june-2026/"},
+    {"title": "BPSC School Teacher TRE 4.0", "url": "/bpsc-school-teacher-tre-4-0-2026/"},
+    {"title": "NTA NEET UG 2026", "url": "/nta-neet-ug-2026/"}
   ],
   "grid_headers": {
-    "result": {
-      "title": "Result",
-      "more_url": "/result/"
-    },
-    "admit-card": {
-      "title": "Admit Card",
-      "more_url": "/admit-card/"
-    },
-    "latest-jobs": {
-      "title": "Latest Jobs",
-      "more_url": "/latest-jobs/"
-    },
-    "answer-key": {
-      "title": "Answer Key",
-      "more_url": "/answer-key/"
-    },
-    "syllabus": {
-      "title": "Syllabus",
-      "more_url": "/syllabus/"
-    },
-    "admission": {
-      "title": "Admission",
-      "more_url": "/admission/"
-    }
+    "result": {"title": "Result", "more_url": "/result/"},
+    "admit-card": {"title": "Admit Card", "more_url": "/admit-card/"},
+    "latest-jobs": {"title": "Latest Jobs", "more_url": "/latest-jobs/"},
+    "answer-key": {"title": "Answer Key", "more_url": "/answer-key/"},
+    "syllabus": {"title": "Syllabus", "more_url": "/syllabus/"},
+    "admission": {"title": "Admission", "more_url": "/admission/"}
   },
   "info_sections": [
     {
@@ -105,7 +71,7 @@
       "a": "No, all recruitment updates, syllabus downloads, and candidate tools are 100% free for all aspirants."
     }
   ],
-  "footer_text": "Copyright \u00a9 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
+  "footer_text": "Copyright © 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
   "adsense": {
     "enabled": false,
     "client_id": ""

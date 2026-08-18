@@ -2,109 +2,126 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manage Posts – {{ settings.site_name }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>All Posts - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #f8fafc; color: #1e293b; display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: #0f172a; color: #fff; padding: 20px; display: flex; flex-direction: column; }
-        .sidebar-brand { font-size: 18px; font-weight: 800; color: #ef4444; margin-bottom: 30px; display: flex; align-items: center; gap: 8px; }
-        .nav-item { display: flex; align-items: center; gap: 12px; color: #cbd5e1; text-decoration: none; padding: 12px 16px; border-radius: 6px; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
-        .nav-item:hover, .nav-item.active { background: #1e293b; color: #fff; }
-        .nav-item i { width: 20px; }
-        .main { flex: 1; padding: 30px; overflow-y: auto; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .btn { padding: 8px 16px; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background: #f1f5f9; color: #1e293b; display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 250px; background: #0f172a; color: #fff; padding: 20px 0; flex-shrink: 0; }
+        .sidebar-brand { padding: 0 20px 20px; font-size: 18px; font-weight: 800; color: #ef4444; border-bottom: 1px solid #334155; }
+        .sidebar-menu { list-style: none; margin-top: 15px; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: #1e293b; color: #fff; border-left: 4px solid #ef4444; }
+
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .page-title { font-size: 24px; font-weight: 800; color: #0f172a; }
+
+        .card { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+        
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; }
         .btn-primary { background: #ef4444; color: #fff; }
-        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; }
+        .btn-primary:hover { background: #dc2626; }
+        .btn-outline { background: #fff; border: 1px solid #cbd5e1; color: #334155; }
+        .btn-sm { padding: 5px 10px; font-size: 12px; }
+        .btn-danger { background: #fee2e2; color: #dc2626; }
+
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { text-align: left; padding: 10px; border-bottom: 2px solid #e2e8f0; font-size: 13px; color: #64748b; }
-        td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; font-size: 13px; vertical-align: middle; }
-        .badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
-        .badge-active { background: #dcfce7; color: #166534; }
-        .badge-soon { background: #ffedd5; color: #c2410c; }
-        .badge-expired { background: #fee2e2; color: #991b1b; }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+        th { background: #f8fafc; font-weight: 700; color: #475569; }
+        
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .badge-cat { background: #e0f2fe; color: #0369a1; }
+        .badge-soon { background: #fee2e2; color: #b91c1c; }
+        .badge-active { background: #dcfce7; color: #15803d; }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <div class="sidebar-brand">
-        <i class="fa-solid fa-shield-halved"></i> {{ settings.site_name }}
-    </div>
-    <a href="/admin/dashboard" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-    <a href="/admin/posts" class="nav-item active"><i class="fa-solid fa-file-lines"></i> All Posts</a>
-    <a href="/admin/posts/new" class="nav-item"><i class="fa-solid fa-plus"></i> Add New Post</a>
-    <a href="/admin/settings" class="nav-item"><i class="fa-solid fa-sliders"></i> Portal Settings</a>
-    <a href="/alria" class="nav-item" style="color:#ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual Live Editor</a>
-</div>
-
-<div class="main">
-    <div class="top-bar">
-        <div>
-            <h1 style="font-size:24px; font-weight:800;">All Job &amp; Exam Notifications</h1>
-            <p style="font-size:13px; color:#64748b; margin-top:2px;">Manage live and archived posts across all 6 columns</p>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            ⚡ {{ settings.site_name }}
         </div>
-        <a href="/admin/posts/new" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add New Post</a>
+        <ul class="sidebar-menu">
+            <li><a href="/admin/dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+            <li><a href="/admin/posts" class="active"><i class="fa-solid fa-file-lines"></i> All Posts</a></li>
+            <li><a href="/admin/posts/new"><i class="fa-solid fa-plus"></i> Add New Post</a></li>
+            <li><a href="/admin/categories"><i class="fa-solid fa-folder-tree"></i> Categories</a></li>
+            <li><a href="/admin/settings"><i class="fa-solid fa-sliders"></i> SEO &amp; Settings</a></li>
+            <li><a href="/alria"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual /alria Editor</a></li>
+            <li><a href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Website</a></li>
+        </ul>
     </div>
 
-    <div class="card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Last Date</th>
-                    <th>Flags</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for post in posts %}
-                <tr>
-                    <td style="font-weight:600; max-width:320px;">
-                        <a href="/post/{{ post.slug }}/" target="_blank" style="color:#0f172a; text-decoration:none;">{{ post.title }}</a>
-                    </td>
-                    <td><span style="background:#e2e8f0; padding:2px 8px; border-radius:3px; font-size:11px; font-weight:700;">{{ post.category }}</span></td>
-                    <td>{{ post.application_last_date or '—' }}</td>
-                    <td>
-                        {% if post.is_pinned %}<span style="background:#fef08a; color:#854d0e; padding:2px 6px; border-radius:3px; font-size:10px; font-weight:800; margin-right:4px;">PINNED</span>{% endif %}
-                        {% if post.is_date_extended %}<span style="background:#bbf7d0; color:#166534; padding:2px 6px; border-radius:3px; font-size:10px; font-weight:800;">EXTENDED</span>{% endif %}
-                    </td>
-                    <td>
-                        {% if post.is_expired %}
-                        <span class="badge badge-expired">Expired (&gt; 2 Days)</span>
-                        {% elif post.is_soon %}
-                        <span class="badge badge-soon">Last Date Soon</span>
-                        {% else %}
-                        <span class="badge badge-active">Active</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="/admin/posts/edit/{{ post.id }}" style="color:#2563eb; font-weight:700; margin-right:12px; text-decoration:none;">Edit</a>
-                        <button onclick="deletePost('{{ post.id }}')" style="color:#dc2626; background:none; border:none; font-weight:700; cursor:pointer;">Delete</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-nav">
+            <div>
+                <h1 class="page-title">Manage Posts</h1>
+                <p style="font-size:13px; color:#64748b; margin-top:3px;">Total {{ posts|length }} notifications published across all sections.</p>
+            </div>
+            <div>
+                <a href="/admin/posts/new" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add New Post (WP Editor)</a>
+            </div>
+        </div>
 
-<script>
-    async function deletePost(id) {
-        if(!confirm('Are you sure you want to delete this post?')) return;
-        const res = await fetch(`/api/admin/posts/delete/${id}`, { method: 'POST' });
-        if(res.ok) {
-            alert('Post deleted successfully!');
-            location.reload();
-        } else {
-            alert('Error deleting post');
+        <div class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Post Title</th>
+                        <th>Category</th>
+                        <th>Last Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in posts %}
+                    <tr>
+                        <td>
+                            <strong><a href="/{{ p.slug }}/" target="_blank" style="color:#1e293b; text-decoration:none;">{{ p.title }}</a></strong>
+                            <div style="font-size:12px; color:#64748b; margin-top:2px;">Permalink: <code>/{{ p.slug }}/</code></div>
+                        </td>
+                        <td>
+                            <span class="badge badge-cat">{{ p.category }}</span>
+                        </td>
+                        <td>{{ p.application_last_date if p.application_last_date else 'N/A' }}</td>
+                        <td>
+                            {% if p.is_soon %}
+                            <span class="badge badge-soon">Last Date Soon</span>
+                            {% else %}
+                            <span class="badge badge-active">Active</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div style="display:flex; gap:6px;">
+                                <a href="/admin/posts/edit/{{ p.id or p.slug }}" class="btn btn-outline btn-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                                <button onclick="deletePost('{{ p.id or p.slug }}')" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function deletePost(postId) {
+            if(!confirm('Are you sure you want to delete this post?')) return;
+            const res = await fetch(`/api/admin/posts/delete/${postId}`, { method: 'POST' });
+            if(res.ok) {
+                location.reload();
+            } else {
+                alert('Error deleting post');
+            }
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>
