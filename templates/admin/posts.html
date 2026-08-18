@@ -4,77 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>All Posts - Admin Panel</title>
+    <title>Posts ‹ {{ settings.site_name }} — WordPress Classic</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dashicons/0.9.0/css/dashicons.min.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background: #f1f5f9; color: #1e293b; display: flex; min-height: 100vh; }
-        
-        .sidebar { width: 250px; background: #0f172a; color: #fff; padding: 20px 0; flex-shrink: 0; }
-        .sidebar-brand { padding: 0 20px 20px; font-size: 18px; font-weight: 800; color: #ef4444; border-bottom: 1px solid #334155; }
-        .sidebar-menu { list-style: none; margin-top: 15px; }
-        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; }
-        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: #1e293b; color: #fff; border-left: 4px solid #ef4444; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #f0f0f1; color: #3c434a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 13px; line-height: 1.4em; min-height: 100vh; display: flex; }
 
-        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
-        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .page-title { font-size: 24px; font-weight: 800; color: #0f172a; }
+        .wp-sidebar { width: 160px; background: #1d2327; color: #fff; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 999; transition: transform 0.3s ease; }
+        .wp-brand { padding: 12px 16px; font-size: 14px; font-weight: 700; color: #fff; background: #2271b1; display: flex; align-items: center; gap: 8px; }
+        .wp-menu { list-style: none; margin: 10px 0; }
+        .wp-menu li a { display: flex; align-items: center; gap: 8px; padding: 8px 14px; color: #c3c4c7; text-decoration: none; font-size: 13px; transition: 0.1s; }
+        .wp-menu li a:hover, .wp-menu li a.active { background: #2271b1; color: #fff; }
+        .wp-menu-separator { height: 1px; background: #3c434a; margin: 8px 0; }
 
-        .card { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
-        
-        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; }
-        .btn-primary { background: #ef4444; color: #fff; }
-        .btn-primary:hover { background: #dc2626; }
-        .btn-outline { background: #fff; border: 1px solid #cbd5e1; color: #334155; }
-        .btn-sm { padding: 5px 10px; font-size: 12px; }
-        .btn-danger { background: #fee2e2; color: #dc2626; }
+        .wp-mobile-bar { display: none; background: #1d2327; color: #fff; padding: 10px 16px; width: 100%; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; z-index: 1000; height: 50px; }
+        .wp-hamburger { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+        .wp-sidebar-backdrop { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 998; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
-        th { background: #f8fafc; font-weight: 700; color: #475569; }
+        .wp-main { flex: 1; padding: 25px 30px; overflow-y: auto; }
+        .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .wp-heading-inline { font-size: 23px; font-weight: 400; line-height: 1.3; color: #1d2327; }
+
+        .page-title-action { display: inline-flex; align-items: center; gap: 6px; background: #f6f7f7; border: 1px solid #2271b1; color: #2271b1; padding: 4px 10px; border-radius: 3px; font-size: 13px; font-weight: 600; text-decoration: none; }
+        .page-title-action:hover { background: #2271b1; color: #fff; }
+
+        /* Table Card */
+        .wp-table-card { background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,0.04); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table.wp-list-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        table.wp-list-table th, table.wp-list-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #c3c4c7; font-size: 13px; }
+        table.wp-list-table th { background: #fafafa; font-weight: 600; color: #2c3338; }
         
-        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
-        .badge-cat { background: #e0f2fe; color: #0369a1; }
-        .badge-soon { background: #fee2e2; color: #b91c1c; }
+        .row-title { font-weight: 600; color: #2271b1; text-decoration: none; font-size: 14px; }
+        .row-title:hover { color: #135e96; }
+        .row-actions { font-size: 12px; color: #64748b; margin-top: 4px; display: flex; gap: 8px; }
+        .row-actions a { color: #2271b1; text-decoration: none; }
+        .row-actions a.trash { color: #b32d2e; }
+
+        .badge-status { font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; }
         .badge-active { background: #dcfce7; color: #15803d; }
+        .badge-soon { background: #fee2e2; color: #b91c1c; }
+
+        @media (max-width: 768px) {
+            body { display: block; padding-top: 50px; }
+            .wp-mobile-bar { display: flex; }
+            .wp-sidebar { position: fixed; top: 0; left: 0; height: 100vh; transform: translateX(-100%); width: 220px; }
+            .wp-sidebar.open { transform: translateX(0); }
+            .wp-sidebar-backdrop.open { display: block; }
+            .wp-main { padding: 15px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-brand">
-            ⚡ {{ settings.site_name }}
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="/admin/dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-            <li><a href="/admin/posts" class="active"><i class="fa-solid fa-file-lines"></i> All Posts</a></li>
-            <li><a href="/admin/posts/new"><i class="fa-solid fa-plus"></i> Add New Post</a></li>
-            <li><a href="/admin/categories"><i class="fa-solid fa-folder-tree"></i> Categories</a></li>
-            <li><a href="/admin/settings"><i class="fa-solid fa-sliders"></i> SEO &amp; Settings</a></li>
-            <li><a href="/alria"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual /alria Editor</a></li>
-            <li><a href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Website</a></li>
+    <div class="wp-mobile-bar">
+        <button class="wp-hamburger" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+        <span style="font-weight:700; font-size:14px;">⚡ {{ settings.site_name }} Posts</span>
+        <a href="/admin/posts/new" style="color:#fff; text-decoration:none;"><i class="fa-solid fa-plus"></i></a>
+    </div>
+    <div class="wp-sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+    <div class="wp-sidebar" id="wpSidebar">
+        <div class="wp-brand"><i class="fa-brands fa-wordpress"></i> {{ settings.site_name }}</div>
+        <ul class="wp-menu">
+            <li><a href="/admin/dashboard"><i class="dashicons dashicons-dashboard"></i> Dashboard</a></li>
+            <li class="wp-menu-separator"></li>
+            <li><a href="/admin/posts" class="active"><i class="dashicons dashicons-admin-post"></i> All Posts</a></li>
+            <li><a href="/admin/posts/new"><i class="dashicons dashicons-plus-alt"></i> Add New</a></li>
+            <li><a href="/admin/categories"><i class="dashicons dashicons-category"></i> Categories</a></li>
+            <li class="wp-menu-separator"></li>
+            <li><a href="/admin/settings"><i class="dashicons dashicons-admin-settings"></i> SEO &amp; Settings</a></li>
+            <li><a href="/alria"><i class="dashicons dashicons-edit"></i> Visual /alria</a></li>
+            <li><a href="/ads.txt" target="_blank"><i class="dashicons dashicons-media-text"></i> ads.txt</a></li>
+            <li><a href="/sitemap.xml" target="_blank"><i class="dashicons dashicons-networking"></i> sitemap.xml</a></li>
+            <li class="wp-menu-separator"></li>
+            <li><a href="/" target="_blank"><i class="dashicons dashicons-admin-site"></i> Visit Site</a></li>
         </ul>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="top-nav">
+    <div class="wp-main">
+        <div class="top-row">
             <div>
-                <h1 class="page-title">Manage Posts</h1>
-                <p style="font-size:13px; color:#64748b; margin-top:3px;">Total {{ posts|length }} notifications published across all sections.</p>
+                <h1 class="wp-heading-inline">Posts</h1>
+                <a href="/admin/posts/new" class="page-title-action">Add New Post</a>
             </div>
-            <div>
-                <a href="/admin/posts/new" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add New Post (WP Editor)</a>
+            <div style="font-size:13px; color:#64748b;">
+                All ({{ posts|length }}) | Published ({{ posts|length }})
             </div>
         </div>
 
-        <div class="card">
-            <table>
+        <div class="wp-table-card">
+            <table class="wp-list-table">
                 <thead>
                     <tr>
-                        <th>Post Title</th>
+                        <th style="width:50%;">Title</th>
                         <th>Category</th>
                         <th>Last Date</th>
                         <th>Status</th>
@@ -85,25 +108,24 @@
                     {% for p in posts %}
                     <tr>
                         <td>
-                            <strong><a href="/{{ p.slug }}/" target="_blank" style="color:#1e293b; text-decoration:none;">{{ p.title }}</a></strong>
-                            <div style="font-size:12px; color:#64748b; margin-top:2px;">Permalink: <code>/{{ p.slug }}/</code></div>
+                            <a href="/{{ p.slug }}/" target="_blank" class="row-title">{{ p.title }}</a>
+                            <div class="row-actions">
+                                <a href="/admin/posts/edit/{{ p.id or p.slug }}">Edit (WP Editor)</a> |
+                                <a href="/{{ p.slug }}/" target="_blank">View</a> |
+                                <a href="javascript:void(0)" onclick="deletePost('{{ p.id or p.slug }}')" class="trash">Trash</a>
+                            </div>
                         </td>
-                        <td>
-                            <span class="badge badge-cat">{{ p.category }}</span>
-                        </td>
+                        <td><strong>{{ p.category }}</strong></td>
                         <td>{{ p.application_last_date if p.application_last_date else 'N/A' }}</td>
                         <td>
                             {% if p.is_soon %}
-                            <span class="badge badge-soon">Last Date Soon</span>
+                            <span class="badge-status badge-soon">Last Date Soon</span>
                             {% else %}
-                            <span class="badge badge-active">Active</span>
+                            <span class="badge-status badge-active">Published</span>
                             {% endif %}
                         </td>
                         <td>
-                            <div style="display:flex; gap:6px;">
-                                <a href="/admin/posts/edit/{{ p.id or p.slug }}" class="btn btn-outline btn-sm"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                                <button onclick="deletePost('{{ p.id or p.slug }}')" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
-                            </div>
+                            <a href="/admin/posts/edit/{{ p.id or p.slug }}" style="color:#2271b1; text-decoration:none; font-weight:600;"><i class="fa-solid fa-pen"></i> Edit</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -113,14 +135,16 @@
     </div>
 
     <script>
+        function toggleSidebar() {
+            document.getElementById('wpSidebar').classList.toggle('open');
+            document.getElementById('sidebarBackdrop').classList.toggle('open');
+        }
+
         async function deletePost(postId) {
             if(!confirm('Are you sure you want to delete this post?')) return;
             const res = await fetch(`/api/admin/posts/delete/${postId}`, { method: 'POST' });
-            if(res.ok) {
-                location.reload();
-            } else {
-                alert('Error deleting post');
-            }
+            if(res.ok) { location.reload(); }
+            else { alert('Error deleting post'); }
         }
     </script>
 </body>

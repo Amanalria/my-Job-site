@@ -4,163 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>SEO &amp; Site Settings - Admin Panel</title>
+    <title>SEO &amp; Settings ‹ {{ settings.site_name }} — WordPress Classic</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dashicons/0.9.0/css/dashicons.min.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background: #f1f5f9; color: #1e293b; display: flex; min-height: 100vh; }
-        
-        .sidebar { width: 250px; background: #0f172a; color: #fff; padding: 20px 0; flex-shrink: 0; }
-        .sidebar-brand { padding: 0 20px 20px; font-size: 18px; font-weight: 800; color: #ef4444; border-bottom: 1px solid #334155; }
-        .sidebar-menu { list-style: none; margin-top: 15px; }
-        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; }
-        .sidebar-menu li a:hover, .sidebar-menu li a.active { background: #1e293b; color: #fff; border-left: 4px solid #ef4444; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #f0f0f1; color: #3c434a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 13px; line-height: 1.4em; min-height: 100vh; display: flex; }
 
-        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
-        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .page-title { font-size: 24px; font-weight: 800; color: #0f172a; }
+        .wp-sidebar { width: 160px; background: #1d2327; color: #fff; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 999; transition: transform 0.3s ease; }
+        .wp-brand { padding: 12px 16px; font-size: 14px; font-weight: 700; color: #fff; background: #2271b1; display: flex; align-items: center; gap: 8px; }
+        .wp-menu { list-style: none; margin: 10px 0; }
+        .wp-menu li a { display: flex; align-items: center; gap: 8px; padding: 8px 14px; color: #c3c4c7; text-decoration: none; font-size: 13px; transition: 0.1s; }
+        .wp-menu li a:hover, .wp-menu li a.active { background: #2271b1; color: #fff; }
+        .wp-menu-separator { height: 1px; background: #3c434a; margin: 8px 0; }
 
-        .card { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; margin-bottom: 24px; }
-        .card-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 16px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .wp-mobile-bar { display: none; background: #1d2327; color: #fff; padding: 10px 16px; width: 100%; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; z-index: 1000; height: 50px; }
+        .wp-hamburger { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+        .wp-sidebar-backdrop { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 998; }
 
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
-        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; transition: 0.2s; }
-        .form-control:focus { border-color: #ef4444; }
-        .form-help { font-size: 12px; color: #64748b; margin-top: 4px; }
+        .wp-main { flex: 1; padding: 25px 30px; overflow-y: auto; }
+        .wp-heading-inline { font-size: 23px; font-weight: 400; line-height: 1.3; color: #1d2327; margin-bottom: 20px; }
 
-        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; }
-        .btn-primary { background: #ef4444; color: #fff; }
-        .btn-primary:hover { background: #dc2626; }
+        .settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; }
+        .postbox { background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,0.04); padding: 18px; margin-bottom: 20px; }
+        .postbox h2 { font-size: 14px; font-weight: 600; color: #1d2327; margin-bottom: 15px; border-bottom: 1px solid #f0f0f1; padding-bottom: 6px; }
+
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 13px; }
+        .wp-input { width: 100%; padding: 6px 8px; border: 1px solid #8c8f94; border-radius: 3px; font-size: 13px; }
+        .wp-input:focus { border-color: #2271b1; outline: none; }
+        .form-help { font-size: 11px; color: #64748b; margin-top: 3px; }
+
+        .button-primary { background: #2271b1; border: 1px solid #2271b1; color: #fff; font-size: 13px; font-weight: 600; padding: 8px 24px; border-radius: 3px; cursor: pointer; }
+        .button-primary:hover { background: #135e96; }
+
+        @media (max-width: 768px) {
+            body { display: block; padding-top: 50px; }
+            .wp-mobile-bar { display: flex; }
+            .wp-sidebar { position: fixed; top: 0; left: 0; height: 100vh; transform: translateX(-100%); width: 220px; }
+            .wp-sidebar.open { transform: translateX(0); }
+            .wp-sidebar-backdrop.open { display: block; }
+            .wp-main { padding: 15px; }
+            .settings-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-brand">
-            ⚡ {{ settings.site_name }}
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="/admin/dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-            <li><a href="/admin/posts"><i class="fa-solid fa-file-lines"></i> All Posts</a></li>
-            <li><a href="/admin/posts/new"><i class="fa-solid fa-plus"></i> Add New Post</a></li>
-            <li><a href="/admin/categories"><i class="fa-solid fa-folder-tree"></i> Categories</a></li>
-            <li><a href="/admin/settings" class="active"><i class="fa-solid fa-sliders"></i> SEO &amp; Settings</a></li>
-            <li><a href="/alria"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual /alria Editor</a></li>
-            <li><a href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Website</a></li>
+    <div class="wp-mobile-bar">
+        <button class="wp-hamburger" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+        <span style="font-weight:700; font-size:14px;">⚡ SEO &amp; Settings</span>
+        <a href="/" target="_blank" style="color:#fff; text-decoration:none;"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    </div>
+    <div class="wp-sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+    <div class="wp-sidebar" id="wpSidebar">
+        <div class="wp-brand"><i class="fa-brands fa-wordpress"></i> {{ settings.site_name }}</div>
+        <ul class="wp-menu">
+            <li><a href="/admin/dashboard"><i class="dashicons dashicons-dashboard"></i> Dashboard</a></li>
+            <li class="wp-menu-separator"></li>
+            <li><a href="/admin/posts"><i class="dashicons dashicons-admin-post"></i> All Posts</a></li>
+            <li><a href="/admin/posts/new"><i class="dashicons dashicons-plus-alt"></i> Add New</a></li>
+            <li><a href="/admin/categories"><i class="dashicons dashicons-category"></i> Categories</a></li>
+            <li class="wp-menu-separator"></li>
+            <li><a href="/admin/settings" class="active"><i class="dashicons dashicons-admin-settings"></i> SEO &amp; Settings</a></li>
+            <li><a href="/alria"><i class="dashicons dashicons-edit"></i> Visual /alria</a></li>
+            <li><a href="/ads.txt" target="_blank"><i class="dashicons dashicons-media-text"></i> ads.txt</a></li>
+            <li><a href="/sitemap.xml" target="_blank"><i class="dashicons dashicons-networking"></i> sitemap.xml</a></li>
+            <li class="wp-menu-separator"></li>
+            <li><a href="/" target="_blank"><i class="dashicons dashicons-admin-site"></i> Visit Site</a></li>
         </ul>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="top-nav">
-            <div>
-                <h1 class="page-title">SEO &amp; Integrations Settings</h1>
-                <p style="font-size:13px; color:#64748b; margin-top:3px;">Manage Google Analytics, Search Console, ads.txt, robots.txt crawler rules, and AdSense.</p>
-            </div>
-            <div>
-                <button onclick="document.getElementById('settingsForm').submit()" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save All Settings</button>
-            </div>
-        </div>
+    <div class="wp-main">
+        <h1 class="wp-heading-inline">SEO &amp; Webmaster Settings</h1>
 
-        <form action="/api/admin/save-settings" method="POST" id="settingsForm">
-
-            <!-- 1. Google Search Console & Analytics -->
-            <div class="card">
-                <h2 class="card-title"><i class="fa-brands fa-google" style="color:#ea4335;"></i> Google Analytics &amp; Webmaster Verification</h2>
-                <div class="form-row">
+        <form action="/api/admin/save-settings" method="POST">
+            <div class="settings-grid">
+                <!-- 1. General & SEO -->
+                <div class="postbox">
+                    <h2>Site Identity &amp; SEO</h2>
                     <div class="form-group">
-                        <label>Google Analytics Measurement ID (GA4)</label>
-                        <input type="text" name="google_analytics_id" class="form-control" placeholder="G-XXXXXXXXXX" value="{{ settings.seo.google_analytics_id if settings.seo else '' }}">
-                        <p class="form-help">Automatically injects the official Google gtag.js tracker on all public pages.</p>
+                        <label>Site Name</label>
+                        <input type="text" name="site_name" class="wp-input" value="{{ settings.site_name }}" required>
                     </div>
                     <div class="form-group">
-                        <label>Google Search Console Verification Meta Tag</label>
-                        <input type="text" name="google_site_verification" class="form-control" placeholder='<meta name="google-site-verification" content="..." />' value="{{ settings.seo.google_site_verification if settings.seo else '' }}">
-                        <p class="form-help">Paste your HTML meta verification tag for Google Search Console.</p>
+                        <label>Custom Domain</label>
+                        <input type="text" name="domain" class="wp-input" value="{{ settings.domain }}" required>
+                        <p class="form-help">e.g. sarkariresult.com.cm or your own domain.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Tagline / Header Subtitle</label>
+                        <input type="text" name="tagline" class="wp-input" value="{{ settings.tagline }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Global Meta Description</label>
+                        <textarea name="meta_description" class="wp-input" rows="3">{{ settings.meta_description }}</textarea>
+                    </div>
+                </div>
+
+                <!-- 2. Google Analytics & Webmaster Verification -->
+                <div class="postbox">
+                    <h2>Google &amp; Webmaster Tools</h2>
+                    <div class="form-group">
+                        <label>Google Analytics 4 (Measurement ID)</label>
+                        <input type="text" name="google_analytics_id" class="wp-input" placeholder="G-XXXXXXXXXX" value="{{ settings.google_analytics_id }}">
+                        <p class="form-help">Leave empty if not ready.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Google Search Console Verification Token</label>
+                        <input type="text" name="google_site_verification" class="wp-input" placeholder="google-site-verification token" value="{{ settings.google_site_verification }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Google AdSense Publisher ID</label>
+                        <input type="text" name="adsense_client" class="wp-input" placeholder="ca-pub-XXXXXXXXXXXXXXXX" value="{{ settings.adsense.client_id if settings.adsense else '' }}">
+                    </div>
+                </div>
+
+                <!-- 3. ads.txt & robots.txt -->
+                <div class="postbox">
+                    <h2>ads.txt Manager</h2>
+                    <div class="form-group">
+                        <label>Custom ads.txt Content</label>
+                        <textarea name="ads_txt" class="wp-input" rows="5" placeholder="google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0">{{ settings.ads_txt }}</textarea>
+                        <p class="form-help">Served directly at <code>/ads.txt</code></p>
+                    </div>
+                </div>
+
+                <div class="postbox">
+                    <h2>robots.txt Rules</h2>
+                    <div class="form-group">
+                        <label>Custom robots.txt Content</label>
+                        <textarea name="robots_txt" class="wp-input" rows="5">{{ settings.robots_txt }}</textarea>
+                        <p class="form-help">Served dynamically with auto Sitemap link.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. Global SEO Meta Tags -->
-            <div class="card">
-                <h2 class="card-title"><i class="fa-solid fa-magnifying-glass" style="color:#3b82f6;"></i> Global Search Engine Meta Tags</h2>
-                <div class="form-group">
-                    <label>Global Meta Description</label>
-                    <textarea name="meta_description" class="form-control" rows="2">{{ settings.seo.meta_description if settings.seo else '' }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Global Meta Keywords (Comma Separated)</label>
-                    <input type="text" name="meta_keywords" class="form-control" value="{{ settings.seo.meta_keywords if settings.seo else '' }}">
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Custom Header Code (&lt;head&gt;)</label>
-                        <textarea name="custom_head_code" class="form-control" rows="3" placeholder="Additional schema, verification scripts, etc.">{{ settings.seo.custom_head_code if settings.seo else '' }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Custom Footer Code (&lt;/body&gt;)</label>
-                        <textarea name="custom_footer_code" class="form-control" rows="3" placeholder="Analytics, pixels, or chat widgets">{{ settings.seo.custom_footer_code if settings.seo else '' }}</textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. ads.txt & robots.txt Editors -->
-            <div class="card">
-                <h2 class="card-title"><i class="fa-solid fa-file-code" style="color:#10b981;"></i> ads.txt &amp; robots.txt Direct Editors</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label><strong>ads.txt</strong> File Content (<a href="/ads.txt" target="_blank">View /ads.txt</a>)</label>
-                        <textarea name="ads_txt" class="form-control" rows="5" style="font-family:monospace; font-size:13px;">{{ settings.ads_txt if settings.ads_txt else 'google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0' }}</textarea>
-                        <p class="form-help">AdSense authorization record for advertisers.</p>
-                    </div>
-                    <div class="form-group">
-                        <label><strong>robots.txt</strong> Crawler Rules (<a href="/robots.txt" target="_blank">View /robots.txt</a>)</label>
-                        <textarea name="robots_txt" class="form-control" rows="5" style="font-family:monospace; font-size:13px;">{{ settings.robots_txt if settings.robots_txt else 'User-agent: *\nDisallow: /admin/\nDisallow: /admin\nDisallow: /alria\nDisallow: /api/\nAllow: /\n\nSitemap: https://yourdomain.com/sitemap.xml' }}</textarea>
-                        <p class="form-help">🔒 <code>/admin/</code> and <code>/alria</code> are strictly disallowed from crawlers and bots.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. Google AdSense & Monetization -->
-            <div class="card">
-                <h2 class="card-title"><i class="fa-solid fa-rectangle-ad" style="color:#f59e0b;"></i> Google AdSense Settings</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>AdSense Publisher Client ID</label>
-                        <input type="text" name="adsense_id" class="form-control" placeholder="ca-pub-1234567890123456" value="{{ settings.adsense.client_id if settings.adsense else '' }}">
-                    </div>
-                    <div class="form-group" style="display:flex; align-items:center; margin-top:28px;">
-                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-                            <input type="checkbox" name="adsense_enabled" {% if settings.adsense and settings.adsense.enabled %}checked{% endif %}>
-                            <span>Enable Google AdSense Auto-Ads on all pages</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. Supabase Database Sync -->
-            <div class="card">
-                <h2 class="card-title"><i class="fa-solid fa-database" style="color:#06b6d4;"></i> Supabase Cloud Database</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Supabase Project URL</label>
-                        <input type="text" name="supabase_url" class="form-control" placeholder="https://xyzcompany.supabase.co" value="{{ settings.supabase.url if settings.supabase else '' }}">
-                    </div>
-                    <div class="form-group">
-                        <label>Supabase Anon Public API Key</label>
-                        <input type="password" name="supabase_key" class="form-control" value="{{ settings.supabase.key if settings.supabase else '' }}">
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align:right;">
-                <button type="submit" class="btn btn-primary" style="padding:12px 28px; font-size:15px;"><i class="fa-solid fa-floppy-disk"></i> Save All Settings</button>
+            <div style="margin-top:20px;">
+                <button type="submit" class="button-primary">Save Changes</button>
             </div>
         </form>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('wpSidebar').classList.toggle('open');
+            document.getElementById('sidebarBackdrop').classList.toggle('open');
+        }
+    </script>
 </body>
 </html>
