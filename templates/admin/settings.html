@@ -40,6 +40,12 @@
 
         .button-primary { background: #2271b1; border: 1px solid #2271b1; color: #fff; font-size: 13px; font-weight: 600; padding: 8px 24px; border-radius: 3px; cursor: pointer; }
         .button-primary:hover { background: #135e96; }
+        .button-secondary { background: #f6f7f7; border: 1px solid #dcdcde; color: #2c3338; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 3px; cursor: pointer; }
+        .button-danger { background: #b32d2e; border: 1px solid #b32d2e; color: #fff; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 3px; cursor: pointer; }
+
+        .badge-conn { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+        .badge-online { background: #dcfce7; color: #15803d; }
+        .badge-offline { background: #f1f5f9; color: #64748b; }
 
         @media (max-width: 768px) {
             body { display: block; padding-top: 50px; }
@@ -80,7 +86,7 @@
     </div>
 
     <div class="wp-main">
-        <h1 class="wp-heading-inline">SEO, Webmaster &amp; Theme Settings</h1>
+        <h1 class="wp-heading-inline">SEO, Webmaster &amp; Cloud Database Settings</h1>
 
         <form action="/api/admin/save-settings" method="POST">
             <div class="settings-grid">
@@ -94,7 +100,7 @@
                     <div class="form-group">
                         <label>Custom Domain</label>
                         <input type="text" name="domain" class="wp-input" value="{{ settings.domain }}" required>
-                        <p class="form-help">e.g. sarkariresult.com.cm or your own domain.</p>
+                        <p class="form-help">e.g. sarkariresult.com.cm or your own custom domain.</p>
                     </div>
                     <div class="form-group">
                         <label>Tagline / Header Subtitle</label>
@@ -106,7 +112,37 @@
                     </div>
                 </div>
 
-                <!-- 2. Homepage Theme & Section Colors -->
+                <!-- 2. Supabase PostgreSQL Cloud Database -->
+                <div class="postbox" style="border-left: 4px solid #3ecf8e;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f0f0f1; padding-bottom:6px; margin-bottom:12px;">
+                        <h2 style="border:none; margin:0; padding:0;">⚡ Supabase Cloud Database</h2>
+                        <span id="supaStatusBadge" class="badge-conn badge-offline">⚪ Checking...</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Supabase Project URL</label>
+                        <input type="text" name="supabase_url" id="supaUrl" class="wp-input" placeholder="https://your-project.supabase.co" value="{{ settings.supabase.url if settings.supabase else '' }}">
+                        <p class="form-help">From your Supabase Project Settings -> API -> Project URL</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Supabase Anon / Service Key</label>
+                        <input type="password" name="supabase_key" id="supaKey" class="wp-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." value="{{ settings.supabase.key if settings.supabase else '' }}">
+                        <p class="form-help">From your Supabase Project Settings -> API -> Project API Keys (anon / public / service_role)</p>
+                    </div>
+                    
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+                        <button type="button" class="button-secondary" onclick="testSupabase()"><i class="fa-solid fa-plug"></i> Test Connection</button>
+                        <button type="button" class="button-secondary" onclick="syncLocalToSupabase()"><i class="fa-solid fa-cloud-arrow-up"></i> Sync All to Supabase</button>
+                        <button type="button" class="button-danger" onclick="wipeTemporaryPosts()"><i class="fa-solid fa-trash-can"></i> Wipe Temporary Posts</button>
+                    </div>
+
+                    <div style="margin-top:14px; background:#f8fafc; border:1px solid #e2e8f0; padding:10px; border-radius:4px;">
+                        <span style="font-size:12px; font-weight:700; color:#0f172a;">📋 Database Setup:</span>
+                        <p style="font-size:11px; color:#64748b; margin-top:2px;">Run the SQL schema in your Supabase SQL Editor to create tables.</p>
+                        <button type="button" class="button-secondary" style="font-size:11px; padding:3px 8px; margin-top:4px;" onclick="copySqlSchema()"><i class="fa-regular fa-copy"></i> Copy SQL Schema Code</button>
+                    </div>
+                </div>
+
+                <!-- 3. Homepage Theme & Section Colors -->
                 <div class="postbox">
                     <h2>🎨 Master Homepage Theme &amp; Section Colors</h2>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
@@ -136,17 +172,16 @@
                         </div>
                     </div>
                     <div style="margin-top:10px; border-top:1px solid #f0f0f1; padding-top:8px;">
-                        <a href="/alria" style="color:#2271b1; text-decoration:none; font-weight:700; font-size:12px;">⚡ Open Visual /alria Editor for Section Color Pickers</a>
+                        <a href="/alria" style="color:#2271b1; text-decoration:none; font-weight:700; font-size:12px;">⚡ Open Visual /alria Editor for In-Place Color Pickers</a>
                     </div>
                 </div>
 
-                <!-- 3. Google Analytics & Webmaster Verification -->
+                <!-- 4. Google Analytics & Webmaster Verification -->
                 <div class="postbox">
                     <h2>Google &amp; Webmaster Tools</h2>
                     <div class="form-group">
                         <label>Google Analytics 4 (Measurement ID)</label>
                         <input type="text" name="google_analytics_id" class="wp-input" placeholder="G-XXXXXXXXXX" value="{{ settings.google_analytics_id }}">
-                        <p class="form-help">Leave empty if not ready.</p>
                     </div>
                     <div class="form-group">
                         <label>Google Search Console Verification Token</label>
@@ -158,13 +193,12 @@
                     </div>
                 </div>
 
-                <!-- 4. ads.txt & robots.txt -->
+                <!-- 5. ads.txt & robots.txt -->
                 <div class="postbox">
                     <h2>ads.txt Manager</h2>
                     <div class="form-group">
                         <label>Custom ads.txt Content</label>
                         <textarea name="ads_txt" class="wp-input" rows="5" placeholder="google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0">{{ settings.ads_txt }}</textarea>
-                        <p class="form-help">Served directly at <code>/ads.txt</code></p>
                     </div>
                 </div>
 
@@ -173,13 +207,12 @@
                     <div class="form-group">
                         <label>Custom robots.txt Content</label>
                         <textarea name="robots_txt" class="wp-input" rows="5">{{ settings.robots_txt }}</textarea>
-                        <p class="form-help">Served dynamically with auto Sitemap link.</p>
                     </div>
                 </div>
             </div>
 
             <div style="margin-top:20px;">
-                <button type="submit" class="button-primary">Save Changes</button>
+                <button type="submit" class="button-primary">Save All Settings</button>
             </div>
         </form>
     </div>
@@ -188,6 +221,101 @@
         function toggleSidebar() {
             document.getElementById('wpSidebar').classList.toggle('open');
             document.getElementById('sidebarBackdrop').classList.toggle('open');
+        }
+
+        // Test Supabase Connection
+        async function testSupabase() {
+            const badge = document.getElementById('supaStatusBadge');
+            badge.className = 'badge-conn badge-offline';
+            badge.innerText = 'Testing...';
+
+            try {
+                const res = await fetch('/api/admin/supabase/test');
+                const data = await res.json();
+                if(data.connected) {
+                    badge.className = 'badge-conn badge-online';
+                    badge.innerText = '🟢 Connected';
+                    alert(data.message);
+                } else {
+                    badge.className = 'badge-conn badge-offline';
+                    badge.innerText = '⚪ Disconnected';
+                    alert(data.message);
+                }
+            } catch(e) {
+                badge.className = 'badge-conn badge-offline';
+                badge.innerText = '❌ Error';
+                alert('Could not test connection: ' + e.message);
+            }
+        }
+
+        // Check connection on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const url = document.getElementById('supaUrl').value;
+            if(url) { testSupabase(); }
+            else {
+                const badge = document.getElementById('supaStatusBadge');
+                badge.className = 'badge-conn badge-offline';
+                badge.innerText = '⚪ Hybrid (Local Mode)';
+            }
+        });
+
+        async function syncLocalToSupabase() {
+            if(!confirm('Sync all current local posts & settings to Supabase database?')) return;
+            const res = await fetch('/api/admin/supabase/sync', { method: 'POST' });
+            const data = await res.json();
+            alert(data.message || 'Sync completed!');
+        }
+
+        async function wipeTemporaryPosts() {
+            if(!confirm('⚠️ Are you sure you want to wipe all temporary posts? This will delete temporary sample posts and prepare the portal for 100% real posts!')) return;
+            const res = await fetch('/api/admin/supabase/wipe-temporary', { method: 'POST' });
+            const data = await res.json();
+            alert(data.message || 'Temporary posts wiped successfully!');
+            location.reload();
+        }
+
+        function copySqlSchema() {
+            const sql = `-- SARKARI RESULT SUPABASE SCHEMA
+CREATE TABLE IF NOT EXISTS public.posts (
+    id TEXT PRIMARY KEY,
+    slug TEXT UNIQUE NOT NULL,
+    title TEXT NOT NULL,
+    category TEXT NOT NULL DEFAULT 'latest-jobs',
+    short_desc TEXT,
+    html_content TEXT,
+    application_start_date TEXT,
+    application_last_date TEXT,
+    is_pinned BOOLEAN DEFAULT FALSE,
+    is_date_extended BOOLEAN DEFAULT FALSE,
+    is_temporary BOOLEAN DEFAULT FALSE,
+    custom_badge TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS public.settings (
+    key TEXT PRIMARY KEY,
+    value JSONB NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS public.categories (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    slug TEXT UNIQUE NOT NULL,
+    "desc" TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public Read Posts" ON public.posts FOR SELECT USING (true);
+CREATE POLICY "Public Read Settings" ON public.settings FOR SELECT USING (true);
+CREATE POLICY "Public Read Categories" ON public.categories FOR SELECT USING (true);
+CREATE POLICY "Admin All Posts" ON public.posts FOR ALL USING (true);
+CREATE POLICY "Admin All Settings" ON public.settings FOR ALL USING (true);
+CREATE POLICY "Admin All Categories" ON public.categories FOR ALL USING (true);`;
+            navigator.clipboard.writeText(sql).then(() => {
+                alert('✅ Supabase SQL Schema copied to clipboard! Paste and click Run in Supabase SQL Editor.');
+            });
         }
     </script>
 </body>

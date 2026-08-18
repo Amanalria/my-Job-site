@@ -1,3 +1,4 @@
+import supabase_client as supa
 import os
 import re
 import json
@@ -1001,10 +1002,35 @@ def api_save_post():
     title = data.get('title', '').strip()
     slug = data.get('slug') or title.lower().replace(' ', '-').replace('/', '-').replace('(', '').replace(')', '')[:80]
     html_content = data.get('html_content', '')
+    category = data.get('category', 'latest-jobs')
+    app_start = data.get('application_start_date', '')
+    app_last = data.get('application_last_date', '')
+    short_desc = data.get('short_desc', '')
+    is_pinned = bool(data.get('is_pinned'))
+    is_date_extended = bool(data.get('is_date_extended'))
+    custom_badge = data.get('custom_badge', '')
 
     page_file = os.path.join(PAGES_DIR, f"{slug}.html")
     with open(page_file, 'w', encoding='utf-8') as f:
         f.write(html_content)
+
+    post_item = {
+        'id': data.get('id') or f"post_{uuid.uuid4().hex[:8]}",
+        'slug': slug,
+        'title': title,
+        'category': category,
+        'short_desc': short_desc,
+        'html_content': html_content,
+        'application_start_date': app_start,
+        'application_last_date': app_last,
+        'is_pinned': is_pinned,
+        'is_date_extended': is_date_extended,
+        'is_temporary': False,
+        'custom_badge': custom_badge
+    }
+
+    if supa.is_supabase_configured():
+        supa.save_post_to_supabase(post_item)
 
     return redirect('/admin/posts')
 
@@ -1013,7 +1039,62 @@ def api_delete_post(post_id):
     page_file = os.path.join(PAGES_DIR, f"{post_id}.html")
     if os.path.exists(page_file):
         os.remove(page_file)
+    
+    if supa.is_supabase_configured():
+        supa.delete_post_from_supabase(post_id)
+
     return jsonify({'status': 'success', 'deleted': post_id})
+
+# ==================== SUPABASE CLOUD MANAGEMENT ENDPOINTS ====================
+
+@app.route('/api/admin/supabase/test')
+def api_supabase_test():
+    return jsonify(supa.test_supabase_connection())
+
+@app.route('/api/admin/supabase/sync', methods=['POST'])
+def api_supabase_sync():
+    settings = load_settings()
+    if not supa.is_supabase_configured():
+        return jsonify({'status': 'error', 'message': 'Supabase is not configured yet. Please enter Project URL and Key.'})
+    
+    # 1. Sync settings
+    supa.save_settings_to_supabase(settings)
+    
+    # 2. Sync all local post pages
+    post_count = 0
+    if os.path.exists(PAGES_DIR):
+        for f in os.listdir(PAGES_DIR):
+            if f.endswith('.html') and f not in ['index.html']:
+                slug = f[:-5]
+                with open(os.path.join(PAGES_DIR, f), 'r', encoding='utf-8') as hf:
+                    html_c = hf.read()
+                
+                post_data = {
+                    'id': f"post_{slug}",
+                    'slug': slug,
+                    'title': slug.replace('-', ' ').title(),
+                    'category': 'latest-jobs',
+                    'html_content': html_c,
+                    'is_temporary': True
+                }
+                supa.save_post_to_supabase(post_data)
+                post_count += 1
+                
+    return jsonify({'status': 'success', 'message': f'Synced settings and {post_count} posts to Supabase successfully!'})
+
+@app.route('/api/admin/supabase/wipe-temporary', methods=['POST'])
+def api_supabase_wipe_temporary():
+    if supa.is_supabase_configured():
+        supa.wipe_temporary_posts_from_supabase()
+    
+    deleted_count = 0
+    if os.path.exists(PAGES_DIR):
+        for f in os.listdir(PAGES_DIR):
+            if f.endswith('.html') and f not in ['index.html']:
+                os.remove(os.path.join(PAGES_DIR, f))
+                deleted_count += 1
+                
+    return jsonify({'status': 'success', 'message': f'Wiped {deleted_count} temporary sample posts cleanly. Ready for real posts!'})
 
 @app.route('/api/admin/categories/save', methods=['POST'])
 def api_save_category():
