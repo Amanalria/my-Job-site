@@ -68,12 +68,13 @@ def save_settings_data(data):
 def sanitize_html(html_content, current_host, is_alria_mode=False):
     soup = BeautifulSoup(html_content, 'html.parser')
     settings = load_settings()
+    theme = settings.get('theme_colors', {})
 
     # 1. Strip external ads and tracking scripts
     for s in soup.find_all(['script', 'iframe', 'ins']):
         src = s.get('src', '')
         classes = s.get('class', [])
-        if any(ad in src.lower() for ad in ['pagead2', 'googlesyndication', 'izooto', 'googletagmanager', 'cloudflare']):
+        if any(ad in src for ad in ['googlesyndication', 'doubleclick', 'google-analytics', 'izooto']):
             s.decompose()
         elif 'adsbygoogle' in classes:
             s.decompose()
@@ -124,7 +125,6 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             soup.head.append(ad_script)
 
     # 7. Exact Desktop Grid Styling & Dynamic Theme Colors
-    theme = settings.get('theme_colors', {})
     hdr_bg = theme.get('header_bg', '#ab183d')
     hdr_txt = theme.get('header_text', '#ffffff')
     nav_bg = theme.get('nav_bg', '#0c2340')
@@ -159,9 +159,19 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     #site-navigation .main-nav ul li a, .main-navigation a {{
         color: var(--sarkari-nav-txt) !important;
     }}
-    a.gb-button-f2e1697c, a.gb-button, .gb-container-d1f47294 a.gb-button {{
+    .whatsapp-btn, .whatsapp-btn-wrapper a, a.gb-button-f2e1697c {{
         background-color: var(--sarkari-wa-bg) !important;
         color: var(--sarkari-wa-txt) !important;
+    }}
+    .gb-container-658f27a5 a.gb-button, .gb-container-d1f47294 a.gb-button, .site-footer a.gb-button {{
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        border: 1px solid #333333 !important;
+        border-radius: 4px !important;
+    }}
+    .gb-container-658f27a5 a.gb-button:hover, .gb-container-d1f47294 a.gb-button:hover, .site-footer a.gb-button:hover {{
+        background-color: #222222 !important;
+        color: #ffffff !important;
     }}
     footer.site-footer, .site-footer, .site-info {{
         background-color: var(--sarkari-foot-bg) !important;
@@ -242,25 +252,48 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     if soup.head:
         soup.head.append(center_style)
 
-    # 8. Dynamic Banner Text
-    top_p = soup.find(class_='gb-headline-d55a09d3')
-    if top_p and settings.get('top_banner_text'):
-        top_p.string = settings.get('top_banner_text')
+    # 8. Dynamic Site Name & Tagline
+    site_name = settings.get('site_name')
+    if site_name:
+        if soup.title:
+            soup.title.string = f"{site_name} : Sarkari Result Official, Latest Online Form, Result, Admit Card"
+        for mt in soup.find_all(class_='main-title'):
+            a = mt.find('a')
+            if a: a.string = site_name
+            else: mt.string = site_name
 
-    # 9. Dynamic Top 8 Cards
+    tagline = settings.get('tagline')
+    if tagline:
+        for sd in soup.find_all(class_='site-description'):
+            sd.string = tagline
+
+    # 9. Dynamic Top Banner Text
+    top_text = settings.get('top_banner_text')
+    if top_text:
+        top_p = soup.find(class_='gb-headline-d55a09d3') or soup.find(class_=re.compile(r'gb-headline-.*d55a09d3'))
+        if top_p:
+            top_p.string = top_text
+
+    # 10. Dynamic Top 8 Cards
     cards = settings.get('highlight_cards', [])
-    if cards:
-        card_containers = soup.find_all(class_=re.compile(r'gb-grid-column-(81c81cf2|c2e36bcf|1838ae6f|eef7c02b|62b661d9|2ad1104e|04597b83|a25e1b9b)'))
-        for idx, col in enumerate(card_containers[:len(cards)]):
-            a_tag = col.find('a')
-            card_bg = theme.get(f'card_{idx+1}_bg')
+    card_cols = [
+        '2f6de309', '6de8e6a5', 'f69a2a15', 'cb185b36',
+        '962a1393', '48ff7430', '3b560729', '659c2f86'
+    ]
+    for idx, col_id in enumerate(card_cols):
+        col_div = soup.find(class_=f'gb-grid-column-{col_id}')
+        if col_div:
+            a_tag = col_div.find('a')
             if a_tag:
-                a_tag['href'] = cards[idx].get('url', '#')
-                a_tag.string = cards[idx].get('title', '')
+                if idx < len(cards) and cards[idx].get('title'):
+                    a_tag.string = cards[idx].get('title')
+                    if cards[idx].get('url'):
+                        a_tag['href'] = cards[idx].get('url')
+                card_bg = theme.get(f'card_{idx+1}_bg')
                 if card_bg:
-                    a_tag['style'] = f'background-color: {card_bg} !important; color: #fff !important;'
+                    a_tag['style'] = f'background-color: {card_bg} !important; color: #ffffff !important;'
 
-    # 10. Dynamic Grid Column Section Titles & Colors
+    # 11. Dynamic Grid Column Section Titles & Colors
     grid_headers = settings.get('grid_headers', {})
     for col_cls, cat_key in COL_MAPPING.items():
         col_div = soup.find(class_=f'gb-grid-column-{col_cls}')
@@ -269,14 +302,14 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             if container:
                 h2 = container.find(class_=re.compile(r'gb-headline.*-text'))
                 if h2:
-                    if cat_key in grid_headers:
-                        h2.string = grid_headers[cat_key].get('title', h2.get_text())
+                    if cat_key in grid_headers and grid_headers[cat_key].get('title'):
+                        h2.string = grid_headers[cat_key].get('title')
                     cat_norm = cat_key.replace('-', '_')
                     col_bg = theme.get(f'{cat_norm}_header_bg') or theme.get('result_header_bg', '#ab183d')
                     col_txt = theme.get(f'{cat_norm}_header_text') or '#ffffff'
-                    h2['style'] = f'background-color:{col_bg} !important; color:{col_txt} !important; text-align:center; font-weight:700;'
+                    h2['style'] = f'background-color:{col_bg} !important; color:{col_txt} !important; text-align:center; font-weight:700; padding:6px 0;'
 
-    # 11. Dynamic Guidelines & FAQ Block
+    # 12. Dynamic Guidelines & FAQ Block
     c08 = soup.find(class_='gb-container-08c3e704')
     if c08:
         inside = c08.find(class_='gb-inside-container')
@@ -286,26 +319,53 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             if info_secs or faq_items:
                 inside.clear()
                 for sec in info_secs:
-                    h2_tag = soup.new_tag('h2', **{'class': 'gb-headline gb-headline-02a5ae4c gb-headline-text'}, style='background-color:#a80909; color:#fff; padding:6px 10px; margin:15px 0 8px; font-size:16px;')
-                    h2_tag.string = sec.get('title', '')
-                    inside.append(h2_tag)
-                    p_tag = soup.new_tag('p', **{'class': 'has-text-align-center wp-block-paragraph'}, style='padding:8px 12px; font-size:15px; line-height:1.6; text-align:left;')
-                    p_tag.string = sec.get('content', '')
-                    inside.append(p_tag)
+                    if sec.get('title'):
+                        h2_tag = soup.new_tag('h2', **{'class': 'gb-headline gb-headline-02a5ae4c gb-headline-text'}, style='background-color:#a80909; color:#fff; padding:6px 10px; margin:15px 0 8px; font-size:16px; font-weight:700;')
+                        h2_tag.string = sec.get('title', '')
+                        inside.append(h2_tag)
+                    if sec.get('content'):
+                        p_tag = soup.new_tag('p', **{'class': 'has-text-align-center wp-block-paragraph'}, style='padding:8px 12px; font-size:15px; line-height:1.6; text-align:left;')
+                        p_tag.string = sec.get('content', '')
+                        inside.append(p_tag)
                 if faq_items:
-                    faq_h2 = soup.new_tag('h2', **{'class': 'gb-headline gb-headline-02a5ae4c gb-headline-text'}, style='background-color:#a80909; color:#fff; padding:6px 10px; margin:15px 0 8px; font-size:16px;')
+                    faq_h2 = soup.new_tag('h2', **{'class': 'gb-headline gb-headline-02a5ae4c gb-headline-text'}, style='background-color:#a80909; color:#fff; padding:6px 10px; margin:15px 0 8px; font-size:16px; font-weight:700;')
                     faq_h2.string = "FAQ – Frequently Asked Questions"
                     inside.append(faq_h2)
                     faq_box = soup.new_tag('div', style='padding:10px 12px; margin-bottom:15px;')
                     for i, faq in enumerate(faq_items, 1):
-                        qp = soup.new_tag('p', style='text-align:left; margin:10px 0 3px; font-weight:700; color:#a80909; font-size:15px;')
-                        qp.append(BeautifulSoup(f"<span style='color:#000;'>Q {i}.</span> {faq.get('q', '')}", 'html.parser'))
-                        faq_box.append(qp)
-                        ap = soup.new_tag('p', style='text-align:justify; margin:0 0 12px; font-size:14px; line-height:1.5; color:#222;')
-                        ap.append(BeautifulSoup(f"<strong style='color:#077822;'>Ans.</strong> {faq.get('a', '')}", 'html.parser'))
-                        faq_box.append(ap)
+                        if faq.get('q'):
+                            qp = soup.new_tag('p', style='text-align:left; margin:10px 0 3px; font-weight:700; color:#a80909; font-size:15px;')
+                            qp.append(BeautifulSoup(f"<span style='color:#000;'>Q {i}.</span> {faq.get('q', '')}", 'html.parser'))
+                            faq_box.append(qp)
+                        if faq.get('a'):
+                            ap = soup.new_tag('p', style='text-align:justify; margin:0 0 12px; font-size:14px; line-height:1.5; color:#222;')
+                            ap.append(BeautifulSoup(f"<strong style='color:#077822;'>Ans.</strong> {faq.get('a', '')}", 'html.parser'))
+                            faq_box.append(ap)
                     inside.append(faq_box)
 
+    # 13. Dynamic Footer Copyright Text & Social Links
+    if settings.get('footer_text'):
+        foot_div = soup.find(class_='gb-headline-e41178b2') or soup.find(class_=re.compile(r'gb-headline-.*e41178b2'))
+        if foot_div:
+            foot_div.string = settings.get('footer_text')
+
+    socials = settings.get('socials', {})
+    sarkari_grid = soup.find(class_='sarkari-grid')
+    if sarkari_grid and socials:
+        for a in sarkari_grid.find_all('a'):
+            txt = a.get_text()
+            if '@Telegram' in txt and socials.get('telegram'):
+                a['href'] = socials.get('telegram')
+            elif '@WhatsApp' in txt and socials.get('whatsapp'):
+                a['href'] = socials.get('whatsapp')
+            elif '@YouTube' in txt and socials.get('youtube'):
+                a['href'] = socials.get('youtube')
+            elif '@Instagram' in txt and socials.get('instagram'):
+                a['href'] = socials.get('instagram')
+            elif '@Facebook' in txt and socials.get('facebook'):
+                a['href'] = socials.get('facebook')
+            elif '@X' in txt and socials.get('twitter'):
+                a['href'] = socials.get('twitter')
     # 12. Inject /alria Live Editor Toolbar & In-place Buttons
     if is_alria_mode:
         if soup.head:
