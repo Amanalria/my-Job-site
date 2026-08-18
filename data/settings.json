@@ -41,7 +41,7 @@
       "q": "Is any registration fee required to browse notifications?"
     }
   ],
-  "site_name": "SARKARI RESULT",
+  "site_name": "SARKARI RESULT\u2122",
   "categories": [
     {
       "id": "cat_1",
@@ -121,8 +121,28 @@
     }
   },
   "theme_colors": {
-    "header_bg": "#ab183d",
-    "whatsapp_btn_bg": "#25D366"
+    "header_bg": "#cd0808",
+    "whatsapp_btn_bg": "#01aa03",
+    "header_text": "#ffffff",
+    "nav_bg": "#0c2340",
+    "nav_text": "#ffffff",
+    "whatsapp_btn_text": "#ffffff",
+    "card_1_bg": "#ff0000",
+    "card_2_bg": "#ff6600",
+    "card_3_bg": "#db2777",
+    "card_4_bg": "#0052cc",
+    "card_5_bg": "#708238",
+    "card_6_bg": "#0080ff",
+    "card_7_bg": "#800000",
+    "card_8_bg": "#00802b",
+    "result_header_bg": "#cd0808",
+    "admit_header_bg": "#cd0808",
+    "jobs_header_bg": "#cd0808",
+    "answer_header_bg": "#cd0808",
+    "syllabus_header_bg": "#cd0808",
+    "admission_header_bg": "#cd0808",
+    "footer_bg": "#212121",
+    "footer_text": "#ffffff"
   },
   "info_sections": [
     {
@@ -154,37 +174,37 @@
   ],
   "highlight_cards": [
     {
-      "url": "/bpsc-72nd-pre-2026/",
-      "title": "BPSC 72nd Pre Form"
+      "title": "RRB Group D Exam City / Admit Card 2026",
+      "url": "/railway-rrb-group-d-level-1-recruitment-2026-online/"
     },
     {
-      "url": "/ssc-chsl-2026/",
-      "title": "SSC CHSL Form"
+      "title": "Daily 5 Minutes Meditation & Crack Exams",
+      "url": "https://www.youtube.com/watch?v=gwQ7uPPWKx4"
     },
     {
-      "url": "/railway-rrb-alp-2026/",
-      "title": "Railway RRB ALP Form"
+      "title": "SBI Clerk Online Form 2026 (9124 Posts)",
+      "url": "/sbi-junior-associates-clerk-2026/"
     },
     {
-      "url": "/upsc-civil-services-ias-ifs-2026/",
-      "title": "UPSC IAS/IFS Form"
+      "title": "Rajasthan Safai Karmchari (24,752 Posts)",
+      "url": "/rajasthan-safai-karmchari-2026/"
     },
     {
-      "url": "/up-police-upprpb-one-time-registration-otr-online-form-2025/",
-      "title": "UP Police OTR Form"
+      "title": "IBPS Clerk 16th Form (11403 Posts)",
+      "url": "/ibps-clerk-16th-2026/"
     },
     {
-      "url": "/nta-csir-ugc-net-june-2026/",
-      "title": "NTA CSIR NET Form"
+      "title": "UPSSSC PET Online Form 2026",
+      "url": "/upsssc-pet-2026/"
     },
     {
-      "url": "/bpsc-school-teacher-tre-4-0-2026/",
-      "title": "BPSC School Teacher TRE 4.0"
+      "title": "RRVUNL JE / Other Post Form (2005 Posts)",
+      "url": "/rrvunl-je-junior-assistant-2026/"
     },
     {
-      "url": "/nta-neet-ug-2026/",
-      "title": "NTA NEET UG 2026"
+      "title": "RRB JE Online Form 2026 (3993 Posts)",
+      "url": "/rrb-je-2026/"
     }
   ],
-  "top_banner_text": "Sarkari Result \u2122 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place."
+  "top_banner_text": "Sarkari Result \u2122 Official website since 2009 \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Sarkari Yojana, Scholarship, Sarkari Notice etc."
 }
