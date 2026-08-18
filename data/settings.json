@@ -1,136 +1,103 @@
 {
-  "site_name": "SARKARI RESULT",
-  "domain": "yourdomain.com",
-  "tagline": "Sarkari Result \u2122 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
-  "top_banner_text": "Sarkari Result \u2122 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place.",
   "seo": {
-    "google_analytics_id": "",
-    "google_site_verification": "",
-    "meta_description": "Get latest Sarkari Result, Sarkari Naukri, Online Application Forms, Admit Cards, Answer Keys, Syllabus, and Exam Results across all state and central govt exams in India.",
     "meta_keywords": "sarkari result, sarkari naukri, latest jobs, admit card, answer key, syllabus, admission, recruitment 2026",
     "custom_head_code": "",
-    "custom_footer_code": ""
+    "meta_description": "Get latest Sarkari Result, Sarkari Naukri, Online Application Forms, Admit Cards, Answer Keys, Syllabus, and Exam Results across all state and central govt exams in India.",
+    "custom_footer_code": "",
+    "google_analytics_id": "",
+    "google_site_verification": ""
   },
+  "domain": "SarkariResult.Com.Cm",
   "ads_txt": "google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0",
-  "robots_txt": "User-agent: *\nDisallow: /admin/\nDisallow: /admin\nDisallow: /alria\nDisallow: /api/\nAllow: /\n\nSitemap: https://yourdomain.com/sitemap.xml",
+  "adsense": {
+    "enabled": false,
+    "client_id": ""
+  },
+  "socials": {
+    "twitter": "https://x.com/",
+    "youtube": "https://youtube.com/",
+    "facebook": "https://facebook.com/",
+    "telegram": "https://t.me/",
+    "whatsapp": "https://whatsapp.com/",
+    "instagram": "https://instagram.com/"
+  },
+  "tagline": "Updated Tagline",
+  "supabase": {
+    "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsdHpqdGRrdWNiZ3BwaWppZXZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNzAzNTEsImV4cCI6MjEwMjY0NjM1MX0.u8PLHsBsxaB0njzOmtAcD7riuXC4rA1TXQJrDMfbFV4",
+    "url": "https://hltzjtdkucbgppijievw.supabase.co",
+    "enabled": false
+  },
+  "faq_items": [
+    {
+      "a": "Sarkari Result is a premier educational information platform providing instant, verified alerts for government vacancies, exam syllabus, admit cards, answer keys, and merit lists.",
+      "q": "What is Sarkari Result and how does it help candidates?"
+    },
+    {
+      "a": "Our automated notification engine updates all official notifications 24/7 in real-time as soon as released by government recruiting agencies.",
+      "q": "How frequently are exam results and admit cards updated?"
+    },
+    {
+      "a": "No, all recruitment updates, syllabus downloads, and candidate tools are 100% free for all aspirants.",
+      "q": "Is any registration fee required to browse notifications?"
+    }
+  ],
+  "site_name": "SARKARI RESULT",
   "categories": [
     {
       "id": "cat_1",
+      "desc": "All latest online application forms and recruitment notices.",
       "name": "Latest Jobs",
-      "slug": "latest-jobs",
-      "desc": "All latest online application forms and recruitment notices."
+      "slug": "latest-jobs"
     },
     {
       "id": "cat_2",
+      "desc": "Download Hall Tickets, Exam City Slips and Call Letters.",
       "name": "Admit Card",
-      "slug": "admit-card",
-      "desc": "Download Hall Tickets, Exam City Slips and Call Letters."
+      "slug": "admit-card"
     },
     {
       "id": "cat_3",
+      "desc": "Check Written Exam Results, Cutoff Marks and Merit Lists.",
       "name": "Results",
-      "slug": "result",
-      "desc": "Check Written Exam Results, Cutoff Marks and Merit Lists."
+      "slug": "result"
     },
     {
       "id": "cat_4",
+      "desc": "Download Official Answer Keys, Question Papers & Objection Forms.",
       "name": "Answer Key",
-      "slug": "answer-key",
-      "desc": "Download Official Answer Keys, Question Papers & Objection Forms."
+      "slug": "answer-key"
     },
     {
       "id": "cat_5",
+      "desc": "Exam Syllabus, Scheme of Examination, and Annual Calendars.",
       "name": "Documents & Syllabus",
-      "slug": "syllabus",
-      "desc": "Exam Syllabus, Scheme of Examination, and Annual Calendars."
+      "slug": "syllabus"
     },
     {
       "id": "cat_6",
+      "desc": "University and College Entrance Forms & Counselling Notices.",
       "name": "Admission",
-      "slug": "admission",
-      "desc": "University and College Entrance Forms & Counselling Notices."
+      "slug": "admission"
     },
     {
       "id": "cat_7",
+      "desc": "Voter ID, PAN Card, Aadhar Card, Caste & Income Certificate verification.",
       "name": "Certificate Verification",
-      "slug": "certificate-verification",
-      "desc": "Voter ID, PAN Card, Aadhar Card, Caste & Income Certificate verification."
+      "slug": "certificate-verification"
     },
     {
       "id": "cat_8",
+      "desc": "Scholarship forms, OTR registrations, and essential updates.",
       "name": "Important",
-      "slug": "important",
-      "desc": "Scholarship forms, OTR registrations, and essential updates."
+      "slug": "important"
     }
   ],
-  "marquee_items": [
-    {
-      "text": "BPSC 72nd Combined Competitive Exam Online Form 2026",
-      "url": "/bpsc-72nd-pre-2026/"
-    },
-    {
-      "text": "SSC Combined Higher Secondary Level CHSL Online Form 2026",
-      "url": "/ssc-chsl-2026/"
-    },
-    {
-      "text": "Railway RRB Assistant Loco Pilot ALP Online Form 2026",
-      "url": "/railway-rrb-alp-2026/"
-    },
-    {
-      "text": "UPSC Civil Services IAS / IFS Pre Exam 2026 Online Form",
-      "url": "/upsc-civil-services-ias-ifs-2026/"
-    }
-  ],
-  "highlight_cards": [
-    {
-      "title": "BPSC 72nd Pre Form",
-      "url": "/bpsc-72nd-pre-2026/"
-    },
-    {
-      "title": "SSC CHSL Form",
-      "url": "/ssc-chsl-2026/"
-    },
-    {
-      "title": "Railway RRB ALP Form",
-      "url": "/railway-rrb-alp-2026/"
-    },
-    {
-      "title": "UPSC IAS/IFS Form",
-      "url": "/upsc-civil-services-ias-ifs-2026/"
-    },
-    {
-      "title": "UP Police OTR Form",
-      "url": "/up-police-upprpb-one-time-registration-otr-online-form-2025/"
-    },
-    {
-      "title": "NTA CSIR NET Form",
-      "url": "/nta-csir-ugc-net-june-2026/"
-    },
-    {
-      "title": "BPSC School Teacher TRE 4.0",
-      "url": "/bpsc-school-teacher-tre-4-0-2026/"
-    },
-    {
-      "title": "NTA NEET UG 2026",
-      "url": "/nta-neet-ug-2026/"
-    }
-  ],
+  "robots_txt": "User-agent: *\nDisallow: /admin/\nDisallow: /admin\nDisallow: /alria\nDisallow: /api/\nAllow: /\n\nSitemap: https://yourdomain.com/sitemap.xml",
+  "footer_text": "Copyright \u00a9 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
   "grid_headers": {
     "result": {
       "title": "Result",
       "more_url": "/result/"
-    },
-    "admit-card": {
-      "title": "Admit Card",
-      "more_url": "/admit-card/"
-    },
-    "latest-jobs": {
-      "title": "Latest Jobs",
-      "more_url": "/latest-jobs/"
-    },
-    "answer-key": {
-      "title": "Answer Key",
-      "more_url": "/answer-key/"
     },
     "syllabus": {
       "title": "Syllabus",
@@ -139,7 +106,23 @@
     "admission": {
       "title": "Admission",
       "more_url": "/admission/"
+    },
+    "admit-card": {
+      "title": "Admit Card",
+      "more_url": "/admit-card/"
+    },
+    "answer-key": {
+      "title": "Answer Key",
+      "more_url": "/answer-key/"
+    },
+    "latest-jobs": {
+      "title": "Latest Jobs",
+      "more_url": "/latest-jobs/"
     }
+  },
+  "theme_colors": {
+    "header_bg": "#ab183d",
+    "whatsapp_btn_bg": "#25D366"
   },
   "info_sections": [
     {
@@ -151,40 +134,57 @@
       "content": "1. Check notification eligibility criteria, age relaxation, and required documents.\n2. Fill online application on the official recruitment board portal before the last date.\n3. Pay examination fees and preserve final submitted PDF copy for future reference."
     }
   ],
-  "faq_items": [
+  "marquee_items": [
     {
-      "q": "What is Sarkari Result and how does it help candidates?",
-      "a": "Sarkari Result is a premier educational information platform providing instant, verified alerts for government vacancies, exam syllabus, admit cards, answer keys, and merit lists."
+      "url": "/bpsc-72nd-pre-2026/",
+      "text": "BPSC 72nd Combined Competitive Exam Online Form 2026"
     },
     {
-      "q": "How frequently are exam results and admit cards updated?",
-      "a": "Our automated notification engine updates all official notifications 24/7 in real-time as soon as released by government recruiting agencies."
+      "url": "/ssc-chsl-2026/",
+      "text": "SSC Combined Higher Secondary Level CHSL Online Form 2026"
     },
     {
-      "q": "Is any registration fee required to browse notifications?",
-      "a": "No, all recruitment updates, syllabus downloads, and candidate tools are 100% free for all aspirants."
+      "url": "/railway-rrb-alp-2026/",
+      "text": "Railway RRB Assistant Loco Pilot ALP Online Form 2026"
+    },
+    {
+      "url": "/upsc-civil-services-ias-ifs-2026/",
+      "text": "UPSC Civil Services IAS / IFS Pre Exam 2026 Online Form"
     }
   ],
-  "footer_text": "Copyright \u00a9 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
-  "adsense": {
-    "enabled": false,
-    "client_id": ""
-  },
-  "supabase": {
-    "url": "https://hltzjtdkucbgppijievw.supabase.co",
-    "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsdHpqdGRrdWNiZ3BwaWppZXZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNzAzNTEsImV4cCI6MjEwMjY0NjM1MX0.u8PLHsBsxaB0njzOmtAcD7riuXC4rA1TXQJrDMfbFV4",
-    "enabled": false
-  },
-  "socials": {
-    "telegram": "https://t.me/",
-    "whatsapp": "https://whatsapp.com/",
-    "youtube": "https://youtube.com/",
-    "instagram": "https://instagram.com/",
-    "facebook": "https://facebook.com/",
-    "twitter": "https://x.com/"
-  },
-  "theme_colors": {
-    "header_bg": "#800000",
-    "whatsapp_btn_bg": "#25D366"
-  }
+  "highlight_cards": [
+    {
+      "url": "/bpsc-72nd-pre-2026/",
+      "title": "BPSC 72nd Pre Form"
+    },
+    {
+      "url": "/ssc-chsl-2026/",
+      "title": "SSC CHSL Form"
+    },
+    {
+      "url": "/railway-rrb-alp-2026/",
+      "title": "Railway RRB ALP Form"
+    },
+    {
+      "url": "/upsc-civil-services-ias-ifs-2026/",
+      "title": "UPSC IAS/IFS Form"
+    },
+    {
+      "url": "/up-police-upprpb-one-time-registration-otr-online-form-2025/",
+      "title": "UP Police OTR Form"
+    },
+    {
+      "url": "/nta-csir-ugc-net-june-2026/",
+      "title": "NTA CSIR NET Form"
+    },
+    {
+      "url": "/bpsc-school-teacher-tre-4-0-2026/",
+      "title": "BPSC School Teacher TRE 4.0"
+    },
+    {
+      "url": "/nta-neet-ug-2026/",
+      "title": "NTA NEET UG 2026"
+    }
+  ],
+  "top_banner_text": "Sarkari Result \u2122 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place."
 }

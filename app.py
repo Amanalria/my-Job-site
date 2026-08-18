@@ -252,8 +252,8 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     if soup.head:
         soup.head.append(center_style)
 
-    # 8. Dynamic Site Name & Tagline
-    site_name = settings.get('site_name')
+    # 8. Dynamic Site Name & Domain Name Subtitle in Header
+    site_name = settings.get('site_name', 'SARKARI RESULT')
     if site_name:
         if soup.title:
             soup.title.string = f"{site_name} : Sarkari Result Official, Latest Online Form, Result, Admit Card"
@@ -262,10 +262,10 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             if a: a.string = site_name
             else: mt.string = site_name
 
-    tagline = settings.get('tagline')
-    if tagline:
-        for sd in soup.find_all(class_='site-description'):
-            sd.string = tagline
+    # Display website domain in Header subtitle (e.g. SarkariResult.Com.Cm)
+    domain_text = settings.get('domain', 'SarkariResult.com.cm')
+    for sd in soup.find_all(class_='site-description'):
+        sd.string = domain_text
 
     # 9. Dynamic Top Banner Text
     top_text = settings.get('top_banner_text')
@@ -543,11 +543,10 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         <!-- 2. Branding Modal with Color Controls -->
         <div id="modal-branding" class="alria-modal-backdrop">
             <div class="alria-modal-card">
-                <h3>🏷️ Edit Portal Branding, Banner &amp; Header Color</h3>
-                <div class="alria-input-group"><label>Portal Site Name</label><input type="text" id="b-site-name" value="{s_site_name}"></div>
-                <div class="alria-input-group"><label>Domain Name</label><input type="text" id="b-domain" value="{s_domain}"></div>
-                <div class="alria-input-group"><label>Site Tagline</label><input type="text" id="b-tagline" value="{s_tagline}"></div>
-                <div class="alria-input-group"><label>Top Headline Banner Text</label><textarea id="b-top-banner" rows="3">{s_top_banner}</textarea></div>
+                <h3>🏷️ Edit Portal Branding, Header URL &amp; Header Color</h3>
+                <div class="alria-input-group"><label>Site Title (Shown at Top in Header, e.g. SARKARI RESULT)</label><input type="text" id="b-site-name" value="{s_site_name}"></div>
+                <div class="alria-input-group"><label>Website URL (Shown below Site Title, e.g. SarkariResult.com.cm)</label><input type="text" id="b-domain" value="{s_domain}"></div>
+                <div class="alria-input-group"><label>Top Red Headline Banner Text</label><textarea id="b-top-banner" rows="3">{s_top_banner}</textarea></div>
                 
                 <h4 style="margin-top:14px; font-size:13px;">Header Background &amp; Text Color</h4>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
