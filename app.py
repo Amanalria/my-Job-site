@@ -35,33 +35,35 @@ COL_MAPPING = {
 }
 
 def load_settings():
-    if os.path.exists(SETTINGS_FILE):
+    if supa.is_supabase_configured():
         try:
-            with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
+            supa_settings = supa.fetch_settings_from_supabase()
+            if supa_settings:
+                return supa_settings
         except Exception:
             pass
-    return {
-        'site_name': 'SARKARI RESULT',
-        'domain': 'yourdomain.com',
-        'tagline': 'Sarkari Result ™ 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results',
-        'top_banner_text': 'Sarkari Result ™ 2026 : find latest Sarkari job vacancies, admit cards, exam dates and Sarkari exam results in one place.',
-        'seo': {'google_analytics_id': '', 'google_site_verification': '', 'meta_description': '', 'meta_keywords': '', 'custom_head_code': '', 'custom_footer_code': ''},
-        'ads_txt': 'google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0',
-        'robots_txt': 'User-agent: *\nDisallow: /admin/\nDisallow: /admin\nDisallow: /alria\nDisallow: /api/\nAllow: /\n\nSitemap: https://yourdomain.com/sitemap.xml',
-        'categories': [],
-        'marquee_items': [],
-        'highlight_cards': [],
-        'grid_headers': {},
-        'info_sections': [],
-        'faq_items': [],
-        'footer_text': 'Copyright © 2026. All Rights Reserved.',
-        'adsense': {'enabled': False, 'client_id': ''}
-    }
+
+    try:
+        if os.path.exists(SETTINGS_FILE):
+            with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except Exception:
+        pass
+
+    return DEFAULT_SETTINGS
 
 def save_settings_data(data):
-    with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2)
+    try:
+        with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        print(f"Notice: Local settings file write skipped on read-only FS: {e}")
+
+    if supa.is_supabase_configured():
+        try:
+            supa.save_settings_to_supabase(data)
+        except Exception as se:
+            print(f"Notice: Supabase save exception: {se}")
 
 def sanitize_html(html_content, current_host, is_alria_mode=False):
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -969,32 +971,57 @@ def admin_settings():
 
 # ==================== API ADMIN ENDPOINTS ====================
 
-@app.route('/api/admin/save-settings', methods=['POST'])
+@app.route('/api/admin/save-settings', methods=['GET', 'POST'])
+@app.route('/api/admin/save-settings/', methods=['GET', 'POST'])
 def api_save_settings():
-    settings = load_settings()
-    data = request.get_json(silent=True) or request.form
+    if request.method == 'GET':
+        return redirect('/admin/settings')
 
-    for k, v in data.items():
-        if k in ['google_analytics_id', 'google_site_verification', 'meta_description', 'meta_keywords', 'custom_head_code', 'custom_footer_code']:
-            if 'seo' not in settings: settings['seo'] = {}
-            settings['seo'][k] = v
-        elif k in ['adsense_id']:
-            if 'adsense' not in settings: settings['adsense'] = {}
-            settings['adsense']['client_id'] = v
-        elif k in ['adsense_enabled']:
-            if 'adsense' not in settings: settings['adsense'] = {}
-            settings['adsense']['enabled'] = bool(v)
-        elif k in ['supabase_url', 'supabase_key']:
-            if 'supabase' not in settings: settings['supabase'] = {}
-            sub_k = 'url' if k == 'supabase_url' else 'key'
-            settings['supabase'][sub_k] = v
+    try:
+        settings = load_settings()
+        if request.is_json:
+            data = request.get_json(silent=True) or {}
         else:
-            settings[k] = v
+            data = request.form.to_dict()
 
-    save_settings_data(settings)
-    if request.is_json:
-        return jsonify({'status': 'success', 'settings': settings})
-    return redirect('/admin/settings')
+        for k, v in data.items():
+            if k in ['google_analytics_id', 'google_site_verification', 'meta_description', 'meta_keywords', 'custom_head_code', 'custom_footer_code']:
+                if 'seo' not in settings: settings['seo'] = {}
+                settings['seo'][k] = v
+            elif k in ['telegram', 'whatsapp', 'youtube', 'instagram', 'facebook', 'twitter']:
+                if 'socials' not in settings: settings['socials'] = {}
+                settings['socials'][k] = v
+            elif k == 'theme_colors' and isinstance(v, dict):
+                if 'theme_colors' not in settings: settings['theme_colors'] = {}
+                settings['theme_colors'].update(v)
+            elif k.startswith('theme_'):
+                col_k = k.replace('theme_', '')
+                if 'theme_colors' not in settings: settings['theme_colors'] = {}
+                settings['theme_colors'][col_k] = v
+            elif k in ['adsense_id', 'adsense_client']:
+                if 'adsense' not in settings: settings['adsense'] = {}
+                settings['adsense']['client_id'] = v
+                settings['adsense']['enabled'] = bool(v)
+            elif k in ['adsense_enabled']:
+                if 'adsense' not in settings: settings['adsense'] = {}
+                settings['adsense']['enabled'] = bool(v)
+            elif k in ['supabase_url', 'supabase_key']:
+                if 'supabase' not in settings: settings['supabase'] = {}
+                sub_k = 'url' if k == 'supabase_url' else 'key'
+                settings['supabase'][sub_k] = v
+            else:
+                settings[k] = v
+
+        save_settings_data(settings)
+        if request.is_json:
+            return jsonify({'status': 'success', 'settings': settings})
+        return redirect('/admin/settings')
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        if request.is_json:
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+        return f"<h3>Settings Saved</h3><p>{str(e)}</p><a href='/admin/settings'>Go Back</a>"
 
 @app.route('/api/admin/save-post', methods=['POST'])
 def api_save_post():
