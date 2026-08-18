@@ -744,16 +744,26 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             }}
 
             function saveBranding() {{
-                saveSettingsPayload({{
-                    site_name: document.getElementById('b-site-name').value,
-                    domain: document.getElementById('b-domain').value,
-                    tagline: document.getElementById('b-tagline').value,
-                    top_banner_text: document.getElementById('b-top-banner').value,
-                    theme_colors: {{
-                        header_bg: document.getElementById('b-hdr-bg').value,
-                        header_text: document.getElementById('b-hdr-txt').value
-                    }}
-                }});
+                const siteNameEl = document.getElementById('b-site-name');
+                const domainEl = document.getElementById('b-domain');
+                const bannerEl = document.getElementById('b-top-banner');
+                const hdrBgEl = document.getElementById('b-hdr-bg');
+                const hdrTxtEl = document.getElementById('b-hdr-txt');
+
+                const payload = {{
+                    site_name: siteNameEl ? siteNameEl.value : '',
+                    domain: domainEl ? domainEl.value : '',
+                    top_banner_text: bannerEl ? bannerEl.value : ''
+                }};
+
+                if (hdrBgEl || hdrTxtEl) {{
+                    payload.theme_colors = {{
+                        header_bg: hdrBgEl ? hdrBgEl.value : '#cd0808',
+                        header_text: hdrTxtEl ? hdrTxtEl.value : '#ffffff'
+                    }};
+                }}
+
+                saveSettingsPayload(payload);
             }}
 
             function saveCards() {{

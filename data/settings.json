@@ -2,7 +2,7 @@
   "seo": {
     "meta_keywords": "sarkari result, sarkari naukri, latest jobs, admit card, answer key, syllabus, admission, recruitment 2026",
     "custom_head_code": "",
-    "meta_description": "Get latest Sarkari Result, Sarkari Naukri, Online Application Forms, Admit Cards, Answer Keys, Syllabus, and Exam Results across all state and central govt exams in India.",
+    "meta_description": "",
     "custom_footer_code": "",
     "google_analytics_id": "",
     "google_site_verification": ""
@@ -14,14 +14,12 @@
     "client_id": ""
   },
   "socials": {
-    "twitter": "https://x.com/",
     "youtube": "https://youtube.com/",
-    "facebook": "https://facebook.com/",
     "telegram": "https://t.me/",
     "whatsapp": "https://whatsapp.com/",
     "instagram": "https://instagram.com/"
   },
-  "tagline": "Updated Tagline",
+  "tagline": "Sarkari Yojana\u2122 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
   "supabase": {
     "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsdHpqdGRrdWNiZ3BwaWppZXZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNzAzNTEsImV4cCI6MjEwMjY0NjM1MX0.u8PLHsBsxaB0njzOmtAcD7riuXC4rA1TXQJrDMfbFV4",
     "url": "https://hltzjtdkucbgppijievw.supabase.co",
@@ -92,11 +90,11 @@
       "slug": "important"
     }
   ],
-  "robots_txt": "User-agent: *\nDisallow: /admin/\nDisallow: /admin\nDisallow: /alria\nDisallow: /api/\nAllow: /\n\nSitemap: https://yourdomain.com/sitemap.xml",
+  "robots_txt": "User-agent: *\r\nDisallow: /admin/\r\nDisallow: /admin\r\nDisallow: /alria\r\nDisallow: /api/\r\nAllow: /\r\n\r\nSitemap: https://yourdomain.com/sitemap.xml",
   "footer_text": "Copyright \u00a9 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
   "grid_headers": {
     "result": {
-      "title": "Result",
+      "title": "Results",
       "more_url": "/result/"
     },
     "syllabus": {
@@ -121,12 +119,8 @@
     }
   },
   "theme_colors": {
-    "header_bg": "#cd0808",
-    "whatsapp_btn_bg": "#01aa03",
-    "header_text": "#ffffff",
     "nav_bg": "#0c2340",
     "nav_text": "#ffffff",
-    "whatsapp_btn_text": "#ffffff",
     "card_1_bg": "#ff0000",
     "card_2_bg": "#ff6600",
     "card_3_bg": "#db2777",
@@ -135,14 +129,18 @@
     "card_6_bg": "#0080ff",
     "card_7_bg": "#800000",
     "card_8_bg": "#00802b",
-    "result_header_bg": "#cd0808",
-    "admit_header_bg": "#cd0808",
+    "footer_bg": "#262626",
+    "header_bg": "#cd0808",
+    "footer_text": "#ffffff",
+    "header_text": "#ffffff",
     "jobs_header_bg": "#cd0808",
+    "admit_header_bg": "#cd0808",
+    "whatsapp_btn_bg": "#01aa03",
     "answer_header_bg": "#cd0808",
+    "result_header_bg": "#cd0808",
+    "whatsapp_btn_text": "#ffffff",
     "syllabus_header_bg": "#cd0808",
-    "admission_header_bg": "#cd0808",
-    "footer_bg": "#212121",
-    "footer_text": "#ffffff"
+    "admission_header_bg": "#cd0808"
   },
   "info_sections": [
     {
@@ -174,36 +172,36 @@
   ],
   "highlight_cards": [
     {
-      "title": "RRB Group D Exam City / Admit Card 2026",
-      "url": "/railway-rrb-group-d-level-1-recruitment-2026-online/"
+      "url": "/railway-rrb-group-d-level-1-recruitment-2026-online/",
+      "title": "RRB Group D Exam City / Admit Card 2026"
     },
     {
-      "title": "Daily 5 Minutes Meditation & Crack Exams",
-      "url": "https://www.youtube.com/watch?v=gwQ7uPPWKx4"
+      "url": "https://www.youtube.com/watch?v=gwQ7uPPWKx4",
+      "title": "Daily 5 Minutes Meditation & Crack Exams"
     },
     {
-      "title": "SBI Clerk Online Form 2026 (9124 Posts)",
-      "url": "/sbi-junior-associates-clerk-2026/"
+      "url": "/sbi-junior-associates-clerk-2026/",
+      "title": "SBI Clerk Online Form 2026 (9124 Posts)"
     },
     {
-      "title": "Rajasthan Safai Karmchari (24,752 Posts)",
-      "url": "/rajasthan-safai-karmchari-2026/"
+      "url": "/rajasthan-safai-karmchari-2026/",
+      "title": "Rajasthan Safai Karmchari (24,752 Posts)"
     },
     {
-      "title": "IBPS Clerk 16th Form (11403 Posts)",
-      "url": "/ibps-clerk-16th-2026/"
+      "url": "/ibps-clerk-16th-2026/",
+      "title": "IBPS Clerk 16th Form (11403 Posts)"
     },
     {
-      "title": "UPSSSC PET Online Form 2026",
-      "url": "/upsssc-pet-2026/"
+      "url": "/upsssc-pet-2026/",
+      "title": "UPSSSC PET Online Form 2026"
     },
     {
-      "title": "RRVUNL JE / Other Post Form (2005 Posts)",
-      "url": "/rrvunl-je-junior-assistant-2026/"
+      "url": "/rrvunl-je-junior-assistant-2026/",
+      "title": "RRVUNL JE / Other Post Form (2005 Posts)"
     },
     {
-      "title": "RRB JE Online Form 2026 (3993 Posts)",
-      "url": "/rrb-je-2026/"
+      "url": "/rrb-je-2026/",
+      "title": "RRB JE Online Form 2026 (3993 Posts)"
     }
   ],
   "top_banner_text": "Sarkari Result \u2122 Official website since 2009 \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Sarkari Yojana, Scholarship, Sarkari Notice etc."
