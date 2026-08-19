@@ -101,10 +101,11 @@ def save_single_post(post_item):
         thumb_filename = f"{slug}.webp"
         thumb_abs_path = os.path.join('/root/sarkari-result-portal/static/thumbnails', thumb_filename)
         posts_badge = post_item.get('total_posts') or (post_item.get('custom_badge') if any(c.isdigit() for c in str(post_item.get('custom_badge', ''))) else '')
+        last_dt = post_item.get('application_last_date', '')
         generate_post_thumbnail(
             title=post_item.get('title', slug),
             total_posts=str(posts_badge) if posts_badge else '',
-            category_badge=post_item.get('category', 'latest-jobs').replace('-', ' ').title(),
+            last_date=str(last_dt),
             output_path=thumb_abs_path
         )
     except Exception as e:
@@ -831,10 +832,11 @@ def render_single_post_html(post, settings):
         thumb_abs_path = os.path.join('/root/sarkari-result-portal/static/thumbnails', thumb_filename)
         if not os.path.exists(thumb_abs_path) or os.path.getsize(thumb_abs_path) == 0:
             posts_badge = post.get('total_posts') or (badge_val if any(c.isdigit() for c in str(badge_val)) else '')
+            last_dt = post.get('application_last_date', '')
             generate_post_thumbnail(
                 title=title,
-                total_posts=str(posts_badge),
-                category_badge=category_name,
+                total_posts=str(posts_badge) if posts_badge else '',
+                last_date=str(last_dt),
                 output_path=thumb_abs_path
             )
         banner_url = f"/static/thumbnails/{thumb_filename}"

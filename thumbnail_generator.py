@@ -17,138 +17,133 @@ def get_font(font_type, size):
 
 def create_base_template(width=640, height=330):
     """
-    Creates a clean, text-less base template banner with StudyTopper branding frame.
+    Official StudyTopper Template 5 (Gradient Burgundy + Gold Stripe + Dark Navy Footer).
     """
     img = Image.new('RGB', (width, height), color='#ffffff')
     draw = ImageDraw.Draw(img)
+    draw.rectangle([(0, 0), (width - 1, height - 1)], outline='#881337', width=3)
+    
+    # Header gradient
+    top_h = 52
+    for y in range(3, top_h):
+        r = int(171 + (136 - 171) * (y - 3) / top_h)
+        g = int(24 + (19 - 24) * (y - 3) / top_h)
+        b = int(61 + (55 - 61) * (y - 3) / top_h)
+        draw.line([(3, y), (width - 4, y)], fill=(r, g, b))
 
-    # Outer border
-    draw.rectangle([(0, 0), (width - 1, height - 1)], outline='#ab183d', width=3)
+    # Gold accent stripe
+    draw.rectangle([(3, top_h), (width - 4, top_h + 3)], fill='#fbbf24')
+    
+    # Header text
+    draw.text((18, 14), 'STUDY TOPPER™', fill='#ffffff', font=get_font('bold', 20))
+    draw.text((width - 180, 18), 'WWW.STUDYTOPPER.IN', fill='#fef08a', font=get_font('bold', 12))
 
-    # Top Header Bar (Red #ab183d)
-    top_bar_h = 50
-    draw.rectangle([(3, 3), (width - 4, top_bar_h)], fill='#ab183d')
+    # Inner subtle canvas border
+    draw.rounded_rectangle([(14, top_h + 12), (width - 15, height - 42)], radius=6, fill='#fcfcfc', outline='#e2e8f0', width=1)
 
-    # Top Header Text (STUDY TOPPER)
-    font_brand = get_font('bold', 20)
-    font_sub = get_font('bold', 12)
-    draw.text((18, 13), "STUDY TOPPER™", fill="#ffffff", font=font_brand)
-    draw.text((width - 180, 17), "WWW.STUDYTOPPER.IN", fill="#fef08a", font=font_sub)
-
-    # Decorative dividing stripe (Yellow/Gold)
-    draw.rectangle([(3, top_bar_h), (width - 4, top_bar_h + 3)], fill='#eab308')
-
-    # Center card background
-    draw.rectangle([(12, top_bar_h + 10), (width - 13, height - 42)], fill='#f8fafc', outline='#e2e8f0', width=1)
-
-    # Bottom Footer Bar (Navy #0c2340)
-    draw.rectangle([(3, height - 38), (width - 4, height - 4)], fill='#0c2340')
-
-    # Footer Text
-    font_foot = get_font('bold', 11)
-    draw.text((width // 2, height - 21), "Official Recruitment Notice • Online Application • Fast Updates", fill="#ffffff", font=font_foot, anchor="mm")
-
+    # Footer
+    draw.rectangle([(3, height - 38), (width - 4, height - 4)], fill='#0f172a')
+    draw.text((width // 2, height - 21), 'Fastest Sarkari Naukri & Result Updates • Free Mock Tests & PDF', fill='#ffffff', font=get_font('bold', 11), anchor='mm')
+    
     return img
 
 def generate_post_thumbnail(
     title: str,
     total_posts: str = "",
-    category_badge: str = "Online Form 2026",
+    last_date: str = "",
+    qualification: str = "10th / 12th Pass",
     output_path: str = None,
     width: int = 640,
     height: int = 330,
-    max_size_kb: int = 10
+    max_size_kb: float = 9.8
 ) -> str:
     """
-    Generates a dynamic post thumbnail in WebP format (<10KB) with custom title, posts badge, and branding.
+    Generates official Clean Design 1 WebP thumbnail (<10KB) without bulky boxes.
+    Big Navy Title + Single Line Posts & Last Date Meta.
     """
     img = create_base_template(width, height)
     draw = ImageDraw.Draw(img)
 
-    # 1. Clean and wrap title
+    # 1. Clean Title and wrap if long
     clean_title = title.strip()
-    wrapped_lines = textwrap.wrap(clean_title, width=32)
-    if len(wrapped_lines) > 3:
-        wrapped_lines = wrapped_lines[:3]
-        wrapped_lines[2] = wrapped_lines[2][:28] + "..."
+    # Remove redundant board name from front if already too long
+    lines = textwrap.wrap(clean_title, width=32)
+    if len(lines) > 2:
+        lines = lines[:2]
+        lines[1] = lines[1][:28] + "..."
 
-    # Title font sizing based on line count
-    if len(wrapped_lines) == 1:
-        title_font_size = 23
-        line_spacing = 30
-        start_y = 95
-    elif len(wrapped_lines) == 2:
-        title_font_size = 20
-        line_spacing = 26
-        start_y = 82
+    # Title Sizing & Positioning
+    if len(lines) == 1:
+        title_font_size = 25
+        title_y = 115
+        line_spacing = 0
     else:
-        title_font_size = 17
-        line_spacing = 22
-        start_y = 72
+        title_font_size = 22
+        title_y = 98
+        line_spacing = 26
 
     title_font = get_font('bold', title_font_size)
+    for i, line in enumerate(lines):
+        y = title_y + (i * line_spacing)
+        draw.text((width // 2, y), line, fill='#0b213f', font=title_font, anchor='mm')
 
-    # Draw Title (Navy #0b213f)
-    for i, line in enumerate(wrapped_lines):
-        y_pos = start_y + (i * line_spacing)
-        draw.text((width // 2, y_pos), line, fill='#0b213f', font=title_font, anchor='mm')
-
-    # 2. Badges Section
-    badges_y = 195 if len(wrapped_lines) <= 2 else 205
-    badge_font = get_font('bold', 12)
-
-    # Badge 1: Total Posts
-    if total_posts:
-        posts_text = f"Total Posts: {total_posts}".upper()
-    else:
-        posts_text = "OFFICIAL NOTIFICATION"
+    # 2. Meta Line (Posts & Last Date in Red/Crimson, No Boxes)
+    meta_y = 165 if len(lines) == 1 else 172
     
-    draw.rounded_rectangle([(30, badges_y), (300, badges_y + 32)], radius=4, fill='#046132')
-    draw.text((165, badges_y + 16), posts_text, fill='#ffffff', font=badge_font, anchor='mm')
+    meta_parts = []
+    if total_posts:
+        posts_str = str(total_posts).strip()
+        if not posts_str.lower().endswith("posts") and not posts_str.lower().endswith("post"):
+            posts_str += " Posts"
+        meta_parts.append(f"Total Posts : {posts_str}")
+    else:
+        meta_parts.append("Official Notification")
 
-    # Badge 2: Category / Status Badge
-    cat_text = category_badge.strip().upper()
-    draw.rounded_rectangle([(330, badges_y), (610, badges_y + 32)], radius=4, fill='#9f1239')
-    draw.text((470, badges_y + 16), cat_text, fill='#ffffff', font=badge_font, anchor='mm')
+    if last_date:
+        meta_parts.append(f"Last Date : {last_date.strip()}")
+    else:
+        meta_parts.append("Online Form Active")
 
-    # 3. Subtitle / Call-to-action line
-    cta_y = badges_y + 48
-    cta_font = get_font('bold', 11)
-    draw.text((width // 2, cta_y), "Check Eligibility Criteria, Age Limit, Syllabus & Apply Online", fill='#475569', font=cta_font, anchor='mm')
+    meta_text = "   |   ".join(meta_parts)
+    meta_font = get_font('bold', 18 if len(meta_text) < 45 else 16)
+    draw.text((width // 2, meta_y), meta_text, fill='#b91c1c', font=meta_font, anchor='mm')
 
-    # Ensure output directory exists
+    # 3. Subtitle / Eligibility line
+    sub_y = meta_y + 45
+    sub_text = f"Eligibility : {qualification} • 100% Free Job Alerts" if qualification else "Download Notification PDF, Check Eligibility & Apply Online"
+    sub_font = get_font('bold', 12)
+    draw.text((width // 2, sub_y), sub_text, fill='#475569', font=sub_font, anchor='mm')
+
+    # Ensure output path
     if output_path is None:
         os.makedirs('/root/sarkari-result-portal/static/thumbnails', exist_ok=True)
         output_path = '/root/sarkari-result-portal/static/thumbnails/default.webp'
     else:
         os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
 
-    # Save as WebP with optimized compression to ensure < 10KB
-    quality = 80
-    while quality >= 30:
-        img.save(output_path, 'WEBP', quality=quality, method=6)
+    # Save WebP with optimization strictly < 10KB
+    q = 65
+    while q >= 20:
+        img.save(output_path, 'WEBP', quality=q, method=6)
         size_kb = os.path.getsize(output_path) / 1024.0
         if size_kb <= max_size_kb:
             break
-        quality -= 5
+        q -= 5
 
-    # If still above max size, reduce colors
+    # Fallback to 128 adaptive colors if needed
     if os.path.getsize(output_path) / 1024.0 > max_size_kb:
-        img.convert('P', palette=Image.ADAPTIVE, colors=128).save(output_path, 'WEBP', quality=65)
+        img.convert('P', palette=Image.ADAPTIVE, colors=128).save(output_path, 'WEBP', quality=50)
 
     return output_path
 
 if __name__ == '__main__':
-    # Save clean base template
-    base_img = create_base_template()
-    base_img.save('/root/sarkari-result-portal/static/images/studytopper_banner_base.webp', 'WEBP', quality=80)
-
-    # Test generation
+    # Test generation for SSC GD
     out = generate_post_thumbnail(
         title="SSC GD Constable Recruitment 2026",
-        total_posts="39,481 Posts",
-        category_badge="10th Pass Online Form",
+        total_posts="39,481",
+        last_date="25 Sept 2026",
+        qualification="10th Matric Pass",
         output_path="/root/sarkari-result-portal/static/thumbnails/ssc-gd-constable-2026.webp"
     )
     sz = os.path.getsize(out) / 1024.0
-    print(f"Generated test thumbnail: {out} ({sz:.2f} KB)")
+    print(f"Generated clean thumbnail: {out} ({sz:.2f} KB)")
