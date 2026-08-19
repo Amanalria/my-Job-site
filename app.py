@@ -2795,7 +2795,20 @@ def api_delete_category(cat_id):
     filtered = [c for c in cats if c.get('id') != cat_id and c.get('slug') != cat_id]
     settings['categories'] = filtered
     save_settings_data(settings)
-    return jsonify({'status': 'success', 'deleted': cat_id})
+@app.route('/post-preview')
+@app.route('/post-preview/')
+@app.route('/post-design-preview')
+@app.route('/post-design-preview/')
+def post_preview_page():
+    preview_file = os.path.join(BASE_DIR, 'post_design_preview.html')
+    if not os.path.exists(preview_file):
+        preview_file = os.path.join(BASE_DIR, 'sample_post.html')
+    if os.path.exists(preview_file):
+        with open(preview_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+        sanitized = sanitize_html(content, request.host)
+        return Response(sanitized, mimetype='text/html')
+    abort(404)
 
 if __name__ == '__main__':
     print("===================================================================")
