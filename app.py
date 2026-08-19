@@ -343,6 +343,190 @@ def render_single_post_html(post, settings):
     </footer>
 </body>
 </html>"""
+
+# ==================== CATEGORY & SEARCH PAGE RENDERERS ====================
+
+CATEGORY_SLUG_MAP = {
+    'result': 'Results',
+    'results': 'Results',
+    'admit-card': 'Admit Card',
+    'admit-cards': 'Admit Card',
+    'latest-jobs': 'Latest Jobs',
+    'latestjob': 'Latest Jobs',
+    'jobs': 'Latest Jobs',
+    'answer-key': 'Answer Key',
+    'answerkey': 'Answer Key',
+    'syllabus': 'Syllabus',
+    'admission': 'Admission',
+    'admissions': 'Admission',
+    'certificate-verification': 'Certificate Verification',
+    'important': 'Important'
+}
+
+def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
+    site_name = settings.get('site_name', 'SARKARI RESULT™')
+    domain = settings.get('domain', 'SarkariResult.Com.Cm')
+    footer_text = settings.get('footer_text', 'Copyright © 2009 - 2026 | SarkariResult.com.cm. All Rights Reserved.')
+
+    if cat_posts:
+        items_html = ''
+        for p in cat_posts:
+            badge_suffix = ''
+            if p.get('custom_badge'):
+                badge_suffix = f" – {p.get('custom_badge')}"
+            elif p.get('is_date_extended'):
+                badge_suffix = " – Date Extend"
+            elif p.get('is_pinned'):
+                badge_suffix = " – Last Date Soon"
+            items_html += f'<li style="margin-bottom:12px; font-size:14.5px;"><a href="/{p.get("slug")}/" style="color:#0000c0; text-decoration:none; font-weight:600;">{p.get("title")}{badge_suffix}</a></li>'
+        posts_list_html = f'<ul style="list-style-type:square; padding-left:25px; margin:15px 0;">{items_html}</ul>'
+    else:
+        posts_list_html = '<div style="text-align:center; padding:50px 15px; color:#64748b;"><i class="fa-solid fa-folder-open" style="font-size:42px; color:#cbd5e1; display:block; margin-bottom:12px;"></i><p style="font-size:17px; font-weight:600; color:#334155; margin:0 0 6px;">No posts in this category yet</p><p style="font-size:13.5px; margin:0;">New notifications published from Admin Panel will appear here automatically.</p></div>'
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{cat_title} 2026 : {site_name}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {{ box-sizing: border-box; }}
+        body {{ font-family: Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
+        header.site-header {{ background-color: #cd0808; text-align: center; padding: 15px 10px; }}
+        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; }}
+        .main-title a {{ color: #fff; text-decoration: none; }}
+        .site-description {{ color: #fff; font-size: 20px; font-weight: 700; margin: 4px 0 0; }}
+        nav.main-navigation {{ background-color: #0c2340; text-align: center; padding: 10px; overflow-x: auto; white-space: nowrap; }}
+        nav.main-navigation a {{ color: #fff; text-decoration: none; margin: 0 10px; font-size: 14px; font-weight: 700; }}
+        nav.main-navigation a:hover {{ text-decoration: underline; }}
+        .page-container {{ max-width: 1040px; margin: 20px auto; padding: 0 12px; min-height: 400px; }}
+        .breadcrumb {{ font-size: 13px; color: #555; margin-bottom: 15px; }}
+        .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
+        .cat-card {{ border: 2px solid #ab183d; border-radius: 4px; padding: 20px; background: #fff; }}
+        h1.cat-heading {{ background: #ab183d; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
+        footer.site-footer {{ background-color: #212121; color: #ffffff; text-align: center; padding: 25px 15px; margin-top: 40px; }}
+        footer.site-footer a {{ color: #ffffff; text-decoration: underline; margin: 0 8px; font-size: 13px; }}
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <h1 class="main-title"><a href="/">{site_name}</a></h1>
+        <p class="site-description">{domain}</p>
+    </header>
+    <nav class="main-navigation">
+        <a href="/">Home</a>
+        <a href="/latest-jobs/">Latest Jobs</a>
+        <a href="/result/">Results</a>
+        <a href="/admit-card/">Admit Card</a>
+        <a href="/answer-key/">Answer Key</a>
+        <a href="/syllabus/">Syllabus</a>
+        <a href="/admission/">Admission</a>
+        <a href="/contact/">Contact Us</a>
+    </nav>
+    <div class="page-container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> » <span>{cat_title}</span>
+        </div>
+        <div class="cat-card">
+            <h1 class="cat-heading">{cat_title} 2026 : Sarkari Result</h1>
+            {posts_list_html}
+            <div style="text-align:center; margin-top:30px;">
+                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Sarkari Result Home</a>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <p>{footer_text}</p>
+        <div class="gb-container-658f27a5" style="margin-top:10px;">
+            <a class="gb-button" href="/">Home</a>
+            <a class="gb-button" href="/contact/">Contact</a>
+            <a class="gb-button" href="/privacy-policy/">Privacy Policy</a>
+            <a class="gb-button" href="/disclaimer/">Disclaimer</a>
+        </div>
+    </footer>
+</body>
+</html>"""
+
+def render_search_page_html(query, search_results, settings):
+    site_name = settings.get('site_name', 'SARKARI RESULT™')
+    domain = settings.get('domain', 'SarkariResult.Com.Cm')
+    footer_text = settings.get('footer_text', 'Copyright © 2009 - 2026 | SarkariResult.com.cm. All Rights Reserved.')
+
+    if search_results:
+        items_html = ''
+        for p in search_results:
+            cat_name = p.get('category', 'Notification').replace('-', ' ').title()
+            items_html += f'<li style="margin-bottom:12px; font-size:14.5px;"><a href="/{p.get("slug")}/" style="color:#0000c0; text-decoration:none; font-weight:600;">{p.get("title")}</a> <span style="background:#f1f5f9; color:#475569; padding:1px 6px; border-radius:3px; font-size:11px; font-weight:600; margin-left:6px;">{cat_name}</span></li>'
+        results_html = f'<ul style="list-style-type:square; padding-left:25px; margin:15px 0;">{items_html}</ul>'
+    else:
+        results_html = f'<div style="text-align:center; padding:50px 15px; color:#64748b;"><i class="fa-solid fa-magnifying-glass" style="font-size:42px; color:#cbd5e1; display:block; margin-bottom:12px;"></i><p style="font-size:17px; font-weight:600; color:#334155; margin:0 0 6px;">No official notifications found for "{query}"</p><p style="font-size:13.5px; margin:0;">Only verified notifications published on this portal are searched.</p></div>'
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search: {query} - {site_name}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {{ box-sizing: border-box; }}
+        body {{ font-family: Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
+        header.site-header {{ background-color: #cd0808; text-align: center; padding: 15px 10px; }}
+        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; }}
+        .main-title a {{ color: #fff; text-decoration: none; }}
+        .site-description {{ color: #fff; font-size: 20px; font-weight: 700; margin: 4px 0 0; }}
+        nav.main-navigation {{ background-color: #0c2340; text-align: center; padding: 10px; overflow-x: auto; white-space: nowrap; }}
+        nav.main-navigation a {{ color: #fff; text-decoration: none; margin: 0 10px; font-size: 14px; font-weight: 700; }}
+        nav.main-navigation a:hover {{ text-decoration: underline; }}
+        .page-container {{ max-width: 1040px; margin: 20px auto; padding: 0 12px; min-height: 400px; }}
+        .breadcrumb {{ font-size: 13px; color: #555; margin-bottom: 15px; }}
+        .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
+        .cat-card {{ border: 2px solid #ab183d; border-radius: 4px; padding: 20px; background: #fff; }}
+        h1.cat-heading {{ background: #ab183d; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
+        footer.site-footer {{ background-color: #212121; color: #ffffff; text-align: center; padding: 25px 15px; margin-top: 40px; }}
+        footer.site-footer a {{ color: #ffffff; text-decoration: underline; margin: 0 8px; font-size: 13px; }}
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <h1 class="main-title"><a href="/">{site_name}</a></h1>
+        <p class="site-description">{domain}</p>
+    </header>
+    <nav class="main-navigation">
+        <a href="/">Home</a>
+        <a href="/latest-jobs/">Latest Jobs</a>
+        <a href="/result/">Results</a>
+        <a href="/admit-card/">Admit Card</a>
+        <a href="/answer-key/">Answer Key</a>
+        <a href="/syllabus/">Syllabus</a>
+        <a href="/admission/">Admission</a>
+        <a href="/contact/">Contact Us</a>
+    </nav>
+    <div class="page-container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> » <span>Search: {query}</span>
+        </div>
+        <div class="cat-card">
+            <h1 class="cat-heading">Search Results for : "{query}"</h1>
+            {results_html}
+            <div style="text-align:center; margin-top:30px;">
+                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Sarkari Result Home</a>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <p>{footer_text}</p>
+        <div class="gb-container-658f27a5" style="margin-top:10px;">
+            <a class="gb-button" href="/">Home</a>
+            <a class="gb-button" href="/contact/">Contact</a>
+            <a class="gb-button" href="/privacy-policy/">Privacy Policy</a>
+            <a class="gb-button" href="/disclaimer/">Disclaimer</a>
+        </div>
+    </footer>
+</body>
+</html>"""
+
 COL_MAPPING = {
     '0b76599a': 'result',
     'e64d3148': 'admit-card',
@@ -614,50 +798,41 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     # 11. Dynamic Grid Column Section Titles, Colors & Dynamic Post Lists
     grid_headers = settings.get('grid_headers', {})
     all_active_posts = load_all_active_posts()
-    deleted_slugs = get_deleted_post_slugs()
 
     for col_cls, cat_key in COL_MAPPING.items():
-        col_div = soup.find(class_=f'gb-grid-column-{col_cls}')
-        if col_div:
-            container = col_div.find(class_='gb-container')
-            if container:
-                h2 = container.find(class_=re.compile(r'gb-headline.*-text'))
-                if h2:
-                    if cat_key in grid_headers and grid_headers[cat_key].get('title'):
-                        h2.string = grid_headers[cat_key].get('title')
-                    cat_norm = cat_key.replace('-', '_')
-                    col_bg = theme.get(f'{cat_norm}_header_bg') or theme.get('result_header_bg', '#ab183d')
-                    col_txt = theme.get(f'{cat_norm}_header_text') or '#ffffff'
-                    h2['style'] = f'background-color:{col_bg} !important; color:{col_txt} !important; text-align:center; font-weight:700; padding:6px 0;'
+        col_divs = soup.find_all(class_=re.compile(rf'gb-grid-column-{col_cls}'))
+        for col_div in col_divs:
+            container = col_div.find(class_='gb-container') or col_div
+            h2 = container.find(class_=re.compile(r'gb-headline.*-text'))
+            if h2:
+                if cat_key in grid_headers and grid_headers[cat_key].get('title'):
+                    h2.string = grid_headers[cat_key].get('title')
+                cat_norm = cat_key.replace('-', '_')
+                col_bg = theme.get(f'{cat_norm}_header_bg') or theme.get('result_header_bg', '#ab183d')
+                col_txt = theme.get(f'{cat_norm}_header_text') or '#ffffff'
+                h2['style'] = f'background-color:{col_bg} !important; color:{col_txt} !important; text-align:center; font-weight:700; padding:6px 0;'
 
-                ul_tag = container.find('ul', class_=re.compile(r'wp-block-latest-posts'))
-                if ul_tag:
-                    for li in list(ul_tag.find_all('li')):
-                        a_post = li.find('a')
-                        if a_post:
-                            href = a_post.get('href', '')
-                            p_slug = href.strip('/').split('/')[-1]
-                            if p_slug in deleted_slugs:
-                                li.decompose()
-
-                    cat_new_posts = [p for p in all_active_posts if p.get('category') == cat_key and not p.get('is_temporary')]
-                    for cp in reversed(cat_new_posts):
-                        existing = ul_tag.find('a', href=re.compile(rf'/{cp["slug"]}/?$'))
-                        if not existing:
-                            new_li = soup.new_tag('li')
-                            new_a = soup.new_tag('a', **{'class': 'wp-block-latest-posts__post-title', 'href': f'/{cp["slug"]}/'})
-                            
-                            badge_suffix = ''
-                            if cp.get('custom_badge'):
-                                badge_suffix = f" – {cp.get('custom_badge')}"
-                            elif cp.get('is_date_extended'):
-                                badge_suffix = " – Date Extend"
-                            elif cp.get('is_pinned'):
-                                badge_suffix = " – Last Date Soon"
-                            
-                            new_a.string = f"{cp['title']}{badge_suffix}" 
-                            new_li.append(new_a)
-                            ul_tag.insert(0, new_li)
+            for ul_tag in container.find_all('ul', class_=re.compile(r'wp-block-latest-posts')):
+                ul_tag.clear()
+                cat_new_posts = [p for p in all_active_posts if p.get('category') == cat_key and not p.get('is_temporary')]
+                if cat_new_posts:
+                    for cp in cat_new_posts:
+                        new_li = soup.new_tag('li')
+                        new_a = soup.new_tag('a', **{'class': 'wp-block-latest-posts__post-title', 'href': f'/{cp["slug"]}/'})
+                        badge_suffix = ''
+                        if cp.get('custom_badge'):
+                            badge_suffix = f" – {cp.get('custom_badge')}"
+                        elif cp.get('is_date_extended'):
+                            badge_suffix = " – Date Extend"
+                        elif cp.get('is_pinned'):
+                            badge_suffix = " – Last Date Soon"
+                        new_a.string = f"{cp['title']}{badge_suffix}"
+                        new_li.append(new_a)
+                        ul_tag.append(new_li)
+                else:
+                    empty_li = soup.new_tag('li', style='list-style:none; color:#64748b; font-size:13px; padding:15px 10px; text-align:center; font-style:italic;')
+                    empty_li.string = "No notifications yet. New posts will appear here."
+                    ul_tag.append(empty_li)
 
     # 12. Dynamic Guidelines & FAQ Block
     c08 = soup.find(class_='gb-container-08c3e704')
@@ -1182,6 +1357,9 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             path = href.replace('https://sarkariresult.com.cm', '').replace('http://sarkariresult.com.cm', '')
             a['href'] = path if path else '/'
 
+        # Rewrite search forms to internal /search
+    for s_form in soup.find_all('form', class_=re.compile(r'search-modal-form|search-form')):
+        s_form['action'] = '/search'
     return str(soup)
 
 # Static Asset Handler
@@ -1262,6 +1440,10 @@ def dynamic_sitemap():
 @app.route('/alria')
 @app.route('/alria/')
 def home():
+    search_q = request.args.get('s') or request.args.get('q')
+    if search_q:
+        return redirect(f'/search?q={search_q}')
+
     is_alria = (request.path in ['/alria', '/alria/']) or (request.args.get('alria') == '1')
     index_file = os.path.join(PAGES_DIR, 'index.html')
     if os.path.exists(index_file):
@@ -1271,44 +1453,61 @@ def home():
         return Response(sanitized, mimetype='text/html')
     abort(404)
 
+@app.route('/search')
+@app.route('/search/')
+def search_page():
+    query = (request.args.get('q') or request.args.get('s') or '').strip()
+    settings = load_settings()
+    all_posts = load_all_active_posts()
+    
+    results = []
+    if query:
+        q_lower = query.lower()
+        for p in all_posts:
+            title = (p.get('title') or '').lower()
+            tags = (p.get('tags') or '').lower()
+            desc = (p.get('short_desc') or '').lower()
+            cat = (p.get('category') or '').lower()
+            if q_lower in title or q_lower in tags or q_lower in desc or q_lower in cat:
+                results.append(p)
+                
+    return Response(render_search_page_html(query, results, settings), mimetype='text/html')
+
 # ==================== CLEAN TOP-LEVEL SLUG ROUTING ====================
 
 @app.route('/<path:slug>/')
 @app.route('/<path:slug>')
 def dynamic_page_router(slug):
     clean_slug = slug.strip('/')
-    if clean_slug in ['favicon.ico', 'robots.txt', 'sitemap.xml', 'ads.txt', 'alria', 'admin']:
+    if clean_slug in ['favicon.ico', 'robots.txt', 'sitemap.xml', 'ads.txt', 'alria', 'admin', 'search']:
         abort(404)
 
     settings = load_settings()
     all_posts = load_all_active_posts()
+
+    # 1. Category Page Routing (e.g. /result/, /latest-jobs/, /admit-card/)
+    norm_slug = clean_slug.lower()
+    if norm_slug in CATEGORY_SLUG_MAP:
+        cat_title = CATEGORY_SLUG_MAP[norm_slug]
+        cat_key = 'latest-jobs' if norm_slug in ['jobs', 'latestjob'] else ('result' if norm_slug == 'results' else ('admit-card' if norm_slug == 'admit-cards' else ('answer-key' if norm_slug == 'answerkey' else ('admission' if norm_slug == 'admissions' else norm_slug))))
+        cat_posts = [p for p in all_posts if p.get('category') == cat_key and not p.get('is_temporary')]
+        cat_html = render_category_page_html(clean_slug, cat_title, cat_posts, settings)
+        return Response(sanitize_html(cat_html, request.host), mimetype='text/html')
+
+    # 2. User-Created Single Post Routing
     for p in all_posts:
         if p.get('slug') == clean_slug or p.get('id') == clean_slug:
             post_html = render_single_post_html(p, settings)
             return Response(sanitize_html(post_html, request.host), mimetype='text/html')
 
+    # 3. Static User HTML Page in PAGES_DIR (if explicitly created by user)
     page_file = os.path.join(PAGES_DIR, f"{clean_slug}.html")
-    if os.path.exists(page_file):
+    if os.path.exists(page_file) and clean_slug != 'index':
         with open(page_file, 'r', encoding='utf-8') as f:
             content = f.read()
         return Response(sanitize_html(content, request.host), mimetype='text/html')
 
-    # Live scraper fallback
-    try:
-        url = f"https://{TARGET_DOMAIN}/{clean_slug}/"
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-        res = requests.get(url, headers=headers, timeout=10)
-        if res.status_code == 200:
-            cleaned = sanitize_html(res.text, request.host)
-            try:
-                with open(page_file, 'w', encoding='utf-8') as f:
-                    f.write(cleaned)
-            except Exception:
-                pass
-            return Response(cleaned, mimetype='text/html')
-    except Exception:
-        pass
-
+    # Zero external scraper fallback! Only show clean 404
     abort(404)
 
 # Candidate Tools
