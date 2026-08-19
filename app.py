@@ -201,29 +201,41 @@ def get_footer_html(settings):
     fb_url = socials.get('facebook', 'https://facebook.com/')
     tw_url = socials.get('twitter', 'https://x.com/')
 
-    return f"""<footer class="site-footer" style="background-color:#212121; color:#ffffff; text-align:center; padding:30px 15px; margin-top:40px;">
-    <div style="max-width:1040px; margin:0 auto; padding:0 12px;">
-        <h3 style="color:#ffffff; font-size:18px; margin-bottom:14px; font-weight:700;">Connect With Us</h3>
-        <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:22px;">
-            <a href="{tw_url}" target="_blank" style="color:#fff; text-decoration:none; background:#1e293b; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-x-twitter"></i> Study Topper @X</a>
-            <a href="{tg_url}" target="_blank" style="color:#fff; text-decoration:none; background:#0284c7; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-telegram"></i> Study Topper @Telegram</a>
-            <a href="{wa_url}" target="_blank" style="color:#fff; text-decoration:none; background:#16a34a; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-whatsapp"></i> Study Topper @WhatsApp</a>
-            <a href="{ig_url}" target="_blank" style="color:#fff; text-decoration:none; background:#db2777; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-instagram"></i> Study Topper @Instagram</a>
-            <a href="{fb_url}" target="_blank" style="color:#fff; text-decoration:none; background:#2563eb; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-facebook"></i> Study Topper @Facebook</a>
-            <a href="{yt_url}" target="_blank" style="color:#fff; text-decoration:none; background:#dc2626; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-youtube"></i> Study Topper @YouTube</a>
-        </div>
-        
-        <p style="font-size:13px; color:#cbd5e1; margin:10px 0; line-height:1.6;">Official Website of Study Topper™ – {domain} | All educational and government recruitment notifications published for student guidance.</p>
-        <p style="font-size:12px; color:#94a3b8; margin:6px 0;">Copyright © 2026 | {domain}. All Rights Reserved. Not affiliated with any government agency.</p>
-        
-        <div class="gb-container-658f27a5" style="margin-top:14px;">
-            <a class="gb-button" href="/" style="background:transparent !important; color:#ffffff !important; text-decoration:underline !important; margin:0 8px; font-size:13px;">Home</a>
-            <a class="gb-button" href="/contact/" style="background:transparent !important; color:#ffffff !important; text-decoration:underline !important; margin:0 8px; font-size:13px;">Contact</a>
-            <a class="gb-button" href="/privacy-policy/" style="background:transparent !important; color:#ffffff !important; text-decoration:underline !important; margin:0 8px; font-size:13px;">Privacy Policy</a>
-            <a class="gb-button" href="/disclaimer/" style="background:transparent !important; color:#ffffff !important; text-decoration:underline !important; margin:0 8px; font-size:13px;">Disclaimer</a>
+    return f"""<div class="site-footer">
+    <div class="gb-container gb-container-7d9550dd naman_footer alignwide">
+        <div class="gb-grid-wrapper gb-grid-wrapper-b76f312f">
+            <div class="gb-grid-column gb-grid-column-53cb46e2">
+                <div class="gb-container gb-container-53cb46e2">
+                    <div class="sarkari-wrapper">
+                        <h3>Connect With Us</h3>
+                        <div class="sarkari-grid">
+                            <a href="{tw_url}" target="_blank">Study Topper @X</a>
+                            <a href="{tg_url}" target="_blank">Study Topper @Telegram</a>
+                            <a href="{wa_url}" target="_blank">Study Topper @WhatsApp</a>
+                            <a href="{ig_url}" target="_blank">Study Topper @Instagram</a>
+                            <a href="{fb_url}" target="_blank">Study Topper @Facebook</a>
+                            <a href="{yt_url}" target="_blank">Study Topper @YouTube</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</footer>"""
+
+    <div class="gb-container gb-container-d1f47294" style="text-align:center; padding:15px 0;">
+        <div class="gb-headline gb-headline-e41178b2 gb-headline-text" style="font-size:14px; margin-bottom:8px;">
+            Copyright © 2026 | <strong><a href="/" data-type="link" data-id="{domain}">{domain}</a></strong><br>
+            Official Website of Study Topper™ – {domain}
+        </div>
+
+        <div class="gb-container-658f27a5" style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+            <a class="gb-button gb-button-7d526092 gb-button-text" href="/" style="color:#ffffff !important; text-decoration:underline;">Home</a>
+            <a class="gb-button gb-button-05aacc7b gb-button-text" href="/contact/" style="color:#ffffff !important; text-decoration:underline;">Contact</a>
+            <a class="gb-button gb-button-c050fa03 gb-button-text" href="/privacy-policy/" style="color:#ffffff !important; text-decoration:underline;">Privacy Policy</a>
+            <a class="gb-button gb-button-6172bea5 gb-button-text" href="/disclaimer/" style="color:#ffffff !important; text-decoration:underline;">Disclaimer</a>
+        </div>
+    </div>
+</div>"""
 
 def render_single_post_html(post, settings):
     title = post.get('title', 'Study Topper Notification')
@@ -232,8 +244,8 @@ def render_single_post_html(post, settings):
     category_name = category_slug.replace('-', ' ').title()
     short_desc = post.get('short_desc', '')
     html_content = post.get('html_content', '')
-    app_start = post.get('application_start_date', 'August 2026')
-    app_last = post.get('application_last_date', 'September 2026')
+    app_start = post.get('application_start_date', '15/08/2026')
+    app_last = post.get('application_last_date', '25/09/2026')
     tags = post.get('tags', '')
     site_name = settings.get('site_name', 'STUDY TOPPER™')
     domain = settings.get('domain', 'studytopper.in')
@@ -247,184 +259,185 @@ def render_single_post_html(post, settings):
     tags_html = ''
     if tags:
         tag_list = [t.strip() for t in tags.split(',') if t.strip()]
-        tags_html = '<div style="margin:25px 0 15px; padding:12px 15px; background:#f8fafc; border-left:4px solid #ab183d; border-radius:3px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;"><strong><i class="fa-solid fa-tags" style="color:#ab183d;"></i> Related Tags:</strong> ' + ''.join([f'<span style="background:#fff; border:1px solid #cbd5e1; padding:3px 10px; border-radius:3px; font-size:12px; font-weight:600; color:#1e293b;">#{t}</span>' for t in tag_list]) + '</div>'
-
-    body_content_render = cleaned_content
-    if not body_content_render or len(body_content_render.strip()) < 50:
-        body_content_render = f"""
-        <table style="width:100%; border-collapse:collapse; border:2px solid #ab183d; margin:15px 0;">
-            <thead>
-                <tr style="background:#ab183d; color:#ffffff;">
-                    <th colspan="2" style="padding:12px; text-align:center; font-size:17px; font-weight:700;">{headline}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="width:50%; vertical-align:top; padding:12px; border:1px solid #ccc; background:#fafafa;">
-                        <h4 style="color:#008000; margin:0 0 8px; font-size:15px;">Important Dates</h4>
-                        <ul style="margin:0 0 0 18px; padding:0; font-size:13.5px; line-height:1.8;">
-                            <li>Application Begin : <strong>{app_start}</strong></li>
-                            <li>Last Date for Apply : <strong style="color:#ab183d;">{app_last}</strong></li>
-                            <li>Pay Exam Fee Last Date : <strong>{app_last}</strong></li>
-                            <li>Exam Date : <strong>As per Schedule</strong></li>
-                            <li>Admit Card Available : <strong>Before Exam</strong></li>
-                        </ul>
-                    </td>
-                    <td style="width:50%; vertical-align:top; padding:12px; border:1px solid #ccc; background:#fafafa;">
-                        <h4 style="color:#008000; margin:0 0 8px; font-size:15px;">Application Fee</h4>
-                        <ul style="margin:0 0 0 18px; padding:0; font-size:13.5px; line-height:1.8;">
-                            <li>General / OBC / EWS : <strong>Rs. 100/-</strong></li>
-                            <li>SC / ST / PH : <strong>Rs. 0/- (Exempted)</strong></li>
-                            <li>All Category Female : <strong>Rs. 0/-</strong></li>
-                            <li>Pay Fee via Online Debit Card / Credit Card / Net Banking / UPI.</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="padding:12px; border:1px solid #ccc; background:#ffffff;">
-                        <h4 style="color:#ab183d; margin:0 0 8px; font-size:15px;">Age Limit Criteria (as on {app_last})</h4>
-                        <ul style="margin:0 0 0 18px; padding:0; font-size:13.5px; line-height:1.7;">
-                            <li>Minimum Age : <strong>18 Years</strong></li>
-                            <li>Maximum Age : <strong>30-35 Years (Post Wise)</strong></li>
-                            <li>Age Relaxation Extra as per Official Recruitment Rules.</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        """
+        tags_html = '<div class="tags-wrapper" style="margin:20px 0; padding:10px 14px; background:#f8fafc; border-left:4px solid #ab183d; font-size:13px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;"><strong><i class="fa-solid fa-tags" style="color:#ab183d;"></i> Related Tags:</strong> ' + ' '.join([f'<span style="background:#fff; border:1px solid #cbd5e1; padding:2px 8px; border-radius:3px; font-weight:600; color:#1e293b;">#{t}</span>' for t in tag_list]) + '</div>'
 
     footer_render = get_footer_html(settings)
 
     return f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} : {site_name} Official Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{title} : {site_name}</title>
     <meta name="description" content="{short_desc or title}">
+    <link rel="canonical" href="https://{domain}/{post.get('slug')}/">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{title} : {site_name}">
+    <meta property="og:description" content="{short_desc or title}">
+    <meta property="og:url" content="https://{domain}/{post.get('slug')}/">
+    <meta property="og:site_name" content="{site_name}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700|Roboto:400,500,700|Noto+Sans:400,700|Open+Sans:400,600,700&display=swap">
+    <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
+    <link rel="stylesheet" href="/wp-content/uploads/generateblocks/style-32.css?ver=1787054534">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * {{ box-sizing: border-box; }}
-        body {{ font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background: #ffffff; color: #000000; line-height: 1.5; font-size: 14px; }}
-        header.site-header {{ background-color: #cd0808; text-align: center; padding: 15px 10px; }}
-        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; }}
+        body {{ font-family: Open Sans, Arial, Helvetica, sans-serif; background-color: #ffffff; color: #000000; margin: 0; padding: 0; font-size: 15px; line-height: 1.5; }}
+        .site-header {{ background-color: #cd0808; text-align: center; padding: 15px 0; }}
+        .main-title {{ text-transform: uppercase; font-size: 45px; font-weight: 800; margin: 0; line-height: 1.1; }}
         .main-title a {{ color: #ffffff; text-decoration: none; }}
-        .site-description {{ color: #ffffff; font-size: 20px; font-weight: 700; margin: 4px 0 0; }}
-        nav.main-navigation {{ background-color: #0c2340; text-align: center; padding: 10px; overflow-x: auto; white-space: nowrap; }}
-        nav.main-navigation a {{ color: #ffffff; text-decoration: none; margin: 0 10px; font-size: 14px; font-weight: 700; }}
-        nav.main-navigation a:hover {{ text-decoration: underline; }}
+        .site-description {{ color: #ffffff; font-weight: 700; font-size: 25px; margin: 4px 0 0 0; }}
+        .main-navigation {{ background-color: #0c2340; }}
+        .main-navigation .main-nav ul {{ list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }}
+        .main-navigation .main-nav ul li a {{ color: #ffffff; padding: 10px 14px; font-size: 14px; font-weight: 700; text-decoration: none; display: block; }}
+        .main-navigation .main-nav ul li a:hover {{ background-color: #982704; }}
         
-        .whatsapp-banner {{ text-align: center; margin: 15px 0; }}
-        .whatsapp-btn {{ background: #01aa03; color: #fff !important; text-decoration: none; font-size: 14px; font-weight: 700; padding: 10px 22px; border-radius: 8px; display: inline-block; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }}
+        .whatsapp-post-bar {{ text-align: center; margin: 12px 0 6px; }}
+        .whatsapp-post-bar a {{ background-color: #01aa03; color: #ffffff !important; text-decoration: none; font-size: 14px; font-weight: 700; padding: 8px 18px; border-radius: 6px; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }}
         
-        .post-wrapper {{ max-width: 1040px; margin: 15px auto; padding: 0 12px; }}
-        .breadcrumb {{ font-size: 13px; color: #555; margin-bottom: 12px; }}
-        .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
+        .grid-container {{ max-width: 1070px; margin: 0 auto; padding: 0 12px; }}
+        .inside-article {{ padding: 15px 0; }}
         
-        .post-card {{ border: 2px solid #ab183d; padding: 18px 20px; background: #ffffff; margin-bottom: 25px; border-radius: 4px; }}
-        h1.entry-title {{ color: #ab183d; font-size: 22px; font-weight: 700; text-align: center; margin: 0 0 12px 0; line-height: 1.4; }}
-        .post-meta-line {{ text-align: center; font-size: 13px; color: #444; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-bottom: 14px; }}
-        .post-meta-line strong {{ color: #000; }}
+        .post-breadcrumb {{ font-size: 13px; color: #555; margin-bottom: 12px; }}
+        .post-breadcrumb a {{ color: #0000c0; text-decoration: underline; }}
         
-        .short-info-box {{ background: #fff8f8; border: 1px solid #fca5a5; padding: 12px 15px; border-radius: 4px; margin: 15px 0; font-size: 13.5px; line-height: 1.6; text-align: justify; }}
-        .short-info-box strong {{ color: #b91c1c; }}
-
-        table {{ width: 100%; border-collapse: collapse; margin: 18px 0; }}
-        th, td {{ border: 1px solid #000000; padding: 8px 10px; font-size: 13.5px; text-align: left; }}
-        th {{ background-color: #ab183d; color: #ffffff; font-weight: 700; text-align: center; }}
+        h1.entry-title {{ font-size: 24px; font-weight: 700; color: #000000; text-align: center; margin: 5px 0 10px; line-height: 1.35; }}
+        .entry-meta-bar {{ text-align: center; font-size: 13px; color: #555; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 14px; }}
         
-        .important-links-table {{ width: 100%; border: 2px solid #0b7659; margin: 25px 0; }}
-        .important-links-table th {{ background: #0b7659; color: #fff; font-size: 16px; padding: 10px; }}
-        .important-links-table td {{ padding: 10px 12px; font-size: 14px; font-weight: 700; }}
-        .important-links-table td a {{ color: #ab183d; font-weight: 700; text-decoration: underline; }}
+        /* 100% Authentic Sarkari Result Table Styles */
+        .sarkari-post-table {{ width: 100%; border-collapse: collapse; border: 2px solid #ab183d; margin: 15px 0; font-family: Arial, Helvetica, sans-serif; }}
+        .sarkari-post-table th {{ background-color: #ab183d; color: #ffffff; text-align: center; padding: 8px 10px; font-size: 15px; font-weight: 700; border: 1px solid #ab183d; }}
+        .sarkari-post-table td {{ border: 1px solid #ccc; padding: 8px 10px; font-size: 13.5px; vertical-align: top; }}
         
-        @media (max-width: 767px) {{
-            .main-title {{ font-size: 24px; }}
-            .site-description {{ font-size: 16px; }}
-            h1.entry-title {{ font-size: 18px; }}
-            .post-card {{ padding: 12px 8px; }}
-            table, th, td {{ font-size: 12.5px; padding: 6px; }}
+        .table-section-title-green {{ color: #008000; font-size: 15px; font-weight: 700; margin: 0 0 6px; }}
+        .table-section-title-red {{ color: #ab183d; font-size: 15px; font-weight: 700; margin: 0 0 6px; }}
+        
+        .sarkari-links-table {{ width: 100%; border-collapse: collapse; border: 2px solid #008000; margin: 20px 0; font-family: Arial, Helvetica, sans-serif; }}
+        .sarkari-links-table th {{ background-color: #008000; color: #ffffff; text-align: center; padding: 8px 10px; font-size: 15px; font-weight: 700; }}
+        .sarkari-links-table td {{ border: 1px solid #ccc; padding: 8px 12px; font-size: 13.5px; font-weight: 700; }}
+        .sarkari-links-table td a {{ color: #ab183d; text-decoration: underline; }}
+        
+        .sarkari-wrapper {{ background-color: #212121; color: #ffffff; padding: 20px; text-align: center; }}
+        .sarkari-wrapper h3 {{ color: #ffffff; font-size: 18px; margin-bottom: 12px; font-weight: 700; }}
+        .sarkari-grid {{ display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }}
+        .sarkari-grid a {{ background: #2f4468; color: #ffffff !important; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: 600; }}
+        .gb-container-d1f47294 {{ background-color: #171717; color: #ffffff; text-align: center; padding: 15px 0; }}
+        
+        @media (max-width: 768px) {{
+            .main-title {{ font-size: 30px; }}
+            .site-description {{ font-size: 18px; }}
+            h1.entry-title {{ font-size: 19px; }}
+            .sarkari-post-table td, .sarkari-post-table th {{ font-size: 12.5px; padding: 6px 8px; }}
         }}
     </style>
 </head>
-<body>
-    <header class="site-header">
-        <h1 class="main-title"><a href="/">{site_name}</a></h1>
-        <p class="site-description">{domain}</p>
+<body class="post-template-default single single-post postid-101 single-format-standard wp-embed-responsive wp-theme-generatepress post-image-aligned-center no-sidebar nav-below-header separate-containers header-aligned-center">
+    <header class="site-header grid-container" id="masthead">
+        <div class="inside-header grid-container">
+            <div class="site-branding">
+                <p class="main-title"><a href="/">{site_name}</a></p>
+                <p class="site-description">{domain}</p>
+            </div>
+        </div>
     </header>
-    <nav class="main-navigation">
-        <a href="/">Home</a>
-        <a href="/latest-jobs/">Latest Jobs</a>
-        <a href="/result/">Results</a>
-        <a href="/admit-card/">Admit Card</a>
-        <a href="/answer-key/">Answer Key</a>
-        <a href="/syllabus/">Syllabus</a>
-        <a href="/admission/">Admission</a>
-        <a href="/contact/">Contact Us</a>
+
+    <nav class="main-navigation grid-container" id="site-navigation">
+        <div class="inside-navigation grid-container">
+            <div id="primary-menu" class="main-nav">
+                <ul id="menu-menu" class="menu sf-menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/latest-jobs/">Latest Job</a></li>
+                    <li><a href="/admit-card/">Admit Card</a></li>
+                    <li><a href="/result/">Result</a></li>
+                    <li><a href="/admission/">Admission</a></li>
+                    <li><a href="/syllabus/">Syllabus</a></li>
+                    <li><a href="/answer-key/">Answer Key</a></li>
+                    <li><a href="/contact/">Contact Us</a></li>
+                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                    <li><a href="/disclaimer/">Disclaimer</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
-    
-    <div class="whatsapp-banner">
-        <a href="{wa_url}" target="_blank" class="whatsapp-btn">
-            <i class="fa-brands fa-whatsapp"></i> Join WhatsApp Channel
-        </a>
+
+    <div class="whatsapp-post-bar">
+        <a href="{wa_url}" target="_blank"><i class="fa-brands fa-whatsapp"></i> Join WhatsApp Channel</a>
     </div>
 
-    <div class="post-wrapper">
-        <div class="breadcrumb">
-            <a href="/">Home</a> » <a href="/{category_slug}/">{category_name}</a> » <span>{title}</span>
+    <div class="site grid-container container hfeed" id="page">
+        <div class="site-content" id="content">
+            <div class="content-area" id="primary">
+                <main class="site-main" id="main">
+                    <article class="post type-post status-publish format-standard hentry">
+                        <div class="inside-article">
+                            <div class="post-breadcrumb">
+                                <a href="/">Home</a> » <a href="/{category_slug}/">{category_name}</a> » <span>{title}</span>
+                            </div>
+
+                            <header class="entry-header">
+                                <h1 class="entry-title" itemprop="headline">{headline}</h1>
+                                <div class="entry-meta-bar">
+                                    <span><strong>Post Date / Update:</strong> {app_start}</span> | 
+                                    <span><strong>Category:</strong> <a href="/{category_slug}/">{category_name}</a></span> | 
+                                    <span><strong>Recruitment Board:</strong> Railway Recruitment Board (RRB)</span>
+                                </div>
+                            </header>
+
+                            <div class="entry-content" itemprop="text">
+                                <table class="sarkari-post-table">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2">{headline}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2" style="background:#fff8f8; line-height:1.7;">
+                                                <strong style="color:#ab183d;">Short Information : </strong>{short_desc}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                {cleaned_content}
+
+                                <table class="sarkari-links-table">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2">SOME USEFUL IMPORTANT LINKS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="width:50%;">Apply Online Form</td>
+                                            <td><a href="#" target="_blank">Click Here</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Download Official CEN 01/2026 Notification</td>
+                                            <td><a href="#" target="_blank">Click Here</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Check Study Topper Official Portal</td>
+                                            <td><a href="/" target="_blank">Click Here</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Join Study Topper WhatsApp Channel</td>
+                                            <td><a href="{wa_url}" target="_blank" style="color:#01aa03;">Join Now</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Join Study Topper Telegram Group</td>
+                                            <td><a href="{tg_url}" target="_blank" style="color:#0088cc;">Join Now</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                {tags_html}
+                            </div>
+                        </div>
+                    </article>
+                </main>
+            </div>
         </div>
-        
-        <article class="post-card">
-            <h1 class="entry-title">{headline}</h1>
-            <div class="post-meta-line">
-                <span><strong>Post Date / Update:</strong> {app_start}</span> | 
-                <span><strong>Category:</strong> {category_name}</span> | 
-                <span><strong>Status:</strong> Active</span>
-            </div>
-
-            {f'<div class="short-info-box"><strong>Short Information : </strong>{short_desc}</div>' if short_desc else ''}
-
-            <div class="entry-content">
-                {body_content_render}
-            </div>
-
-            <table class="important-links-table">
-                <thead>
-                    <tr>
-                        <th colspan="2">SOME USEFUL IMPORTANT LINKS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="width:50%;">Apply Online Form</td>
-                        <td><a href="#" target="_blank">Click Here</a></td>
-                    </tr>
-                    <tr>
-                        <td>Download Official Notification</td>
-                        <td><a href="#" target="_blank">Click Here</a></td>
-                    </tr>
-                    <tr>
-                        <td>Check Study Topper Official Portal</td>
-                        <td><a href="/" target="_blank">Click Here</a></td>
-                    </tr>
-                    <tr>
-                        <td>Join Study Topper WhatsApp Channel</td>
-                        <td><a href="{wa_url}" target="_blank" style="color:#01aa03;">Join Now</a></td>
-                    </tr>
-                    <tr>
-                        <td>Join Study Topper Telegram Group</td>
-                        <td><a href="{tg_url}" target="_blank" style="color:#0284c7;">Join Now</a></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            {tags_html}
-            
-            <div style="text-align:center; margin-top:25px;">
-                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Study Topper Home</a>
-            </div>
-        </article>
     </div>
 
     {footer_render}
