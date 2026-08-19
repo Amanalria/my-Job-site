@@ -1834,6 +1834,72 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                     empty_li.string = "No notifications yet. New posts will appear here."
                     ul_tag.append(empty_li)
 
+    # 12. Dynamic Top Study Topper Pages Table
+    top_pages_table = settings.get('top_pages_table', [])
+    if top_pages_table:
+        matrix_tbl = soup.find('table', id='top-pages-matrix-table') or soup.find(class_='wp-block-table')
+        if matrix_tbl:
+            all_tds = matrix_tbl.find_all('td')
+            for idx, td in enumerate(all_tds):
+                if idx < len(top_pages_table):
+                    item = top_pages_table[idx]
+                    t_text = item.get('text', '').strip()
+                    t_url = item.get('url', '').strip()
+                    td.clear()
+                    if t_url and t_url != '#':
+                        a_node = soup.new_tag('a', href=t_url, rel="noopener", target="_blank")
+                        a_node['style'] = 'color:#0000ef; font-weight:700; text-decoration:none;'
+                        a_node.string = t_text
+                        td.append(a_node)
+                    else:
+                        span_node = soup.new_tag('span')
+                        span_node['style'] = 'color:#222; font-weight:600;'
+                        span_node.string = t_text
+                        td.append(span_node)
+
+    # 12b. Dynamic 5 Red Info Sections
+    info_sections = settings.get('info_sections', [])
+    if info_sections:
+        c08 = soup.find(class_='gb-container-08c3e704')
+        if c08:
+            info_h2s = [h for h in c08.find_all('h2') if 'FAQ' not in h.get_text() and 'Frequently' not in h.get_text()]
+            for idx, h2_tag in enumerate(info_h2s):
+                if idx < len(info_sections):
+                    sec = info_sections[idx]
+                    if sec.get('title'):
+                        h2_tag.string = sec.get('title')
+                    next_p = h2_tag.find_next_sibling('p')
+                    if next_p and sec.get('content'):
+                        next_p.string = sec.get('content')
+
+    # 12c. Dynamic FAQ Items Rendering
+    faq_items = settings.get('faq_items', [])
+    if faq_items:
+        faq_h2 = None
+        for h2 in soup.find_all('h2'):
+            if 'FAQ' in h2.get_text() or 'Frequently Asked' in h2.get_text():
+                faq_h2 = h2
+                break
+        if faq_h2:
+            faq_wrap = faq_h2.find_next_sibling('div')
+            if faq_wrap:
+                faq_wrap.clear()
+                for q_idx, item in enumerate(faq_items):
+                    q_p = soup.new_tag('p', style='margin:12px 0 4px; font-size:14.5px; font-weight:700; color:#a80909;')
+                    q_num = soup.new_tag('span', style='color:#000;')
+                    q_num.string = f"Q {q_idx+1}. "
+                    q_p.append(q_num)
+                    q_p.append(BeautifulSoup(item.get('q', ''), 'html.parser'))
+                    
+                    a_p = soup.new_tag('p', style='margin:0 0 14px; font-size:13.5px; line-height:1.6; color:#222; text-align:justify;')
+                    a_label = soup.new_tag('strong', style='color:#077822;')
+                    a_label.string = "Ans. "
+                    a_p.append(a_label)
+                    a_p.append(BeautifulSoup(item.get('a', ''), 'html.parser'))
+                    
+                    faq_wrap.append(q_p)
+                    faq_wrap.append(a_p)
+
     # 13. Dynamic Footer Copyright Text & Social Links
     if settings.get('footer_text'):
         foot_div = soup.find(class_='gb-headline-e41178b2') or soup.find(class_=re.compile(r'gb-headline-.*e41178b2'))
@@ -1885,8 +1951,8 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
 
         c08 = soup.find(class_='gb-container-08c3e704')
         if c08:
-            info_btn = soup.new_tag('div', style='text-align:center; margin:10px 0;')
-            info_btn.append(BeautifulSoup("<button class='alria-edit-btn' onclick=\"openModal('modal-info-faq')\">✏️ Edit Guidelines &amp; FAQs</button>", 'html.parser'))
+            info_btn = soup.new_tag('div', style='text-align:center; margin:10px 0; display:flex; justify-content:center; gap:8px; flex-wrap:wrap;')
+            info_btn.append(BeautifulSoup("<button class='alria-edit-btn' onclick=\"openModal('modal-top-pages')\">✏️ Edit Top Pages Table (15 Links)</button><button class='alria-edit-btn' onclick=\"openModal('modal-info-sections')\">✏️ Edit 5 Info Sections</button><button class='alria-edit-btn' onclick=\"openModal('modal-faq-items')\">✏️ Edit FAQs</button>", 'html.parser'))
             c08.insert(0, info_btn)
 
         footer = soup.find('footer') or soup.find(class_='site-footer')
@@ -1900,7 +1966,6 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         info_c1 = info_secs_list[0].get('content', '') if info_secs_list else ''
         settings_json_escaped = json.dumps(settings)
 
-        theme = settings.get('theme_colors', {})
         theme = settings.get('theme_colors', {})
         t_hdr_bg = theme.get('header_bg', '#ab183d')
         t_hdr_txt = theme.get('header_text', '#ffffff')
@@ -1944,8 +2009,10 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 <button onclick="openModal('modal-theme-colors')" style="background:#ec4899; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🎨 All Colors</button>
                 <button onclick="openModal('modal-branding')" style="background:#2563eb; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🏷️ Branding</button>
                 <button onclick="openModal('modal-cards')" style="background:#0891b2; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🃏 Top 8 Cards</button>
+                <button onclick="openModal('modal-top-pages')" style="background:#10b981; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">📑 Top Pages Table</button>
                 <button onclick="openModal('modal-grid-titles')" style="background:#7c3aed; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">📊 6 Grid Titles</button>
-                <button onclick="openModal('modal-info-faq')" style="background:#059669; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">❓ FAQs &amp; Info</button>
+                <button onclick="openModal('modal-info-sections')" style="background:#059669; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">ℹ️ 5 Info Sections</button>
+                <button onclick="openModal('modal-faq-items')" style="background:#0284c7; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">❓ FAQs</button>
                 <button onclick="openModal('modal-footer-socials')" style="background:#d97706; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🔗 Footer &amp; Socials</button>
                 <a href="/admin/dashboard" style="background:#475569; color:#fff; text-decoration:none; padding:5px 12px; border-radius:4px; font-weight:700; font-size:12px;">Admin Panel</a>
                 <a href="/" style="background:#ef4444; color:#fff; text-decoration:none; padding:5px 12px; border-radius:4px; font-weight:700; font-size:12px;">Exit Live</a>
@@ -2065,6 +2132,32 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             </div>
         </div>
 
+        <!-- 3b. Top Study Topper Pages Table Modal -->
+        <div id="modal-top-pages" class="alria-modal-backdrop">
+            <div class="alria-modal-card" style="max-width:800px;">
+                <h3>📑 Edit Top Study Topper Pages Table (15 Links &amp; Texts)</h3>
+                <p style="font-size:12px; color:#64748b; margin:4px 0 12px 0;">Manage text and hyperlinks for the 15 cells displayed in the 3x5 matrix below the star header.</p>
+                <div id="top-pages-container" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;"></div>
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-top-pages')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveTopPages()">Save Top Pages Table</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3c. 5 Red Info Sections Modal -->
+        <div id="modal-info-sections" class="alria-modal-backdrop">
+            <div class="alria-modal-card" style="max-width:780px;">
+                <h3>ℹ️ Edit 5 Homepage Info Sections</h3>
+                <p style="font-size:12px; color:#64748b; margin:4px 0 12px 0;">Customize titles and descriptive text paragraphs for the 5 red banner sections.</p>
+                <div id="info-sections-container"></div>
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-info-sections')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveInfoSections()">Save Info Sections</button>
+                </div>
+            </div>
+        </div>
+
         <!-- 4. 6 Grid Titles & Colors Modal -->
         <div id="modal-grid-titles" class="alria-modal-backdrop">
             <div class="alria-modal-card">
@@ -2105,19 +2198,17 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             </div>
         </div>
 
-        <!-- 5. Guidelines & FAQ Modal -->
-        <div id="modal-info-faq" class="alria-modal-backdrop">
-            <div class="alria-modal-card">
-                <h3>❓ Edit Guidelines &amp; FAQs</h3>
-                <h4>Guidelines Block 1</h4>
-                <div class="alria-input-group">
-                    <label>Title</label><input type="text" id="info-t1" value="{info_t1}">
-                    <label style="margin-top:6px;">Content</label><textarea id="info-c1" rows="3">{info_c1}</textarea>
-                </div>
-                <h4 style="margin-top:16px;">FAQ Q&amp;A Items</h4>
+        <!-- 5. FAQ Modal -->
+        <div id="modal-faq-items" class="alria-modal-backdrop">
+            <div class="alria-modal-card" style="max-width:750px;">
+                <h3>❓ Edit Frequently Asked Questions (FAQs)</h3>
+                <p style="font-size:12px; color:#64748b; margin:4px 0 12px 0;">Add, modify, or remove FAQ questions and answers.</p>
                 <div id="faq-list-container"></div>
-                <button onclick="addNewFaqItem()" style="background:#0891b2; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:12px; cursor:pointer;">+ Add New FAQ Question</button>
-                <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-info-faq')">Cancel</button><button class="alria-btn-save" onclick="saveInfoFaq()">Save Info &amp; FAQs</button></div>
+                <button onclick="addNewFaqItem()" style="background:#0891b2; color:#fff; border:none; padding:6px 12px; border-radius:4px; font-size:12px; font-weight:700; cursor:pointer; margin-top:8px;">+ Add New FAQ Question</button>
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-faq-items')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveFaqItems()">Save FAQs</button>
+                </div>
             </div>
         </div>
 
@@ -2195,11 +2286,98 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             }}
             renderCardsInputs();
 
+            function renderTopPagesInputs() {{
+                const cont = document.getElementById('top-pages-container'); if(!cont) return; cont.innerHTML = '';
+                const pages = siteSettings.top_pages_table || [];
+                const defaultPages = [
+                    {{"text": "Bharat Result", "url": "/result/"}},
+                    {{"text": "UP Police Result", "url": "/up-police-constable-result-2024/"}},
+                    {{"text": "Bihar Police Result", "url": "/bihar-police-constable-result-2024/"}},
+                    {{"text": "Study Topper Exam", "url": "/latest-jobs/"}},
+                    {{"text": "Study Topper Hindi", "url": "/"}},
+                    {{"text": "Study Topper NTPC", "url": "/railway-rrb-alp-2026/"}},
+                    {{"text": "Study Topper 2026", "url": "/latest-jobs/"}},
+                    {{"text": "Study Topper", "url": "/"}},
+                    {{"text": "Study Topper Center", "url": "/"}},
+                    {{"text": "Sarkari Naukri", "url": "/latest-jobs/"}},
+                    {{"text": "Study Topper 10th", "url": "/latest-jobs/"}},
+                    {{"text": "Study Topper SSC", "url": "/ssc-chsl-2026/"}},
+                    {{"text": "Study Topper 10+2", "url": "/latest-jobs/"}},
+                    {{"text": "StudyTopper.in", "url": "/"}},
+                    {{"text": "Study Topper Railway", "url": "/railway-nfr-2026/"}}
+                ];
+                for(let i=0; i<15; i++) {{
+                    const p = pages[i] || defaultPages[i] || {{text: '', url: ''}};
+                    cont.innerHTML += `
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; padding:6px 8px;">
+                        <label style="font-size:11px; font-weight:700; color:#334155;">Cell ${{i+1}}</label>
+                        <input type="text" id="top-page-text-${{i}}" value="${{p.text || ''}}" placeholder="Link Text" style="margin-bottom:4px; font-size:12px;">
+                        <input type="text" id="top-page-url-${{i}}" value="${{p.url || ''}}" placeholder="URL (e.g. /result/)" style="font-size:11px;">
+                    </div>`;
+                }}
+            }}
+            renderTopPagesInputs();
+
+            function saveTopPages() {{
+                const pages = [];
+                for(let i=0; i<15; i++) {{
+                    const tEl = document.getElementById('top-page-text-' + i);
+                    const uEl = document.getElementById('top-page-url-' + i);
+                    if(tEl) {{
+                        pages.push({{ text: tEl.value.trim(), url: uEl ? uEl.value.trim() : '' }});
+                    }}
+                }}
+                saveSettingsPayload({{ top_pages_table: pages }});
+            }}
+
+            function renderInfoSectionsInputs() {{
+                const cont = document.getElementById('info-sections-container'); if(!cont) return; cont.innerHTML = '';
+                const defaultSecs = [
+                    {{ "title": "Study Topper 10+2 & Graduate Latest Jobs 2026", "content": "Find verified updates for 10+2 Intermediate and graduate government vacancies across India. StudyTopper.in provides direct official application links, notification PDFs, eligibility criteria, age relaxation, syllabus downloads, and deadline alerts for Railway RRB, SSC CHSL, Defence, Police Bharti, and state recruitment boards updated daily." }},
+                    {{ "title": "Study Topper Results 2026", "content": "Study Topper Results: Study Topper (studytopper.in) delivers instant, verified alerts for central and state government examination results, provisional answer keys, scorecards, cutoff marks, and merit lists. Candidates across all states rely on our fast servers to check their selection status without delay." }},
+                    {{ "title": "Study Topper Bihar & Northern State Vacancies", "content": "Get comprehensive recruitment coverage for Bihar and Northern states including BPSC TRE School Teacher, Bihar Police Constable, CSBC Operator, Bihar STET, BSSC Inter Level, OFSS Intermediate Admission, and High Court recruitment forms, exam schedules, and results updated in real-time." }},
+                    {{ "title": "Study Topper Hindi & Regional Language Portal", "content": "Uttar Pradesh (UP Board, UPPSC, UPSSSC) and Hindi-medium aspirants receive clear, step-by-step guidance on online application procedures, eligibility rules, syllabus breakdowns, and exam dates in simple Hindi and English for maximum ease and accessibility." }},
+                    {{ "title": "StudyTopper.in Official Information & Disclaimer", "content": "studytopper.in is the official portal of Study Topper™ (Since 2026), presenting all latest career notices, employment news, admit card releases, exam keys, and direct online application links for job aspirants across India." }}
+                ];
+                const secs = (siteSettings.info_sections && siteSettings.info_sections.length) ? siteSettings.info_sections : defaultSecs;
+                secs.forEach((sec, idx) => {{
+                    cont.innerHTML += `
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px; margin-bottom:10px;">
+                        <label style="font-size:12px; font-weight:700; color:#a80909;">Section ${{idx+1}} Title</label>
+                        <input type="text" id="info-title-${{idx}}" value="${{sec.title || ''}}" style="margin-bottom:6px; font-size:13px; font-weight:600;">
+                        <label style="font-size:12px; font-weight:700; color:#334155;">Section ${{idx+1}} Content Paragraph</label>
+                        <textarea id="info-content-${{idx}}" rows="3" style="font-size:12px;">${{sec.content || ''}}</textarea>
+                    </div>`;
+                }});
+            }}
+            renderInfoSectionsInputs();
+
+            function saveInfoSections() {{
+                const secs = [];
+                for(let i=0; i<5; i++) {{
+                    const tEl = document.getElementById('info-title-' + i);
+                    const cEl = document.getElementById('info-content-' + i);
+                    if(tEl) {{
+                        secs.push({{ title: tEl.value.trim(), content: cEl ? cEl.value.trim() : '' }});
+                    }}
+                }}
+                saveSettingsPayload({{ info_sections: secs }});
+            }}
+
             function renderFaqInputs() {{
                 const cont = document.getElementById('faq-list-container'); if(!cont) return; cont.innerHTML = '';
                 const faqs = siteSettings.faq_items || [];
                 faqs.forEach((faq, idx) => {{
-                    cont.innerHTML += `<div style="border:1px solid #e2e8f0; padding:8px 10px; border-radius:4px; margin-bottom:10px; background:#f8fafc;"><label style="font-size:12px; font-weight:700;">Question ${{idx+1}}</label><input type="text" id="faq-q-${{idx}}" value="${{faq.q || ''}}" style="margin-bottom:6px;"><label style="font-size:12px; font-weight:700;">Answer</label><textarea id="faq-a-${{idx}}" rows="2">${{faq.a || ''}}</textarea></div>`;
+                    cont.innerHTML += `
+                    <div style="border:1px solid #e2e8f0; padding:10px; border-radius:6px; margin-bottom:10px; background:#f8fafc;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                            <label style="font-size:12px; font-weight:700; color:#a80909;">Question ${{idx+1}}</label>
+                            <button type="button" onclick="removeFaqItem(${{idx}})" style="background:#ef4444; color:#fff; border:none; border-radius:3px; padding:2px 6px; font-size:11px; cursor:pointer;">🗑️ Remove</button>
+                        </div>
+                        <input type="text" id="faq-q-${{idx}}" value="${{faq.q || ''}}" style="margin-bottom:6px; font-size:13px;">
+                        <label style="font-size:12px; font-weight:700; color:#077822;">Answer ${{idx+1}}</label>
+                        <textarea id="faq-a-${{idx}}" rows="2" style="font-size:12px;">${{faq.a || ''}}</textarea>
+                    </div>`;
                 }});
             }}
             renderFaqInputs();
@@ -2210,9 +2388,29 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 renderFaqInputs();
             }}
 
+            function removeFaqItem(idx) {{
+                if(siteSettings.faq_items && siteSettings.faq_items.length > idx) {{
+                    siteSettings.faq_items.splice(idx, 1);
+                    renderFaqInputs();
+                }}
+            }}
+
+            function saveFaqItems() {{
+                const items = [];
+                const faqs = siteSettings.faq_items || [];
+                for(let i=0; i<faqs.length; i++) {{
+                    const qEl = document.getElementById('faq-q-' + i);
+                    const aEl = document.getElementById('faq-a-' + i);
+                    if(qEl) {{
+                        items.push({{ q: qEl.value.trim(), a: aEl ? aEl.value.trim() : '' }});
+                    }}
+                }}
+                saveSettingsPayload({{ faq_items: items }});
+            }}
+
             async function saveSettingsPayload(payload) {{
                 const res = await fetch('/api/admin/save-settings', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify(payload) }});
-                if(res.ok) {{ alert('Section & Colors updated successfully!'); location.reload(); }} else {{ alert('Error updating settings'); }}
+                if(res.ok) {{ alert('Saved successfully!'); location.reload(); }} else {{ alert('Error saving settings'); }}
             }}
 
             function saveMasterThemeColors() {{
@@ -2870,6 +3068,53 @@ def api_save_settings():
                 settings['supabase'][sub_k] = v
             else:
                 settings[k] = v
+
+        # Parse form collections if submitted via regular HTML form
+        if not request.is_json:
+            # 1. top_pages_table
+            form_top_pages = []
+            has_top_pages = False
+            for i in range(15):
+                t_k = f'top_pages_text_{i}'
+                u_k = f'top_pages_url_{i}'
+                if t_k in data or u_k in data:
+                    has_top_pages = True
+                    form_top_pages.append({
+                        'text': data.get(t_k, '').strip(),
+                        'url': data.get(u_k, '').strip()
+                    })
+            if has_top_pages:
+                settings['top_pages_table'] = form_top_pages
+
+            # 2. info_sections
+            form_info_secs = []
+            has_info_secs = False
+            for i in range(5):
+                t_k = f'info_title_{i}'
+                c_k = f'info_content_{i}'
+                if t_k in data or c_k in data:
+                    has_info_secs = True
+                    form_info_secs.append({
+                        'title': data.get(t_k, '').strip(),
+                        'content': data.get(c_k, '').strip()
+                    })
+            if has_info_secs:
+                settings['info_sections'] = form_info_secs
+
+            # 3. faq_items
+            form_faq_items = []
+            has_faq = False
+            for i in range(20):
+                q_k = f'faq_q_{i}'
+                a_k = f'faq_a_{i}'
+                if q_k in data or a_k in data:
+                    has_faq = True
+                    q_val = data.get(q_k, '').strip()
+                    a_val = data.get(a_k, '').strip()
+                    if q_val:
+                        form_faq_items.append({'q': q_val, 'a': a_val})
+            if has_faq:
+                settings['faq_items'] = form_faq_items
 
         save_settings_data(settings)
         if request.is_json:

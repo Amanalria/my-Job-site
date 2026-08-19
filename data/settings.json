@@ -27,16 +27,24 @@
   },
   "faq_items": [
     {
-      "a": "Sarkari Result is a premier educational information platform providing instant, verified alerts for government vacancies, exam syllabus, admit cards, answer keys, and merit lists.",
-      "q": "What is Sarkari Result and how does it help candidates?"
+      "q": "What is Study Topper and how does it assist candidates?",
+      "a": "Study Topper (studytopper.in) is India's premier educational platform delivering verified, real-time alerts for latest government recruitment, exam syllabus, admit cards, answer keys, cutoffs, and merit lists."
     },
     {
-      "a": "Our automated notification engine updates all official notifications 24/7 in real-time as soon as released by government recruiting agencies.",
-      "q": "How frequently are exam results and admit cards updated?"
+      "q": "How frequently are exam results and admit cards updated on Study Topper?",
+      "a": "Our editorial team monitors official recruitment portals 24/7 in real-time, updating direct candidate links instantly as soon as official authorities release them."
     },
     {
-      "a": "No, all recruitment updates, syllabus downloads, and candidate tools are 100% free for all aspirants.",
-      "q": "Is any registration fee required to browse notifications?"
+      "q": "Is any fee or subscription required to access Study Topper?",
+      "a": "No, all recruitment notifications, application guides, syllabus downloads, and candidate tools on StudyTopper.in are 100% free of charge for all students."
+    },
+    {
+      "q": "How can I find government jobs for 10th Pass, 12th Pass, or Graduates on Study Topper?",
+      "a": "You can browse the \"Latest Jobs\" category on our homepage or check the qualification-wise lists (10+2, Graduate, ITI, Diploma) in the table above to find all matching active recruitment notices."
+    },
+    {
+      "q": "Which government recruitment boards and exams are covered on StudyTopper.in?",
+      "a": "Study Topper provides complete coverage for SSC, UPSC, Railway RRB, Banking (IBPS, SBI), Police Bharti (UP, Bihar, MP, Rajasthan), Teaching (BPSC TRE, MSPSTET, CTET, KVS), Defence, and State PSC examinations across all states."
     }
   ],
   "site_name": "STUDY TOPPER\u2122",
@@ -193,12 +201,24 @@
   ],
   "info_sections": [
     {
-      "title": "Welcome to India's Leading Job Notification Portal",
-      "content": "Get fastest and verified updates on central and state government exams, online application forms, answer keys, results, admit cards, and counselling notices across India."
+      "title": "Study Topper 10+2 & Graduate Latest Jobs 2026",
+      "content": "Find verified updates for 10+2 Intermediate and graduate government vacancies across India. StudyTopper.in provides direct official application links, notification PDFs, eligibility criteria, age relaxation, syllabus downloads, and deadline alerts for Railway RRB, SSC CHSL, Defence, Police Bharti, and state recruitment boards updated daily."
     },
     {
-      "title": "How to Apply for Government Jobs (Sarkari Naukri)",
-      "content": "1. Check notification eligibility criteria, age relaxation, and required documents.\n2. Fill online application on the official recruitment board portal before the last date.\n3. Pay examination fees and preserve final submitted PDF copy for future reference."
+      "title": "Study Topper Results 2026",
+      "content": "Study Topper Results: Study Topper (studytopper.in) delivers instant, verified alerts for central and state government examination results, provisional answer keys, scorecards, cutoff marks, and merit lists. Candidates across all states rely on our fast servers to check their selection status without delay."
+    },
+    {
+      "title": "Study Topper Bihar & Northern State Vacancies",
+      "content": "Get comprehensive recruitment coverage for Bihar and Northern states including BPSC TRE School Teacher, Bihar Police Constable, CSBC Operator, Bihar STET, BSSC Inter Level, OFSS Intermediate Admission, and High Court recruitment forms, exam schedules, and results updated in real-time."
+    },
+    {
+      "title": "Study Topper Hindi & Regional Language Portal",
+      "content": "Uttar Pradesh (UP Board, UPPSC, UPSSSC) and Hindi-medium aspirants receive clear, step-by-step guidance on online application procedures, eligibility rules, syllabus breakdowns, and exam dates in simple Hindi and English for maximum ease and accessibility."
+    },
+    {
+      "title": "StudyTopper.in Official Information & Disclaimer",
+      "content": "studytopper.in is the official portal of Study Topper™ (Since 2026), presenting all latest career notices, employment news, admit card releases, exam keys, and direct online application links for job aspirants across India."
     }
   ],
   "marquee_items": [
@@ -266,23 +286,54 @@
     {
       "text": "Bihar Police Result",
       "url": "/bihar-police-constable-result-2024/"
+    },
+    {
+      "text": "Study Topper Exam",
+      "url": "/latest-jobs/"
+    },
+    {
+      "text": "Study Topper Hindi",
+      "url": "/"
+    },
+    {
+      "text": "Study Topper NTPC",
+      "url": "/railway-rrb-alp-2026/"
+    },
+    {
+      "text": "Study Topper 2026",
+      "url": "/latest-jobs/"
+    },
+    {
+      "text": "Study Topper",
+      "url": "/"
+    },
+    {
+      "text": "Study Topper Center",
+      "url": "/"
+    },
+    {
+      "text": "Sarkari Naukri",
+      "url": "/latest-jobs/"
+    },
+    {
+      "text": "Study Topper 10th",
+      "url": "/latest-jobs/"
+    },
+    {
+      "text": "Study Topper SSC",
+      "url": "/ssc-chsl-2026/"
+    },
+    {
+      "text": "Study Topper 10+2",
+      "url": "/latest-jobs/"
+    },
+    {
+      "text": "StudyTopper.in",
+      "url": "/"
+    },
+    {
+      "text": "Study Topper Railway",
+      "url": "/railway-nfr-2026/"
     }
-  ],
-  "lifecycle_config": {
-    "lifecycle_enabled": true,
-    "urgent_days_threshold": 3,
-    "expired_grace_period_days": 1,
-    "auto_git_sync": true,
-    "auto_detect_date_extension": true,
-    "pinned_posts": [
-      "railway-nfr-2026",
-      "sav-bihar-class-6-2026"
-    ],
-    "last_run_timestamp": "2026-08-20T00:15:54.027846",
-    "last_purged_posts": []
-  },
-  "pinned_posts": [
-    "railway-nfr-2026",
-    "sav-bihar-class-6-2026"
   ]
 }

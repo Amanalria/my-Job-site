@@ -239,6 +239,52 @@
                         <textarea name="robots_txt" class="wp-input" rows="5">{{ settings.robots_txt }}</textarea>
                     </div>
                 </div>
+
+                <!-- 6. Top Pages Table (15 Links) -->
+                <div class="postbox" style="grid-column: 1 / -1;">
+                    <h2>📑 Top Study Topper Pages Table (15 Matrix Links)</h2>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Manage texts and hyperlinks for all 15 cells displayed below the star header on the homepage.</p>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+                        {% for i in range(15) %}
+                        {% set p = settings.top_pages_table[i] if settings.top_pages_table and i < settings.top_pages_table|length else {} %}
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; padding:8px;">
+                            <label style="font-size:11px; font-weight:700; color:#334155;">Cell {{ i+1 }}</label>
+                            <input type="text" name="top_pages_text_{{ i }}" class="wp-input" value="{{ p.text if p else '' }}" placeholder="Link Text" style="margin-bottom:4px; font-size:12px;">
+                            <input type="text" name="top_pages_url_{{ i }}" class="wp-input" value="{{ p.url if p else '' }}" placeholder="URL (e.g. /result/)" style="font-size:11px;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 7. 5 Homepage Info Sections -->
+                <div class="postbox" style="grid-column: 1 / -1;">
+                    <h2>ℹ️ 5 Homepage Red Info Sections</h2>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Edit titles and content paragraphs for the 5 red banner info sections.</p>
+                    {% for i in range(5) %}
+                    {% set sec = settings.info_sections[i] if settings.info_sections and i < settings.info_sections|length else {} %}
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px; margin-bottom:12px;">
+                        <label style="font-size:12px; font-weight:700; color:#a80909;">Section {{ i+1 }} Title</label>
+                        <input type="text" name="info_title_{{ i }}" class="wp-input" value="{{ sec.title if sec else '' }}" style="margin-bottom:6px; font-size:13px; font-weight:600;">
+                        <label style="font-size:12px; font-weight:700; color:#334155;">Section {{ i+1 }} Content</label>
+                        <textarea name="info_content_{{ i }}" class="wp-input" rows="3" style="font-size:12px;">{{ sec.content if sec else '' }}</textarea>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- 8. Frequently Asked Questions (FAQs) -->
+                <div class="postbox" style="grid-column: 1 / -1;">
+                    <h2>❓ Frequently Asked Questions (FAQs)</h2>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Edit questions and answers shown in the official FAQ section on homepage.</p>
+                    {% for i in range(5) %}
+                    {% set faq = settings.faq_items[i] if settings.faq_items and i < settings.faq_items|length else {} %}
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px; margin-bottom:12px;">
+                        <label style="font-size:12px; font-weight:700; color:#a80909;">Question {{ i+1 }}</label>
+                        <input type="text" name="faq_q_{{ i }}" class="wp-input" value="{{ faq.q if faq else '' }}" style="margin-bottom:6px; font-size:13px; font-weight:600;">
+                        <label style="font-size:12px; font-weight:700; color:#077822;">Answer {{ i+1 }}</label>
+                        <textarea name="faq_a_{{ i }}" class="wp-input" rows="2" style="font-size:12px;">{{ faq.a if faq else '' }}</textarea>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
 
             <div style="margin-top:20px;">
