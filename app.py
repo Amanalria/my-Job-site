@@ -1673,13 +1673,29 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     rendered = re.sub(r'SarkariResult\.Com\.Cm', settings.get('domain', 'studytopper.in'), rendered)
     return rendered
 
-# Static Asset Handler
+# Favicon & Static Asset Handlers
+@app.route('/favicon.ico')
+@app.route('/favicon.png')
+def serve_favicon():
+    for f in [
+        os.path.join(WP_CONTENT_DIR, 'uploads', '2025', '06', '512px512px-150x150.png'),
+        os.path.join(BASE_DIR, 'raw_clone', 'wp-content', 'uploads', '2025', '06', '512px512px-150x150.png')
+    ]:
+        if os.path.exists(f):
+            return send_from_directory(os.path.dirname(f), os.path.basename(f), mimetype='image/png')
+    return Response(b'', mimetype='image/x-icon')
+
 @app.route('/wp-content/<path:filepath>')
 def serve_wp_content(filepath):
-    full_dir = os.path.dirname(os.path.join(WP_CONTENT_DIR, filepath))
-    filename = os.path.basename(filepath)
-    if os.path.exists(os.path.join(full_dir, filename)):
-        return send_from_directory(full_dir, filename)
+    clean_filepath = filepath.split('?')[0]
+    for base in [WP_CONTENT_DIR, os.path.join(BASE_DIR, 'raw_clone', 'wp-content'), os.path.join(BASE_DIR, 'static')]:
+        target = os.path.join(base, clean_filepath)
+        if os.path.exists(target) and os.path.isfile(target):
+            return send_from_directory(os.path.dirname(target), os.path.basename(target))
+    if clean_filepath.endswith('.css'):
+        return Response('/* fallback */', mimetype='text/css')
+    elif clean_filepath.endswith(('.png', '.jpg', '.jpeg', '.webp', '.gif', '.ico')):
+        return Response(b'', mimetype='image/png')
     abort(404)
 
 # ==================== SEO & CRAWLER PROTECTION ROUTES ====================
