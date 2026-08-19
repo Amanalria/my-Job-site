@@ -1,14 +1,14 @@
 {
   "seo": {
-    "meta_keywords": "study topper, studytopper.in, sarkari result, latest jobs, admit card, answer key, syllabus, admission, recruitment 2026",
+    "meta_keywords": "sarkari result, sarkari naukri, latest jobs, admit card, answer key, syllabus, admission, recruitment 2026",
     "custom_head_code": "",
-    "meta_description": "StudyTopper.in is India's leading portal providing latest Govt Job notifications, Admit Card, Results, Answer Key, Syllabus, and Admission forms 2026.",
+    "meta_description": "",
     "custom_footer_code": "",
     "google_analytics_id": "",
     "google_site_verification": ""
   },
-  "domain": "studytopper.in",
-  "ads_txt": "google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0",
+  "domain": "StudyTopper.in",
+  "ads_txt": "",
   "adsense": {
     "enabled": false,
     "client_id": ""
@@ -19,7 +19,7 @@
     "whatsapp": "https://whatsapp.com/",
     "instagram": "https://instagram.com/"
   },
-  "tagline": "Study Topper\u2122 2026 : Latest Jobs, Admit Card, Results, Answer Key & Syllabus",
+  "tagline": "Study Topper \u2122 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
   "supabase": {
     "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsdHpqdGRrdWNiZ3BwaWppZXZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNzAzNTEsImV4cCI6MjEwMjY0NjM1MX0.u8PLHsBsxaB0njzOmtAcD7riuXC4rA1TXQJrDMfbFV4",
     "url": "https://hltzjtdkucbgppijievw.supabase.co",
@@ -27,16 +27,16 @@
   },
   "faq_items": [
     {
-      "q": "What is Study Topper and how does it help candidates?",
-      "a": "Study Topper (studytopper.in) is a premier educational information platform providing instant, verified alerts for government vacancies, exam syllabus, admit cards, answer keys, and merit lists."
+      "a": "Sarkari Result is a premier educational information platform providing instant, verified alerts for government vacancies, exam syllabus, admit cards, answer keys, and merit lists.",
+      "q": "What is Sarkari Result and how does it help candidates?"
     },
     {
-      "q": "How frequently are exam results and admit cards updated?",
-      "a": "Our notification engine updates all official notifications 24/7 in real-time as soon as released by government recruiting agencies."
+      "a": "Our automated notification engine updates all official notifications 24/7 in real-time as soon as released by government recruiting agencies.",
+      "q": "How frequently are exam results and admit cards updated?"
     },
     {
-      "q": "Is any registration fee required to browse notifications?",
-      "a": "No, all recruitment updates, syllabus downloads, and candidate tools on StudyTopper.in are 100% free for all aspirants."
+      "a": "No, all recruitment updates, syllabus downloads, and candidate tools are 100% free for all aspirants.",
+      "q": "Is any registration fee required to browse notifications?"
     }
   ],
   "site_name": "STUDY TOPPER\u2122",
@@ -90,8 +90,8 @@
       "slug": "important"
     }
   ],
-  "robots_txt": "User-agent: *\r\nDisallow: /admin/\r\nDisallow: /admin\r\nDisallow: /alria\r\nDisallow: /api/\r\nAllow: /\r\n\r\nSitemap: https://studytopper.in/sitemap.xml",
-  "footer_text": "Copyright \u00a9 2026 | StudyTopper.in. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
+  "robots_txt": "User-agent: *\r\nDisallow: /admin/\r\nDisallow: /admin\r\nDisallow: /alria\r\nDisallow: /api/\r\nAllow: /\r\n\r\nSitemap: https://yourdomain.com/sitemap.xml",
+  "footer_text": "Copyright \u00a9 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
   "grid_headers": {
     "result": {
       "title": "Results",
@@ -119,16 +119,16 @@
     }
   },
   "theme_colors": {
-    "nav_bg": "#05055f",
+    "nav_bg": "#0006a6",
     "nav_text": "#ffffff",
-    "card_1_bg": "#fb0303",
-    "card_2_bg": "#fb5e03",
-    "card_3_bg": "#ed13e3",
-    "card_4_bg": "#0d13b5",
-    "card_5_bg": "#868a08",
+    "card_1_bg": "#ff0000",
+    "card_2_bg": "#ff6600",
+    "card_3_bg": "#db2777",
+    "card_4_bg": "#0052cc",
+    "card_5_bg": "#41aee8",
     "card_6_bg": "#0080ff",
-    "card_7_bg": "#5f0000",
-    "card_8_bg": "#077822",
+    "card_7_bg": "#800000",
+    "card_8_bg": "#00802b",
     "footer_bg": "#262626",
     "header_bg": "#cd0808",
     "footer_text": "#ffffff",
@@ -142,62 +142,85 @@
     "syllabus_header_bg": "#cd0808",
     "admission_header_bg": "#cd0808"
   },
-  "deleted_posts": [],
+  "deleted_posts": [
+    "railway-rrb-group-d-level-1-recruitment-2026-online",
+    "bpsc-school-teacher-tre-4-0-2026",
+    "csbc-bihar-prohibition-constable-2026",
+    "bihar-police-csbc-constable-operator-2026",
+    "kvs-nvs-teaching-non-teaching-2026",
+    "up-police-constable-recruitment-2026-online",
+    "bihar-police-csbc-constable-2026",
+    "upsssc-vdo-2023",
+    "nta-aiapget-2026",
+    "nbems-various-post-2026",
+    "up-home-guard-2026",
+    "ibps-po-mt-xvi-2026",
+    "bpsc-project-manager-2026",
+    "nta-ugc-net-june-2025",
+    "sbi-junior-associates-clerk-2026",
+    "rajasthan-safai-karmchari-2026",
+    "ibps-clerk-16th-2026",
+    "rrvunl-je-junior-assistant-2026",
+    "rrb-je-2026",
+    "rpsc-1st-grade-teacher-2025",
+    "ssc-chsl-2026",
+    "indian-airforce-musician-intake-01-2027",
+    "rssb-forester-2026",
+    "uppsc-assistant-professor-2025",
+    "upsssc-pet-2026",
+    "ib-security-assistant-executive-2025",
+    "delhi-high-court-hjs-2026",
+    "upsssc-lower-pcs-2026",
+    "nta-csir-ugc-net-june-2026",
+    "bpsc-exam-calendar-2026",
+    "bihar-vidhan-parishad-pa-deo-ldc-steno-2026",
+    "rssb-nhm-rajmes-2025",
+    "mpesb-van-rakshak-jail-prahari-2026",
+    "rssb-junior-technical-assistant-jta-result-2025",
+    "rssb-ayush-officer-2026",
+    "upsssc-assistant-accountant-mains-result-2025",
+    "bpsc-72nd-pre-2026",
+    "upsc-capf-ac-2025",
+    "upsc-civil-services-ias-ifs-2026",
+    "cbse-12th-result-2026",
+    "bihar-police-bpssc-si-prohibition-2026",
+    "bhu-school-teacher-tgt-pgt-prt-principal-2026",
+    "rssb-lab-assistant-2026",
+    "bpssc-havildar-instructor-2026",
+    "hpsc-pgt-computer-science-2026",
+    "bihar-police-bpssc-asi-operation-2026",
+    "post_f39dc3e1"
+  ],
   "info_sections": [
     {
-      "title": "Welcome to Study Topper (studytopper.in)",
+      "title": "Welcome to India's Leading Job Notification Portal",
       "content": "Get fastest and verified updates on central and state government exams, online application forms, answer keys, results, admit cards, and counselling notices across India."
     },
     {
-      "title": "How to Apply for Govt Jobs on Study Topper",
+      "title": "How to Apply for Government Jobs (Sarkari Naukri)",
       "content": "1. Check notification eligibility criteria, age relaxation, and required documents.\n2. Fill online application on the official recruitment board portal before the last date.\n3. Pay examination fees and preserve final submitted PDF copy for future reference."
     }
   ],
   "marquee_items": [
     {
-      "text": "Welcome to Study Topper - Official Educational Portal 2026",
-      "url": "/"
+      "url": "/bpsc-72nd-pre-2026/",
+      "text": "BPSC 72nd Combined Competitive Exam Online Form 2026"
     },
     {
-      "text": "Check Latest Jobs, Results, Admit Cards & Exam Calendars",
-      "url": "/latest-jobs/"
+      "url": "/ssc-chsl-2026/",
+      "text": "SSC Combined Higher Secondary Level CHSL Online Form 2026"
+    },
+    {
+      "url": "/railway-rrb-alp-2026/",
+      "text": "Railway RRB Assistant Loco Pilot ALP Online Form 2026"
+    },
+    {
+      "url": "/upsc-civil-services-ias-ifs-2026/",
+      "text": "UPSC Civil Services IAS / IFS Pre Exam 2026 Online Form"
     }
   ],
-  "highlight_cards": [
-    {
-      "title": "Latest Govt Jobs 2026",
-      "url": "/latest-jobs/"
-    },
-    {
-      "title": "Exam Results & Cutoff",
-      "url": "/result/"
-    },
-    {
-      "title": "Admit Cards & City Slip",
-      "url": "/admit-card/"
-    },
-    {
-      "title": "Answer Key & Objections",
-      "url": "/answer-key/"
-    },
-    {
-      "title": "Exam Syllabus & Pattern",
-      "url": "/syllabus/"
-    },
-    {
-      "title": "Admission & Counselling",
-      "url": "/admission/"
-    },
-    {
-      "title": "Important Links & Forms",
-      "url": "/important/"
-    },
-    {
-      "title": "Certificate Verification",
-      "url": "/certificate-verification/"
-    }
-  ],
-  "top_banner_text": "Study Topper \u2122 Official website \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Scholarship, Sarkari Notice etc.",
+  "highlight_cards": [],
+  "top_banner_text": "Study Topper \u2122 Official website \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Sarkari Yojana, Scholarship, Sarkari Notice etc.",
   "lifecycle_config": {
     "lifecycle_enabled": true,
     "urgent_days_threshold": 3,
@@ -208,7 +231,7 @@
       "railway-nfr-2026",
       "sav-bihar-class-6-2026"
     ],
-    "last_run_timestamp": "2026-08-19T23:08:14.719554",
+    "last_run_timestamp": "2026-08-19T23:29:05.761235",
     "last_purged_posts": []
   },
   "pinned_posts": [

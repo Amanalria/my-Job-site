@@ -1342,11 +1342,7 @@ def load_settings():
     return DEFAULT_SETTINGS
 
 def save_settings_data(data):
-    try:
-        with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2)
-    except Exception as e:
-        print(f"Notice: Local settings file write skipped on read-only FS: {e}")
+    lifecycle.safe_write_json(SETTINGS_FILE, data)
 
     if supa.is_supabase_configured():
         try:
@@ -1746,20 +1742,33 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         '962a1393', '48ff7430', '3b560729', '659c2f86'
     ]
     default_card_bgs = ['#fb0303', '#fb5e03', '#ed13e3', '#0d13b5', '#868a08', '#0080ff', '#5f0000', '#077822']
+    fallback_cards = [
+        {"title": "Railway NFR Apprentice Online Form 2026", "url": "/railway-nfr-2026/"},
+        {"title": "SAV Bihar Class 6 Entrance Exam Online Form 2027-28", "url": "/sav-bihar-class-6-2026/"},
+        {"title": "IGCAR Trade Apprentice Online Form 2026", "url": "/igcar-apprentice-2026/"},
+        {"title": "IBPS Clerk (CSA) 16th Online Form 2026", "url": "/ibps-clerk-16th-2026/"},
+        {"title": "UPESSC Principal Online Form 2026", "url": "/upessc-principal-2026/"},
+        {"title": "Bihar Secondary Teachers Eligibility Test STET 2026", "url": "/bihar-stet-2026/"},
+        {"title": "BPSC School Teacher TRE 4.0 Online Form 2026", "url": "/bpsc-school-teacher-tre-4-0-2026/"},
+        {"title": "RRB JE Online Form 2026 (3993 Posts)", "url": "/rrb-je-2026/"}
+    ]
+
     for idx, col_id in enumerate(card_cols):
-        col_div = soup.find(class_=f'gb-grid-column-{col_id}')
+        col_div = soup.find(class_=re.compile(rf'gb-grid-column-{col_id}'))
         if col_div:
             p_tag = col_div.find(class_=re.compile(r'gb-headline'))
-            a_tag = col_div.find('a')
-            if a_tag:
-                if idx < len(cards) and cards[idx].get('title'):
-                    a_tag.string = cards[idx].get('title')
-                    if cards[idx].get('url'):
-                        a_tag['href'] = cards[idx].get('url')
-                a_tag['style'] = 'color:#ffffff !important; text-decoration:none !important; font-weight:700 !important; font-size:13.5px !important; font-family:Arial,Helvetica,sans-serif !important; line-height:1.25 !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; width:100% !important; height:100% !important;'
-            card_bg = theme.get(f'card_{idx+1}_bg') or default_card_bgs[idx]
-            if p_tag and card_bg:
-                p_tag['style'] = f'background-color:{card_bg} !important; color:#ffffff !important; border-radius:5px !important; min-height:52px !important; height:52px !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; padding:4px 6px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important;'
+            if p_tag:
+                p_tag.clear()
+                c_data = cards[idx] if (idx < len(cards) and cards[idx].get('title')) else fallback_cards[idx]
+                c_title = c_data.get('title', '')
+                c_url = c_data.get('url', '#')
+                new_a = soup.new_tag('a', href=c_url, rel="noreferrer noopener", target="_blank")
+                new_a.string = c_title
+                new_a['style'] = 'color:#ffffff !important; text-decoration:none !important; font-weight:700 !important; font-size:13.5px !important; font-family:Arial,Helvetica,sans-serif !important; line-height:1.25 !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; width:100% !important; height:100% !important;'
+                p_tag.append(new_a)
+                
+                card_bg = theme.get(f'card_{idx+1}_bg') or default_card_bgs[idx]
+                p_tag['style'] = f'background-color:{card_bg} !important; color:#ffffff !important; border-radius:5px !important; min-height:52px !important; height:52px !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; padding:4px 6px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important; width:100% !important;'
 
     # 11. Dynamic Grid Column Section Titles, Colors & Dynamic Post Lists
     grid_headers = settings.get('grid_headers', {})
@@ -2552,37 +2561,6 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                     markup = f'<a href="/{item.get("slug")}/" class="wp-block-latest-posts__post-title">{title_raw}{badge_html}</a>'
                     li.append(BeautifulSoup(markup, 'html.parser'))
                     ul.append(li)
-                    
-    # Also update Top 8 Colorful Quick Boxes
-    top_urgent_posts = []
-    for cat in ['latest-jobs', 'result', 'admit-card', 'admission']:
-        top_urgent_posts.extend(posts_by_category.get(cat, []))
-    top_urgent_posts.sort(key=lambda x: x.get('calculated_priority', 0), reverse=True)
-    
-    top_box_classes = [
-        'gb-grid-column-2f6de309',
-        'gb-grid-column-6de8e6a5',
-        'gb-grid-column-f69a2a15',
-        'gb-grid-column-cb185b36',
-        'gb-grid-column-962a1393',
-        'gb-grid-column-48ff7430',
-        'gb-grid-column-3b560729',
-        'gb-grid-column-659c2f86'
-    ]
-    
-    for idx, b_cls in enumerate(top_box_classes):
-        if idx < len(top_urgent_posts):
-            p_item = top_urgent_posts[idx]
-            boxes = soup.find_all(class_=b_cls)
-            for b in boxes:
-                a_tag = b.find('a')
-                if a_tag:
-                    a_tag['href'] = f"/{p_item.get('slug')}/"
-                    b_txt = p_item.get('title', '')
-                    b_badge = p_item.get('calculated_badge', '')
-                    a_tag.clear()
-                    a_tag.append(BeautifulSoup(f"{b_txt}{b_badge}", 'html.parser'))
-                    
     return sanitize_html(str(soup), host, is_alria_mode=is_alria_mode)
 
 @app.route('/')
