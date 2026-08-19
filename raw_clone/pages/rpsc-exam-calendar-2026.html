@@ -245,6 +245,312 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
 	padding-top:15px;
 }
 </style>
+
+<style id="st-nav-search-styles">
+/* ==================== 100% EXACT AUTHENTIC NAVBAR & SEARCH MODAL ==================== */
+.main-navigation {
+    background-color: #0b213f !important;
+    position: relative;
+    z-index: 99999;
+    clear: both;
+}
+.main-navigation .inside-navigation {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 12px;
+    min-height: 46px;
+    position: relative;
+    box-sizing: border-box;
+}
+.main-navigation .menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 10px 4px;
+    align-items: center;
+    gap: 8px;
+    line-height: 1;
+    text-transform: capitalize;
+}
+.main-navigation .menu-toggle:focus {
+    outline: none;
+}
+.main-navigation .menu-toggle .gp-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.main-navigation .menu-toggle .gp-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: #ffffff;
+}
+.main-navigation .menu-toggle .icon-close {
+    display: none;
+}
+.main-navigation.toggled .menu-toggle .icon-bars {
+    display: none;
+}
+.main-navigation.toggled .menu-toggle .icon-close {
+    display: inline-flex;
+}
+
+.main-navigation .main-nav {
+    display: flex;
+    flex: 1;
+}
+.main-navigation .main-nav ul.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.main-navigation .main-nav ul.menu > li {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+.main-navigation .main-nav ul.menu > li > a {
+    color: #ffffff !important;
+    display: block;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+.main-navigation .main-nav ul.menu > li:hover > a,
+.main-navigation .main-nav ul.menu > li.current-menu-item > a {
+    background-color: #07162c;
+}
+.main-navigation .main-nav ul.menu > li.menu-item-has-children > a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.main-navigation .dropdown-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+}
+.main-navigation .dropdown-menu-toggle svg {
+    width: 11px;
+    height: 11px;
+    fill: #ffffff;
+    transition: transform 0.2s ease;
+}
+
+/* Sub-Menu (More Dropdown) */
+.main-navigation ul.sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #0b213f;
+    min-width: 190px;
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+    display: none;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    z-index: 100000;
+    border-top: 2px solid #cd0808;
+}
+.main-navigation ul.sub-menu li {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.main-navigation ul.sub-menu li a {
+    color: #ffffff !important;
+    padding: 10px 16px;
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.main-navigation ul.sub-menu li a:hover {
+    background-color: #07162c;
+    color: #ffd700 !important;
+}
+.main-navigation .main-nav ul.menu > li:hover > ul.sub-menu,
+.main-navigation .main-nav ul.menu > li.sfHover > ul.sub-menu {
+    display: block;
+}
+
+/* Menu Bar Items (Search Icon) */
+.main-navigation .menu-bar-items {
+    display: flex;
+    align-items: center;
+}
+.main-navigation .menu-bar-item a {
+    color: #ffffff !important;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+.main-navigation .menu-bar-item a svg {
+    width: 18px;
+    height: 18px;
+    fill: #ffffff;
+}
+.main-navigation .menu-bar-item a:hover {
+    background-color: #07162c;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .main-navigation .inside-navigation {
+        flex-wrap: wrap !important;
+        padding: 0 10px;
+    }
+    .main-navigation .menu-toggle {
+        display: flex !important;
+    }
+    .main-navigation .main-nav {
+        display: none;
+        width: 100% !important;
+        order: 3;
+        background-color: #0b213f;
+    }
+    .main-navigation.toggled .main-nav {
+        display: block !important;
+    }
+    .main-navigation .main-nav ul.menu {
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .main-navigation .main-nav ul.menu > li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .main-navigation .main-nav ul.menu > li > a {
+        padding: 13px 16px;
+        font-size: 15px;
+        justify-content: space-between;
+    }
+    .main-navigation ul.sub-menu {
+        position: static;
+        box-shadow: none;
+        background-color: #07162c;
+        padding: 0;
+        border-top: none;
+        display: none;
+    }
+    .main-navigation .main-nav ul.menu > li.sfHover > ul.sub-menu,
+    .main-navigation .main-nav ul.menu > li.sub-menu-open > ul.sub-menu {
+        display: block !important;
+    }
+    .main-navigation ul.sub-menu li a {
+        padding-left: 32px;
+        font-size: 14px;
+        background: #061325;
+    }
+}
+
+/* Search Modal Popup */
+.gp-modal.gp-search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9999999;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 70px;
+    box-sizing: border-box;
+}
+.gp-modal.gp-search-modal.gp-modal--open {
+    display: flex !important;
+}
+.gp-modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 70px;
+    box-sizing: border-box;
+}
+.gp-modal__container {
+    width: 90%;
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    position: relative;
+    z-index: 10;
+    animation: gpModalSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+}
+@keyframes gpModalSlideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.search-modal-form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.search-modal-fields {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+.search-modal-fields .search-field {
+    width: 100%;
+    border: none;
+    padding: 12px 46px 12px 16px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #1e293b;
+    outline: none;
+    background: transparent;
+    box-sizing: border-box;
+}
+.search-modal-fields button {
+    position: absolute;
+    right: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-modal-fields button svg {
+    width: 20px;
+    height: 20px;
+    fill: #334155;
+}
+.search-modal-fields button:hover svg {
+    fill: #000000;
+}
+</style>
 </head>
 <body class="wp-singular post-template-default single single-post postid-21713 single-format-standard wp-embed-responsive wp-theme-generatepress post-image-below-header post-image-aligned-center sticky-menu-no-transition no-sidebar nav-below-header separate-containers header-aligned-center dropdown-hover featured-image-active" itemscope="" itemtype="https://schema.org/Blog">
 <a class="screen-reader-text skip-link" href="#content" title="Skip to content">Skip to content</a> <header aria-label="Site" class="site-header grid-container" id="masthead" itemscope="" itemtype="https://schema.org/WPHeader">
@@ -258,26 +564,42 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
 </header>
 <nav aria-label="Primary" class="main-navigation grid-container has-menu-bar-items sub-menu-right" id="site-navigation" itemscope="" itemtype="https://schema.org/SiteNavigationElement">
 <div class="inside-navigation grid-container">
-<button aria-controls="primary-menu" aria-expanded="false" class="menu-toggle">
-<span class="gp-icon icon-menu-bars"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M0 96c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24z"></path></svg><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M71.029 71.029c9.373-9.372 24.569-9.372 33.942 0L256 222.059l151.029-151.03c9.373-9.372 24.569-9.372 33.942 0 9.372 9.373 9.372 24.569 0 33.942L289.941 256l151.03 151.029c9.372 9.373 9.372 24.569 0 33.942-9.373 9.372-24.569 9.372-33.942 0L256 289.941l-151.029 151.03c-9.373 9.372-24.569 9.372-33.942 0-9.372-9.373-9.372-24.569 0-33.942L222.059 256 71.029 104.971c-9.372-9.373-9.372-24.569 0-33.942z"></path></svg></span><span class="mobile-menu">Menu</span> </button>
-<div class="main-nav" id="primary-menu"><ul class="menu sf-menu" id="menu-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-817" id="menu-item-817"><a aria-current="page" href="/">Home</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11483" id="menu-item-11483"><a href="/latest-jobs/">Latest Job</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11480" id="menu-item-11480"><a href="/admit-card/">Admit Card</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11475" id="menu-item-11475"><a href="/result/">Result</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11486" id="menu-item-11486"><a href="/admission/">Admission</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11491" id="menu-item-11491"><a href="/syllabus/">Syllabus</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11494" id="menu-item-11494"><a href="/answer-key/">Answer Key</a></li>
-<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-11557" id="menu-item-11557"><a href="#" rel="nofollow">More<span class="dropdown-menu-toggle" role="presentation"><span class="gp-icon icon-arrow"><svg aria-hidden="true" height="1em" viewbox="0 0 330 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M305.913 197.085c0 2.266-1.133 4.815-2.833 6.514L171.087 335.593c-1.7 1.7-4.249 2.832-6.515 2.832s-4.815-1.133-6.515-2.832L26.064 203.599c-1.7-1.7-2.832-4.248-2.832-6.514s1.132-4.816 2.832-6.515l14.162-14.163c1.7-1.699 3.966-2.832 6.515-2.832 2.266 0 4.815 1.133 6.515 2.832l111.316 111.317 111.316-111.317c1.7-1.699 4.249-2.832 6.515-2.832s4.815 1.133 6.515 2.832l14.162 14.163c1.7 1.7 2.833 4.249 2.833 6.515z"></path></svg></span></span></a>
+<button aria-controls="primary-menu" aria-expanded="false" aria-label="Toggle navigation" class="menu-toggle" type="button">
+<span class="gp-icon icon-menu-bars">
+<svg aria-hidden="true" class="icon-bars" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M0 96c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24z"></path></svg>
+<svg aria-hidden="true" class="icon-close" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M71.029 71.029c9.373-9.372 24.569-9.372 33.942 0L256 222.059l151.029-151.03c9.373-9.372 24.569-9.372 33.942 0 9.372 9.373 9.372 24.569 0 33.942L289.941 256l151.03 151.029c9.372 9.373 9.372 24.569 0 33.942-9.373 9.372-24.569 9.372-33.942 0L256 289.941l-151.029 151.03c-9.373 9.372-24.569 9.372-33.942 0-9.372-9.373-9.372-24.569 0-33.942L222.059 256 71.029 104.971c-9.372-9.373-9.372-24.569 0-33.942z"></path></svg>
+</span>
+<span class="mobile-menu">Menu</span>
+</button>
+<div class="main-nav" id="primary-menu">
+<ul class="menu sf-menu" id="menu-menu">
+<li class="menu-item current-menu-item"><a aria-current="page" href="/">Home</a></li>
+<li class="menu-item"><a href="/latest-jobs/">Latest Job</a></li>
+<li class="menu-item"><a href="/admit-card/">Admit Card</a></li>
+<li class="menu-item"><a href="/result/">Result</a></li>
+<li class="menu-item"><a href="/admission/">Admission</a></li>
+<li class="menu-item"><a href="/syllabus/">Syllabus</a></li>
+<li class="menu-item"><a href="/answer-key/">Answer Key</a></li>
+<li class="menu-item menu-item-has-children">
+<a aria-expanded="false" href="javascript:void(0);" role="button">More<span class="dropdown-menu-toggle" role="presentation"><span class="gp-icon icon-arrow"><svg aria-hidden="true" height="1em" viewbox="0 0 330 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M305.913 197.085c0 2.266-1.133 4.815-2.833 6.514L171.087 335.593c-1.7 1.7-4.249 2.832-6.515 2.832s-4.815-1.133-6.515-2.832L26.064 203.599c-1.7-1.7-2.832-4.248-2.832-6.514s1.132-4.816 2.832-6.515l14.162-14.163c1.7-1.699 3.966-2.832 6.515-2.832 2.266 0 4.815 1.133 6.515 2.832l111.316 111.317 111.316-111.317c1.7-1.699 4.249-2.832 6.515-2.832s4.815 1.133 6.515 2.832l14.162 14.163c1.7 1.7 2.833 4.249 2.833 6.515z"></path></svg></span></span></a>
 <ul class="sub-menu">
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11559" id="menu-item-11559"><a href="/contact/">Contact Us</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-11558" id="menu-item-11558"><a href="/privacy-policy/" rel="privacy-policy">Privacy Policy</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11560" id="menu-item-11560"><a href="/disclaimer/">Disclaimer</a></li>
+<li class="menu-item"><a href="/contact/">Contact Us</a></li>
+<li class="menu-item"><a href="/privacy-policy/">Privacy Policy</a></li>
+<li class="menu-item"><a href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
+<li class="menu-item"><a href="/about-us/">About Us</a></li>
+<li class="menu-item"><a href="/disclaimer/">Disclaimer</a></li>
 </ul>
 </li>
-</ul></div><div class="menu-bar-items"> <span class="menu-bar-item">
-<a aria-controls="gp-search" aria-haspopup="dialog" aria-label="Open search" data-gpmodal-trigger="gp-search" href="#" role="button"><span class="gp-icon icon-search"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M208 48c-88.366 0-160 71.634-160 160s71.634 160 160 160 160-71.634 160-160S296.366 48 208 48zM0 208C0 93.125 93.125 0 208 0s208 93.125 208 208c0 48.741-16.765 93.566-44.843 129.024l133.826 134.018c9.366 9.379 9.355 24.575-.025 33.941-9.379 9.366-24.575 9.355-33.941-.025L337.238 370.987C301.747 399.167 256.839 416 208 416 93.125 416 0 322.875 0 208z" fill-rule="evenodd"></path></svg><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M71.029 71.029c9.373-9.372 24.569-9.372 33.942 0L256 222.059l151.029-151.03c9.373-9.372 24.569-9.372 33.942 0L289.941 256l151.03 151.029c9.372 9.373 9.372 24.569 0 33.942-9.373 9.372-24.569 9.372-33.942 0L256 289.941l-151.029 151.03c-9.373 9.372-24.569 9.372-33.942 0-9.372-9.373-9.372-24.569 0-33.942L222.059 256 71.029 104.971c-9.372-9.373-9.372-24.569 0-33.942z"></path></svg></span></a>
+</ul>
+</div>
+<div class="menu-bar-items">
+<span class="menu-bar-item">
+<a aria-controls="gp-search" aria-haspopup="dialog" aria-label="Open search" data-gpmodal-trigger="gp-search" href="javascript:void(0);" role="button">
+<span class="gp-icon icon-search"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M208 48c-88.366 0-160 71.634-160 160s71.634 160 160 160 160-71.634 160-160S296.366 48 208 48zM0 208C0 93.125 93.125 0 208 0s208 93.125 208 208c0 48.741-16.765 93.566-44.843 129.024l133.826 134.018c9.366 9.379 9.355 24.575-.025 33.941-9.379 9.366-24.575 9.355-33.941-.025L337.238 370.987C301.747 399.167 256.839 416 208 416 93.125 416 0 322.875 0 208z" fill-rule="evenodd"></path></svg></span>
+</a>
 </span>
-</div> </div>
+</div>
+</div>
 </nav>
 <div class="site grid-container container hfeed" id="page">
 <div class="site-content" id="content">
@@ -636,7 +958,7 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
 <label class="screen-reader-text" for="search-modal-input">Search for:</label>
 <div class="search-modal-fields">
 <input autocomplete="off" class="search-field" id="search-modal-input" name="q" placeholder="Search …" type="search" value=""/>
-<button aria-label="Search"><span class="gp-icon icon-search"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M208 48c-88.366 0-160 71.634-160 160s71.634 160 160 160 160-71.634 160-160S296.366 48 208 48zM0 208C0 93.125 93.125 0 208 0s208 93.125 208 208c0 48.741-16.765 93.566-44.843 129.024l133.826 134.018c9.366 9.379 9.355 24.575-.025 33.941-9.379 9.366-24.575 9.355-33.941-.025L337.238 370.987C301.747 399.167 256.839 416 208 416 93.125 416 0 322.875 0 208z" fill-rule="evenodd"></path></svg></span></button>
+<button aria-label="Search" type="submit"><span class="gp-icon icon-search"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M208 48c-88.366 0-160 71.634-160 160s71.634 160 160 160 160-71.634 160-160S296.366 48 208 48zM0 208C0 93.125 93.125 0 208 0s208 93.125 208 208c0 48.741-16.765 93.566-44.843 129.024l133.826 134.018c9.366 9.379 9.355 24.575-.025 33.941-9.379 9.366-24.575 9.355-33.941-.025L337.238 370.987C301.747 399.167 256.839 416 208 416 93.125 416 0 322.875 0 208z" fill-rule="evenodd"></path></svg></span></button>
 </div>
 </form>
 </div>
@@ -669,9 +991,6 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
       });
     });
     </script>
-
-
-
 <script id="wp-emoji-settings" type="application/json">
 {"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://sarkariresult.com.cm/wp-includes/js/wp-emoji-release.min.js?ver=7.0.2"}}
 </script>
@@ -682,7 +1001,6 @@ const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(
 </script>
 <!-- Google tag (gtag.js) -->
 <!-- GeneratePress Authentic Menu & Search Modal Script -->
-
 <script src="/wp-content/themes/generatepress/assets/js/menu.min.js?ver=3.5.1"></script>
 <script src="/wp-content/themes/generatepress/assets/dist/modal.js?ver=3.5.1"></script>
 <script>
@@ -972,63 +1290,76 @@ document.addEventListener("DOMContentLoaded", function () {
         box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
     }
 </style>
-
 <script id="generate-menu-js-before">
 var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Sub-Menu","closeSubMenuLabel":"Close Sub-Menu"};
 </script>
 <script id="generate-menu-js" src="/wp-content/themes/generatepress/assets/js/menu.min.js?ver=3.5.1"></script>
 <script id="generate-modal-js" src="/wp-content/themes/generatepress/assets/dist/modal.js?ver=3.5.1"></script>
-<script>
+
+
+<script id="st-nav-search-scripts">
 (function() {
-    function initGPNavSearch() {
+    function initStudyTopperNavSearch() {
         var menuBtn = document.querySelector('.menu-toggle');
         var siteNav = document.getElementById('site-navigation');
-        var mainNavUl = document.querySelector('#site-navigation .main-nav > ul');
-        
+        var mainNav = document.getElementById('primary-menu');
+
+        // Toggle Main Mobile Navigation
         if (menuBtn && siteNav) {
             menuBtn.onclick = function(e) {
                 e.preventDefault();
-                var toggled = siteNav.classList.toggle('toggled');
-                menuBtn.setAttribute('aria-expanded', toggled ? 'true' : 'false');
-                if (mainNavUl) {
-                    mainNavUl.style.display = toggled ? 'block' : '';
+                e.stopPropagation();
+                var isToggled = siteNav.classList.toggle('toggled');
+                menuBtn.setAttribute('aria-expanded', isToggled ? 'true' : 'false');
+                if (mainNav) {
+                    mainNav.style.display = isToggled ? 'block' : '';
                 }
             };
         }
 
-        // Submenu toggle on mobile
-        var subMenuToggles = document.querySelectorAll('.menu-item-has-children > a, .dropdown-menu-toggle');
-        subMenuToggles.forEach(function(el) {
-            el.addEventListener('click', function(e) {
+        // Toggle 'More' Submenu on Click / Tap
+        var subMenuParents = document.querySelectorAll('.menu-item-has-children');
+        subMenuParents.forEach(function(parentLi) {
+            var triggerLink = parentLi.querySelector('a');
+            var subMenu = parentLi.querySelector('.sub-menu');
+            var arrowToggle = parentLi.querySelector('.dropdown-menu-toggle');
+
+            function toggleSubMenu(e) {
                 if (window.innerWidth <= 768) {
-                    var href = el.getAttribute('href');
-                    if (!href || href === '#' || el.classList.contains('dropdown-menu-toggle') || el.closest('.dropdown-menu-toggle')) {
-                        e.preventDefault();
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var isOpen = parentLi.classList.toggle('sub-menu-open');
+                    parentLi.classList.toggle('sfHover', isOpen);
+                    if (subMenu) {
+                        subMenu.style.display = isOpen ? 'block' : 'none';
                     }
-                    var parentLi = el.closest('.menu-item-has-children');
-                    if (parentLi) {
-                        parentLi.classList.toggle('sfHover');
-                        var sub = parentLi.querySelector('.sub-menu');
-                        if (sub) {
-                            sub.style.display = sub.style.display === 'block' ? 'none' : 'block';
-                        }
+                    var arrowSvg = parentLi.querySelector('.dropdown-menu-toggle svg');
+                    if (arrowSvg) {
+                        arrowSvg.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
                     }
                 }
-            });
+            }
+
+            if (triggerLink) {
+                triggerLink.addEventListener('click', toggleSubMenu);
+            }
+            if (arrowToggle && arrowToggle !== triggerLink) {
+                arrowToggle.addEventListener('click', toggleSubMenu);
+            }
         });
 
-        // Search trigger
+        // Search Modal Controller
         var searchTriggers = document.querySelectorAll('[data-gpmodal-trigger="gp-search"], .icon-search, a[aria-controls="gp-search"]');
         var searchModal = document.getElementById('gp-search');
 
         function openSearch(e) {
-            if (e) e.preventDefault();
+            if (e) { e.preventDefault(); e.stopPropagation(); }
             if (searchModal) {
                 searchModal.classList.add('gp-modal--open');
                 searchModal.style.display = 'flex';
-                var inp = searchModal.querySelector('input[type="search"], input[name="q"], input[name="s"]');
-                if (inp) {
-                    setTimeout(function() { inp.focus(); }, 60);
+                var input = searchModal.querySelector('input[name="q"], input[type="search"]');
+                if (input) {
+                    setTimeout(function() { input.focus(); }, 80);
                 }
             }
         }
@@ -1040,8 +1371,8 @@ var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Su
             }
         }
 
-        searchTriggers.forEach(function(st) {
-            st.addEventListener('click', openSearch);
+        searchTriggers.forEach(function(btn) {
+            btn.addEventListener('click', openSearch);
         });
 
         if (searchModal) {
@@ -1050,10 +1381,11 @@ var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Su
                     closeSearch(e);
                 }
             });
+
             var form = searchModal.querySelector('form');
             if (form) {
                 form.onsubmit = function(e) {
-                    var inp = form.querySelector('input[name="q"], input[name="s"]');
+                    var inp = form.querySelector('input[name="q"], input[type="search"]');
                     if (inp && inp.value.trim()) {
                         window.location.href = '/search?q=' + encodeURIComponent(inp.value.trim());
                         return false;
@@ -1070,9 +1402,9 @@ var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Su
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initGPNavSearch);
+        document.addEventListener('DOMContentLoaded', initStudyTopperNavSearch);
     } else {
-        initGPNavSearch();
+        initStudyTopperNavSearch();
     }
 })();
 </script>

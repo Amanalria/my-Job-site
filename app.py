@@ -190,29 +190,351 @@ def clean_post_html_content(raw_html, settings):
 
     return html_str
 
+def get_nav_search_styles_html():
+    return """<style id="st-nav-search-styles">
+.main-navigation {
+    background-color: #0b213f !important;
+    position: relative;
+    z-index: 99999;
+    clear: both;
+}
+.main-navigation .inside-navigation {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 12px;
+    min-height: 46px;
+    position: relative;
+    box-sizing: border-box;
+}
+.main-navigation .menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 10px 4px;
+    align-items: center;
+    gap: 8px;
+    line-height: 1;
+    text-transform: capitalize;
+}
+.main-navigation .menu-toggle:focus {
+    outline: none;
+}
+.main-navigation .menu-toggle .gp-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.main-navigation .menu-toggle .gp-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: #ffffff;
+}
+.main-navigation .menu-toggle .icon-close {
+    display: none;
+}
+.main-navigation.toggled .menu-toggle .icon-bars {
+    display: none !important;
+}
+.main-navigation.toggled .menu-toggle .icon-close {
+    display: inline-flex !important;
+}
+
+.main-navigation .main-nav {
+    display: flex;
+    flex: 1;
+}
+.main-navigation .main-nav ul.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.main-navigation .main-nav ul.menu > li {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+.main-navigation .main-nav ul.menu > li > a {
+    color: #ffffff !important;
+    display: block;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+.main-navigation .main-nav ul.menu > li:hover > a,
+.main-navigation .main-nav ul.menu > li.current-menu-item > a {
+    background-color: #07162c;
+}
+.main-navigation .main-nav ul.menu > li.menu-item-has-children > a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.main-navigation .dropdown-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+}
+.main-navigation .dropdown-menu-toggle svg {
+    width: 11px;
+    height: 11px;
+    fill: #ffffff;
+    transition: transform 0.2s ease;
+}
+
+/* Sub-Menu (More Dropdown) */
+.main-navigation ul.sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #0b213f;
+    min-width: 190px;
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+    display: none;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    z-index: 100000;
+    border-top: 2px solid #cd0808;
+}
+.main-navigation ul.sub-menu li {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.main-navigation ul.sub-menu li a {
+    color: #ffffff !important;
+    padding: 10px 16px;
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.main-navigation ul.sub-menu li a:hover {
+    background-color: #07162c;
+    color: #ffd700 !important;
+}
+.main-navigation .main-nav ul.menu > li:hover > ul.sub-menu,
+.main-navigation .main-nav ul.menu > li.sfHover > ul.sub-menu {
+    display: block;
+}
+
+/* Menu Bar Items (Search Icon) */
+.main-navigation .menu-bar-items {
+    display: flex;
+    align-items: center;
+}
+.main-navigation .menu-bar-item a {
+    color: #ffffff !important;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+.main-navigation .menu-bar-item a svg {
+    width: 18px;
+    height: 18px;
+    fill: #ffffff;
+}
+.main-navigation .menu-bar-item a:hover {
+    background-color: #07162c;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .main-navigation .inside-navigation {
+        flex-wrap: wrap !important;
+        padding: 0 10px;
+    }
+    .main-navigation .menu-toggle {
+        display: flex !important;
+    }
+    .main-navigation .main-nav {
+        display: none;
+        width: 100% !important;
+        order: 3;
+        background-color: #0b213f;
+    }
+    .main-navigation.toggled .main-nav {
+        display: block !important;
+    }
+    .main-navigation .main-nav ul.menu {
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .main-navigation .main-nav ul.menu > li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .main-navigation .main-nav ul.menu > li > a {
+        padding: 13px 16px;
+        font-size: 15px;
+        justify-content: space-between;
+    }
+    .main-navigation ul.sub-menu {
+        position: static;
+        box-shadow: none;
+        background-color: #07162c;
+        padding: 0;
+        border-top: none;
+        display: none;
+    }
+    .main-navigation .main-nav ul.menu > li.sfHover > ul.sub-menu,
+    .main-navigation .main-nav ul.menu > li.sub-menu-open > ul.sub-menu {
+        display: block !important;
+    }
+    .main-navigation ul.sub-menu li a {
+        padding-left: 32px;
+        font-size: 14px;
+        background: #061325;
+    }
+}
+
+/* Search Modal Popup */
+.gp-modal.gp-search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9999999;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 70px;
+    box-sizing: border-box;
+}
+.gp-modal.gp-search-modal.gp-modal--open {
+    display: flex !important;
+}
+.gp-modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 70px;
+    box-sizing: border-box;
+}
+.gp-modal__container {
+    width: 90%;
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    position: relative;
+    z-index: 10;
+    animation: gpModalSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+}
+@keyframes gpModalSlideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.search-modal-form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.search-modal-fields {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+.search-modal-fields .search-field {
+    width: 100%;
+    border: none;
+    padding: 12px 46px 12px 16px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #1e293b;
+    outline: none;
+    background: transparent;
+    box-sizing: border-box;
+}
+.search-modal-fields button {
+    position: absolute;
+    right: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-modal-fields button svg {
+    width: 20px;
+    height: 20px;
+    fill: #334155;
+}
+.search-modal-fields button:hover svg {
+    fill: #000000;
+}
+</style>"""
+
 def get_nav_html():
     return """<nav aria-label="Primary" class="main-navigation grid-container has-menu-bar-items sub-menu-right" id="site-navigation" itemscope="" itemtype="https://schema.org/SiteNavigationElement">
 <div class="inside-navigation grid-container">
-<button aria-controls="primary-menu" aria-expanded="false" class="menu-toggle">
-<span class="gp-icon icon-menu-bars"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M0 96c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24z"></path></svg><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M71.029 71.029c9.373-9.372 24.569-9.372 33.942 0L256 222.059l151.029-151.03c9.373-9.372 24.569-9.372 33.942 0 9.372 9.373 9.372 24.569 0 33.942L289.941 256l151.03 151.029c9.372 9.373 9.372 24.569 0 33.942-9.373 9.372-24.569 9.372-33.942 0L256 289.941l-151.029 151.03c-9.373 9.372-24.569 9.372-33.942 0-9.372-9.373-9.372-24.569 0-33.942L222.059 256 71.029 104.971c-9.372-9.373-9.372-24.569 0-33.942z"></path></svg></span><span class="mobile-menu">Menu</span> </button>
-<div class="main-nav" id="primary-menu"><ul class="menu sf-menu" id="menu-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-817" id="menu-item-817"><a aria-current="page" href="/">Home</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11483" id="menu-item-11483"><a href="/latest-jobs/">Latest Job</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11480" id="menu-item-11480"><a href="/admit-card/">Admit Card</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11475" id="menu-item-11475"><a href="/result/">Result</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11486" id="menu-item-11486"><a href="/admission/">Admission</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11491" id="menu-item-11491"><a href="/syllabus/">Syllabus</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11494" id="menu-item-11494"><a href="/answer-key/">Answer Key</a></li>
-<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-11557" id="menu-item-11557"><a href="#" rel="nofollow" target="_blank">More<span class="dropdown-menu-toggle" role="presentation"><span class="gp-icon icon-arrow"><svg aria-hidden="true" height="1em" viewbox="0 0 330 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M305.913 197.085c0 2.266-1.133 4.815-2.833 6.514L171.087 335.593c-1.7 1.7-4.249 2.832-6.515 2.832s-4.815-1.133-6.515-2.832L26.064 203.599c-1.7-1.7-2.832-4.248-2.832-6.514s1.132-4.816 2.832-6.515l14.162-14.163c1.7-1.699 3.966-2.832 6.515-2.832 2.266 0 4.815 1.133 6.515 2.832l111.316 111.317 111.316-111.317c1.7-1.699 4.249-2.832 6.515-2.832s4.815 1.133 6.515 2.832l14.162 14.163c1.7 1.7 2.833 4.249 2.833 6.515z"></path></svg></span></span></a>
-<ul class="sub-menu">
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11559" id="menu-item-11559"><a href="/contact/">Contact Us</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-11558" id="menu-item-11558"><a href="/privacy-policy/" rel="privacy-policy">Privacy Policy</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11560" id="menu-item-11560"><a href="/disclaimer/">Disclaimer</a></li>
-</ul>
-</li>
-</ul></div><div class="menu-bar-items"> <span class="menu-bar-item">
-<a aria-controls="gp-search" aria-haspopup="dialog" aria-label="Open search" data-gpmodal-trigger="gp-search" href="#" role="button"><span class="gp-icon icon-search"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M208 48c-88.366 0-160 71.634-160 160s71.634 160 160 160 160-71.634 160-160S296.366 48 208 48zM0 208C0 93.125 93.125 0 208 0s208 93.125 208 208c0 48.741-16.765 93.566-44.843 129.024l133.826 134.018c9.366 9.379 9.355 24.575-.025 33.941-9.379 9.366-24.575 9.355-33.941-.025L337.238 370.987C301.747 399.167 256.839 416 208 416 93.125 416 0 322.875 0 208z" fill-rule="evenodd"></path></svg><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M71.029 71.029c9.373-9.372 24.569-9.372 33.942 0L256 222.059l151.029-151.03c9.373-9.372 24.569-9.372 33.942 0 9.372 9.373 9.372 24.569 0 33.942L289.941 256l151.03 151.029c9.372 9.373 9.372 24.569 0 33.942-9.373 9.372-24.569 9.372-33.942 0L256 289.941l-151.029 151.03c-9.373 9.372-24.569 9.372-33.942 0-9.372-9.373-9.372-24.569 0-33.942L222.059 256 71.029 104.971c-9.372-9.373-9.372-24.569 0-33.942z"></path></svg></span></a>
+<button aria-controls="primary-menu" aria-expanded="false" class="menu-toggle" type="button" aria-label="Toggle navigation">
+<span class="gp-icon icon-menu-bars">
+    <svg class="icon-bars" aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M0 96c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24z"></path></svg>
+    <svg class="icon-close" aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M71.029 71.029c9.373-9.372 24.569-9.372 33.942 0L256 222.059l151.029-151.03c9.373-9.372 24.569-9.372 33.942 0 9.372 9.373 9.372 24.569 0 33.942L289.941 256l151.03 151.029c9.372 9.373 9.372 24.569 0 33.942-9.373 9.372-24.569 9.372-33.942 0L256 289.941l-151.029 151.03c-9.373 9.372-24.569 9.372-33.942 0-9.372-9.373-9.372-24.569 0-33.942L222.059 256 71.029 104.971c-9.372-9.373-9.372-24.569 0-33.942z"></path></svg>
 </span>
-</div> </div>
+<span class="mobile-menu">Menu</span>
+</button>
+<div class="main-nav" id="primary-menu">
+<ul class="menu sf-menu" id="menu-menu">
+    <li class="menu-item current-menu-item"><a href="/" aria-current="page">Home</a></li>
+    <li class="menu-item"><a href="/latest-jobs/">Latest Job</a></li>
+    <li class="menu-item"><a href="/admit-card/">Admit Card</a></li>
+    <li class="menu-item"><a href="/result/">Result</a></li>
+    <li class="menu-item"><a href="/admission/">Admission</a></li>
+    <li class="menu-item"><a href="/syllabus/">Syllabus</a></li>
+    <li class="menu-item"><a href="/answer-key/">Answer Key</a></li>
+    <li class="menu-item menu-item-has-children">
+        <a href="javascript:void(0);" role="button" aria-expanded="false">More<span class="dropdown-menu-toggle" role="presentation"><span class="gp-icon icon-arrow"><svg aria-hidden="true" height="1em" viewbox="0 0 330 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M305.913 197.085c0 2.266-1.133 4.815-2.833 6.514L171.087 335.593c-1.7 1.7-4.249 2.832-6.515 2.832s-4.815-1.133-6.515-2.832L26.064 203.599c-1.7-1.7-2.832-4.248-2.832-6.514s1.132-4.816 2.832-6.515l14.162-14.163c1.7-1.699 3.966-2.832 6.515-2.832 2.266 0 4.815 1.133 6.515 2.832l111.316 111.317 111.316-111.317c1.7-1.699 4.249-2.832 6.515-2.832s4.815 1.133 6.515 2.832l14.162 14.163c1.7 1.7 2.833 4.249 2.833 6.515z"></path></svg></span></span></a>
+        <ul class="sub-menu">
+            <li class="menu-item"><a href="/contact/">Contact Us</a></li>
+            <li class="menu-item"><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li class="menu-item"><a href="/terms-and-conditions/">Terms & Conditions</a></li>
+            <li class="menu-item"><a href="/about-us/">About Us</a></li>
+            <li class="menu-item"><a href="/disclaimer/">Disclaimer</a></li>
+        </ul>
+    </li>
+</ul>
+</div>
+<div class="menu-bar-items">
+    <span class="menu-bar-item">
+        <a aria-controls="gp-search" aria-haspopup="dialog" aria-label="Open search" data-gpmodal-trigger="gp-search" href="javascript:void(0);" role="button">
+            <span class="gp-icon icon-search"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M208 48c-88.366 0-160 71.634-160 160s71.634 160 160 160 160-71.634 160-160S296.366 48 208 48zM0 208C0 93.125 93.125 0 208 0s208 93.125 208 208c0 48.741-16.765 93.566-44.843 129.024l133.826 134.018c9.366 9.379 9.355 24.575-.025 33.941-9.379 9.366-24.575 9.355-33.941-.025L337.238 370.987C301.747 399.167 256.839 416 208 416 93.125 416 0 322.875 0 208z" fill-rule="evenodd"></path></svg></span>
+        </a>
+    </span>
+</div>
+</div>
 </nav>"""
 
 def get_search_modal_html():
@@ -223,7 +545,7 @@ def get_search_modal_html():
 <label class="screen-reader-text" for="search-modal-input">Search for:</label>
 <div class="search-modal-fields">
 <input class="search-field" id="search-modal-input" name="q" placeholder="Search …" type="search" value="" autocomplete="off" />
-<button aria-label="Search"><span class="gp-icon icon-search"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M208 48c-88.366 0-160 71.634-160 160s71.634 160 160 160 160-71.634 160-160S296.366 48 208 48zM0 208C0 93.125 93.125 0 208 0s208 93.125 208 208c0 48.741-16.765 93.566-44.843 129.024l133.826 134.018c9.366 9.379 9.355 24.575-.025 33.941-9.379 9.366-24.575 9.355-33.941-.025L337.238 370.987C301.747 399.167 256.839 416 208 416 93.125 416 0 322.875 0 208z" fill-rule="evenodd"></path></svg></span></button>
+<button aria-label="Search" type="submit"><span class="gp-icon icon-search"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M208 48c-88.366 0-160 71.634-160 160s71.634 160 160 160 160-71.634 160-160S296.366 48 208 48zM0 208C0 93.125 93.125 0 208 0s208 93.125 208 208c0 48.741-16.765 93.566-44.843 129.024l133.826 134.018c9.366 9.379 9.355 24.575-.025 33.941-9.379 9.366-24.575 9.355-33.941-.025L337.238 370.987C301.747 399.167 256.839 416 208 416 93.125 416 0 322.875 0 208z" fill-rule="evenodd"></path></svg></span></button>
 </div>
 </form>
 </div>
@@ -231,60 +553,69 @@ def get_search_modal_html():
 </div>"""
 
 def get_gp_scripts_html():
-    return """<script id="generate-menu-js-before">
-var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Sub-Menu","closeSubMenuLabel":"Close Sub-Menu"};
-</script>
-<script id="generate-menu-js" src="/wp-content/themes/generatepress/assets/js/menu.min.js?ver=3.5.1"></script>
-<script id="generate-modal-js" src="/wp-content/themes/generatepress/assets/dist/modal.js?ver=3.5.1"></script>
-<script>
+    return """<script id="st-nav-search-scripts">
 (function() {
-    function initGPNavSearch() {
+    function initStudyTopperNavSearch() {
         var menuBtn = document.querySelector('.menu-toggle');
         var siteNav = document.getElementById('site-navigation');
-        var mainNavUl = document.querySelector('#site-navigation .main-nav > ul');
-        
+        var mainNav = document.getElementById('primary-menu');
+
+        // Toggle Main Mobile Navigation
         if (menuBtn && siteNav) {
             menuBtn.onclick = function(e) {
                 e.preventDefault();
-                var toggled = siteNav.classList.toggle('toggled');
-                menuBtn.setAttribute('aria-expanded', toggled ? 'true' : 'false');
-                if (mainNavUl) {
-                    mainNavUl.style.display = toggled ? 'block' : '';
+                e.stopPropagation();
+                var isToggled = siteNav.classList.toggle('toggled');
+                menuBtn.setAttribute('aria-expanded', isToggled ? 'true' : 'false');
+                if (mainNav) {
+                    mainNav.style.display = isToggled ? 'block' : '';
                 }
             };
         }
 
-        var subMenuToggles = document.querySelectorAll('.menu-item-has-children > a, .dropdown-menu-toggle');
-        subMenuToggles.forEach(function(el) {
-            el.addEventListener('click', function(e) {
+        // Toggle 'More' Submenu on Click / Tap
+        var subMenuParents = document.querySelectorAll('.menu-item-has-children');
+        subMenuParents.forEach(function(parentLi) {
+            var triggerLink = parentLi.querySelector('a');
+            var subMenu = parentLi.querySelector('.sub-menu');
+            var arrowToggle = parentLi.querySelector('.dropdown-menu-toggle');
+
+            function toggleSubMenu(e) {
                 if (window.innerWidth <= 768) {
-                    var href = el.getAttribute('href');
-                    if (!href || href === '#' || el.classList.contains('dropdown-menu-toggle') || el.closest('.dropdown-menu-toggle')) {
-                        e.preventDefault();
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var isOpen = parentLi.classList.toggle('sub-menu-open');
+                    parentLi.classList.toggle('sfHover', isOpen);
+                    if (subMenu) {
+                        subMenu.style.display = isOpen ? 'block' : 'none';
                     }
-                    var parentLi = el.closest('.menu-item-has-children');
-                    if (parentLi) {
-                        parentLi.classList.toggle('sfHover');
-                        var sub = parentLi.querySelector('.sub-menu');
-                        if (sub) {
-                            sub.style.display = sub.style.display === 'block' ? 'none' : 'block';
-                        }
+                    var arrowSvg = parentLi.querySelector('.dropdown-menu-toggle svg');
+                    if (arrowSvg) {
+                        arrowSvg.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
                     }
                 }
-            });
+            }
+
+            if (triggerLink) {
+                triggerLink.addEventListener('click', toggleSubMenu);
+            }
+            if (arrowToggle && arrowToggle !== triggerLink) {
+                arrowToggle.addEventListener('click', toggleSubMenu);
+            }
         });
 
+        // Search Modal Controller
         var searchTriggers = document.querySelectorAll('[data-gpmodal-trigger="gp-search"], .icon-search, a[aria-controls="gp-search"]');
         var searchModal = document.getElementById('gp-search');
 
         function openSearch(e) {
-            if (e) e.preventDefault();
+            if (e) { e.preventDefault(); e.stopPropagation(); }
             if (searchModal) {
                 searchModal.classList.add('gp-modal--open');
                 searchModal.style.display = 'flex';
-                var inp = searchModal.querySelector('input[type="search"], input[name="q"], input[name="s"]');
-                if (inp) {
-                    setTimeout(function() { inp.focus(); }, 60);
+                var input = searchModal.querySelector('input[name="q"], input[type="search"]');
+                if (input) {
+                    setTimeout(function() { input.focus(); }, 80);
                 }
             }
         }
@@ -296,8 +627,8 @@ var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Su
             }
         }
 
-        searchTriggers.forEach(function(st) {
-            st.addEventListener('click', openSearch);
+        searchTriggers.forEach(function(btn) {
+            btn.addEventListener('click', openSearch);
         });
 
         if (searchModal) {
@@ -306,10 +637,11 @@ var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Su
                     closeSearch(e);
                 }
             });
+
             var form = searchModal.querySelector('form');
             if (form) {
                 form.onsubmit = function(e) {
-                    var inp = form.querySelector('input[name="q"], input[name="s"]');
+                    var inp = form.querySelector('input[name="q"], input[type="search"]');
                     if (inp && inp.value.trim()) {
                         window.location.href = '/search?q=' + encodeURIComponent(inp.value.trim());
                         return false;
@@ -326,9 +658,9 @@ var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Su
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initGPNavSearch);
+        document.addEventListener('DOMContentLoaded', initStudyTopperNavSearch);
     } else {
-        initGPNavSearch();
+        initStudyTopperNavSearch();
     }
 })();
 </script>"""
@@ -429,6 +761,7 @@ def render_single_post_html(post, settings):
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700|Roboto:400,500,700|Open+Sans:400,600,700&display=swap">
     <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {get_nav_search_styles_html()}
     <style>
         body {{ background-color:#ffffff; color:#000000; font-family:Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; }}
         .site-header {{ background-color:#cd0808; text-align:center; padding:15px 0; }}
@@ -534,36 +867,7 @@ def render_single_post_html(post, settings):
         </div>
     </header>
 
-    <nav aria-label="Primary" class="main-navigation grid-container has-menu-bar-items sub-menu-right" id="site-navigation" itemscope="" itemtype="https://schema.org/SiteNavigationElement">
-        <div class="inside-navigation grid-container">
-            <button aria-controls="primary-menu" aria-expanded="false" class="menu-toggle">
-                <span class="gp-icon icon-menu-bars"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M0 96c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24zm0 160c0-13.255 10.745-24 24-24h464c13.255 0 24 10.745 24 24s-10.745 24-24 24H24c-13.255 0-24-10.745-24-24z"></path></svg><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M71.029 71.029c9.373-9.372 24.569-9.372 33.942 0L256 222.059l151.029-151.03c9.373-9.372 24.569-9.372 33.942 0 9.372 9.373 9.372 24.569 0 33.942L289.941 256l151.03 151.029c9.372 9.373 9.372 24.569 0 33.942-9.373 9.372-24.569 9.372-33.942 0L256 289.941l-151.029 151.03c-9.373 9.372-24.569 9.372-33.942 0-9.372-9.373-9.372-24.569 0-33.942L222.059 256 71.029 104.971c-9.372-9.373-9.372-24.569 0-33.942z"></path></svg></span><span class="mobile-menu">Menu</span>
-            </button>
-            <div class="main-nav" id="primary-menu">
-                <ul class="menu sf-menu" id="menu-menu">
-                    <li class="menu-item current-menu-item"><a href="/">Home</a></li>
-                    <li class="menu-item"><a href="/latest-jobs/">Latest Job</a></li>
-                    <li class="menu-item"><a href="/admit-card/">Admit Card</a></li>
-                    <li class="menu-item"><a href="/result/">Result</a></li>
-                    <li class="menu-item"><a href="/admission/">Admission</a></li>
-                    <li class="menu-item"><a href="/syllabus/">Syllabus</a></li>
-                    <li class="menu-item"><a href="/answer-key/">Answer Key</a></li>
-                    <li class="menu-item menu-item-has-children"><a href="#" rel="nofollow">More<span class="dropdown-menu-toggle" role="presentation"><span class="gp-icon icon-arrow"><svg aria-hidden="true" height="1em" viewbox="0 0 330 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M305.913 197.085c0 2.266-1.133 4.815-2.833 6.514L171.087 335.593c-1.7 1.7-4.249 2.832-6.515 2.832s-4.815-1.133-6.515-2.832L26.064 203.599c-1.7-1.7-2.832-4.248-2.832-6.514s1.132-4.816 2.832-6.515l14.162-14.163c1.7-1.699 3.966-2.832 6.515-2.832 2.266 0 4.815 1.133 6.515 2.832l111.316 111.317 111.316-111.317c1.7-1.699 4.249-2.832 6.515-2.832s4.815 1.133 6.515 2.832l14.162 14.163c1.7 1.7 2.833 4.249 2.833 6.515z"></path></svg></span></span></a>
-                        <ul class="sub-menu">
-                            <li class="menu-item"><a href="/contact/">Contact Us</a></li>
-                            <li class="menu-item"><a href="/privacy-policy/">Privacy Policy</a></li>
-                            <li class="menu-item"><a href="/disclaimer/">Disclaimer</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="menu-bar-items">
-                <span class="menu-bar-item">
-                    <a aria-controls="gp-search" aria-haspopup="dialog" aria-label="Open search" data-gpmodal-trigger="gp-search" href="#" role="button"><span class="gp-icon icon-search"><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M208 48c-88.366 0-160 71.634-160 160s71.634 160 160 160 160-71.634 160-160S296.366 48 208 48zM0 208C0 93.125 93.125 0 208 0s208 93.125 208 208c0 48.741-16.765 93.566-44.843 129.024l133.826 134.018c9.366 9.379 9.355 24.575-.025 33.941-9.379 9.366-24.575 9.355-33.941-.025L337.238 370.987C301.747 399.167 256.839 416 208 416 93.125 416 0 322.875 0 208z" fill-rule="evenodd"></path></svg><svg aria-hidden="true" height="1em" viewbox="0 0 512 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M71.029 71.029c9.373-9.372 24.569-9.372 33.942 0L256 222.059l151.029-151.03c9.373-9.372 24.569-9.372 33.942 0 9.372 9.373 9.372 24.569 0 33.942L289.941 256l151.03 151.029c9.372 9.373 9.372 24.569 0 33.942-9.373 9.372-24.569 9.372-33.942 0L256 289.941l-151.029 151.03c-9.373 9.372-24.569 9.372-33.942 0-9.372-9.373-9.372-24.569 0-33.942L222.059 256 71.029 104.971c-9.372-9.373-9.372-24.569 0-33.942z"></path></svg></span></a>
-                </span>
-            </div>
-        </div>
-    </nav>
+    {get_nav_html()}
 
     <div class="st-post-container">
         <!-- Breadcrumb -->
@@ -766,42 +1070,9 @@ def render_single_post_html(post, settings):
         </div>
     </div>
 
-    <!-- Site Footer -->
-    <div class="site-footer">
-        <div class="gb-container gb-container-7d9550dd naman_footer alignwide">
-            <div class="gb-grid-wrapper gb-grid-wrapper-b76f312f">
-                <div class="gb-grid-column gb-grid-column-53cb46e2">
-                    <div class="gb-container gb-container-53cb46e2">
-                        <div class="sarkari-wrapper">
-                            <h3>Connect With Us</h3>
-                            <div class="sarkari-grid">
-                                <a href="{tw_url}" target="_blank">Study Topper @X</a>
-                                <a href="{tg_url}" target="_blank">Study Topper @Telegram</a>
-                                <a href="{wa_url}" target="_blank">Study Topper @WhatsApp</a>
-                                <a href="{ig_url}" target="_blank">Study Topper @Instagram</a>
-                                <a href="{fb_url}" target="_blank">Study Topper @Facebook</a>
-                                <a href="{yt_url}" target="_blank">Study Topper @YouTube</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="gb-container gb-container-d1f47294">
-            <div class="gb-headline gb-headline-e41178b2 gb-headline-text" style="font-size:14px; margin-bottom:8px;">
-                Copyright © 2026 | <strong><a href="/" data-type="link" data-id="{domain}">{domain}</a></strong><br>
-                Official Website of Study Topper™ – {domain}
-            </div>
-
-            <div class="gb-container-658f27a5" style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
-                <a class="gb-button gb-button-7d526092 gb-button-text" href="/" style="color:#ffffff !important; text-decoration:underline;">Home</a>
-                <a class="gb-button gb-button-05aacc7b gb-button-text" href="/contact/" style="color:#ffffff !important; text-decoration:underline;">Contact</a>
-                <a class="gb-button gb-button-c050fa03 gb-button-text" href="/privacy-policy/" style="color:#ffffff !important; text-decoration:underline;">Privacy Policy</a>
-                <a class="gb-button gb-button-6172bea5 gb-button-text" href="/disclaimer/" style="color:#ffffff !important; text-decoration:underline;">Disclaimer</a>
-            </div>
-        </div>
-    </div>
+    {get_footer_html(settings)}
+    {get_search_modal_html()}
+    {get_gp_scripts_html()}
 </body>
 </html>"""
 
@@ -853,6 +1124,7 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap">
     <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {get_nav_search_styles_html()}
     <style>
         * {{ box-sizing: border-box; }}
         body {{ font-family: Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
@@ -922,6 +1194,7 @@ def render_search_page_html(query, search_results, settings):
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap">
     <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {get_nav_search_styles_html()}
     <style>
         * {{ box-sizing: border-box; }}
         body {{ font-family: Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
@@ -1963,16 +2236,23 @@ def dynamic_page_router(slug):
         cat_html = render_category_page_html(clean_slug, cat_title, cat_posts, settings)
         return Response(sanitize_html(cat_html, request.host), mimetype='text/html')
 
-    # 2. Exact Scraped / Static Post Page in PAGES_DIR (100% Exact HTML Design)
-    page_file = os.path.join(PAGES_DIR, f"{clean_slug}.html")
-    if os.path.exists(page_file) and clean_slug != 'index':
-        with open(page_file, 'r', encoding='utf-8') as f:
-            content = f.read()
-        return Response(sanitize_html(content, request.host), mimetype='text/html')
+    # 2. Exact Scraped / Static Post Page in PAGES_DIR, raw_clone, or templates
+    alias_map = {
+        'terms': 'terms-and-conditions',
+        'about': 'about-us'
+    }
+    target_slug = alias_map.get(clean_slug, clean_slug)
+
+    for dir_path in [PAGES_DIR, os.path.join(BASE_DIR, 'raw_clone', 'pages'), os.path.join(BASE_DIR, 'templates')]:
+        page_file = os.path.join(dir_path, f"{target_slug}.html")
+        if os.path.exists(page_file) and target_slug != 'index':
+            with open(page_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            return Response(sanitize_html(content, request.host), mimetype='text/html')
 
     # 3. Dynamic User-Created Single Post Routing
     for p in all_posts:
-        if p.get('slug') == clean_slug or p.get('id') == clean_slug:
+        if p.get('slug') == clean_slug or p.get('id') == clean_slug or p.get('slug') == target_slug:
             post_html = render_single_post_html(p, settings)
             return Response(sanitize_html(post_html, request.host), mimetype='text/html')
 
