@@ -18,7 +18,7 @@ DATA_DIR = os.path.join(BASE_DIR, 'data')
 SETTINGS_FILE = os.path.join(DATA_DIR, 'settings.json')
 POSTS_FILE = os.path.join(DATA_DIR, 'posts.json')
 
-TARGET_DOMAIN = "sarkariresult.com.cm"
+TARGET_DOMAIN = "studytopper.in"
 
 PRIMARY_CATEGORIES = [
     'latest-jobs', 'admit-card', 'result', 'admission', 'syllabus', 'answer-key',
@@ -144,8 +144,8 @@ def render_single_post_html(post, settings):
     app_start = post.get('application_start_date', 'August 2026')
     app_last = post.get('application_last_date', 'September 2026')
     tags = post.get('tags', '')
-    site_name = settings.get('site_name', 'SARKARI RESULT™')
-    domain = settings.get('domain', 'SarkariResult.Com.Cm')
+    site_name = settings.get('site_name', 'STUDY TOPPER™')
+    domain = settings.get('domain', 'studytopper.in')
 
     tags_html = ''
     if tags:
@@ -203,7 +203,7 @@ def render_single_post_html(post, settings):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} : Sarkari Result Official, Latest Online Form</title>
+    <title>{title} : Study Topper Official, Latest Online Form</title>
     <meta name="description" content="{short_desc or title}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -314,11 +314,11 @@ def render_single_post_html(post, settings):
                         <td><a href="#" target="_blank">Click Here</a></td>
                     </tr>
                     <tr>
-                        <td>Join Sarkari Result WhatsApp Channel</td>
+                        <td>Join Study Topper WhatsApp Channel</td>
                         <td><a href="https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L" target="_blank" style="color:#01aa03;">Join Now</a></td>
                     </tr>
                     <tr>
-                        <td>Join Sarkari Result Telegram Group</td>
+                        <td>Join Study Topper Telegram Group</td>
                         <td><a href="https://t.me/SarkariExam_info" target="_blank" style="color:#0284c7;">Join Now</a></td>
                     </tr>
                 </tbody>
@@ -327,7 +327,7 @@ def render_single_post_html(post, settings):
             {tags_html}
             
             <div style="text-align:center; margin-top:25px;">
-                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Sarkari Result Home</a>
+                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Study Topper Home</a>
             </div>
         </article>
     </div>
@@ -364,8 +364,8 @@ CATEGORY_SLUG_MAP = {
 }
 
 def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
-    site_name = settings.get('site_name', 'SARKARI RESULT™')
-    domain = settings.get('domain', 'SarkariResult.Com.Cm')
+    site_name = settings.get('site_name', 'STUDY TOPPER™')
+    domain = settings.get('domain', 'studytopper.in')
     footer_text = settings.get('footer_text', 'Copyright © 2009 - 2026 | SarkariResult.com.cm. All Rights Reserved.')
 
     if cat_posts:
@@ -429,10 +429,10 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
             <a href="/">Home</a> » <span>{cat_title}</span>
         </div>
         <div class="cat-card">
-            <h1 class="cat-heading">{cat_title} 2026 : Sarkari Result</h1>
+            <h1 class="cat-heading">{cat_title} 2026 : Study Topper</h1>
             {posts_list_html}
             <div style="text-align:center; margin-top:30px;">
-                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Sarkari Result Home</a>
+                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Study Topper Home</a>
             </div>
         </div>
     </div>
@@ -449,8 +449,8 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
 </html>"""
 
 def render_search_page_html(query, search_results, settings):
-    site_name = settings.get('site_name', 'SARKARI RESULT™')
-    domain = settings.get('domain', 'SarkariResult.Com.Cm')
+    site_name = settings.get('site_name', 'STUDY TOPPER™')
+    domain = settings.get('domain', 'studytopper.in')
     footer_text = settings.get('footer_text', 'Copyright © 2009 - 2026 | SarkariResult.com.cm. All Rights Reserved.')
 
     if search_results:
@@ -511,7 +511,7 @@ def render_search_page_html(query, search_results, settings):
             <h1 class="cat-heading">Search Results for : "{query}"</h1>
             {results_html}
             <div style="text-align:center; margin-top:30px;">
-                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Sarkari Result Home</a>
+                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Study Topper Home</a>
             </div>
         </div>
     </div>
@@ -755,16 +755,16 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         soup.head.append(center_style)
 
     # 8. Dynamic Site Name & Domain Name Subtitle in Header
-    site_name = settings.get('site_name', 'SARKARI RESULT')
+    site_name = settings.get('site_name', 'STUDY TOPPER')
     if site_name:
         if soup.title:
-            soup.title.string = f"{site_name} : Sarkari Result Official, Latest Online Form, Result, Admit Card"
+            soup.title.string = f"{site_name} : Study Topper Official, Latest Online Form, Result, Admit Card"
         for mt in soup.find_all(class_='main-title'):
             a = mt.find('a')
             if a: a.string = site_name
             else: mt.string = site_name
 
-    # Display website domain in Header subtitle (e.g. SarkariResult.Com.Cm)
+    # Display website domain in Header subtitle (e.g. studytopper.in)
     domain_text = settings.get('domain', 'SarkariResult.com.cm')
     for sd in soup.find_all(class_='site-description'):
         sd.string = domain_text
@@ -1069,7 +1069,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         <div id="modal-branding" class="alria-modal-backdrop">
             <div class="alria-modal-card">
                 <h3>🏷️ Edit Portal Branding, Header URL &amp; Header Color</h3>
-                <div class="alria-input-group"><label>Site Title (Shown at Top in Header, e.g. SARKARI RESULT)</label><input type="text" id="b-site-name" value="{s_site_name}"></div>
+                <div class="alria-input-group"><label>Site Title (Shown at Top in Header, e.g. STUDY TOPPER)</label><input type="text" id="b-site-name" value="{s_site_name}"></div>
                 <div class="alria-input-group"><label>Website URL (Shown below Site Title, e.g. SarkariResult.com.cm)</label><input type="text" id="b-domain" value="{s_domain}"></div>
                 <div class="alria-input-group"><label>Top Red Headline Banner Text</label><textarea id="b-top-banner" rows="3">{s_top_banner}</textarea></div>
                 
@@ -1353,14 +1353,19 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     # 13. Domain Rewrite for All Links
     for a in soup.find_all('a'):
         href = a.get('href', '')
-        if 'sarkariresult.com.cm' in href:
-            path = href.replace('https://sarkariresult.com.cm', '').replace('http://sarkariresult.com.cm', '')
+        if 'studytopper.in' in href:
+            path = href.replace('https://studytopper.in', '').replace('http://studytopper.in', '')
             a['href'] = path if path else '/'
 
         # Rewrite search forms to internal /search
     for s_form in soup.find_all('form', class_=re.compile(r'search-modal-form|search-form')):
         s_form['action'] = '/search'
-    return str(soup)
+    rendered = str(soup)
+    # Global domain & branding sanitize
+    rendered = re.sub(r'https?://(?:www\.)?sarkariresult\.com\.cm/?', '/', rendered, flags=re.IGNORECASE)
+    rendered = re.sub(r'sarkariresult\.com\.cm', settings.get('domain', 'studytopper.in'), rendered, flags=re.IGNORECASE)
+    rendered = re.sub(r'SarkariResult\.Com\.Cm', settings.get('domain', 'studytopper.in'), rendered)
+    return rendered
 
 # Static Asset Handler
 @app.route('/wp-content/<path:filepath>')
@@ -1790,7 +1795,7 @@ def api_delete_category(cat_id):
 
 if __name__ == '__main__':
     print("===================================================================")
-    print("Starting SARKARI RESULT PRO PORTAL (PORT 9093)")
+    print("Starting STUDY TOPPER PRO PORTAL (PORT 9093)")
     print(" - Official Homepage:     http://127.0.0.1:9093")
     print(" - /alria Visual Editor:  http://127.0.0.1:9093/alria")
     print(" - ads.txt:               http://127.0.0.1:9093/ads.txt")

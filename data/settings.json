@@ -1,13 +1,13 @@
 {
   "seo": {
-    "meta_keywords": "sarkari result, sarkari naukri, latest jobs, admit card, answer key, syllabus, admission, recruitment 2026",
+    "meta_keywords": "study topper, studytopper.in, sarkari result, latest jobs, admit card, answer key, syllabus, admission, recruitment 2026",
     "custom_head_code": "",
-    "meta_description": "",
+    "meta_description": "StudyTopper.in is India's leading portal providing latest Govt Job notifications, Admit Card, Results, Answer Key, Syllabus, and Admission forms 2026.",
     "custom_footer_code": "",
     "google_analytics_id": "",
     "google_site_verification": ""
   },
-  "domain": "SarkariYojana.Com.Cm",
+  "domain": "studytopper.in",
   "ads_txt": "google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0",
   "adsense": {
     "enabled": false,
@@ -19,7 +19,7 @@
     "whatsapp": "https://whatsapp.com/",
     "instagram": "https://instagram.com/"
   },
-  "tagline": "Sarkari Yojana\u2122 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
+  "tagline": "Study Topper\u2122 2026 : Latest Jobs, Admit Card, Results, Answer Key & Syllabus",
   "supabase": {
     "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsdHpqdGRrdWNiZ3BwaWppZXZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNzAzNTEsImV4cCI6MjEwMjY0NjM1MX0.u8PLHsBsxaB0njzOmtAcD7riuXC4rA1TXQJrDMfbFV4",
     "url": "https://hltzjtdkucbgppijievw.supabase.co",
@@ -27,19 +27,19 @@
   },
   "faq_items": [
     {
-      "a": "Sarkari Result is a premier educational information platform providing instant, verified alerts for government vacancies, exam syllabus, admit cards, answer keys, and merit lists.",
-      "q": "What is Sarkari Result and how does it help candidates?"
+      "q": "What is Study Topper and how does it help candidates?",
+      "a": "Study Topper (studytopper.in) is a premier educational information platform providing instant, verified alerts for government vacancies, exam syllabus, admit cards, answer keys, and merit lists."
     },
     {
-      "a": "Our automated notification engine updates all official notifications 24/7 in real-time as soon as released by government recruiting agencies.",
-      "q": "How frequently are exam results and admit cards updated?"
+      "q": "How frequently are exam results and admit cards updated?",
+      "a": "Our notification engine updates all official notifications 24/7 in real-time as soon as released by government recruiting agencies."
     },
     {
-      "a": "No, all recruitment updates, syllabus downloads, and candidate tools are 100% free for all aspirants.",
-      "q": "Is any registration fee required to browse notifications?"
+      "q": "Is any registration fee required to browse notifications?",
+      "a": "No, all recruitment updates, syllabus downloads, and candidate tools on StudyTopper.in are 100% free for all aspirants."
     }
   ],
-  "site_name": "SARKARI YOJANA\u2122",
+  "site_name": "STUDY TOPPER\u2122",
   "categories": [
     {
       "id": "cat_1",
@@ -90,8 +90,8 @@
       "slug": "important"
     }
   ],
-  "robots_txt": "User-agent: *\r\nDisallow: /admin/\r\nDisallow: /admin\r\nDisallow: /alria\r\nDisallow: /api/\r\nAllow: /\r\n\r\nSitemap: https://yourdomain.com/sitemap.xml",
-  "footer_text": "Copyright \u00a9 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
+  "robots_txt": "User-agent: *\r\nDisallow: /admin/\r\nDisallow: /admin\r\nDisallow: /alria\r\nDisallow: /api/\r\nAllow: /\r\n\r\nSitemap: https://studytopper.in/sitemap.xml",
+  "footer_text": "Copyright \u00a9 2026 | StudyTopper.in. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
   "grid_headers": {
     "result": {
       "title": "Results",
@@ -145,65 +145,57 @@
   "deleted_posts": [],
   "info_sections": [
     {
-      "title": "Welcome to India's Leading Job Notification Portal",
+      "title": "Welcome to Study Topper (studytopper.in)",
       "content": "Get fastest and verified updates on central and state government exams, online application forms, answer keys, results, admit cards, and counselling notices across India."
     },
     {
-      "title": "How to Apply for Government Jobs (Sarkari Naukri)",
+      "title": "How to Apply for Govt Jobs on Study Topper",
       "content": "1. Check notification eligibility criteria, age relaxation, and required documents.\n2. Fill online application on the official recruitment board portal before the last date.\n3. Pay examination fees and preserve final submitted PDF copy for future reference."
     }
   ],
   "marquee_items": [
     {
-      "url": "/bpsc-72nd-pre-2026/",
-      "text": "BPSC 72nd Combined Competitive Exam Online Form 2026"
+      "text": "Welcome to Study Topper - Official Educational Portal 2026",
+      "url": "/"
     },
     {
-      "url": "/ssc-chsl-2026/",
-      "text": "SSC Combined Higher Secondary Level CHSL Online Form 2026"
-    },
-    {
-      "url": "/railway-rrb-alp-2026/",
-      "text": "Railway RRB Assistant Loco Pilot ALP Online Form 2026"
-    },
-    {
-      "url": "/upsc-civil-services-ias-ifs-2026/",
-      "text": "UPSC Civil Services IAS / IFS Pre Exam 2026 Online Form"
+      "text": "Check Latest Jobs, Results, Admit Cards & Exam Calendars",
+      "url": "/latest-jobs/"
     }
   ],
   "highlight_cards": [
     {
-      "url": "/railway-rrb-group-d-level-1-recruitment-2026-online/",
-      "title": "RRB Group D Exam City / Admit Card 2026"
+      "title": "Latest Govt Jobs 2026",
+      "url": "/latest-jobs/"
     },
     {
-      "url": "https://www.youtube.com/watch?v=gwQ7uPPWKx4",
-      "title": "Daily 5 Minutes Meditation & Crack Exams"
+      "title": "Exam Results & Cutoff",
+      "url": "/result/"
     },
     {
-      "url": "/sbi-junior-associates-clerk-2026/",
-      "title": "SBI Clerk Online Form 2026 (9124 Posts)"
+      "title": "Admit Cards & City Slip",
+      "url": "/admit-card/"
     },
     {
-      "url": "/rajasthan-safai-karmchari-2026/",
-      "title": "Rajasthan Safai Karmchari (24,752 Posts)"
+      "title": "Answer Key & Objections",
+      "url": "/answer-key/"
     },
     {
-      "url": "/ibps-clerk-16th-2026/",
-      "title": "IBPS Clerk 16th Form (11403 Posts)"
+      "title": "Exam Syllabus & Pattern",
+      "url": "/syllabus/"
     },
     {
-      "url": "/upsssc-pet-2026/",
-      "title": "UPSSSC PET Online Form 2026"
+      "title": "Admission & Counselling",
+      "url": "/admission/"
     },
     {
-      "url": "/rrvunl-je-junior-assistant-2026/",
-      "title": "RRVUNL JE / Other Post Form (2005 Posts)"
+      "title": "Important Links & Forms",
+      "url": "/important/"
     },
     {
-      "url": "/rrb-je-2026/",
-      "title": "RRB JE Online Form 2026 (3993 Posts)"
+      "title": "Certificate Verification",
+      "url": "/certificate-verification/"
     }
   ],
-  "top_banner_text": "Sarkari Yojana \u2122 Official website \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Sarkari Yojana, Scholarship, Sarkari Notice etc."
+  "top_banner_text": "Study Topper \u2122 Official website \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Scholarship, Sarkari Notice etc."
 }

@@ -7,7 +7,7 @@
     <div class="cat-title-badge" style="background-color: #077822;">
         <i class="fas fa-landmark"></i> {{ state_name }} Portal
     </div>
-    <h1 class="cat-heading">{{ state_name }} Government Jobs & Sarkari Results 2026</h1>
+    <h1 class="cat-heading">{{ state_name }} Government Jobs & Study Toppers 2026</h1>
     <p class="cat-desc">Find all active recruitment notices, Police Constable, Sub Inspector, Teacher, and Clerk vacancies for {{ state_name }}.</p>
     <div class="cat-stat-bar">
         <span><i class="fas fa-check-circle"></i> <strong>{{ total_count }}</strong> Notifications Found</span>
@@ -35,7 +35,7 @@
         </li>
         {% else %}
         <li class="no-results-notice">
-            <i class="fas fa-search"></i> No specific notifications found for {{ state_name }}. <a href="{{ url_for('home') }}">View all Sarkari Results</a>
+            <i class="fas fa-search"></i> No specific notifications found for {{ state_name }}. <a href="{{ url_for('home') }}">View all Study Toppers</a>
         </li>
         {% endfor %}
     </ul>
