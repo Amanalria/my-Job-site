@@ -137,7 +137,8 @@ def delete_single_post(post_id_or_slug):
 def render_single_post_html(post, settings):
     title = post.get('title', 'Sarkari Notification')
     headline = post.get('headline') or title
-    category = post.get('category', 'latest-jobs').replace('-', ' ').title()
+    category_slug = post.get('category', 'latest-jobs')
+    category_name = category_slug.replace('-', ' ').title()
     short_desc = post.get('short_desc', '')
     html_content = post.get('html_content', '')
     app_start = post.get('application_start_date', 'August 2026')
@@ -149,42 +150,113 @@ def render_single_post_html(post, settings):
     tags_html = ''
     if tags:
         tag_list = [t.strip() for t in tags.split(',') if t.strip()]
-        tags_html = '<div style="margin:20px 0; display:flex; flex-wrap:wrap; gap:6px; align-items:center;"><strong>Tags:</strong> ' + ''.join([f'<span style="background:#f1f5f9; border:1px solid #cbd5e1; padding:2px 8px; border-radius:3px; font-size:12px; color:#334155;">#{t}</span>' for t in tag_list]) + '</div>'
+        tags_html = '<div style="margin:25px 0 15px; padding:12px 15px; background:#f8fafc; border-left:4px solid #ab183d; border-radius:3px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;"><strong><i class="fa-solid fa-tags" style="color:#ab183d;"></i> Related Tags:</strong> ' + ''.join([f'<span style="background:#fff; border:1px solid #cbd5e1; padding:3px 10px; border-radius:3px; font-size:12px; font-weight:600; color:#1e293b;">#{t}</span>' for t in tag_list]) + '</div>'
+
+    # Build standard table if html_content is basic text or empty
+    body_content_render = html_content
+    if not body_content_render or len(body_content_render.strip()) < 50:
+        body_content_render = f"""
+        <table style="width:100%; border-collapse:collapse; border:2px solid #ab183d; margin:15px 0;">
+            <thead>
+                <tr style="background:#ab183d; color:#ffffff;">
+                    <th colspan="2" style="padding:12px; text-align:center; font-size:17px; font-weight:700;">{headline}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width:50%; vertical-align:top; padding:12px; border:1px solid #ccc; background:#fafafa;">
+                        <h4 style="color:#008000; margin:0 0 8px; font-size:15px;">Important Dates</h4>
+                        <ul style="margin:0 0 0 18px; padding:0; font-size:13.5px; line-height:1.8;">
+                            <li>Application Begin : <strong>{app_start}</strong></li>
+                            <li>Last Date for Apply : <strong style="color:#ab183d;">{app_last}</strong></li>
+                            <li>Pay Exam Fee Last Date : <strong>{app_last}</strong></li>
+                            <li>Exam Date : <strong>As per Schedule</strong></li>
+                            <li>Admit Card Available : <strong>Before Exam</strong></li>
+                        </ul>
+                    </td>
+                    <td style="width:50%; vertical-align:top; padding:12px; border:1px solid #ccc; background:#fafafa;">
+                        <h4 style="color:#008000; margin:0 0 8px; font-size:15px;">Application Fee</h4>
+                        <ul style="margin:0 0 0 18px; padding:0; font-size:13.5px; line-height:1.8;">
+                            <li>General / OBC / EWS : <strong>Rs. 100/-</strong></li>
+                            <li>SC / ST / PH : <strong>Rs. 0/- (Exempted)</strong></li>
+                            <li>All Category Female : <strong>Rs. 0/-</strong></li>
+                            <li>Pay Fee via Online Debit Card / Credit Card / Net Banking / UPI.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding:12px; border:1px solid #ccc; background:#ffffff;">
+                        <h4 style="color:#ab183d; margin:0 0 8px; font-size:15px;">Age Limit Criteria (as on {app_last})</h4>
+                        <ul style="margin:0 0 0 18px; padding:0; font-size:13.5px; line-height:1.7;">
+                            <li>Minimum Age : <strong>18 Years</strong></li>
+                            <li>Maximum Age : <strong>30-35 Years (Post Wise)</strong></li>
+                            <li>Age Relaxation Extra as per Official Recruitment Rules.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        """
 
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} - {site_name}</title>
+    <title>{title} : Sarkari Result Official, Latest Online Form</title>
     <meta name="description" content="{short_desc or title}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body {{ font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background: #f8fafc; color: #1e293b; line-height: 1.6; }}
-        .site-header {{ background: #cd0808; color: #fff; text-align: center; padding: 15px 10px; }}
-        .main-title a {{ color: #fff; text-decoration: none; font-size: 28px; font-weight: 800; }}
-        .site-description {{ color: #fff; font-size: 18px; font-weight: 700; margin-top: 4px; }}
-        .main-navigation {{ background: #0c2340; padding: 10px; text-align: center; }}
-        .main-navigation a {{ color: #fff; text-decoration: none; margin: 0 12px; font-size: 14px; font-weight: 600; }}
-        .post-container {{ max-width: 1000px; margin: 20px auto; background: #fff; padding: 25px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }}
-        .post-header-title {{ color: #cd0808; font-size: 24px; font-weight: 700; margin-top: 0; border-bottom: 2px solid #cd0808; padding-bottom: 10px; }}
-        .post-meta-strip {{ background: #f1f5f9; padding: 8px 12px; border-radius: 4px; font-size: 13px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; }}
-        .dates-box {{ background: #fef2f2; border: 1px solid #fecaca; padding: 15px; border-radius: 6px; margin: 20px 0; }}
-        .dates-box h3 {{ margin-top: 0; color: #b91c1c; font-size: 16px; }}
-        table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
-        th, td {{ border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left; }}
-        th {{ background: #f8fafc; font-weight: 700; }}
-        .btn-action-link {{ display: inline-block; background: #059669; color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 4px; font-weight: 700; font-size: 13px; }}
-        .btn-action-link:hover {{ background: #047857; }}
-        .site-footer {{ background: #212121; color: #fff; text-align: center; padding: 25px 15px; margin-top: 40px; }}
-        .site-footer a {{ color: #fff; text-decoration: underline; margin: 0 8px; font-size: 13px; }}
-        @media (max-width: 768px) {{ .post-container {{ margin: 10px; padding: 15px; }} }}
+        * {{ box-sizing: border-box; }}
+        body {{ font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background: #ffffff; color: #000000; line-height: 1.5; font-size: 14px; }}
+        header.site-header {{ background-color: #cd0808; text-align: center; padding: 15px 10px; }}
+        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; }}
+        .main-title a {{ color: #ffffff; text-decoration: none; }}
+        .site-description {{ color: #ffffff; font-size: 20px; font-weight: 700; margin: 4px 0 0; }}
+        nav.main-navigation {{ background-color: #0c2340; text-align: center; padding: 10px; overflow-x: auto; white-space: nowrap; }}
+        nav.main-navigation a {{ color: #ffffff; text-decoration: none; margin: 0 10px; font-size: 14px; font-weight: 700; }}
+        nav.main-navigation a:hover {{ text-decoration: underline; }}
+        
+        .whatsapp-banner {{ text-align: center; margin: 15px 0; }}
+        .whatsapp-btn {{ background: #01aa03; color: #fff !important; text-decoration: none; font-size: 14px; font-weight: 700; padding: 10px 22px; border-radius: 8px; display: inline-block; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }}
+        
+        .post-wrapper {{ max-width: 1040px; margin: 15px auto; padding: 0 12px; }}
+        .breadcrumb {{ font-size: 13px; color: #555; margin-bottom: 12px; }}
+        .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
+        
+        .post-card {{ border: 2px solid #ab183d; padding: 18px 20px; background: #ffffff; margin-bottom: 25px; border-radius: 4px; }}
+        h1.entry-title {{ color: #ab183d; font-size: 22px; font-weight: 700; text-align: center; margin: 0 0 12px 0; line-height: 1.4; }}
+        .post-meta-line {{ text-align: center; font-size: 13px; color: #444; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-bottom: 14px; }}
+        .post-meta-line strong {{ color: #000; }}
+        
+        .short-info-box {{ background: #fff8f8; border: 1px solid #fca5a5; padding: 12px 15px; border-radius: 4px; margin: 15px 0; font-size: 13.5px; line-height: 1.6; text-align: justify; }}
+        .short-info-box strong {{ color: #b91c1c; }}
+
+        table {{ width: 100%; border-collapse: collapse; margin: 18px 0; }}
+        th, td {{ border: 1px solid #000000; padding: 8px 10px; font-size: 13.5px; text-align: left; }}
+        th {{ background-color: #ab183d; color: #ffffff; font-weight: 700; text-align: center; }}
+        
+        .important-links-table {{ width: 100%; border: 2px solid #0b7659; margin: 25px 0; }}
+        .important-links-table th {{ background: #0b7659; color: #fff; font-size: 16px; padding: 10px; }}
+        .important-links-table td {{ padding: 10px 12px; font-size: 14px; font-weight: 700; }}
+        .important-links-table td a {{ color: #ab183d; font-weight: 700; text-decoration: underline; }}
+        
+        footer.site-footer {{ background-color: #212121; color: #ffffff; text-align: center; padding: 25px 15px; margin-top: 40px; }}
+        footer.site-footer a {{ color: #ffffff; text-decoration: underline; margin: 0 8px; font-size: 13px; }}
+        
+        @media (max-width: 767px) {{
+            .main-title {{ font-size: 24px; }}
+            .site-description {{ font-size: 16px; }}
+            h1.entry-title {{ font-size: 18px; }}
+            .post-card {{ padding: 12px 8px; }}
+            table, th, td {{ font-size: 12.5px; padding: 6px; }}
+        }}
     </style>
 </head>
 <body>
     <header class="site-header">
-        <div class="main-title"><a href="/">{site_name}</a></div>
-        <div class="site-description">{domain}</div>
+        <h1 class="main-title"><a href="/">{site_name}</a></h1>
+        <p class="site-description">{domain}</p>
     </header>
     <nav class="main-navigation">
         <a href="/">Home</a>
@@ -194,25 +266,74 @@ def render_single_post_html(post, settings):
         <a href="/answer-key/">Answer Key</a>
         <a href="/syllabus/">Syllabus</a>
         <a href="/admission/">Admission</a>
+        <a href="/contact/">Contact Us</a>
     </nav>
-    <div class="post-container">
-        <h1 class="post-header-title">{headline}</h1>
-        <div class="post-meta-strip">
-            <span><strong>Category:</strong> {category}</span>
-            <span><strong>Post Updated:</strong> {app_start}</span>
-            <span><strong>Last Date:</strong> {app_last}</span>
-        </div>
-        {f'<div class="dates-box"><h3>📌 Short Information:</h3><p>{short_desc}</p></div>' if short_desc else ''}
-        <div class="post-body-content">
-            {html_content}
-        </div>
-        {tags_html}
-        <div style="text-align:center; margin-top:30px;">
-            <a href="/" class="btn-action-link"><i class="fa-solid fa-house"></i> Back to Homepage</a>
-        </div>
+    
+    <div class="whatsapp-banner">
+        <a href="https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L" target="_blank" class="whatsapp-btn">
+            <i class="fa-brands fa-whatsapp"></i> Join WhatsApp Channel
+        </a>
     </div>
+
+    <div class="post-wrapper">
+        <div class="breadcrumb">
+            <a href="/">Home</a> » <a href="/{category_slug}/">{category_name}</a> » <span>{title}</span>
+        </div>
+        
+        <article class="post-card">
+            <h1 class="entry-title">{headline}</h1>
+            <div class="post-meta-line">
+                <span><strong>Post Date / Update:</strong> {app_start}</span> | 
+                <span><strong>Category:</strong> {category_name}</span> | 
+                <span><strong>Status:</strong> Active</span>
+            </div>
+
+            {f'<div class="short-info-box"><strong>Short Information : </strong>{short_desc}</div>' if short_desc else ''}
+
+            <div class="entry-content">
+                {body_content_render}
+            </div>
+
+            <table class="important-links-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">SOME USEFUL IMPORTANT LINKS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width:50%;">Apply Online Form</td>
+                        <td><a href="#" target="_blank">Click Here</a></td>
+                    </tr>
+                    <tr>
+                        <td>Download Official Notification</td>
+                        <td><a href="#" target="_blank">Click Here</a></td>
+                    </tr>
+                    <tr>
+                        <td>Official Website</td>
+                        <td><a href="#" target="_blank">Click Here</a></td>
+                    </tr>
+                    <tr>
+                        <td>Join Sarkari Result WhatsApp Channel</td>
+                        <td><a href="https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L" target="_blank" style="color:#01aa03;">Join Now</a></td>
+                    </tr>
+                    <tr>
+                        <td>Join Sarkari Result Telegram Group</td>
+                        <td><a href="https://t.me/SarkariExam_info" target="_blank" style="color:#0284c7;">Join Now</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {tags_html}
+            
+            <div style="text-align:center; margin-top:25px;">
+                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Sarkari Result Home</a>
+            </div>
+        </article>
+    </div>
+
     <footer class="site-footer">
-        <p>{settings.get('footer_text', 'Copyright © 2026. All Rights Reserved.')}</p>
+        <p>{settings.get('footer_text', 'Copyright © 2009 - 2026 | SarkariResult.com.cm. All Rights Reserved.')}</p>
         <div class="gb-container-658f27a5" style="margin-top:10px;">
             <a class="gb-button" href="/">Home</a>
             <a class="gb-button" href="/contact/">Contact</a>
@@ -222,7 +343,6 @@ def render_single_post_html(post, settings):
     </footer>
 </body>
 </html>"""
-
 COL_MAPPING = {
     '0b76599a': 'result',
     'e64d3148': 'admit-card',
@@ -527,17 +647,15 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                             new_li = soup.new_tag('li')
                             new_a = soup.new_tag('a', **{'class': 'wp-block-latest-posts__post-title', 'href': f'/{cp["slug"]}/'})
                             
-                            badge_text = cp.get('custom_badge', '')
-                            if cp.get('is_pinned'):
-                                badge_html = " <span style='background:#ffa502; color:#fff; font-size:10px; padding:1px 5px; border-radius:3px; font-weight:700;'>HOT</span>"
+                            badge_suffix = ''
+                            if cp.get('custom_badge'):
+                                badge_suffix = f" – {cp.get('custom_badge')}"
                             elif cp.get('is_date_extended'):
-                                badge_html = " <span style='background:#2ed573; color:#fff; font-size:10px; padding:1px 5px; border-radius:3px; font-weight:700;'>EXTENDED</span>"
-                            elif badge_text:
-                                badge_html = f" <span style='background:#ab183d; color:#fff; font-size:10px; padding:1px 5px; border-radius:3px; font-weight:700;'>{badge_text}</span>"
-                            else:
-                                badge_html = " <span style='background:#2563eb; color:#fff; font-size:10px; padding:1px 5px; border-radius:3px; font-weight:700;'>NEW</span>"
+                                badge_suffix = " – Date Extend"
+                            elif cp.get('is_pinned'):
+                                badge_suffix = " – Last Date Soon"
                             
-                            new_a.append(BeautifulSoup(f"{cp['title']}{badge_html}", 'html.parser'))
+                            new_a.string = f"{cp['title']}{badge_suffix}" 
                             new_li.append(new_a)
                             ul_tag.insert(0, new_li)
 
@@ -1368,6 +1486,20 @@ def api_save_post():
 
     save_single_post(post_item)
     return redirect('/admin/posts')
+
+@app.route('/api/admin/posts/bulk-delete', methods=['POST'])
+def api_bulk_delete_posts():
+    try:
+        data = request.get_json(silent=True) or {}
+        post_ids = data.get('post_ids', [])
+        deleted_count = 0
+        for pid in post_ids:
+            if pid:
+                delete_single_post(pid)
+                deleted_count += 1
+        return jsonify({'status': 'success', 'deleted_count': deleted_count})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/api/admin/posts/delete/<post_id>', methods=['POST'])
 def api_delete_post(post_id):

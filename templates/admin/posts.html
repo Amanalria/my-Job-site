@@ -93,11 +93,27 @@
             </div>
         </div>
 
+        <!-- WordPress Classic Bulk Actions Toolbar -->
+        <div class="tablenav top" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px; background:#fff; padding:8px 12px; border:1px solid #c3c4c7; border-radius:3px;">
+            <div class="alignleft actions bulkactions" style="display:flex; align-items:center; gap:8px;">
+                <select name="action" id="bulkActionSelect" style="padding:4px 8px; border:1px solid #8c8f94; border-radius:3px; font-size:13px; outline:none;">
+                    <option value="-1">Bulk actions</option>
+                    <option value="trash">Move to Trash (Delete)</option>
+                </select>
+                <button type="button" id="doaction" class="page-title-action" onclick="applyBulkAction()" style="cursor:pointer; padding:3px 12px;">Apply</button>
+                <span id="selectedPostsCount" style="font-size:12px; font-weight:600; color:#2271b1; margin-left:6px;"></span>
+            </div>
+            <div class="tablenav-pages" style="font-size:13px; color:#64748b;">
+                <strong>{{ posts|length }}</strong> posts
+            </div>
+        </div>
+
         <div class="wp-table-card">
             <table class="wp-list-table">
                 <thead>
                     <tr>
-                        <th style="width:45%;">Title</th>
+                        <th style="width:38px; text-align:center;"><input type="checkbox" id="cb-select-all" onclick="toggleSelectAllPosts(this)" title="Select All"></th>
+                        <th style="width:42%;">Title</th>
                         <th>Category</th>
                         <th>Tags</th>
                         <th>Last Date</th>
@@ -108,6 +124,9 @@
                 <tbody>
                     {% for p in posts %}
                     <tr>
+                        <td style="text-align:center;">
+                            <input type="checkbox" class="post-checkbox" value="{{ p.id or p.slug }}" onclick="updateSelectedCount()">
+                        </td>
                         <td>
                             <a href="/{{ p.slug }}/" target="_blank" class="row-title">{{ p.title }}</a>
                             <div class="row-actions">
@@ -148,6 +167,51 @@
         function toggleSidebar() {
             document.getElementById('wpSidebar').classList.toggle('open');
             document.getElementById('sidebarBackdrop').classList.toggle('open');
+        }
+
+        function toggleSelectAllPosts(masterCb) {
+            const checkboxes = document.querySelectorAll('.post-checkbox');
+            checkboxes.forEach(cb => cb.checked = masterCb.checked);
+            updateSelectedCount();
+        }
+
+        function updateSelectedCount() {
+            const checked = document.querySelectorAll('.post-checkbox:checked');
+            const countSpan = document.getElementById('selectedPostsCount');
+            if (countSpan) {
+                countSpan.innerText = checked.length > 0 ? `(${checked.length} selected)` : '';
+            }
+        }
+
+        async function applyBulkAction() {
+            const action = document.getElementById('bulkActionSelect').value;
+            if (action !== 'trash') {
+                alert('Please select "Move to Trash (Delete)" action.');
+                return;
+            }
+            const checked = Array.from(document.querySelectorAll('.post-checkbox:checked')).map(cb => cb.value);
+            if (checked.length === 0) {
+                alert('Please select at least one post using checkboxes.');
+                return;
+            }
+            if (!confirm(`Are you sure you want to delete ${checked.length} selected post(s)?`)) {
+                return;
+            }
+            try {
+                const res = await fetch('/api/admin/posts/bulk-delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ post_ids: checked })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    location.reload();
+                } else {
+                    alert('Error deleting posts: ' + (data.message || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Request failed: ' + e.message);
+            }
         }
 
         async function deletePost(postId) {
