@@ -1821,6 +1821,10 @@ def serve_favicon():
             return send_from_directory(os.path.dirname(f), os.path.basename(f), mimetype='image/png')
     return Response(b'', mimetype='image/x-icon')
 
+@app.route('/cdn-cgi/scripts/<path:filepath>')
+def serve_cdn_cgi(filepath):
+    return Response('/* cdn-cgi mock */', mimetype='application/javascript')
+
 @app.route('/wp-content/<path:filepath>')
 def serve_wp_content(filepath):
     clean_filepath = filepath.split('?')[0]
@@ -1832,6 +1836,8 @@ def serve_wp_content(filepath):
         return Response('/* fallback */', mimetype='text/css')
     elif clean_filepath.endswith(('.png', '.jpg', '.jpeg', '.webp', '.gif', '.ico')):
         return Response(b'', mimetype='image/png')
+    elif clean_filepath.endswith(('.js', '.mjs')):
+        return Response('/* fallback js */', mimetype='application/javascript')
     abort(404)
 
 # ==================== SEO & CRAWLER PROTECTION ROUTES ====================
