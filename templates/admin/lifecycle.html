@@ -41,16 +41,18 @@
         .wp-input:focus { border-color: #2271b1; outline: none; }
         .form-help { font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4; }
 
-        .btn-wp { display: inline-flex; align-items: center; gap: 6px; background: #2271b1; color: #fff; padding: 6px 12px; border-radius: 3px; font-size: 12px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: 0.15s; }
+        .btn-wp { display: inline-flex; align-items: center; gap: 5px; background: #2271b1; color: #fff; padding: 5px 11px; border-radius: 3px; font-size: 12px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: 0.15s; }
         .btn-wp:hover { background: #135e96; }
         .btn-success { background: #10b981; }
         .btn-success:hover { background: #059669; }
         .btn-danger { background: #ef4444; }
         .btn-danger:hover { background: #dc2626; }
-        .btn-pinned { background: #ea580c !important; color: #fff !important; }
-        .btn-pinned:hover { background: #c2410c !important; }
-        .btn-outline { background: #fff; border: 1px solid #2271b1; color: #2271b1; }
-        .btn-outline:hover { background: #2271b1; color: #fff; }
+        .btn-pin { background: #0284c7; color: #fff; }
+        .btn-pin:hover { background: #0369a1; }
+        .btn-unpin { background: #f97316; color: #fff; }
+        .btn-unpin:hover { background: #ea580c; }
+        .btn-outline { background: #fff; border: 1px solid #cbd5e1; color: #475569; }
+        .btn-outline:hover { background: #f1f5f9; }
 
         .badge-state { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
         .badge-urgent { background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; }
@@ -66,10 +68,6 @@
 
         .search-box { display: flex; gap: 8px; margin-bottom: 15px; }
         .search-box input { flex: 1; max-width: 320px; padding: 6px 12px; border: 1px solid #8c8f94; border-radius: 3px; }
-
-        .nav-tabs { display: flex; gap: 8px; border-bottom: 1px solid #cbd5e1; margin-bottom: 15px; }
-        .nav-tab-btn { padding: 8px 16px; border: none; background: none; font-size: 13px; font-weight: 600; cursor: pointer; color: #64748b; border-bottom: 2px solid transparent; }
-        .nav-tab-btn.active { color: #2271b1; border-bottom-color: #2271b1; }
 
         @media (max-width: 768px) {
             body { display: block; padding-top: 50px; }
@@ -116,7 +114,7 @@
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:20px;">
             <div>
                 <h1 class="wp-heading-inline" style="margin-bottom:4px;">Automated Vacancy Lifecycle Engine</h1>
-                <p style="color:#64748b; font-size:12px;">Auto-sorts closing vacancies to top, manages date extensions, provides 1-Click Top Pinning, and auto-purges expired posts with GitHub sync.</p>
+                <p style="color:#64748b; font-size:12px;">Auto-promotes closing vacancies to top, supports manual <strong>Pin to Top</strong> &amp; <strong>Unpin</strong> buttons, and auto-purges expired vacancies past grace period with GitHub sync.</p>
             </div>
             <div style="display:flex; gap:10px;">
                 <button class="btn-wp btn-success" onclick="runLifecycleAuditNow()" id="auditBtn">
@@ -138,7 +136,7 @@
                 <div class="stat-icon" style="background:#fee2e2; color:#b91c1c;"><i class="fa-solid fa-fire"></i></div>
                 <div>
                     <div class="stat-val" id="statUrgent" style="color:#b91c1c;">{{ urgent_count }}</div>
-                    <div class="stat-lbl">Closing Soon (&le; 3 Days)</div>
+                    <div class="stat-lbl">Closing Soon (&le; {{ config.urgent_days_threshold or 3 }} Days)</div>
                 </div>
             </div>
             <div class="stat-card">
@@ -152,7 +150,7 @@
                 <div class="stat-icon" style="background:#ffedd5; color:#ea580c;"><i class="fa-solid fa-thumbtack"></i></div>
                 <div>
                     <div class="stat-val" id="statPinned" style="color:#ea580c;">{{ pinned_slugs|length }}</div>
-                    <div class="stat-lbl">Pinned to Top (Homepage #1)</div>
+                    <div class="stat-lbl">Currently Pinned to Top</div>
                 </div>
             </div>
         </div>
@@ -160,10 +158,10 @@
         <!-- ================= SECTION 1: LAST DATE APPROACHING (CLOSING SOON) ================= -->
         <div class="postbox" style="border-left: 4px solid #ef4444;">
             <h2>
-                <span>⏰ 1. Last Date Approaching Vacancies (&le; 3 Days Left)</span>
-                <span style="font-size:12px; font-weight:normal; color:#ef4444;">Auto-Pinned with Red Blinking Badge</span>
+                <span>⏰ 1. Last Date Approaching Vacancies (&le; {{ config.urgent_days_threshold or 3 }} Days Remaining)</span>
+                <span style="font-size:12px; font-weight:normal; color:#ef4444;">Strictly filtered to &le; {{ config.urgent_days_threshold or 3 }} days</span>
             </h2>
-            <p style="font-size:12px; color:#64748b; margin-bottom:12px;">These vacancies have their application closing date approaching soon. Click <strong>"📌 Pin to Top"</strong> to force them to the absolute #1 position on the homepage.</p>
+            <p style="font-size:12px; color:#64748b; margin-bottom:12px;">These vacancies have application deadlines closing within your configured threshold (<strong>&le; {{ config.urgent_days_threshold or 3 }} days</strong>). They automatically show a red blinking text on the homepage.</p>
 
             <table class="wp-table">
                 <thead>
@@ -173,15 +171,19 @@
                         <th>Category</th>
                         <th>Last Date</th>
                         <th>Days Left</th>
-                        <th>Top Pin Action</th>
+                        <th>Pin / Unpin Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% if urgent_posts %}
                         {% for p in urgent_posts %}
-                        <tr id="urgent-row-{{ p.slug }}">
+                        <tr>
                             <td>
-                                <span class="badge-state badge-urgent"><i class="fa-solid fa-fire"></i> {{ p.lifecycle_badge or 'Urgent' }}</span>
+                                {% if p.is_pinned %}
+                                    <span class="badge-state badge-pinned"><i class="fa-solid fa-thumbtack"></i> Pinned Top</span>
+                                {% else %}
+                                    <span class="badge-state badge-urgent"><i class="fa-solid fa-fire"></i> Urgent</span>
+                                {% endif %}
                             </td>
                             <td>
                                 <strong><a href="/{{ p.slug }}/" target="_blank" style="color:#2271b1; text-decoration:none;">{{ p.title }}</a></strong>
@@ -199,15 +201,23 @@
                                 </span>
                             </td>
                             <td>
-                                <button class="btn-wp {% if p.is_pinned %}btn-pinned{% else %}btn-outline{% endif %}" onclick="togglePin('{{ p.slug }}', this)">
-                                    <i class="fa-solid fa-thumbtack"></i> {% if p.is_pinned %}✓ Pinned to Top{% else %}📌 Pin to Top{% endif %}
-                                </button>
+                                <div style="display:flex; gap:6px;">
+                                    {% if p.is_pinned %}
+                                        <button class="btn-wp btn-unpin" onclick="unpinPost('{{ p.slug }}', this)">
+                                            <i class="fa-solid fa-xmark"></i> Unpin
+                                        </button>
+                                    {% else %}
+                                        <button class="btn-wp btn-pin" onclick="pinPost('{{ p.slug }}', this)">
+                                            <i class="fa-solid fa-thumbtack"></i> Pin to Top
+                                        </button>
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="6" style="text-align:center; padding:20px; color:#64748b;">No vacancies currently have their last date closing within 3 days.</td>
+                            <td colspan="6" style="text-align:center; padding:20px; color:#64748b;">No vacancies currently have their last date closing within {{ config.urgent_days_threshold or 3 }} days.</td>
                         </tr>
                     {% endif %}
                 </tbody>
@@ -218,9 +228,9 @@
         <div class="postbox" style="border-left: 4px solid #0284c7;">
             <h2>
                 <span>🔄 2. Date Extended Vacancies</span>
-                <span style="font-size:12px; font-weight:normal; color:#0284c7;">Auto-Tagged with Cyan Blinking Badge</span>
+                <span style="font-size:12px; font-weight:normal; color:#0284c7;">Tagged with Cyan Blinking Text</span>
             </h2>
-            <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Vacancies whose application last date has been officially extended. Click <strong>"📌 Pin to Top"</strong> to bring them immediately to the top of homepage category boxes.</p>
+            <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Vacancies whose application last date has been officially extended. Use Pin to force them to #1 on homepage or Unpin to restore normal position.</p>
 
             <table class="wp-table">
                 <thead>
@@ -230,15 +240,19 @@
                         <th>Category</th>
                         <th>New Extended Date</th>
                         <th>Days Left</th>
-                        <th>Top Pin Action</th>
+                        <th>Pin / Unpin Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% if extended_posts %}
                         {% for p in extended_posts %}
-                        <tr id="ext-row-{{ p.slug }}">
+                        <tr>
                             <td>
-                                <span class="badge-state badge-extended"><i class="fa-solid fa-calendar-check"></i> Date Extended</span>
+                                {% if p.is_pinned %}
+                                    <span class="badge-state badge-pinned"><i class="fa-solid fa-thumbtack"></i> Pinned Top</span>
+                                {% else %}
+                                    <span class="badge-state badge-extended"><i class="fa-solid fa-calendar-check"></i> Extended</span>
+                                {% endif %}
                             </td>
                             <td>
                                 <strong><a href="/{{ p.slug }}/" target="_blank" style="color:#2271b1; text-decoration:none;">{{ p.title }}</a></strong>
@@ -252,9 +266,17 @@
                                 </span>
                             </td>
                             <td>
-                                <button class="btn-wp {% if p.is_pinned %}btn-pinned{% else %}btn-outline{% endif %}" onclick="togglePin('{{ p.slug }}', this)">
-                                    <i class="fa-solid fa-thumbtack"></i> {% if p.is_pinned %}✓ Pinned to Top{% else %}📌 Pin to Top{% endif %}
-                                </button>
+                                <div style="display:flex; gap:6px;">
+                                    {% if p.is_pinned %}
+                                        <button class="btn-wp btn-unpin" onclick="unpinPost('{{ p.slug }}', this)">
+                                            <i class="fa-solid fa-xmark"></i> Unpin
+                                        </button>
+                                    {% else %}
+                                        <button class="btn-wp btn-pin" onclick="pinPost('{{ p.slug }}', this)">
+                                            <i class="fa-solid fa-thumbtack"></i> Pin to Top
+                                        </button>
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
@@ -287,7 +309,7 @@
                         <th>Application Last Date</th>
                         <th>Days Left</th>
                         <th>Rank</th>
-                        <th>Pin to Top</th>
+                        <th>Pin / Unpin</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -317,7 +339,7 @@
                             {% if p.days_remaining is not none %}
                                 {% if p.days_remaining < 0 %}
                                     <span style="color:#ef4444; font-weight:700;">Expired ({{ p.days_remaining|abs }}d ago)</span>
-                                {% elif p.days_remaining <= 3 %}
+                                {% elif p.days_remaining <= (config.urgent_days_threshold or 3) %}
                                     <span style="color:#b91c1c; font-weight:800;">{{ p.days_remaining }} Days Left</span>
                                 {% else %}
                                     <span style="color:#15803d;">{{ p.days_remaining }} Days</span>
@@ -328,12 +350,18 @@
                         </td>
                         <td><code>{{ p.sort_priority or 50 }}</code></td>
                         <td>
-                            <button class="btn-wp {% if p.is_pinned %}btn-pinned{% else %}btn-outline{% endif %}" onclick="togglePin('{{ p.slug }}', this)">
-                                <i class="fa-solid fa-thumbtack"></i> {% if p.is_pinned %}✓ Pinned{% else %}📌 Pin{% endif %}
-                            </button>
+                            {% if p.is_pinned %}
+                                <button class="btn-wp btn-unpin" onclick="unpinPost('{{ p.slug }}', this)">
+                                    <i class="fa-solid fa-xmark"></i> Unpin
+                                </button>
+                            {% else %}
+                                <button class="btn-wp btn-pin" onclick="pinPost('{{ p.slug }}', this)">
+                                    <i class="fa-solid fa-thumbtack"></i> Pin to Top
+                                </button>
+                            {% endif %}
                         </td>
                         <td>
-                            <a href="/admin/posts/edit/{{ p.id }}" class="btn-wp" style="padding:4px 8px; font-size:11px;"><i class="dashicons dashicons-edit"></i> Edit</a>
+                            <a href="/admin/posts/edit/{{ p.id }}" class="btn-wp btn-outline" style="padding:4px 8px; font-size:11px;"><i class="dashicons dashicons-edit"></i> Edit</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -358,7 +386,7 @@
                     <div class="form-group">
                         <label for="cfgUrgentDays">Urgent Last Date Threshold (Days)</label>
                         <input type="number" class="wp-input" id="cfgUrgentDays" value="{{ config.urgent_days_threshold or 3 }}" min="1" max="15">
-                        <div class="form-help">Posts with &le; this number of days left jump to TOP with blinking red badge.</div>
+                        <div class="form-help">Posts with &le; this number of days left jump to TOP with blinking red text. Default: 3 Days.</div>
                     </div>
 
                     <div class="form-group">
@@ -382,7 +410,7 @@
                             <option value="true" {% if config.auto_detect_date_extension %}selected{% endif %}>Yes - Scan &amp; Auto-Promote</option>
                             <option value="false" {% if not config.auto_detect_date_extension %}selected{% endif %}>No - Manual</option>
                         </select>
-                        <div class="form-help">Detects keywords like "Date Extended" or "New Last Date" and adds cyan blinking badge.</div>
+                        <div class="form-help">Detects keywords like "Date Extended" or "New Last Date" and adds cyan blinking text.</div>
                     </div>
                 </div>
 
@@ -403,22 +431,36 @@
             document.getElementById('sidebarBackdrop').classList.toggle('open');
         }
 
-        async function togglePin(slug, btn) {
+        async function pinPost(slug, btn) {
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Pinning...';
             try {
-                const res = await fetch(`/api/admin/toggle-pin-post/${slug}/`, {method: 'POST'});
+                const res = await fetch(`/api/admin/pin-post/${slug}/`, {method: 'POST'});
                 const data = await res.json();
                 if (data.success) {
-                    if (data.is_pinned) {
-                        btn.className = 'btn-wp btn-pinned';
-                        btn.innerHTML = '<i class="fa-solid fa-thumbtack"></i> ✓ Pinned to Top';
-                    } else {
-                        btn.className = 'btn-wp btn-outline';
-                        btn.innerHTML = '<i class="fa-solid fa-thumbtack"></i> 📌 Pin to Top';
-                    }
-                    setTimeout(() => window.location.reload(), 600);
+                    btn.className = 'btn-wp btn-unpin';
+                    btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Unpin';
+                    btn.setAttribute('onclick', `unpinPost('${slug}', this)`);
+                    setTimeout(() => window.location.reload(), 400);
                 } else {
-                    alert('Error: ' + (data.message || 'Failed to toggle pin'));
+                    alert('Error: ' + (data.message || 'Failed to pin post'));
+                }
+            } catch (err) {
+                alert('Request error: ' + err);
+            }
+        }
+
+        async function unpinPost(slug, btn) {
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Unpinning...';
+            try {
+                const res = await fetch(`/api/admin/unpin-post/${slug}/`, {method: 'POST'});
+                const data = await res.json();
+                if (data.success) {
+                    btn.className = 'btn-wp btn-pin';
+                    btn.innerHTML = '<i class="fa-solid fa-thumbtack"></i> Pin to Top';
+                    btn.setAttribute('onclick', `pinPost('${slug}', this)`);
+                    setTimeout(() => window.location.reload(), 400);
+                } else {
+                    alert('Error: ' + (data.message || 'Failed to unpin post'));
                 }
             } catch (err) {
                 alert('Request error: ' + err);
@@ -453,7 +495,7 @@
             const statusSpan = document.getElementById('saveStatus');
             if (data.success) {
                 statusSpan.innerText = '✓ Settings Saved & Applied!';
-                setTimeout(() => statusSpan.innerText = '', 4000);
+                setTimeout(() => window.location.reload(), 800);
             } else {
                 alert('Failed to save settings: ' + (data.message || 'Unknown error'));
             }

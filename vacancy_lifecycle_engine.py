@@ -147,6 +147,26 @@ def save_lifecycle_settings(config):
     saved['pinned_posts'] = config.get('pinned_posts', [])
     safe_write_json(SETTINGS_FILE, saved)
 
+def pin_post(slug):
+    config = load_lifecycle_settings()
+    pinned = config.get('pinned_posts', [])
+    if slug not in pinned:
+        pinned.insert(0, slug)
+        config['pinned_posts'] = pinned
+        save_lifecycle_settings(config)
+        audit_and_execute_lifecycle()
+    return True
+
+def unpin_post(slug):
+    config = load_lifecycle_settings()
+    pinned = config.get('pinned_posts', [])
+    if slug in pinned:
+        pinned.remove(slug)
+        config['pinned_posts'] = pinned
+        save_lifecycle_settings(config)
+        audit_and_execute_lifecycle()
+    return True
+
 def toggle_pin_post(slug):
     config = load_lifecycle_settings()
     pinned = config.get('pinned_posts', [])
@@ -171,35 +191,35 @@ def run_git_sync(commit_msg):
         print(f"Git sync notice: {e}")
         return False
 
-# Blinking CSS to inject in headers
+# Blinking CSS - No box background, red text, 15% smaller font size, pulsing blink
 BLINKING_CSS = """
 <style id="agy-lifecycle-blink-css">
 @keyframes agyBlinkPulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.15; transform: scale(1.05); }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.15; }
 }
 .agy-blinking-badge {
-    display: inline-block !important;
-    font-weight: 800 !important;
-    font-size: 11px !important;
-    padding: 1px 7px !important;
-    border-radius: 4px !important;
+    display: inline !important;
+    font-weight: 700 !important;
+    font-size: 85% !important;
+    padding: 0 !important;
+    margin-left: 4px !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
     animation: agyBlinkPulse 0.85s infinite ease-in-out !important;
-    vertical-align: middle !important;
-    margin-left: 5px !important;
-    line-height: 1.3 !important;
-    letter-spacing: 0.3px !important;
-    text-transform: uppercase !important;
+    vertical-align: baseline !important;
+    letter-spacing: 0.2px !important;
+    line-height: inherit !important;
 }
 .agy-urgent-blink {
-    color: #ffffff !important;
-    background: #dc2626 !important;
-    box-shadow: 0 0 8px rgba(220, 38, 38, 0.8) !important;
+    color: #dc2626 !important;
+    background: transparent !important;
 }
 .agy-extended-blink {
-    color: #ffffff !important;
-    background: #0284c7 !important;
-    box-shadow: 0 0 8px rgba(2, 132, 199, 0.8) !important;
+    color: #0284c7 !important;
+    background: transparent !important;
 }
 </style>
 """
@@ -261,13 +281,12 @@ def audit_and_execute_lifecycle():
             days_remaining = (parsed_date - today).days
 
         # Check if manually pinned
-        is_pinned = (slug in pinned_slugs) or post.get('is_pinned', False)
+        is_pinned = (slug in pinned_slugs)
         post['is_pinned'] = is_pinned
 
         # Classify state and priority
         if days_remaining is not None:
             if days_remaining < -grace_period:
-                # Expired past grace period -> Auto-Purge
                 purged_slugs.append({
                     "slug": slug,
                     "title": title,
@@ -288,20 +307,17 @@ def audit_and_execute_lifecycle():
                 post['sort_priority'] = -1000 + days_remaining
 
             elif is_pinned:
-                # Manually or Auto Pinned -> Top of list with badge!
+                # Manually Pinned -> Absolute Top
                 post['lifecycle_state'] = 'URGENT_PINNED'
                 post['days_remaining'] = days_remaining
-                badge_text = "Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!"
-                if is_extended:
-                    badge_text = "Date Extended!"
-                    post['badge_html'] = f' - <span class="agy-blinking-badge agy-extended-blink">{badge_text}</span>'
-                else:
-                    post['badge_html'] = f' - <span class="agy-blinking-badge agy-urgent-blink">{badge_text}</span>'
+                badge_text = "Date Extended!" if is_extended else ("Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!")
+                badge_class = "agy-extended-blink" if is_extended else "agy-urgent-blink"
+                post['badge_html'] = f' - <span class="agy-blinking-badge {badge_class}">{badge_text}</span>'
                 post['lifecycle_badge'] = badge_text
                 post['sort_priority'] = 100000 - min(days_remaining, 10)
 
             elif days_remaining <= urgent_threshold:
-                # Urgent: Closing Soon (<= 3 days) -> Pinned to top with blinking badge!
+                # Urgent: Closing Soon (<= urgent_days_threshold) -> Pinned to top
                 post['lifecycle_state'] = 'URGENT_PINNED'
                 post['days_remaining'] = days_remaining
                 badge_text = "Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!"
@@ -310,7 +326,7 @@ def audit_and_execute_lifecycle():
                 post['sort_priority'] = 10000 - days_remaining
 
             else:
-                # Active
+                # Active (days_remaining > threshold)
                 post['lifecycle_state'] = 'ACTIVE'
                 post['days_remaining'] = days_remaining
                 if is_extended:
@@ -345,7 +361,6 @@ def audit_and_execute_lifecycle():
             active_posts_by_category[category] = []
         active_posts_by_category[category].append(post)
 
-    # Sort each category: Pinned (Absolute Top) -> Urgent -> Date Extended -> Active -> Expired (Bottom)
     for cat in active_posts_by_category:
         active_posts_by_category[cat].sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
 
@@ -392,9 +407,12 @@ def audit_and_execute_lifecycle():
 
             soup = BeautifulSoup(content, 'html.parser')
 
-            if not soup.find(id='agy-lifecycle-blink-css'):
-                if soup.head:
-                    soup.head.append(BeautifulSoup(BLINKING_CSS, 'html.parser'))
+            # Ensure updated blinking CSS is in head
+            existing_css = soup.find(id='agy-lifecycle-blink-css')
+            if existing_css:
+                existing_css.decompose()
+            if soup.head:
+                soup.head.append(BeautifulSoup(BLINKING_CSS, 'html.parser'))
 
             for col_cls, cat_key in category_column_map.items():
                 col = soup.find(class_=col_cls)
@@ -411,7 +429,6 @@ def audit_and_execute_lifecycle():
                             li.append(BeautifulSoup(link_markup, 'html.parser'))
                             ul.append(li)
 
-            # Update Top 8 Quick Cards on homepage
             top_urgent_posts = []
             for c_k in ['latest-jobs', 'result', 'admit-card', 'admission']:
                 top_urgent_posts.extend(active_posts_by_category.get(c_k, []))

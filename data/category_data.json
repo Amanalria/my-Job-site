@@ -13,12 +13,12 @@
     {
       "title": "IGCAR Trade Apprentice Online Form 2026",
       "title_raw": "IGCAR Trade Apprentice Online Form 2026",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">6 Days Left!</span>",
+      "badge_html": "",
       "url": "/igcar-apprentice-2026/",
       "short_desc": "Indira Gandhi Centre for Atomic Research (IGCAR) Kalpakkam announces technical trade apprentice engagement for engineering and vocational trade certificate holders.",
       "date": "25 August 2026",
-      "lifecycle_state": "URGENT_PINNED",
-      "is_pinned": true
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "IBPS Clerk (CSA) 16th Online Form 2026",

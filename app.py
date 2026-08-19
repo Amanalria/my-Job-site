@@ -2756,9 +2756,11 @@ def admin_lifecycle():
     config = lifecycle.load_lifecycle_settings()
     custom_posts = load_custom_posts()
     pinned_set = set(config.get('pinned_posts', []))
+    urgent_threshold = int(config.get('urgent_days_threshold', 3))
     
     urgent_posts = []
     extended_posts = []
+    pinned_posts_list = []
     
     for p in custom_posts:
         slug = p.get('slug')
@@ -2766,12 +2768,15 @@ def admin_lifecycle():
         p['is_pinned'] = is_pin
         
         days_rem = p.get('days_remaining')
-        is_ext = 'extend' in (p.get('application_last_date', '') + p.get('title', '') + p.get('custom_badge', '')).lower()
+        is_ext = 'extend' in (p.get('application_last_date', '') + p.get('title', '') + str(p.get('custom_badge', ''))).lower()
         
-        if is_pin or (days_rem is not None and 0 <= days_rem <= config.get('urgent_days_threshold', 3)):
+        # Strict threshold check: Only posts <= urgent_threshold days left
+        if days_rem is not None and 0 <= days_rem <= urgent_threshold:
             urgent_posts.append(p)
         if is_ext:
             extended_posts.append(p)
+        if is_pin:
+            pinned_posts_list.append(p)
             
     urgent_count = len(urgent_posts)
     expired_count = sum(1 for p in custom_posts if p.get('lifecycle_state') == 'EXPIRED_DEMOTED')
@@ -2783,11 +2788,30 @@ def admin_lifecycle():
         posts=custom_posts,
         urgent_posts=urgent_posts,
         extended_posts=extended_posts,
+        pinned_posts=pinned_posts_list,
         pinned_slugs=list(pinned_set),
         total_posts=len(custom_posts),
         urgent_count=urgent_count,
         expired_count=expired_count
     )
+
+@app.route('/api/admin/pin-post/<slug>', methods=['GET', 'POST'])
+@app.route('/api/admin/pin-post/<slug>/', methods=['GET', 'POST'])
+def api_pin_post(slug):
+    try:
+        lifecycle.pin_post(slug)
+        return jsonify({"success": True, "slug": slug, "is_pinned": True})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+@app.route('/api/admin/unpin-post/<slug>', methods=['GET', 'POST'])
+@app.route('/api/admin/unpin-post/<slug>/', methods=['GET', 'POST'])
+def api_unpin_post(slug):
+    try:
+        lifecycle.unpin_post(slug)
+        return jsonify({"success": True, "slug": slug, "is_pinned": False})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 @app.route('/api/admin/toggle-pin-post/<slug>', methods=['GET', 'POST'])
 @app.route('/api/admin/toggle-pin-post/<slug>/', methods=['GET', 'POST'])
