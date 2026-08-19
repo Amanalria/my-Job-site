@@ -1883,6 +1883,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                     c_btn.append(BeautifulSoup(f"<button class='alria-edit-btn' onclick=\"openModal('modal-grid-titles')\">✏️ Edit Titles</button>", 'html.parser'))
                     container.insert(0, c_btn)
 
+        c08 = soup.find(class_='gb-container-08c3e704')
         if c08:
             info_btn = soup.new_tag('div', style='text-align:center; margin:10px 0;')
             info_btn.append(BeautifulSoup("<button class='alria-edit-btn' onclick=\"openModal('modal-info-faq')\">✏️ Edit Guidelines &amp; FAQs</button>", 'html.parser'))
