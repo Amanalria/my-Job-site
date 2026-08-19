@@ -2466,6 +2466,7 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
         cat = p.get('category', 'latest-jobs')
         slug = p.get('slug')
         last_date_str = p.get('application_last_date', '')
+        title = p.get('title', '')
         is_pinned = (slug in pinned_set)
         p['is_pinned'] = is_pinned
         
