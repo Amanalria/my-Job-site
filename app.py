@@ -1783,11 +1783,14 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 cat_new_posts = [p for p in all_active_posts if p.get('category') == cat_key and not p.get('is_temporary')]
                 if cat_new_posts:
                     today_date = datetime.now().date()
-                    pinned_set = set(lifecycle.load_lifecycle_settings().get('pinned_posts', []))
+                    cfg_settings = lifecycle.load_lifecycle_settings()
+                    pinned_set = set(cfg_settings.get('pinned_posts', []))
+                    urgent_threshold = int(cfg_settings.get('urgent_days_threshold', 3))
                     
                     for cp in cat_new_posts:
                         slug = cp.get('slug')
-                        is_pin = (slug in pinned_set) or cp.get('is_pinned', False)
+                        is_pin = (slug in pinned_set)
+                        cp['is_pinned'] = is_pin
                         last_date_str = cp.get('application_last_date', '')
                         title_str = cp.get('title', '')
                         is_ext = 'extend' in (last_date_str + title_str + str(cp.get('custom_badge', ''))).lower() or cp.get('is_date_extended', False)
@@ -1799,7 +1802,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                             badge_class = "agy-extended-blink" if is_ext else "agy-urgent-blink"
                             cp['badge_markup'] = f' - <span class="agy-blinking-badge {badge_class}">{badge_text}</span>'
                             cp['calc_priority'] = 100000 - min(days_rem or 10, 10)
-                        elif days_rem is not None and days_rem <= 3:
+                        elif days_rem is not None and 0 <= days_rem <= urgent_threshold:
                             badge_text = "Last Date Today!" if days_rem == 0 else f"{days_rem} Days Left!"
                             cp['badge_markup'] = f' - <span class="agy-blinking-badge agy-urgent-blink">{badge_text}</span>'
                             cp['calc_priority'] = 10000 - days_rem
@@ -2463,8 +2466,8 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
         cat = p.get('category', 'latest-jobs')
         slug = p.get('slug')
         last_date_str = p.get('application_last_date', '')
-        title = p.get('title', '')
-        is_pinned = (slug in pinned_set) or p.get('is_pinned', False)
+        is_pinned = (slug in pinned_set)
+        p['is_pinned'] = is_pinned
         
         is_extended = 'extend' in last_date_str.lower() or 'extend' in title.lower() or p.get('custom_badge') == 'Date Extended'
         parsed_date = lifecycle.parse_date_string(last_date_str)
