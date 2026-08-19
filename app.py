@@ -243,95 +243,133 @@ def render_single_post_html(post, settings):
     category_slug = post.get('category', 'latest-jobs')
     category_name = category_slug.replace('-', ' ').title()
     short_desc = post.get('short_desc', '')
-    html_content = post.get('html_content', '')
-    app_start = post.get('application_start_date', '15/08/2026')
-    app_last = post.get('application_last_date', '25/09/2026')
-    tags = post.get('tags', '')
-    site_name = settings.get('site_name', 'STUDY TOPPER™')
-    domain = settings.get('domain', 'studytopper.in')
-    socials = settings.get('socials', {})
-    wa_url = socials.get('whatsapp', 'https://whatsapp.com/')
-    tg_url = socials.get('telegram', 'https://t.me/')
+    app_start = post.get('application_start_date', 'July 2026')
+    app_last = post.get('application_last_date', 'August 2026')
+    badge_val = post.get('custom_badge') or 'Active'
+    raw_content = post.get('html_content', '')
+    tags_str = post.get('tags', 'Govt Job, Study Topper')
 
-    # Clean raw html content
-    cleaned_content = clean_post_html_content(html_content, settings)
+    cleaned_content = clean_post_html_content(raw_content, settings)
+    
+    banner_url = f"/static/images/rrc_nfr_banner_2026.jpg" if 'nfr' in slug else f"/static/images/rrb_alp_banner_2026.jpg"
 
-    tags_html = ''
-    if tags:
-        tag_list = [t.strip() for t in tags.split(',') if t.strip()]
-        tags_html = '<div class="tags-wrapper" style="margin:20px 0; padding:10px 14px; background:#f8fafc; border-left:4px solid #ab183d; font-size:13px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;"><strong><i class="fa-solid fa-tags" style="color:#ab183d;"></i> Related Tags:</strong> ' + ' '.join([f'<span style="background:#fff; border:1px solid #cbd5e1; padding:2px 8px; border-radius:3px; font-weight:600; color:#1e293b;">#{t}</span>' for t in tag_list]) + '</div>'
-
-    footer_render = get_footer_html(settings)
+    tags_list = [t.strip() for t in tags_str.split(',') if t.strip()]
+    tag_chips = ''.join([f'<span class="st-tag-chip">#{t}</span>' for t in tags_list])
 
     return f"""<!DOCTYPE html>
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{title} : {site_name}</title>
-    <meta name="description" content="{short_desc or title}">
-    <link rel="canonical" href="https://{domain}/{post.get('slug')}/">
+    <title>{title} | {site_name}</title>
+    <meta name="description" content="{short_desc[:160]}">
+    <link rel="canonical" href="https://{domain}/{slug}/">
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{title} : {site_name}">
-    <meta property="og:description" content="{short_desc or title}">
-    <meta property="og:url" content="https://{domain}/{post.get('slug')}/">
+    <meta property="og:title" content="{title} | {site_name}">
+    <meta property="og:description" content="{short_desc[:160]}">
+    <meta property="og:url" content="https://{domain}/{slug}/">
     <meta property="og:site_name" content="{site_name}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700|Roboto:400,500,700|Noto+Sans:400,700|Open+Sans:400,600,700&display=swap">
+    <meta property="og:image" content="https://{domain}{banner_url}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700|Roboto:400,500,700|Open+Sans:400,600,700&display=swap">
     <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
-    <link rel="stylesheet" href="/wp-content/uploads/generateblocks/style-32.css?ver=1787054534">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body {{ font-family: Open Sans, Arial, Helvetica, sans-serif; background-color: #ffffff; color: #000000; margin: 0; padding: 0; font-size: 15px; line-height: 1.5; }}
-        .site-header {{ background-color: #cd0808; text-align: center; padding: 15px 0; }}
-        .main-title {{ text-transform: uppercase; font-size: 45px; font-weight: 800; margin: 0; line-height: 1.1; }}
-        .main-title a {{ color: #ffffff; text-decoration: none; }}
-        .site-description {{ color: #ffffff; font-weight: 700; font-size: 25px; margin: 4px 0 0 0; }}
-        .main-navigation {{ background-color: #0c2340; }}
-        .main-navigation .main-nav ul {{ list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; }}
-        .main-navigation .main-nav ul li a {{ color: #ffffff; padding: 10px 14px; font-size: 14px; font-weight: 700; text-decoration: none; display: block; }}
-        .main-navigation .main-nav ul li a:hover {{ background-color: #982704; }}
-        
-        .whatsapp-post-bar {{ text-align: center; margin: 12px 0 6px; }}
-        .whatsapp-post-bar a {{ background-color: #01aa03; color: #ffffff !important; text-decoration: none; font-size: 14px; font-weight: 700; padding: 8px 18px; border-radius: 6px; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }}
-        
-        .grid-container {{ max-width: 1070px; margin: 0 auto; padding: 0 12px; }}
-        .inside-article {{ padding: 15px 0; }}
-        
-        .post-breadcrumb {{ font-size: 13px; color: #555; margin-bottom: 12px; }}
-        .post-breadcrumb a {{ color: #0000c0; text-decoration: underline; }}
-        
-        h1.entry-title {{ font-size: 24px; font-weight: 700; color: #000000; text-align: center; margin: 5px 0 10px; line-height: 1.35; }}
-        .entry-meta-bar {{ text-align: center; font-size: 13px; color: #555; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 14px; }}
-        
-        /* 100% Authentic Sarkari Result Table Styles */
-        .sarkari-post-table {{ width: 100%; border-collapse: collapse; border: 2px solid #ab183d; margin: 15px 0; font-family: Arial, Helvetica, sans-serif; }}
-        .sarkari-post-table th {{ background-color: #ab183d; color: #ffffff; text-align: center; padding: 8px 10px; font-size: 15px; font-weight: 700; border: 1px solid #ab183d; }}
-        .sarkari-post-table td {{ border: 1px solid #ccc; padding: 8px 10px; font-size: 13.5px; vertical-align: top; }}
-        
-        .table-section-title-green {{ color: #008000; font-size: 15px; font-weight: 700; margin: 0 0 6px; }}
-        .table-section-title-red {{ color: #ab183d; font-size: 15px; font-weight: 700; margin: 0 0 6px; }}
-        
-        .sarkari-links-table {{ width: 100%; border-collapse: collapse; border: 2px solid #008000; margin: 20px 0; font-family: Arial, Helvetica, sans-serif; }}
-        .sarkari-links-table th {{ background-color: #008000; color: #ffffff; text-align: center; padding: 8px 10px; font-size: 15px; font-weight: 700; }}
-        .sarkari-links-table td {{ border: 1px solid #ccc; padding: 8px 12px; font-size: 13.5px; font-weight: 700; }}
-        .sarkari-links-table td a {{ color: #ab183d; text-decoration: underline; }}
-        
-        .sarkari-wrapper {{ background-color: #212121; color: #ffffff; padding: 20px; text-align: center; }}
-        .sarkari-wrapper h3 {{ color: #ffffff; font-size: 18px; margin-bottom: 12px; font-weight: 700; }}
-        .sarkari-grid {{ display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }}
-        .sarkari-grid a {{ background: #2f4468; color: #ffffff !important; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: 600; }}
-        .gb-container-d1f47294 {{ background-color: #171717; color: #ffffff; text-align: center; padding: 15px 0; }}
-        
-        @media (max-width: 768px) {{
-            .main-title {{ font-size: 30px; }}
-            .site-description {{ font-size: 18px; }}
-            h1.entry-title {{ font-size: 19px; }}
-            .sarkari-post-table td, .sarkari-post-table th {{ font-size: 12.5px; padding: 6px 8px; }}
-        }}
+        body {{ background-color:#ffffff; color:#000000; font-family:Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; }}
+        .site-header {{ background-color:#cd0808; text-align:center; padding:15px 0; }}
+        .main-title {{ text-transform:uppercase; font-size:45px; font-weight:800; margin:0; line-height:1.1; }}
+        .main-title a {{ color:#ffffff; text-decoration:none; }}
+        .site-description {{ color:#ffffff; font-weight:700; font-size:25px; margin:4px 0 0 0; }}
+        .main-navigation {{ background-color:#0c2340; }}
+        .main-navigation .main-nav ul {{ list-style:none; margin:0; padding:0; display:flex; justify-content:center; flex-wrap:wrap; }}
+        .main-navigation .main-nav ul li a {{ color:#ffffff; padding:10px 14px; font-size:14px; font-weight:700; text-decoration:none; display:block; }}
+        .main-navigation .main-nav ul li a:hover {{ background-color:#982704; }}
+
+        .st-post-container {{ max-width:1060px; margin:20px auto 40px; padding:0 12px; font-family:Open Sans, Arial, sans-serif; color:#1e293b; line-height:1.6; }}
+        .st-breadcrumb {{ display:flex; align-items:center; flex-wrap:wrap; gap:6px; font-size:13px; color:#64748b; margin-bottom:14px; padding:8px 14px; background:#f8fafc; border-radius:6px; border:1px solid #e2e8f0; }}
+        .st-breadcrumb a {{ color:#0284c7; text-decoration:none; font-weight:600; }}
+        .st-breadcrumb a:hover {{ text-decoration:underline; }}
+        .st-breadcrumb span.current {{ color:#0f172a; font-weight:600; }}
+
+        .st-hero-card {{ background:#ffffff; border:1px solid #e2e8f0; border-top:4px solid #cd0808; border-radius:8px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); margin-bottom:20px; }}
+        .st-badge-strip {{ display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; }}
+        .st-badge {{ font-size:11.5px; font-weight:700; padding:4px 10px; border-radius:4px; text-transform:uppercase; }}
+        .st-badge-primary {{ background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; }}
+        .st-badge-success {{ background:#dcfce7; color:#15803d; border:1px solid #86efac; }}
+        .st-badge-info {{ background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; }}
+
+        .st-post-title {{ font-size:24px; font-weight:800; color:#0f172a; margin:0 0 10px; line-height:1.35; }}
+        .st-meta-bar {{ display:flex; align-items:center; flex-wrap:wrap; gap:16px; font-size:13px; color:#64748b; border-bottom:1px dashed #cbd5e1; padding-bottom:12px; margin-bottom:14px; }}
+        .st-meta-item {{ display:flex; align-items:center; gap:6px; }}
+        .st-meta-item i {{ color:#cd0808; }}
+
+        .st-stats-grid {{ display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-top:14px; }}
+        .st-stat-box {{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px; text-align:center; }}
+        .st-stat-label {{ font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; margin-bottom:4px; }}
+        .st-stat-value {{ font-size:17px; font-weight:800; color:#0f172a; }}
+        .st-stat-value.red {{ color:#dc2626; }}
+        .st-stat-value.green {{ color:#16a34a; }}
+
+        .st-info-box {{ background:#fff8f8; border:1px solid #fecaca; border-left:5px solid #dc2626; padding:16px 20px; border-radius:6px; margin:20px 0; font-size:14px; line-height:1.7; }}
+        .st-info-box strong.label {{ color:#991b1b; font-weight:700; font-size:14.5px; }}
+
+        .st-social-strip {{ display:flex; justify-content:space-between; align-items:center; background:#0f172a; color:#ffffff; padding:12px 18px; border-radius:8px; margin:20px 0; flex-wrap:wrap; gap:12px; }}
+        .st-social-title {{ font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; }}
+        .st-social-btns {{ display:flex; gap:10px; flex-wrap:wrap; }}
+        .st-btn-wa {{ background:#16a34a; color:#ffffff !important; text-decoration:none; padding:7px 16px; border-radius:6px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; }}
+        .st-btn-tg {{ background:#0284c7; color:#ffffff !important; text-decoration:none; padding:7px 16px; border-radius:6px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; }}
+
+        .st-matrix-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:24px 0; }}
+        @media (max-width:768px) {{ .st-matrix-grid {{ grid-template-columns:1fr; gap:16px; }} .main-title {{ font-size:30px; }} .site-description {{ font-size:18px; }} .st-post-title {{ font-size:19px; }} }}
+
+        .st-matrix-card {{ background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; }}
+        .st-matrix-head {{ background:#cd0808; color:#ffffff; padding:12px 16px; font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }}
+        .st-matrix-head.blue {{ background:#0c2340; }}
+        .st-matrix-body {{ padding:16px; }}
+        .st-list {{ list-style:none; margin:0; padding:0; }}
+        .st-list li {{ display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:13.5px; }}
+        .st-list li:last-child {{ border-bottom:none; }}
+        .st-list li span.key {{ color:#475569; font-weight:500; }}
+        .st-list li span.val {{ color:#0f172a; font-weight:700; }}
+        .st-list li span.val.highlight {{ color:#dc2626; font-size:14px; }}
+
+        .st-section-card {{ background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; margin:24px 0; }}
+        .st-section-head {{ background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:14px 18px; font-size:16px; font-weight:700; color:#0f172a; display:flex; align-items:center; gap:8px; }}
+        .st-section-head i {{ color:#cd0808; }}
+        .st-section-body {{ padding:18px; font-size:14px; }}
+
+        .st-table-responsive {{ width:100%; overflow-x:auto; margin-top:10px; }}
+        .st-table {{ width:100%; border-collapse:collapse; text-align:left; font-size:13.5px; }}
+        .st-table th {{ background:#0c2340; color:#ffffff; padding:12px 14px; font-weight:700; border:1px solid #1e293b; }}
+        .st-table td {{ padding:12px 14px; border:1px solid #e2e8f0; vertical-align:middle; }}
+        .st-table tr:nth-child(even) td {{ background:#f8fafc; }}
+
+        .st-steps-container {{ display:flex; flex-direction:column; gap:12px; margin-top:10px; }}
+        .st-step-item {{ display:flex; align-items:flex-start; gap:14px; background:#f8fafc; border:1px solid #e2e8f0; padding:12px 16px; border-radius:6px; }}
+        .st-step-num {{ background:#cd0808; color:#ffffff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex-shrink:0; margin-top:2px; }}
+        .st-step-text {{ font-size:13.5px; color:#334155; line-height:1.6; }}
+
+        .st-links-hub {{ background:#ffffff; border:2px solid #16a34a; border-radius:8px; overflow:hidden; margin:28px 0; }}
+        .st-links-head {{ background:#16a34a; color:#ffffff; padding:14px 18px; font-size:17px; font-weight:800; text-align:center; }}
+        .st-link-row {{ display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-bottom:1px solid #e2e8f0; font-size:14px; font-weight:600; }}
+        .st-link-row:last-child {{ border-bottom:none; }}
+        .st-link-row:nth-child(even) {{ background:#fdfdfd; }}
+        .st-link-btn {{ background:#cd0808; color:#ffffff !important; text-decoration:none; padding:6px 16px; border-radius:5px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; }}
+        .st-link-btn.green {{ background:#16a34a; }}
+        .st-link-btn.blue {{ background:#0284c7; }}
+
+        .st-tags-box {{ display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; padding:14px; background:#f8fafc; border-radius:6px; border:1px solid #e2e8f0; align-items:center; }}
+        .st-tag-chip {{ background:#ffffff; border:1px solid #cbd5e1; color:#334155; padding:4px 10px; border-radius:4px; font-size:12px; font-weight:600; }}
+
+        .site-footer {{ background-color:#212121; color:#ffffff; }}
+        .sarkari-wrapper {{ padding:25px 20px; text-align:center; }}
+        .sarkari-wrapper h3 {{ color:#ffffff; font-size:18px; margin-bottom:14px; font-weight:700; }}
+        .sarkari-grid {{ display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; }}
+        .sarkari-grid a {{ background:#2f4468; color:#ffffff !important; padding:6px 14px; border-radius:4px; text-decoration:none; font-size:13px; font-weight:600; }}
+        .gb-container-d1f47294 {{ background-color:#171717; color:#ffffff; text-align:center; padding:18px 0; }}
     </style>
 </head>
-<body class="post-template-default single single-post postid-101 single-format-standard wp-embed-responsive wp-theme-generatepress post-image-aligned-center no-sidebar nav-below-header separate-containers header-aligned-center">
+<body class="wp-theme-generatepress single-post no-sidebar">
     <header class="site-header grid-container" id="masthead">
         <div class="inside-header grid-container">
             <div class="site-branding">
@@ -360,81 +398,6 @@ def render_single_post_html(post, settings):
         </div>
     </nav>
 
-    <div class="whatsapp-post-bar">
-        <a href="{wa_url}" target="_blank"><i class="fa-brands fa-whatsapp"></i> Join WhatsApp Channel</a>
-    </div>
-
-    <div class="site grid-container container hfeed" id="page">
-        <div class="site-content" id="content">
-            <div class="content-area" id="primary">
-                <main class="site-main" id="main">
-                    <article class="post type-post status-publish format-standard hentry">
-                        <div class="inside-article">
-                            <div class="post-breadcrumb">
-                                <a href="/">Home</a> » <a href="/{category_slug}/">{category_name}</a> » <span>{title}</span>
-                            </div>
-
-                            <header class="entry-header">
-                                <h1 class="entry-title" itemprop="headline">{headline}</h1>
-                                <div class="entry-meta-bar">
-                                    <span><strong>Post Date / Update:</strong> {app_start}</span> | 
-                                    <span><strong>Category:</strong> <a href="/{category_slug}/">{category_name}</a></span> | 
-                                    <span><strong>Recruitment Board:</strong> Railway Recruitment Board (RRB)</span>
-                                </div>
-                            </header>
-
-                            <div class="entry-content" itemprop="text">
-                                <table class="sarkari-post-table">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2">{headline}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="2" style="background:#fff8f8; line-height:1.7;">
-                                                <strong style="color:#ab183d;">Short Information : </strong>{short_desc}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                {cleaned_content}
-
-                                <table class="sarkari-links-table">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2">SOME USEFUL IMPORTANT LINKS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td style="width:50%;">Apply Online Form</td>
-                                            <td><a href="#" target="_blank">Click Here</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Download Official CEN 01/2026 Notification</td>
-                                            <td><a href="#" target="_blank">Click Here</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Check Study Topper Official Portal</td>
-                                            <td><a href="/" target="_blank">Click Here</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Join Study Topper WhatsApp Channel</td>
-                                            <td><a href="{wa_url}" target="_blank" style="color:#01aa03;">Join Now</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Join Study Topper Telegram Group</td>
-                                            <td><a href="{tg_url}" target="_blank" style="color:#0088cc;">Join Now</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                {tags_html}
-                            </div>
-                        </div>
-                    </article>
                 </main>
             </div>
         </div>
