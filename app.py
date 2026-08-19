@@ -134,8 +134,99 @@ def delete_single_post(post_id_or_slug):
     except Exception:
         pass
 
+def clean_post_html_content(raw_html, settings):
+    if not raw_html:
+        return ""
+    
+    soup = BeautifulSoup(raw_html, 'html.parser')
+    socials = settings.get('socials', {})
+    wa_url = socials.get('whatsapp', 'https://whatsapp.com/')
+    tg_url = socials.get('telegram', 'https://t.me/')
+    ig_url = socials.get('instagram', 'https://instagram.com/')
+    domain = settings.get('domain', 'studytopper.in')
+    site_name = settings.get('site_name', 'STUDY TOPPER™')
+
+    # 1. Remove Meditation & Crack Exams boxes
+    for el in soup.find_all(string=re.compile(r'Meditate & Get Success|Meditation & Crack Exams', re.IGNORECASE)):
+        parent_tr = el.find_parent('tr')
+        if parent_tr:
+            parent_tr.decompose()
+        else:
+            parent_box = el.find_parent('div') or el.find_parent('p') or el.find_parent('table')
+            if parent_box:
+                parent_box.decompose()
+
+    # 2. Remove "Download SarkariResult App Now" / "Mobile App" rows
+    for el in soup.find_all(string=re.compile(r'Download Sarkari\s*Result App|Download SarkariResult App|Sarkari Result Mobile App', re.IGNORECASE)):
+        parent_tr = el.find_parent('tr')
+        if parent_tr:
+            parent_tr.decompose()
+        else:
+            parent_box = el.find_parent('div') or el.find_parent('p') or el.find_parent('a')
+            if parent_box:
+                parent_box.decompose()
+
+    # 3. Dynamic WhatsApp, Telegram & Instagram follow links in content
+    for a_tag in soup.find_all('a'):
+        href = a_tag.get('href', '')
+        text = a_tag.get_text(strip=True).lower()
+        
+        if 'whatsapp' in href.lower() or 'whatsapp' in text:
+            a_tag['href'] = wa_url
+        elif 't.me' in href.lower() or 'telegram' in text:
+            a_tag['href'] = tg_url
+        elif 'instagram' in href.lower() or 'instagram' in text:
+            a_tag['href'] = ig_url
+        elif 'sarkariresult' in href.lower():
+            a_tag['href'] = '/'
+
+    # 4. Text & Domain replacements
+    html_str = str(soup)
+    html_str = re.sub(r'Check Sarkari\s*Result', f'Check {site_name}', html_str, flags=re.IGNORECASE)
+    html_str = re.sub(r'Sarkari\s*Result', site_name, html_str, flags=re.IGNORECASE)
+    html_str = re.sub(r'SarkariResult', site_name, html_str, flags=re.IGNORECASE)
+    html_str = re.sub(r'https?://(?:www\.)?sarkariresult\.com\.cm/?', f'https://{domain}/', html_str, flags=re.IGNORECASE)
+    html_str = re.sub(r'sarkariresult\.com\.cm', domain, html_str, flags=re.IGNORECASE)
+
+    return html_str
+
+def get_footer_html(settings):
+    socials = settings.get('socials', {})
+    domain = settings.get('domain', 'studytopper.in')
+    site_name = settings.get('site_name', 'STUDY TOPPER™')
+    wa_url = socials.get('whatsapp', 'https://whatsapp.com/')
+    tg_url = socials.get('telegram', 'https://t.me/')
+    ig_url = socials.get('instagram', 'https://instagram.com/')
+    yt_url = socials.get('youtube', 'https://youtube.com/')
+    fb_url = socials.get('facebook', 'https://facebook.com/')
+    tw_url = socials.get('twitter', 'https://x.com/')
+
+    return f"""<footer class="site-footer" style="background-color:#212121; color:#ffffff; text-align:center; padding:30px 15px; margin-top:40px;">
+    <div style="max-width:1040px; margin:0 auto; padding:0 12px;">
+        <h3 style="color:#ffffff; font-size:18px; margin-bottom:14px; font-weight:700;">Connect With Us</h3>
+        <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:22px;">
+            <a href="{tw_url}" target="_blank" style="color:#fff; text-decoration:none; background:#1e293b; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-x-twitter"></i> Study Topper @X</a>
+            <a href="{tg_url}" target="_blank" style="color:#fff; text-decoration:none; background:#0284c7; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-telegram"></i> Study Topper @Telegram</a>
+            <a href="{wa_url}" target="_blank" style="color:#fff; text-decoration:none; background:#16a34a; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-whatsapp"></i> Study Topper @WhatsApp</a>
+            <a href="{ig_url}" target="_blank" style="color:#fff; text-decoration:none; background:#db2777; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-instagram"></i> Study Topper @Instagram</a>
+            <a href="{fb_url}" target="_blank" style="color:#fff; text-decoration:none; background:#2563eb; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-facebook"></i> Study Topper @Facebook</a>
+            <a href="{yt_url}" target="_blank" style="color:#fff; text-decoration:none; background:#dc2626; padding:7px 14px; border-radius:4px; font-size:13px; font-weight:600;"><i class="fa-brands fa-youtube"></i> Study Topper @YouTube</a>
+        </div>
+        
+        <p style="font-size:13px; color:#cbd5e1; margin:10px 0; line-height:1.6;">Official Website of Study Topper™ – {domain} | All educational and government recruitment notifications published for student guidance.</p>
+        <p style="font-size:12px; color:#94a3b8; margin:6px 0;">Copyright © 2026 | {domain}. All Rights Reserved. Not affiliated with any government agency.</p>
+        
+        <div class="gb-container-658f27a5" style="margin-top:14px;">
+            <a class="gb-button" href="/" style="background:transparent !important; color:#ffffff !important; text-decoration:underline !important; margin:0 8px; font-size:13px;">Home</a>
+            <a class="gb-button" href="/contact/" style="background:transparent !important; color:#ffffff !important; text-decoration:underline !important; margin:0 8px; font-size:13px;">Contact</a>
+            <a class="gb-button" href="/privacy-policy/" style="background:transparent !important; color:#ffffff !important; text-decoration:underline !important; margin:0 8px; font-size:13px;">Privacy Policy</a>
+            <a class="gb-button" href="/disclaimer/" style="background:transparent !important; color:#ffffff !important; text-decoration:underline !important; margin:0 8px; font-size:13px;">Disclaimer</a>
+        </div>
+    </div>
+</footer>"""
+
 def render_single_post_html(post, settings):
-    title = post.get('title', 'Sarkari Notification')
+    title = post.get('title', 'Study Topper Notification')
     headline = post.get('headline') or title
     category_slug = post.get('category', 'latest-jobs')
     category_name = category_slug.replace('-', ' ').title()
@@ -146,14 +237,19 @@ def render_single_post_html(post, settings):
     tags = post.get('tags', '')
     site_name = settings.get('site_name', 'STUDY TOPPER™')
     domain = settings.get('domain', 'studytopper.in')
+    socials = settings.get('socials', {})
+    wa_url = socials.get('whatsapp', 'https://whatsapp.com/')
+    tg_url = socials.get('telegram', 'https://t.me/')
+
+    # Clean raw html content
+    cleaned_content = clean_post_html_content(html_content, settings)
 
     tags_html = ''
     if tags:
         tag_list = [t.strip() for t in tags.split(',') if t.strip()]
         tags_html = '<div style="margin:25px 0 15px; padding:12px 15px; background:#f8fafc; border-left:4px solid #ab183d; border-radius:3px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;"><strong><i class="fa-solid fa-tags" style="color:#ab183d;"></i> Related Tags:</strong> ' + ''.join([f'<span style="background:#fff; border:1px solid #cbd5e1; padding:3px 10px; border-radius:3px; font-size:12px; font-weight:600; color:#1e293b;">#{t}</span>' for t in tag_list]) + '</div>'
 
-    # Build standard table if html_content is basic text or empty
-    body_content_render = html_content
+    body_content_render = cleaned_content
     if not body_content_render or len(body_content_render.strip()) < 50:
         body_content_render = f"""
         <table style="width:100%; border-collapse:collapse; border:2px solid #ab183d; margin:15px 0;">
@@ -198,12 +294,14 @@ def render_single_post_html(post, settings):
         </table>
         """
 
+    footer_render = get_footer_html(settings)
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} : Study Topper Official, Latest Online Form</title>
+    <title>{title} : {site_name} Official Portal</title>
     <meta name="description" content="{short_desc or title}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -241,9 +339,6 @@ def render_single_post_html(post, settings):
         .important-links-table td {{ padding: 10px 12px; font-size: 14px; font-weight: 700; }}
         .important-links-table td a {{ color: #ab183d; font-weight: 700; text-decoration: underline; }}
         
-        footer.site-footer {{ background-color: #212121; color: #ffffff; text-align: center; padding: 25px 15px; margin-top: 40px; }}
-        footer.site-footer a {{ color: #ffffff; text-decoration: underline; margin: 0 8px; font-size: 13px; }}
-        
         @media (max-width: 767px) {{
             .main-title {{ font-size: 24px; }}
             .site-description {{ font-size: 16px; }}
@@ -270,7 +365,7 @@ def render_single_post_html(post, settings):
     </nav>
     
     <div class="whatsapp-banner">
-        <a href="https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L" target="_blank" class="whatsapp-btn">
+        <a href="{wa_url}" target="_blank" class="whatsapp-btn">
             <i class="fa-brands fa-whatsapp"></i> Join WhatsApp Channel
         </a>
     </div>
@@ -310,16 +405,16 @@ def render_single_post_html(post, settings):
                         <td><a href="#" target="_blank">Click Here</a></td>
                     </tr>
                     <tr>
-                        <td>Official Website</td>
-                        <td><a href="#" target="_blank">Click Here</a></td>
+                        <td>Check Study Topper Official Portal</td>
+                        <td><a href="/" target="_blank">Click Here</a></td>
                     </tr>
                     <tr>
                         <td>Join Study Topper WhatsApp Channel</td>
-                        <td><a href="https://whatsapp.com/channel/0029VaAbQf01NCrYADMLt00L" target="_blank" style="color:#01aa03;">Join Now</a></td>
+                        <td><a href="{wa_url}" target="_blank" style="color:#01aa03;">Join Now</a></td>
                     </tr>
                     <tr>
                         <td>Join Study Topper Telegram Group</td>
-                        <td><a href="https://t.me/SarkariExam_info" target="_blank" style="color:#0284c7;">Join Now</a></td>
+                        <td><a href="{tg_url}" target="_blank" style="color:#0284c7;">Join Now</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -332,15 +427,7 @@ def render_single_post_html(post, settings):
         </article>
     </div>
 
-    <footer class="site-footer">
-        <p>{settings.get('footer_text', 'Copyright © 2009 - 2026 | SarkariResult.com.cm. All Rights Reserved.')}</p>
-        <div class="gb-container-658f27a5" style="margin-top:10px;">
-            <a class="gb-button" href="/">Home</a>
-            <a class="gb-button" href="/contact/">Contact</a>
-            <a class="gb-button" href="/privacy-policy/">Privacy Policy</a>
-            <a class="gb-button" href="/disclaimer/">Disclaimer</a>
-        </div>
-    </footer>
+    {footer_render}
 </body>
 </html>"""
 
@@ -1617,12 +1704,16 @@ def api_save_settings():
             data = request.form.to_dict()
 
         for k, v in data.items():
-            if k in ['google_analytics_id', 'google_site_verification', 'meta_description', 'meta_keywords', 'custom_head_code', 'custom_footer_code']:
-                if 'seo' not in settings: settings['seo'] = {}
-                settings['seo'][k] = v
+            if k.startswith('social_'):
+                soc_k = k.replace('social_', '')
+                if 'socials' not in settings: settings['socials'] = {}
+                settings['socials'][soc_k] = v
             elif k in ['telegram', 'whatsapp', 'youtube', 'instagram', 'facebook', 'twitter']:
                 if 'socials' not in settings: settings['socials'] = {}
                 settings['socials'][k] = v
+            elif k in ['google_analytics_id', 'google_site_verification', 'meta_description', 'meta_keywords', 'custom_head_code', 'custom_footer_code']:
+                if 'seo' not in settings: settings['seo'] = {}
+                settings['seo'][k] = v
             elif k == 'theme_colors' and isinstance(v, dict):
                 if 'theme_colors' not in settings: settings['theme_colors'] = {}
                 settings['theme_colors'].update(v)

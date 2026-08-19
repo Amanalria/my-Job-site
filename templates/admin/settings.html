@@ -112,6 +112,35 @@
                     </div>
                 </div>
 
+                <!-- 2. Social Channels & Follow Links -->
+                <div class="postbox">
+                    <h2>📢 Social Channels &amp; Follow Links</h2>
+                    <div class="form-group">
+                        <label>WhatsApp Channel URL (Used on post banners &amp; follow buttons)</label>
+                        <input type="text" name="social_whatsapp" class="wp-input" placeholder="https://whatsapp.com/channel/..." value="{{ settings.socials.whatsapp if settings.socials else '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Telegram Channel URL (Used on post buttons &amp; follow links)</label>
+                        <input type="text" name="social_telegram" class="wp-input" placeholder="https://t.me/..." value="{{ settings.socials.telegram if settings.socials else '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram Page URL</label>
+                        <input type="text" name="social_instagram" class="wp-input" placeholder="https://instagram.com/..." value="{{ settings.socials.instagram if settings.socials else '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>YouTube Channel URL</label>
+                        <input type="text" name="social_youtube" class="wp-input" placeholder="https://youtube.com/@..." value="{{ settings.socials.youtube if settings.socials else '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Facebook Page URL</label>
+                        <input type="text" name="social_facebook" class="wp-input" placeholder="https://facebook.com/..." value="{{ settings.socials.facebook if settings.socials else '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Twitter / X Profile URL</label>
+                        <input type="text" name="social_twitter" class="wp-input" placeholder="https://x.com/..." value="{{ settings.socials.twitter if settings.socials else '' }}">
+                    </div>
+                </div>
+
                 <!-- 2. Supabase PostgreSQL Cloud Database -->
                 <div class="postbox" style="border-left: 4px solid #3ecf8e;">
                     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f0f0f1; padding-bottom:6px; margin-bottom:12px;">
