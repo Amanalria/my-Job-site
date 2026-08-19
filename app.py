@@ -12,8 +12,8 @@ app = Flask(__name__)
 app.secret_key = 'sarkari_official_secret_2026'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PAGES_DIR = os.path.join(BASE_DIR, 'raw_clone', 'pages')
-WP_CONTENT_DIR = os.path.join(BASE_DIR, 'raw_clone', 'wp-content')
+PAGES_DIR = os.path.join(BASE_DIR, 'pages')
+WP_CONTENT_DIR = os.path.join(BASE_DIR, 'wp-content')
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 SETTINGS_FILE = os.path.join(DATA_DIR, 'settings.json')
 POSTS_FILE = os.path.join(DATA_DIR, 'posts.json')
