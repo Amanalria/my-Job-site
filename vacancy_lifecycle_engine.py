@@ -34,7 +34,7 @@ def parse_date_string(date_str):
 
     s = date_str.strip().lower()
 
-    # Look for extended date first if present (e.g. "28 August 2026 (Extended)")
+    # Match "28 August 2026" or "28 Aug 2026"
     extended_match = re.search(r'(\d{1,2})\s+([a-z]+)\s+(\d{4})', s)
     if extended_match:
         d = int(extended_match.group(1))
@@ -112,18 +112,40 @@ def run_git_sync(commit_msg):
         print(f"Git sync notice: {e}")
         return False
 
+# Blinking CSS to inject in headers
+BLINKING_CSS = """
+<style id="agy-lifecycle-blink-css">
+@keyframes agyBlinkPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.15; transform: scale(1.05); }
+}
+.agy-blinking-badge {
+    display: inline-block !important;
+    font-weight: 800 !important;
+    font-size: 11px !important;
+    padding: 1px 7px !important;
+    border-radius: 4px !important;
+    animation: agyBlinkPulse 0.85s infinite ease-in-out !important;
+    vertical-align: middle !important;
+    margin-left: 5px !important;
+    line-height: 1.3 !important;
+    letter-spacing: 0.3px !important;
+    text-transform: uppercase !important;
+}
+.agy-urgent-blink {
+    color: #ffffff !important;
+    background: #dc2626 !important;
+    box-shadow: 0 0 8px rgba(220, 38, 38, 0.8) !important;
+}
+.agy-extended-blink {
+    color: #ffffff !important;
+    background: #0284c7 !important;
+    box-shadow: 0 0 8px rgba(2, 132, 199, 0.8) !important;
+}
+</style>
+"""
+
 def audit_and_execute_lifecycle():
-    """
-    Core automated execution:
-    1. Evaluates all posts against today's date.
-    2. Identifies:
-       - Urgent Posts (<= 3 days remaining) -> Pins to top of categories and homepage.
-       - Active Posts (> 3 days remaining or no fixed end date).
-       - Expired Posts (< 0 days) -> Demotes to bottom.
-       - Purge Posts (expired > grace_period_days) -> Deletes from website, JSON DB, and GitHub.
-    3. Detects date extensions in post HTML/text and auto-updates last dates.
-    4. Rewrites homepage category boxes to reflect real-time priorities.
-    """
     config = load_lifecycle_settings()
     if not config.get('lifecycle_enabled', True):
         return {"status": "disabled", "message": "Lifecycle automation is currently disabled."}
@@ -154,7 +176,9 @@ def audit_and_execute_lifecycle():
         last_date_str = post.get('application_last_date', '')
         html_file = os.path.join(PAGES_DIR, f"{slug}.html")
 
-        # 1. Check for date extension in HTML content if enabled
+        # 1. Check for date extension in HTML content or title
+        is_extended = 'extend' in last_date_str.lower() or 'extend' in title.lower() or post.get('custom_badge') == 'Date Extended'
+
         if config.get('auto_detect_date_extension', True) and os.path.exists(html_file):
             try:
                 with open(html_file, 'r', encoding='utf-8') as hf:
@@ -165,6 +189,7 @@ def audit_and_execute_lifecycle():
                     if new_extended_date and new_extended_date != last_date_str:
                         post['application_last_date'] = new_extended_date
                         last_date_str = new_extended_date
+                        is_extended = True
                         post['custom_badge'] = "Date Extended"
             except Exception:
                 pass
@@ -174,10 +199,10 @@ def audit_and_execute_lifecycle():
         if parsed_date:
             days_remaining = (parsed_date - today).days
 
-        # Classify state
+        # Classify state and priority
         if days_remaining is not None:
             if days_remaining < -grace_period:
-                # Expired past grace period -> Auto-Delete
+                # Expired past grace period -> Auto-Purge
                 purged_slugs.append({
                     "slug": slug,
                     "title": title,
@@ -185,7 +210,6 @@ def audit_and_execute_lifecycle():
                     "days_ago": abs(days_remaining)
                 })
 
-                # Remove HTML files
                 if os.path.exists(html_file):
                     try:
                         os.remove(html_file)
@@ -200,30 +224,45 @@ def audit_and_execute_lifecycle():
                 continue
 
             elif days_remaining < 0:
-                # Expired within grace period -> Demote to bottom
+                # Expired within grace period -> Demoted to bottom
                 post['lifecycle_state'] = 'EXPIRED_DEMOTED'
                 post['days_remaining'] = days_remaining
-                post['lifecycle_badge'] = 'Closed / Expired'
-                post['sort_priority'] = -100 + days_remaining # Negative priority so it goes to bottom
+                post['lifecycle_badge'] = 'Closed'
+                post['badge_html'] = ''
+                post['sort_priority'] = -1000 + days_remaining # Lowest priority (bottom)
+
             elif days_remaining <= urgent_threshold:
-                # Urgent: Closing Soon (<= 3 days) -> Pin to top
+                # Urgent: Closing Soon (<= 3 days) -> Pinned to top with blinking badge!
                 post['lifecycle_state'] = 'URGENT_PINNED'
                 post['days_remaining'] = days_remaining
                 badge_text = "Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!"
                 post['lifecycle_badge'] = badge_text
-                post['sort_priority'] = 1000 - days_remaining # Highest priority at top
+                post['badge_html'] = f' - <span class="agy-blinking-badge agy-urgent-blink">{badge_text}</span>'
+                post['sort_priority'] = 10000 - days_remaining # Absolute top priority
+
             else:
                 # Active
                 post['lifecycle_state'] = 'ACTIVE'
                 post['days_remaining'] = days_remaining
-                post['lifecycle_badge'] = ''
-                post['sort_priority'] = 100 - min(days_remaining, 90)
+                if is_extended:
+                    post['lifecycle_badge'] = 'Date Extended'
+                    post['badge_html'] = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
+                    post['sort_priority'] = 5000 - min(days_remaining, 30) # High priority for extended dates
+                else:
+                    post['lifecycle_badge'] = ''
+                    post['badge_html'] = ''
+                    post['sort_priority'] = 100 - min(days_remaining, 90)
         else:
-            # No specific end date (e.g. Schemes, Calendars, Certificate verification)
             post['lifecycle_state'] = 'ACTIVE'
             post['days_remaining'] = None
-            post['lifecycle_badge'] = ''
-            post['sort_priority'] = 50
+            if is_extended:
+                post['lifecycle_badge'] = 'Date Extended'
+                post['badge_html'] = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
+                post['sort_priority'] = 4000
+            else:
+                post['lifecycle_badge'] = ''
+                post['badge_html'] = ''
+                post['sort_priority'] = 50
 
         updated_posts.append(post)
 
@@ -231,11 +270,11 @@ def audit_and_execute_lifecycle():
             active_posts_by_category[category] = []
         active_posts_by_category[category].append(post)
 
-    # Sort each category: Urgent Pinned (top) -> Active -> Expired Demoted (bottom)
+    # Sort each category: Urgent Pinned (top) -> Date Extended -> Active -> Expired Demoted (bottom)
     for cat in active_posts_by_category:
         active_posts_by_category[cat].sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
 
-    # Reassemble global custom_posts list with top urgent posts first
+    # Reassemble global custom_posts
     sorted_all_posts = []
     for cat in active_posts_by_category:
         sorted_all_posts.extend(active_posts_by_category[cat])
@@ -253,9 +292,10 @@ def audit_and_execute_lifecycle():
     for cat, p_list in active_posts_by_category.items():
         cat_data[cat] = []
         for p in p_list:
-            badge_suffix = f" [{p.get('lifecycle_badge')}]" if p.get('lifecycle_badge') else ""
             cat_data[cat].append({
-                'title': f"{p.get('title')}{badge_suffix}",
+                'title': p.get('title'),
+                'title_raw': p.get('title'),
+                'badge_html': p.get('badge_html', ''),
                 'url': f"/{p.get('slug')}/",
                 'short_desc': p.get('short_desc', ''),
                 'date': p.get('application_last_date', p.get('application_start_date', '')),
@@ -265,7 +305,7 @@ def audit_and_execute_lifecycle():
     with open(category_data_file, 'w', encoding='utf-8') as f:
         json.dump(cat_data, f, indent=2)
 
-    # Update Homepage Category Boxes
+    # Update Homepage Category Boxes in pages/index.html & original_index.html
     category_column_map = {
         'gb-grid-column-0b76599a': 'result',
         'gb-grid-column-c7488d9a': 'latest-jobs',
@@ -280,7 +320,14 @@ def audit_and_execute_lifecycle():
             return
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
-                soup = BeautifulSoup(f.read(), 'html.parser')
+                content = f.read()
+
+            soup = BeautifulSoup(content, 'html.parser')
+
+            # Ensure blinking CSS is present in head
+            if not soup.find(id='agy-lifecycle-blink-css'):
+                if soup.head:
+                    soup.head.append(BeautifulSoup(BLINKING_CSS, 'html.parser'))
 
             for col_cls, cat_key in category_column_map.items():
                 col = soup.find(class_=col_cls)
@@ -291,13 +338,15 @@ def audit_and_execute_lifecycle():
                         cat_posts = cat_data.get(cat_key, [])
                         for item in cat_posts[:10]:
                             li = soup.new_tag('li')
-                            a = soup.new_tag('a', href=item['url'], class_='wp-block-latest-posts__post-title')
-                            a.string = item['title']
-                            li.append(a)
+                            title_text = item.get('title_raw', item.get('title', ''))
+                            badge = item.get('badge_html', '')
+                            link_markup = f'<a href="{item["url"]}" class="wp-block-latest-posts__post-title">{title_text}{badge}</a>'
+                            li.append(BeautifulSoup(link_markup, 'html.parser'))
                             ul.append(li)
 
             with open(filepath, 'w', encoding='utf-8') as f:
                 f.write(str(soup))
+            print(f" [OK] Synced homepage boxes with blinking badges: {filepath}")
         except Exception as e:
             print(f"Error updating {filepath}: {e}")
 
@@ -328,7 +377,7 @@ def audit_and_execute_lifecycle():
 # Background Daemon Worker Thread
 def start_lifecycle_background_daemon(interval_minutes=60):
     def daemon_loop():
-        time.sleep(10) # Initial startup buffer
+        time.sleep(5)
         while True:
             try:
                 audit_and_execute_lifecycle()
@@ -341,6 +390,5 @@ def start_lifecycle_background_daemon(interval_minutes=60):
     return t
 
 if __name__ == '__main__':
-    result = audit_and_execute_lifecycle()
-    print("Lifecycle Execution Summary:")
-    print(json.dumps(result, indent=2))
+    res = audit_and_execute_lifecycle()
+    print(json.dumps(res, indent=2))

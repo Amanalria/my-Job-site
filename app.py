@@ -2478,7 +2478,7 @@ def search_page():
 @app.route('/<path:slug>')
 def dynamic_page_router(slug):
     clean_slug = slug.strip('/')
-    if clean_slug in ['favicon.ico', 'robots.txt', 'sitemap.xml', 'ads.txt', 'alria', 'admin', 'search']:
+    if clean_slug.startswith('api/') or clean_slug.startswith('admin/') or clean_slug.startswith('tools/') or clean_slug in ['favicon.ico', 'robots.txt', 'sitemap.xml', 'ads.txt', 'alria', 'admin', 'search', 'post-preview', 'post-design-preview']:
         abort(404)
 
     settings = load_settings()
@@ -2621,19 +2621,42 @@ def admin_lifecycle():
         expired_count=expired_count
     )
 
-@app.route('/api/admin/lifecycle-run', methods=['POST'])
+@app.route('/api/admin/lifecycle-run', methods=['GET', 'POST'])
+@app.route('/api/admin/lifecycle-run/', methods=['GET', 'POST'])
 def api_lifecycle_run():
-    res = lifecycle.audit_and_execute_lifecycle()
-    return jsonify(res)
+    try:
+        res = lifecycle.audit_and_execute_lifecycle()
+        return jsonify(res)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/admin/lifecycle-save-config', methods=['POST'])
+@app.route('/api/admin/lifecycle-save-config', methods=['GET', 'POST'])
+@app.route('/api/admin/lifecycle-save-config/', methods=['GET', 'POST'])
 def api_lifecycle_save_config():
-    data = request.get_json(silent=True) or {}
-    config = lifecycle.load_lifecycle_settings()
-    config.update(data)
-    lifecycle.save_lifecycle_settings(config)
-    res = lifecycle.audit_and_execute_lifecycle()
-    return jsonify({"success": True, "config": config, "audit": res})
+    if request.method == 'GET':
+        return redirect('/admin/lifecycle')
+    try:
+        if request.is_json:
+            data = request.get_json(silent=True) or {}
+        else:
+            data = request.form.to_dict()
+        
+        config = lifecycle.load_lifecycle_settings()
+        for k, v in data.items():
+            if isinstance(v, str) and v.lower() == 'true':
+                config[k] = True
+            elif isinstance(v, str) and v.lower() == 'false':
+                config[k] = False
+            elif isinstance(v, str) and v.isdigit():
+                config[k] = int(v)
+            else:
+                config[k] = v
+        
+        lifecycle.save_lifecycle_settings(config)
+        res = lifecycle.audit_and_execute_lifecycle()
+        return jsonify({"success": True, "config": config, "audit": res})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 # ==================== API ADMIN ENDPOINTS ====================
 

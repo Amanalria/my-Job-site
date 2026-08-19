@@ -271,7 +271,7 @@
                 auto_detect_date_extension: document.getElementById('cfgAutoExt').value === 'true'
             };
 
-            const res = await fetch('/api/admin/lifecycle-save-config', {
+            const res = await fetch('/api/admin/lifecycle-save-config/', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
@@ -280,7 +280,9 @@
             const statusSpan = document.getElementById('saveStatus');
             if (data.success) {
                 statusSpan.innerText = '✓ Settings Saved & Applied!';
-                setTimeout(() => statusSpan.innerText = '', 3000);
+                setTimeout(() => statusSpan.innerText = '', 4000);
+            } else {
+                alert('Failed to save settings: ' + (data.message || 'Unknown error'));
             }
         }
 
@@ -290,7 +292,7 @@
             btn.disabled = true;
 
             try {
-                const res = await fetch('/api/admin/lifecycle-run', {method: 'POST'});
+                const res = await fetch('/api/admin/lifecycle-run/', {method: 'POST'});
                 const data = await res.json();
                 if (data.status === 'success') {
                     alert(`Lifecycle Audit Completed Successfully!\n- Active Posts: ${data.total_active_posts}\n- Purged Posts: ${data.purged_count}\n- GitHub Synced: ${data.git_synced ? 'Yes' : 'No'}`);
