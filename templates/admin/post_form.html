@@ -358,12 +358,12 @@
                             <h2>Important Dates &amp; Expiry</h2>
                         </div>
                         <div class="inside">
-                            <label style="font-weight:600; font-size:12px;">Application Begin</label>
-                            <input type="date" name="application_start_date" class="wp-input" value="{{ post.application_start_date if post else '' }}">
+                            <label style="font-weight:600; font-size:12px;">Application Begin Date</label>
+                            <input type="text" name="application_start_date" class="wp-input" placeholder="e.g. 01 August 2026 or 2026-08-01" value="{{ post.application_start_date if post else '' }}">
 
                             <label style="font-weight:600; font-size:12px;">Application Last Date</label>
-                            <input type="date" name="application_last_date" class="wp-input" value="{{ post.application_last_date if post else '' }}">
-                            <p style="font-size:11px; color:#64748b;">⚡ Post hides from homepage 2 days after this date automatically.</p>
+                            <input type="text" name="application_last_date" class="wp-input" placeholder="e.g. 28 August 2026 or 2026-08-28" value="{{ post.application_last_date if post else '' }}">
+                            <p style="font-size:11px; color:#64748b;">⚡ Lifecycle engine uses this date for urgent pinning and auto-purging.</p>
                         </div>
                     </div>
 

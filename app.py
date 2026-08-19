@@ -2717,31 +2717,47 @@ def admin_post_edit(post_id):
     target_post = None
     for p in all_posts:
         if p.get('id') == post_id or p.get('slug') == post_id:
-            target_post = p
+            target_post = dict(p)
             break
     
+    slug = target_post.get('slug', post_id) if target_post else post_id
+    
+    # Extract HTML body content from pages/{slug}.html
+    html_content = ''
+    for dir_path in [PAGES_DIR, os.path.join(BASE_DIR, 'raw_clone', 'pages'), os.path.join(BASE_DIR, 'templates')]:
+        page_file = os.path.join(dir_path, f"{slug}.html")
+        if os.path.exists(page_file):
+            try:
+                with open(page_file, 'r', encoding='utf-8') as f:
+                    raw_html = f.read()
+                soup = BeautifulSoup(raw_html, 'html.parser')
+                main = soup.find('main') or soup.find(class_='entry-content') or soup.find('article')
+                if main:
+                    html_content = ''.join(str(c) for c in main.contents).strip()
+                else:
+                    html_content = raw_html
+                break
+            except Exception:
+                pass
+
     if not target_post:
         target_post = {
             'id': post_id,
             'title': post_id.replace('-', ' ').title(),
-            'slug': post_id,
+            'slug': slug,
             'category': 'latest-jobs',
-            'application_start_date': '2026-08-01',
-            'application_last_date': '2026-09-30',
+            'application_start_date': '01 August 2026',
+            'application_last_date': '30 August 2026',
             'is_date_extended': False,
             'is_pinned': False,
             'custom_badge': '',
             'short_desc': '',
             'tags': '',
-            'html_content': ''
+            'html_content': html_content
         }
-        page_file = os.path.join(PAGES_DIR, f"{post_id}.html")
-        if os.path.exists(page_file):
-            try:
-                with open(page_file, 'r', encoding='utf-8') as f:
-                    target_post['html_content'] = f.read()
-            except Exception:
-                pass
+    else:
+        target_post['html_content'] = html_content or target_post.get('html_content', '')
+        
     return render_template('admin/post_form.html', settings=settings, post=target_post)
 
 @app.route('/admin/categories')
