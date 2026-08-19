@@ -1834,6 +1834,29 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                     empty_li.string = "No notifications yet. New posts will appear here."
                     ul_tag.append(empty_li)
 
+    # 12. Dynamic Top Study Topper Pages Table
+    top_pages_table = settings.get('top_pages_table', [])
+    if top_pages_table:
+        matrix_tbl = soup.find('table', id='top-pages-matrix-table') or soup.find(class_='wp-block-table')
+        if matrix_tbl:
+            all_tds = matrix_tbl.find_all('td')
+            for idx, td in enumerate(all_tds):
+                if idx < len(top_pages_table):
+                    item = top_pages_table[idx]
+                    t_text = item.get('text', '').strip()
+                    t_url = item.get('url', '').strip()
+                    td.clear()
+                    if t_url and t_url != '#':
+                        a_node = soup.new_tag('a', href=t_url, rel="noopener", target="_blank")
+                        a_node['style'] = 'color:#0000ef; font-weight:700; text-decoration:none;'
+                        a_node.string = t_text
+                        td.append(a_node)
+                    else:
+                        span_node = soup.new_tag('span')
+                        span_node['style'] = 'color:#222; font-weight:600;'
+                        span_node.string = t_text
+                        td.append(span_node)
+
     # 13. Dynamic Footer Copyright Text & Social Links
     if settings.get('footer_text'):
         foot_div = soup.find(class_='gb-headline-e41178b2') or soup.find(class_=re.compile(r'gb-headline-.*e41178b2'))
@@ -1883,9 +1906,10 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                     c_btn.append(BeautifulSoup(f"<button class='alria-edit-btn' onclick=\"openModal('modal-grid-titles')\">✏️ Edit Titles</button>", 'html.parser'))
                     container.insert(0, c_btn)
 
+        c08 = soup.find(class_='gb-container-08c3e704')
         if c08:
             info_btn = soup.new_tag('div', style='text-align:center; margin:10px 0;')
-            info_btn.append(BeautifulSoup("<button class='alria-edit-btn' onclick=\"openModal('modal-info-faq')\">✏️ Edit Guidelines &amp; FAQs</button>", 'html.parser'))
+            info_btn.append(BeautifulSoup("<button class='alria-edit-btn' onclick=\"openModal('modal-top-pages')\">✏️ Edit Top Pages Table</button><button class='alria-edit-btn' style='margin-left:6px;' onclick=\"openModal('modal-info-faq')\">✏️ Edit Guidelines &amp; FAQs</button>", 'html.parser'))
             c08.insert(0, info_btn)
 
         footer = soup.find('footer') or soup.find(class_='site-footer')
@@ -1943,6 +1967,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 <button onclick="openModal('modal-theme-colors')" style="background:#ec4899; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🎨 All Colors</button>
                 <button onclick="openModal('modal-branding')" style="background:#2563eb; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🏷️ Branding</button>
                 <button onclick="openModal('modal-cards')" style="background:#0891b2; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🃏 Top 8 Cards</button>
+                <button onclick="openModal('modal-top-pages')" style="background:#10b981; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">📑 Top Pages Table</button>
                 <button onclick="openModal('modal-grid-titles')" style="background:#7c3aed; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">📊 6 Grid Titles</button>
                 <button onclick="openModal('modal-info-faq')" style="background:#059669; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">❓ FAQs &amp; Info</button>
                 <button onclick="openModal('modal-footer-socials')" style="background:#d97706; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">🔗 Footer &amp; Socials</button>
@@ -2061,6 +2086,16 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 <h3>🃏 Edit Top 8 Highlight Cards (Titles, Links &amp; Colors)</h3>
                 <div id="cards-container"></div>
                 <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-cards')">Cancel</button><button class="alria-btn-save" onclick="saveCards()">Save All 8 Cards</button></div>
+            </div>
+        </div>
+
+        <!-- 3b. Top Study Topper Pages Table Modal -->
+        <div id="modal-top-pages" class="alria-modal-backdrop">
+            <div class="alria-modal-card" style="max-width:780px;">
+                <h3>📑 Edit Top Study Topper Pages Table (15 Links &amp; Texts)</h3>
+                <p style="font-size:12px; color:#64748b; margin:4px 0 12px 0;">Manage the 15 cells (3 columns x 5 rows) in the Top Study Topper Pages table.</p>
+                <div id="top-pages-container" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;"></div>
+                <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-top-pages')">Cancel</button><button class="alria-btn-save" onclick="saveTopPages()">Save Top Pages Table</button></div>
             </div>
         </div>
 
@@ -2193,6 +2228,50 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 }}
             }}
             renderCardsInputs();
+
+            function renderTopPagesInputs() {{
+                const cont = document.getElementById('top-pages-container'); if(!cont) return; cont.innerHTML = '';
+                const pages = siteSettings.top_pages_table || [];
+                const defaultPages = [
+                    {{"text": "Bharat Result", "url": "/result/"}},
+                    {{"text": "UP Police Result", "url": "/up-police-constable-result-2024/"}},
+                    {{"text": "Bihar Police Result", "url": "/bihar-police-constable-result-2024/"}},
+                    {{"text": "Study Topper Exam", "url": "/latest-jobs/"}},
+                    {{"text": "Study Topper Hindi", "url": "/"}},
+                    {{"text": "Study Topper NTPC", "url": "/railway-rrb-alp-2026/"}},
+                    {{"text": "Study Topper 2026", "url": "/latest-jobs/"}},
+                    {{"text": "Study Topper", "url": "/"}},
+                    {{"text": "Study Topper Center", "url": "/"}},
+                    {{"text": "Sarkari Naukri", "url": "/latest-jobs/"}},
+                    {{"text": "Study Topper 10th", "url": "/latest-jobs/"}},
+                    {{"text": "Study Topper SSC", "url": "/ssc-chsl-2026/"}},
+                    {{"text": "Study Topper 10+2", "url": "/latest-jobs/"}},
+                    {{"text": "StudyTopper.in", "url": "/"}},
+                    {{"text": "Study Topper Railway", "url": "/railway-nfr-2026/"}}
+                ];
+                for(let i=0; i<15; i++) {{
+                    const p = pages[i] || defaultPages[i] || {{text: '', url: ''}};
+                    cont.innerHTML += `
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; padding:6px 8px;">
+                        <label style="font-size:11px; font-weight:700; color:#334155;">Cell ${{i+1}}</label>
+                        <input type="text" id="top-page-text-${{i}}" value="${{p.text || ''}}" placeholder="Text" style="margin-bottom:4px; font-size:12px;">
+                        <input type="text" id="top-page-url-${{i}}" value="${{p.url || ''}}" placeholder="URL (e.g. /result/)" style="font-size:11px;">
+                    </div>`;
+                }}
+            }}
+            renderTopPagesInputs();
+
+            function saveTopPages() {{
+                const pages = [];
+                for(let i=0; i<15; i++) {{
+                    const tEl = document.getElementById('top-page-text-' + i);
+                    const uEl = document.getElementById('top-page-url-' + i);
+                    if(tEl) {{
+                        pages.push({{ text: tEl.value.trim(), url: uEl ? uEl.value.trim() : '' }});
+                    }}
+                }}
+                saveSettingsPayload({{ top_pages_table: pages }});
+            }}
 
             function renderFaqInputs() {{
                 const cont = document.getElementById('faq-list-container'); if(!cont) return; cont.innerHTML = '';
@@ -2869,6 +2948,22 @@ def api_save_settings():
                 settings['supabase'][sub_k] = v
             else:
                 settings[k] = v
+
+        # Check if top_pages_table form fields were submitted
+        if not request.is_json:
+            form_top_pages = []
+            has_top_pages_field = False
+            for i in range(15):
+                t_k = f'top_pages_text_{i}'
+                u_k = f'top_pages_url_{i}'
+                if t_k in data or u_k in data:
+                    has_top_pages_field = True
+                    form_top_pages.append({
+                        'text': data.get(t_k, '').strip(),
+                        'url': data.get(u_k, '').strip()
+                    })
+            if has_top_pages_field:
+                settings['top_pages_table'] = form_top_pages
 
         save_settings_data(settings)
         if request.is_json:
