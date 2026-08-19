@@ -695,14 +695,16 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{cat_title} 2026 : {site_name}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap">
+    <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {{ box-sizing: border-box; }}
-        body {{ font-family: Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
-        header.site-header {{ background-color: #cd0808; text-align: center; padding: 15px 10px; }}
-        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; }}
+        body {{ font-family: Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
+        header.site-header {{ background-color: #ab183d; text-align: center; padding: 15px 10px; }}
+        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; text-transform:uppercase; }}
         .main-title a {{ color: #fff; text-decoration: none; }}
-        .site-description {{ color: #fff; font-size: 20px; font-weight: 700; margin: 4px 0 0; }}
+        .site-description {{ color: #fff; font-size: 16px; font-weight: 700; margin: 4px 0 0; text-transform:uppercase; }}
         nav.main-navigation {{ background-color: #0c2340; text-align: center; padding: 10px; overflow-x: auto; white-space: nowrap; }}
         nav.main-navigation a {{ color: #fff; text-decoration: none; margin: 0 10px; font-size: 14px; font-weight: 700; }}
         nav.main-navigation a:hover {{ text-decoration: underline; }}
@@ -711,8 +713,15 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
         .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
         .cat-card {{ border: 2px solid #ab183d; border-radius: 4px; padding: 20px; background: #fff; }}
         h1.cat-heading {{ background: #ab183d; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
-        footer.site-footer {{ background-color: #212121; color: #ffffff; text-align: center; padding: 25px 15px; margin-top: 40px; }}
-        footer.site-footer a {{ color: #ffffff; text-decoration: underline; margin: 0 8px; font-size: 13px; }}
+        .sarkari-wrapper {{ max-width:600px; margin:0 auto; text-align:center; background:#1e1e1e; padding:20px; border-radius:6px; }}
+        .sarkari-wrapper h3 {{ color:#fff; margin-bottom:15px; }}
+        .sarkari-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }}
+        .sarkari-grid a {{ background:#2a2a2a; color:#fff; padding:10px; text-decoration:none; border-radius:4px; font-size:14px; display:flex; align-items:center; justify-content:center; }}
+        .sarkari-grid a:hover {{ background:#3a3a3a; }}
+        .gb-container-7d9550dd {{ background:#212121; padding:25px 15px 15px; }}
+        .gb-container-d1f47294 {{ background:#1d2327; color:#fff; text-align:center; padding:18px 10px; }}
+        .gb-container-d1f47294 a {{ color:#fff; }}
+        .gb-button {{ background:#000000 !important; color:#ffffff !important; padding:6px 14px; border-radius:4px; text-decoration:underline; font-size:13px; border:1px solid #333; }}
     </style>
 </head>
 <body>
@@ -735,29 +744,20 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
             <a href="/">Home</a> » <span>{cat_title}</span>
         </div>
         <div class="cat-card">
-            <h1 class="cat-heading">{cat_title} 2026 : Study Topper</h1>
+            <h1 class="cat-heading">{cat_title} 2026 : {site_name}</h1>
             {posts_list_html}
             <div style="text-align:center; margin-top:30px;">
                 <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Study Topper Home</a>
             </div>
         </div>
     </div>
-    <footer class="site-footer">
-        <p>{footer_text}</p>
-        <div class="gb-container-658f27a5" style="margin-top:10px;">
-            <a class="gb-button" href="/">Home</a>
-            <a class="gb-button" href="/contact/">Contact</a>
-            <a class="gb-button" href="/privacy-policy/">Privacy Policy</a>
-            <a class="gb-button" href="/disclaimer/">Disclaimer</a>
-        </div>
-    </footer>
+    {get_footer_html(settings)}
 </body>
 </html>"""
 
 def render_search_page_html(query, search_results, settings):
     site_name = settings.get('site_name', 'STUDY TOPPER™')
     domain = settings.get('domain', 'studytopper.in')
-    footer_text = settings.get('footer_text', 'Copyright © 2009 - 2026 | SarkariResult.com.cm. All Rights Reserved.')
 
     if search_results:
         items_html = ''
@@ -774,14 +774,16 @@ def render_search_page_html(query, search_results, settings):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search: {query} - {site_name}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap">
+    <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {{ box-sizing: border-box; }}
-        body {{ font-family: Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
-        header.site-header {{ background-color: #cd0808; text-align: center; padding: 15px 10px; }}
-        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; }}
+        body {{ font-family: Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
+        header.site-header {{ background-color: #ab183d; text-align: center; padding: 15px 10px; }}
+        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; text-transform:uppercase; }}
         .main-title a {{ color: #fff; text-decoration: none; }}
-        .site-description {{ color: #fff; font-size: 20px; font-weight: 700; margin: 4px 0 0; }}
+        .site-description {{ color: #fff; font-size: 16px; font-weight: 700; margin: 4px 0 0; text-transform:uppercase; }}
         nav.main-navigation {{ background-color: #0c2340; text-align: center; padding: 10px; overflow-x: auto; white-space: nowrap; }}
         nav.main-navigation a {{ color: #fff; text-decoration: none; margin: 0 10px; font-size: 14px; font-weight: 700; }}
         nav.main-navigation a:hover {{ text-decoration: underline; }}
@@ -790,8 +792,15 @@ def render_search_page_html(query, search_results, settings):
         .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
         .cat-card {{ border: 2px solid #ab183d; border-radius: 4px; padding: 20px; background: #fff; }}
         h1.cat-heading {{ background: #ab183d; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
-        footer.site-footer {{ background-color: #212121; color: #ffffff; text-align: center; padding: 25px 15px; margin-top: 40px; }}
-        footer.site-footer a {{ color: #ffffff; text-decoration: underline; margin: 0 8px; font-size: 13px; }}
+        .sarkari-wrapper {{ max-width:600px; margin:0 auto; text-align:center; background:#1e1e1e; padding:20px; border-radius:6px; }}
+        .sarkari-wrapper h3 {{ color:#fff; margin-bottom:15px; }}
+        .sarkari-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }}
+        .sarkari-grid a {{ background:#2a2a2a; color:#fff; padding:10px; text-decoration:none; border-radius:4px; font-size:14px; display:flex; align-items:center; justify-content:center; }}
+        .sarkari-grid a:hover {{ background:#3a3a3a; }}
+        .gb-container-7d9550dd {{ background:#212121; padding:25px 15px 15px; }}
+        .gb-container-d1f47294 {{ background:#1d2327; color:#fff; text-align:center; padding:18px 10px; }}
+        .gb-container-d1f47294 a {{ color:#fff; }}
+        .gb-button {{ background:#000000 !important; color:#ffffff !important; padding:6px 14px; border-radius:4px; text-decoration:underline; font-size:13px; border:1px solid #333; }}
     </style>
 </head>
 <body>
@@ -811,25 +820,17 @@ def render_search_page_html(query, search_results, settings):
     </nav>
     <div class="page-container">
         <div class="breadcrumb">
-            <a href="/">Home</a> » <span>Search: {query}</span>
+            <a href="/">Home</a> » <span>Search Results</span>
         </div>
         <div class="cat-card">
-            <h1 class="cat-heading">Search Results for : "{query}"</h1>
+            <h1 class="cat-heading">Search: {query}</h1>
             {results_html}
             <div style="text-align:center; margin-top:30px;">
                 <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Study Topper Home</a>
             </div>
         </div>
     </div>
-    <footer class="site-footer">
-        <p>{footer_text}</p>
-        <div class="gb-container-658f27a5" style="margin-top:10px;">
-            <a class="gb-button" href="/">Home</a>
-            <a class="gb-button" href="/contact/">Contact</a>
-            <a class="gb-button" href="/privacy-policy/">Privacy Policy</a>
-            <a class="gb-button" href="/disclaimer/">Disclaimer</a>
-        </div>
-    </footer>
+    {get_footer_html(settings)}
 </body>
 </html>"""
 
