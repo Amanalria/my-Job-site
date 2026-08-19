@@ -206,43 +206,6 @@
                     </div>
                 </div>
 
-                <!-- 3b. Top Study Topper Pages Matrix Table (15 Items) -->
-                <div class="postbox" style="grid-column: 1 / -1;">
-                    <h2>📑 Top Study Topper Pages Matrix (15 Links &amp; Text)</h2>
-                    <p style="font-size:12px; color:#64748b; margin-top:-4px; margin-bottom:12px;">Edit the 15 cells (3 columns × 5 rows) displayed under the star banner on the homepage. Leave URL blank for plain text.</p>
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:10px;">
-                        {% set default_pages = [
-                            {"text": "Bharat Result", "url": "/result/"},
-                            {"text": "UP Police Result", "url": "/up-police-constable-result-2024/"},
-                            {"text": "Bihar Police Result", "url": "/bihar-police-constable-result-2024/"},
-                            {"text": "Study Topper Exam", "url": "/latest-jobs/"},
-                            {"text": "Study Topper Hindi", "url": "/"},
-                            {"text": "Study Topper NTPC", "url": "/railway-rrb-alp-2026/"},
-                            {"text": "Study Topper 2026", "url": "/latest-jobs/"},
-                            {"text": "Study Topper", "url": "/"},
-                            {"text": "Study Topper Center", "url": "/"},
-                            {"text": "Sarkari Naukri", "url": "/latest-jobs/"},
-                            {"text": "Study Topper 10th", "url": "/latest-jobs/"},
-                            {"text": "Study Topper SSC", "url": "/ssc-chsl-2026/"},
-                            {"text": "Study Topper 10+2", "url": "/latest-jobs/"},
-                            {"text": "StudyTopper.in", "url": "/"},
-                            {"text": "Study Topper Railway", "url": "/railway-nfr-2026/"}
-                        ] %}
-                        {% for i in range(15) %}
-                            {% set item = (settings.top_pages_table[i] if settings.top_pages_table and i < settings.top_pages_table|length else default_pages[i]) %}
-                            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 10px;">
-                                <div style="font-size:11px; font-weight:700; color:#475569; margin-bottom:4px;">Cell {{ i+1 }}</div>
-                                <div style="margin-bottom:4px;">
-                                    <input type="text" name="top_pages_text_{{ i }}" class="wp-input" style="font-size:12px; padding:4px 8px;" placeholder="Link Text" value="{{ item.text if item else '' }}">
-                                </div>
-                                <div>
-                                    <input type="text" name="top_pages_url_{{ i }}" class="wp-input" style="font-size:11px; padding:4px 8px;" placeholder="URL (e.g. /result/)" value="{{ item.url if item else '' }}">
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
                 <!-- 4. Google Analytics & Webmaster Verification -->
                 <div class="postbox">
                     <h2>Google &amp; Webmaster Tools</h2>

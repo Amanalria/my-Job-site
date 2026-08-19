@@ -219,55 +219,8 @@
       "text": "UPSC Civil Services IAS / IFS Pre Exam 2026 Online Form"
     }
   ],
-  "highlight_cards": [
-    {
-      "url": "https://studytopper.in/igcar-apprentice-2026/",
-      "title": "IGCAR Trade Apprentice Online Form 2026"
-    },
-    {
-      "url": "#",
-      "title": "SAV Bihar Class 6 Entrance Exam Online Form "
-    },
-    {
-      "url": "#",
-      "title": "Bihar Secondary Teachers Eligibility Test STET 2026"
-    },
-    {
-      "url": "#",
-      "title": "UPESSC Principal Online Form 2026"
-    },
-    {
-      "url": "#",
-      "title": "BPSC School Teacher TRE 4.0 Online Form 2026"
-    },
-    {
-      "url": "#",
-      "title": ""
-    },
-    {
-      "url": "#",
-      "title": ""
-    },
-    {
-      "url": "#",
-      "title": ""
-    }
-  ],
+  "highlight_cards": [],
   "top_banner_text": "Study Topper \u2122 Official website \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Sarkari Yojana, Scholarship, Sarkari Notice etc.",
-  "top_pages_table": [
-    {
-      "text": "Bharat Result",
-      "url": "/result/"
-    },
-    {
-      "text": "UP Police Result",
-      "url": "/up-police-constable-result-2024/"
-    },
-    {
-      "text": "Bihar Police Result",
-      "url": "/bihar-police-constable-result-2024/"
-    }
-  ],
   "lifecycle_config": {
     "lifecycle_enabled": true,
     "urgent_days_threshold": 3,
@@ -278,7 +231,7 @@
       "railway-nfr-2026",
       "sav-bihar-class-6-2026"
     ],
-    "last_run_timestamp": "2026-08-20T00:10:06.729485",
+    "last_run_timestamp": "2026-08-19T23:46:32.104989",
     "last_purged_posts": []
   },
   "pinned_posts": [
