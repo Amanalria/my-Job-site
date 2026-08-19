@@ -1834,40 +1834,6 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                     empty_li.string = "No notifications yet. New posts will appear here."
                     ul_tag.append(empty_li)
 
-    # 12. Dynamic Guidelines & FAQ Block
-    c08 = soup.find(class_='gb-container-08c3e704')
-    if c08:
-        inside = c08.find(class_='gb-inside-container')
-        if inside:
-            info_secs = settings.get('info_sections', [])
-            faq_items = settings.get('faq_items', [])
-            if info_secs or faq_items:
-                inside.clear()
-                for sec in info_secs:
-                    if sec.get('title'):
-                        h2_tag = soup.new_tag('h2', **{'class': 'gb-headline gb-headline-02a5ae4c gb-headline-text'}, style='background-color:#a80909; color:#fff; padding:6px 10px; margin:15px 0 8px; font-size:16px; font-weight:700;')
-                        h2_tag.string = sec.get('title', '')
-                        inside.append(h2_tag)
-                    if sec.get('content'):
-                        p_tag = soup.new_tag('p', **{'class': 'has-text-align-center wp-block-paragraph'}, style='padding:8px 12px; font-size:15px; line-height:1.6; text-align:left;')
-                        p_tag.string = sec.get('content', '')
-                        inside.append(p_tag)
-                if faq_items:
-                    faq_h2 = soup.new_tag('h2', **{'class': 'gb-headline gb-headline-02a5ae4c gb-headline-text'}, style='background-color:#a80909; color:#fff; padding:6px 10px; margin:15px 0 8px; font-size:16px; font-weight:700;')
-                    faq_h2.string = "FAQ – Frequently Asked Questions"
-                    inside.append(faq_h2)
-                    faq_box = soup.new_tag('div', style='padding:10px 12px; margin-bottom:15px;')
-                    for i, faq in enumerate(faq_items, 1):
-                        if faq.get('q'):
-                            qp = soup.new_tag('p', style='text-align:left; margin:10px 0 3px; font-weight:700; color:#a80909; font-size:15px;')
-                            qp.append(BeautifulSoup(f"<span style='color:#000;'>Q {i}.</span> {faq.get('q', '')}", 'html.parser'))
-                            faq_box.append(qp)
-                        if faq.get('a'):
-                            ap = soup.new_tag('p', style='text-align:justify; margin:0 0 12px; font-size:14px; line-height:1.5; color:#222;')
-                            ap.append(BeautifulSoup(f"<strong style='color:#077822;'>Ans.</strong> {faq.get('a', '')}", 'html.parser'))
-                            faq_box.append(ap)
-                    inside.append(faq_box)
-
     # 13. Dynamic Footer Copyright Text & Social Links
     if settings.get('footer_text'):
         foot_div = soup.find(class_='gb-headline-e41178b2') or soup.find(class_=re.compile(r'gb-headline-.*e41178b2'))
