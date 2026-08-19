@@ -10,7 +10,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dashicons/0.9.0/css/dashicons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- TinyMCE CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js">
+        function addTag(tag) {
+            const input = document.getElementById('postTagsInput');
+            const curVal = input.value.trim();
+            if (!curVal) {
+                input.value = tag;
+            } else {
+                const parts = curVal.split(',').map(s => s.trim());
+                if (!parts.includes(tag)) {
+                    parts.push(tag);
+                    input.value = parts.join(', ');
+                }
+            }
+        }
+    </script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #f0f0f1; color: #3c434a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 13px; line-height: 1.4em; min-height: 100vh; display: flex; }
@@ -111,6 +125,25 @@
             .permalink-wrapper { font-size: 11px; }
             .permalink-edit-input { width: 160px; }
         }
+    
+        .tag-chip {
+            background: #f0f0f1;
+            border: 1px solid #dcdcde;
+            color: #2271b1;
+            padding: 2px 7px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            transition: 0.15s;
+            display: inline-block;
+        }
+        .tag-chip:hover {
+            background: #2271b1;
+            color: #fff;
+            border-color: #2271b1;
+        }
     </style>
 </head>
 <body>
@@ -154,7 +187,7 @@
             </div>
         </div>
 
-        <form action="/api/admin/save-post" method="POST" id="postForm">
+        <form action="/api/admin/save-post" method="POST" id="postForm" onsubmit="if(window.tinymce && tinymce.activeEditor){ tinymce.triggerSave(); }">
             {% if post %}
             <input type="hidden" name="id" value="{{ post.id }}">
             {% endif %}
@@ -272,7 +305,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. Categories Meta Box -->
+                                        <!-- 2. Categories Meta Box -->
                     <div class="postbox">
                         <div class="postbox-header">
                             <h2>Categories</h2>
@@ -293,6 +326,28 @@
                             </div>
                             <div style="margin-top:10px; border-top:1px solid #f0f0f1; padding-top:8px;">
                                 <a href="/admin/categories" style="color:#2271b1; text-decoration:none; font-size:12px; font-weight:600;">+ Manage All Categories</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Tags Meta Box (WordPress Classic Tags) -->
+                    <div class="postbox">
+                        <div class="postbox-header">
+                            <h2>Tags</h2>
+                        </div>
+                        <div class="inside">
+                            <label style="font-weight:600; font-size:12px;">Add Tags (Comma separated)</label>
+                            <input type="text" name="tags" id="postTagsInput" class="wp-input" placeholder="e.g. Sarkari Result, SSC, UPSC, 10th Pass, Govt Job" value="{{ post.tags if post and post.tags else '' }}">
+                            <p style="font-size:11px; color:#64748b; margin-top:-6px; margin-bottom:8px;">Separate tags with commas</p>
+                            <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px;">
+                                <span class="tag-chip" onclick="addTag('Sarkari Result')">+ Sarkari Result</span>
+                                <span class="tag-chip" onclick="addTag('10th Pass')">+ 10th Pass</span>
+                                <span class="tag-chip" onclick="addTag('12th Pass')">+ 12th Pass</span>
+                                <span class="tag-chip" onclick="addTag('Graduate')">+ Graduate</span>
+                                <span class="tag-chip" onclick="addTag('Govt Job')">+ Govt Job</span>
+                                <span class="tag-chip" onclick="addTag('Police Bharti')">+ Police Bharti</span>
+                                <span class="tag-chip" onclick="addTag('Admit Card')">+ Admit Card</span>
+                                <span class="tag-chip" onclick="addTag('Result')">+ Result</span>
                             </div>
                         </div>
                     </div>
@@ -561,6 +616,20 @@
                 </body>
                 </html>
             `);
+        }
+    
+        function addTag(tag) {
+            const input = document.getElementById('postTagsInput');
+            const curVal = input.value.trim();
+            if (!curVal) {
+                input.value = tag;
+            } else {
+                const parts = curVal.split(',').map(s => s.trim());
+                if (!parts.includes(tag)) {
+                    parts.push(tag);
+                    input.value = parts.join(', ');
+                }
+            }
         }
     </script>
 </body>

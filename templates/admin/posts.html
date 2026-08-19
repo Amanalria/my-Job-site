@@ -97,8 +97,9 @@
             <table class="wp-list-table">
                 <thead>
                     <tr>
-                        <th style="width:50%;">Title</th>
+                        <th style="width:45%;">Title</th>
                         <th>Category</th>
+                        <th>Tags</th>
                         <th>Last Date</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -115,7 +116,16 @@
                                 <a href="javascript:void(0)" onclick="deletePost('{{ p.id or p.slug }}')" class="trash">Trash</a>
                             </div>
                         </td>
-                        <td><strong>{{ p.category }}</strong></td>
+                        <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:3px; font-weight:600; font-size:12px;">{{ p.category }}</span></td>
+                        <td>
+                            {% if p.tags %}
+                                {% for t in p.tags.split(',') %}
+                                    <span style="background:#f1f5f9; border:1px solid #cbd5e1; padding:1px 6px; border-radius:3px; font-size:11px; color:#475569; display:inline-block; margin:1px 0;">{{ t.strip() }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span style="color:#94a3b8; font-size:11px;">—</span>
+                            {% endif %}
+                        </td>
                         <td>{{ p.application_last_date if p.application_last_date else 'N/A' }}</td>
                         <td>
                             {% if p.is_soon %}

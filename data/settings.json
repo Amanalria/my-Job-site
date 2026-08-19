@@ -7,7 +7,7 @@
     "google_analytics_id": "",
     "google_site_verification": ""
   },
-  "domain": "SarkariResult.Com.Cm",
+  "domain": "SarkariYojana.Com.Cm",
   "ads_txt": "google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0",
   "adsense": {
     "enabled": false,
@@ -39,7 +39,7 @@
       "q": "Is any registration fee required to browse notifications?"
     }
   ],
-  "site_name": "SARKARI RESULT\u2122",
+  "site_name": "SARKARI YOJANA\u2122",
   "categories": [
     {
       "id": "cat_1",
@@ -204,5 +204,8 @@
       "title": "RRB JE Online Form 2026 (3993 Posts)"
     }
   ],
-  "top_banner_text": "Sarkari Result \u2122 Official website since 2009 \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Sarkari Yojana, Scholarship, Sarkari Notice etc."
+  "top_banner_text": "Sarkari Yojana \u2122 Official website \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Sarkari Yojana, Scholarship, Sarkari Notice etc.",
+  "deleted_posts": [
+    "ssc-cgl-2026-online-form"
+  ]
 }

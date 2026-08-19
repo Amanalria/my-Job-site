@@ -25,6 +25,204 @@ PRIMARY_CATEGORIES = [
     'certificate-verification', 'important', 'contact', 'disclaimer', 'privacy-policy'
 ]
 
+
+# ==================== UNIFIED POST MANAGEMENT SYSTEM ====================
+
+def get_deleted_post_slugs():
+    settings = load_settings()
+    return set(settings.get('deleted_posts', []))
+
+def load_custom_posts():
+    custom_posts_file = os.path.join(DATA_DIR, 'custom_posts.json')
+    if os.path.exists(custom_posts_file):
+        try:
+            with open(custom_posts_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return []
+
+def save_custom_posts(posts_list):
+    try:
+        custom_posts_file = os.path.join(DATA_DIR, 'custom_posts.json')
+        with open(custom_posts_file, 'w', encoding='utf-8') as f:
+            json.dump(posts_list, f, indent=2)
+    except Exception as e:
+        print(f"Notice: local custom_posts.json write skipped ({e})")
+
+def load_all_active_posts():
+    deleted_slugs = get_deleted_post_slugs()
+    posts_map = {}
+
+    # 1. Scraped base posts
+    all_posts_file = os.path.join(DATA_DIR, 'all_posts.json')
+    if os.path.exists(all_posts_file):
+        try:
+            with open(all_posts_file, 'r', encoding='utf-8') as f:
+                scraped = json.load(f)
+                for p in scraped:
+                    slug = p.get('slug')
+                    if slug and slug not in deleted_slugs:
+                        posts_map[slug] = p
+        except Exception:
+            pass
+
+    # 2. Local custom posts
+    for p in load_custom_posts():
+        slug = p.get('slug')
+        if slug and slug not in deleted_slugs:
+            posts_map[slug] = p
+
+    # 3. Supabase posts
+    if supa.is_supabase_configured():
+        try:
+            supa_posts = supa.fetch_posts_from_supabase()
+            if supa_posts:
+                for p in supa_posts:
+                    slug = p.get('slug')
+                    if slug and slug not in deleted_slugs:
+                        posts_map[slug] = p
+        except Exception:
+            pass
+
+    result = list(posts_map.values())
+    result.sort(key=lambda x: x.get('created_at', x.get('post_date', '')), reverse=True)
+    return result
+
+def save_single_post(post_item):
+    slug = post_item.get('slug')
+    settings = load_settings()
+    deleted = settings.get('deleted_posts', [])
+    if slug in deleted:
+        deleted.remove(slug)
+        settings['deleted_posts'] = deleted
+        save_settings_data(settings)
+
+    custom_posts = [p for p in load_custom_posts() if p.get('slug') != slug]
+    custom_posts.insert(0, post_item)
+    save_custom_posts(custom_posts)
+
+    if supa.is_supabase_configured():
+        supa.save_post_to_supabase(post_item)
+
+    try:
+        page_file = os.path.join(PAGES_DIR, f"{slug}.html")
+        if post_item.get('html_content'):
+            with open(page_file, 'w', encoding='utf-8') as f:
+                f.write(post_item.get('html_content'))
+    except Exception:
+        pass
+
+def delete_single_post(post_id_or_slug):
+    settings = load_settings()
+    if 'deleted_posts' not in settings:
+        settings['deleted_posts'] = []
+    if post_id_or_slug not in settings['deleted_posts']:
+        settings['deleted_posts'].append(post_id_or_slug)
+    save_settings_data(settings)
+
+    custom_posts = [p for p in load_custom_posts() if p.get('slug') != post_id_or_slug and p.get('id') != post_id_or_slug]
+    save_custom_posts(custom_posts)
+
+    if supa.is_supabase_configured():
+        supa.delete_post_from_supabase(post_id_or_slug)
+
+    try:
+        page_file = os.path.join(PAGES_DIR, f"{post_id_or_slug}.html")
+        if os.path.exists(page_file):
+            os.remove(page_file)
+    except Exception:
+        pass
+
+def render_single_post_html(post, settings):
+    title = post.get('title', 'Sarkari Notification')
+    headline = post.get('headline') or title
+    category = post.get('category', 'latest-jobs').replace('-', ' ').title()
+    short_desc = post.get('short_desc', '')
+    html_content = post.get('html_content', '')
+    app_start = post.get('application_start_date', 'August 2026')
+    app_last = post.get('application_last_date', 'September 2026')
+    tags = post.get('tags', '')
+    site_name = settings.get('site_name', 'SARKARI RESULT™')
+    domain = settings.get('domain', 'SarkariResult.Com.Cm')
+
+    tags_html = ''
+    if tags:
+        tag_list = [t.strip() for t in tags.split(',') if t.strip()]
+        tags_html = '<div style="margin:20px 0; display:flex; flex-wrap:wrap; gap:6px; align-items:center;"><strong>Tags:</strong> ' + ''.join([f'<span style="background:#f1f5f9; border:1px solid #cbd5e1; padding:2px 8px; border-radius:3px; font-size:12px; color:#334155;">#{t}</span>' for t in tag_list]) + '</div>'
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - {site_name}</title>
+    <meta name="description" content="{short_desc or title}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {{ font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background: #f8fafc; color: #1e293b; line-height: 1.6; }}
+        .site-header {{ background: #cd0808; color: #fff; text-align: center; padding: 15px 10px; }}
+        .main-title a {{ color: #fff; text-decoration: none; font-size: 28px; font-weight: 800; }}
+        .site-description {{ color: #fff; font-size: 18px; font-weight: 700; margin-top: 4px; }}
+        .main-navigation {{ background: #0c2340; padding: 10px; text-align: center; }}
+        .main-navigation a {{ color: #fff; text-decoration: none; margin: 0 12px; font-size: 14px; font-weight: 600; }}
+        .post-container {{ max-width: 1000px; margin: 20px auto; background: #fff; padding: 25px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }}
+        .post-header-title {{ color: #cd0808; font-size: 24px; font-weight: 700; margin-top: 0; border-bottom: 2px solid #cd0808; padding-bottom: 10px; }}
+        .post-meta-strip {{ background: #f1f5f9; padding: 8px 12px; border-radius: 4px; font-size: 13px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; }}
+        .dates-box {{ background: #fef2f2; border: 1px solid #fecaca; padding: 15px; border-radius: 6px; margin: 20px 0; }}
+        .dates-box h3 {{ margin-top: 0; color: #b91c1c; font-size: 16px; }}
+        table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
+        th, td {{ border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left; }}
+        th {{ background: #f8fafc; font-weight: 700; }}
+        .btn-action-link {{ display: inline-block; background: #059669; color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 4px; font-weight: 700; font-size: 13px; }}
+        .btn-action-link:hover {{ background: #047857; }}
+        .site-footer {{ background: #212121; color: #fff; text-align: center; padding: 25px 15px; margin-top: 40px; }}
+        .site-footer a {{ color: #fff; text-decoration: underline; margin: 0 8px; font-size: 13px; }}
+        @media (max-width: 768px) {{ .post-container {{ margin: 10px; padding: 15px; }} }}
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="main-title"><a href="/">{site_name}</a></div>
+        <div class="site-description">{domain}</div>
+    </header>
+    <nav class="main-navigation">
+        <a href="/">Home</a>
+        <a href="/latest-jobs/">Latest Jobs</a>
+        <a href="/result/">Results</a>
+        <a href="/admit-card/">Admit Card</a>
+        <a href="/answer-key/">Answer Key</a>
+        <a href="/syllabus/">Syllabus</a>
+        <a href="/admission/">Admission</a>
+    </nav>
+    <div class="post-container">
+        <h1 class="post-header-title">{headline}</h1>
+        <div class="post-meta-strip">
+            <span><strong>Category:</strong> {category}</span>
+            <span><strong>Post Updated:</strong> {app_start}</span>
+            <span><strong>Last Date:</strong> {app_last}</span>
+        </div>
+        {f'<div class="dates-box"><h3>📌 Short Information:</h3><p>{short_desc}</p></div>' if short_desc else ''}
+        <div class="post-body-content">
+            {html_content}
+        </div>
+        {tags_html}
+        <div style="text-align:center; margin-top:30px;">
+            <a href="/" class="btn-action-link"><i class="fa-solid fa-house"></i> Back to Homepage</a>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <p>{settings.get('footer_text', 'Copyright © 2026. All Rights Reserved.')}</p>
+        <div class="gb-container-658f27a5" style="margin-top:10px;">
+            <a class="gb-button" href="/">Home</a>
+            <a class="gb-button" href="/contact/">Contact</a>
+            <a class="gb-button" href="/privacy-policy/">Privacy Policy</a>
+            <a class="gb-button" href="/disclaimer/">Disclaimer</a>
+        </div>
+    </footer>
+</body>
+</html>"""
+
 COL_MAPPING = {
     '0b76599a': 'result',
     'e64d3148': 'admit-card',
@@ -293,8 +491,11 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 if card_bg:
                     a_tag['style'] = f'background-color: {card_bg} !important; color: #ffffff !important;'
 
-    # 11. Dynamic Grid Column Section Titles & Colors
+    # 11. Dynamic Grid Column Section Titles, Colors & Dynamic Post Lists
     grid_headers = settings.get('grid_headers', {})
+    all_active_posts = load_all_active_posts()
+    deleted_slugs = get_deleted_post_slugs()
+
     for col_cls, cat_key in COL_MAPPING.items():
         col_div = soup.find(class_=f'gb-grid-column-{col_cls}')
         if col_div:
@@ -308,6 +509,37 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                     col_bg = theme.get(f'{cat_norm}_header_bg') or theme.get('result_header_bg', '#ab183d')
                     col_txt = theme.get(f'{cat_norm}_header_text') or '#ffffff'
                     h2['style'] = f'background-color:{col_bg} !important; color:{col_txt} !important; text-align:center; font-weight:700; padding:6px 0;'
+
+                ul_tag = container.find('ul', class_=re.compile(r'wp-block-latest-posts'))
+                if ul_tag:
+                    for li in list(ul_tag.find_all('li')):
+                        a_post = li.find('a')
+                        if a_post:
+                            href = a_post.get('href', '')
+                            p_slug = href.strip('/').split('/')[-1]
+                            if p_slug in deleted_slugs:
+                                li.decompose()
+
+                    cat_new_posts = [p for p in all_active_posts if p.get('category') == cat_key and not p.get('is_temporary')]
+                    for cp in reversed(cat_new_posts):
+                        existing = ul_tag.find('a', href=re.compile(rf'/{cp["slug"]}/?$'))
+                        if not existing:
+                            new_li = soup.new_tag('li')
+                            new_a = soup.new_tag('a', **{'class': 'wp-block-latest-posts__post-title', 'href': f'/{cp["slug"]}/'})
+                            
+                            badge_text = cp.get('custom_badge', '')
+                            if cp.get('is_pinned'):
+                                badge_html = " <span style='background:#ffa502; color:#fff; font-size:10px; padding:1px 5px; border-radius:3px; font-weight:700;'>HOT</span>"
+                            elif cp.get('is_date_extended'):
+                                badge_html = " <span style='background:#2ed573; color:#fff; font-size:10px; padding:1px 5px; border-radius:3px; font-weight:700;'>EXTENDED</span>"
+                            elif badge_text:
+                                badge_html = f" <span style='background:#ab183d; color:#fff; font-size:10px; padding:1px 5px; border-radius:3px; font-weight:700;'>{badge_text}</span>"
+                            else:
+                                badge_html = " <span style='background:#2563eb; color:#fff; font-size:10px; padding:1px 5px; border-radius:3px; font-weight:700;'>NEW</span>"
+                            
+                            new_a.append(BeautifulSoup(f"{cp['title']}{badge_html}", 'html.parser'))
+                            new_li.append(new_a)
+                            ul_tag.insert(0, new_li)
 
     # 12. Dynamic Guidelines & FAQ Block
     c08 = soup.find(class_='gb-container-08c3e704')
@@ -930,6 +1162,13 @@ def dynamic_page_router(slug):
     if clean_slug in ['favicon.ico', 'robots.txt', 'sitemap.xml', 'ads.txt', 'alria', 'admin']:
         abort(404)
 
+    settings = load_settings()
+    all_posts = load_all_active_posts()
+    for p in all_posts:
+        if p.get('slug') == clean_slug or p.get('id') == clean_slug:
+            post_html = render_single_post_html(p, settings)
+            return Response(sanitize_html(post_html, request.host), mimetype='text/html')
+
     page_file = os.path.join(PAGES_DIR, f"{clean_slug}.html")
     if os.path.exists(page_file):
         with open(page_file, 'r', encoding='utf-8') as f:
@@ -943,8 +1182,11 @@ def dynamic_page_router(slug):
         res = requests.get(url, headers=headers, timeout=10)
         if res.status_code == 200:
             cleaned = sanitize_html(res.text, request.host)
-            with open(page_file, 'w', encoding='utf-8') as f:
-                f.write(cleaned)
+            try:
+                with open(page_file, 'w', encoding='utf-8') as f:
+                    f.write(cleaned)
+            except Exception:
+                pass
             return Response(cleaned, mimetype='text/html')
     except Exception:
         pass
@@ -985,20 +1227,7 @@ def admin_dashboard():
 @app.route('/admin/posts')
 def admin_posts():
     settings = load_settings()
-    posts = []
-    if os.path.exists(PAGES_DIR):
-        for fname in os.listdir(PAGES_DIR):
-            if fname.endswith('.html') and fname != 'index.html' and fname[:-5] not in PRIMARY_CATEGORIES:
-                slug = fname[:-5]
-                title = slug.replace('-', ' ').title()
-                posts.append({
-                    'id': slug,
-                    'title': title,
-                    'slug': slug,
-                    'category': 'latest-jobs',
-                    'application_last_date': '2026-09-30',
-                    'is_soon': False
-                })
+    posts = load_all_active_posts()
     return render_template('admin/posts.html', settings=settings, posts=posts)
 
 @app.route('/admin/posts/new')
@@ -1009,24 +1238,36 @@ def admin_post_new():
 @app.route('/admin/posts/edit/<post_id>')
 def admin_post_edit(post_id):
     settings = load_settings()
-    post_obj = {
-        'id': post_id,
-        'title': post_id.replace('-', ' ').title(),
-        'slug': post_id,
-        'category': 'latest-jobs',
-        'application_start_date': '2026-08-01',
-        'application_last_date': '2026-09-30',
-        'is_date_extended': False,
-        'is_pinned': False,
-        'custom_badge': '',
-        'short_desc': '',
-        'html_content': ''
-    }
-    page_file = os.path.join(PAGES_DIR, f"{post_id}.html")
-    if os.path.exists(page_file):
-        with open(page_file, 'r', encoding='utf-8') as f:
-            post_obj['html_content'] = f.read()
-    return render_template('admin/post_form.html', settings=settings, post=post_obj)
+    all_posts = load_all_active_posts()
+    target_post = None
+    for p in all_posts:
+        if p.get('id') == post_id or p.get('slug') == post_id:
+            target_post = p
+            break
+    
+    if not target_post:
+        target_post = {
+            'id': post_id,
+            'title': post_id.replace('-', ' ').title(),
+            'slug': post_id,
+            'category': 'latest-jobs',
+            'application_start_date': '2026-08-01',
+            'application_last_date': '2026-09-30',
+            'is_date_extended': False,
+            'is_pinned': False,
+            'custom_badge': '',
+            'short_desc': '',
+            'tags': '',
+            'html_content': ''
+        }
+        page_file = os.path.join(PAGES_DIR, f"{post_id}.html")
+        if os.path.exists(page_file):
+            try:
+                with open(page_file, 'r', encoding='utf-8') as f:
+                    target_post['html_content'] = f.read()
+            except Exception:
+                pass
+    return render_template('admin/post_form.html', settings=settings, post=target_post)
 
 @app.route('/admin/categories')
 def admin_categories():
@@ -1097,21 +1338,16 @@ def api_save_post():
     data = request.get_json(silent=True) or request.form
     title = data.get('title', '').strip()
     slug = data.get('slug') or title.lower().replace(' ', '-').replace('/', '-').replace('(', '').replace(')', '')[:80]
+    slug = re.sub(r'[^a-zA-Z0-9_-]', '', slug)
     html_content = data.get('html_content', '')
     category = data.get('category', 'latest-jobs')
     app_start = data.get('application_start_date', '')
     app_last = data.get('application_last_date', '')
     short_desc = data.get('short_desc', '')
+    tags = data.get('tags', '')
     is_pinned = bool(data.get('is_pinned'))
     is_date_extended = bool(data.get('is_date_extended'))
     custom_badge = data.get('custom_badge', '')
-
-    try:
-        page_file = os.path.join(PAGES_DIR, f"{slug}.html")
-        with open(page_file, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-    except Exception as e:
-        print(f"Notice: Local HTML page write skipped ({e}) - persisting to Supabase.")
 
     post_item = {
         'id': data.get('id') or f"post_{uuid.uuid4().hex[:8]}",
@@ -1119,29 +1355,23 @@ def api_save_post():
         'title': title,
         'category': category,
         'short_desc': short_desc,
+        'tags': tags,
         'html_content': html_content,
         'application_start_date': app_start,
         'application_last_date': app_last,
         'is_pinned': is_pinned,
         'is_date_extended': is_date_extended,
         'is_temporary': False,
-        'custom_badge': custom_badge
+        'custom_badge': custom_badge,
+        'created_at': datetime.now().isoformat()
     }
 
-    if supa.is_supabase_configured():
-        supa.save_post_to_supabase(post_item)
-
+    save_single_post(post_item)
     return redirect('/admin/posts')
 
 @app.route('/api/admin/posts/delete/<post_id>', methods=['POST'])
 def api_delete_post(post_id):
-    page_file = os.path.join(PAGES_DIR, f"{post_id}.html")
-    if os.path.exists(page_file):
-        os.remove(page_file)
-    
-    if supa.is_supabase_configured():
-        supa.delete_post_from_supabase(post_id)
-
+    delete_single_post(post_id)
     return jsonify({'status': 'success', 'deleted': post_id})
 
 # ==================== SUPABASE CLOUD MANAGEMENT ENDPOINTS ====================
