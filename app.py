@@ -35,21 +35,11 @@ def get_deleted_post_slugs():
 
 def load_custom_posts():
     custom_posts_file = os.path.join(DATA_DIR, 'custom_posts.json')
-    if os.path.exists(custom_posts_file):
-        try:
-            with open(custom_posts_file, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except Exception:
-            pass
-    return []
+    return lifecycle.safe_read_json(custom_posts_file, [])
 
 def save_custom_posts(posts_list):
-    try:
-        custom_posts_file = os.path.join(DATA_DIR, 'custom_posts.json')
-        with open(custom_posts_file, 'w', encoding='utf-8') as f:
-            json.dump(posts_list, f, indent=2)
-    except Exception as e:
-        print(f"Notice: local custom_posts.json write skipped ({e})")
+    custom_posts_file = os.path.join(DATA_DIR, 'custom_posts.json')
+    lifecycle.safe_write_json(custom_posts_file, posts_list)
 
 def load_all_active_posts():
     deleted_slugs = get_deleted_post_slugs()

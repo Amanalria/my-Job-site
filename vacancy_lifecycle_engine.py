@@ -12,6 +12,13 @@ PAGES_DIR = os.path.join(BASE_DIR, 'pages')
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 RAW_CLONE_DIR = os.path.join(BASE_DIR, 'raw_clone/pages')
 SETTINGS_FILE = os.path.join(DATA_DIR, 'settings.json')
+TMP_DATA_DIR = '/tmp/sarkari_data'
+
+# Ensure tmp dir exists
+try:
+    os.makedirs(TMP_DATA_DIR, exist_ok=True)
+except Exception:
+    pass
 
 MONTH_MAP = {
     'jan': 1, 'january': 1,
@@ -27,6 +34,61 @@ MONTH_MAP = {
     'nov': 11, 'november': 11,
     'dec': 12, 'december': 12
 }
+
+def safe_read_json(filepath, default_value=None):
+    filename = os.path.basename(filepath)
+    tmp_path = os.path.join(TMP_DATA_DIR, filename)
+    
+    # Check /tmp first for serverless updated copies
+    if os.path.exists(tmp_path):
+        try:
+            with open(tmp_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            pass
+
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            pass
+
+    return default_value if default_value is not None else []
+
+def safe_write_json(filepath, data):
+    # 1. Attempt writing to target file
+    written = False
+    try:
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2)
+        written = True
+    except (OSError, IOError) as e:
+        # Read-only filesystem on Vercel / AWS Lambda
+        pass
+
+    # 2. Also write to /tmp cache for serverless persistence across warm requests
+    try:
+        os.makedirs(TMP_DATA_DIR, exist_ok=True)
+        filename = os.path.basename(filepath)
+        tmp_path = os.path.join(TMP_DATA_DIR, filename)
+        with open(tmp_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2)
+        written = True
+    except Exception:
+        pass
+
+    return written
+
+def safe_delete_file(filepath):
+    try:
+        if os.path.exists(filepath):
+            os.remove(filepath)
+            return True
+    except (OSError, IOError):
+        # Read-only FS on serverless
+        pass
+    return False
 
 def parse_date_string(date_str):
     if not date_str or not isinstance(date_str, str):
@@ -80,27 +142,15 @@ def load_lifecycle_settings():
         "last_run_timestamp": None,
         "last_purged_posts": []
     }
-    if os.path.exists(SETTINGS_FILE):
-        try:
-            with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
-                saved = json.load(f)
-                lifecycle_config = saved.get('lifecycle_config', {})
-                default_settings.update(lifecycle_config)
-        except Exception:
-            pass
+    saved = safe_read_json(SETTINGS_FILE, {})
+    lifecycle_config = saved.get('lifecycle_config', {})
+    default_settings.update(lifecycle_config)
     return default_settings
 
 def save_lifecycle_settings(config):
-    try:
-        saved = {}
-        if os.path.exists(SETTINGS_FILE):
-            with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
-                saved = json.load(f)
-        saved['lifecycle_config'] = config
-        with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(saved, f, indent=2)
-    except Exception as e:
-        print(f"Error saving lifecycle settings: {e}")
+    saved = safe_read_json(SETTINGS_FILE, {})
+    saved['lifecycle_config'] = config
+    safe_write_json(SETTINGS_FILE, saved)
 
 def run_git_sync(commit_msg):
     try:
@@ -159,11 +209,12 @@ def audit_and_execute_lifecycle():
     all_posts_file = os.path.join(DATA_DIR, 'all_posts.json')
     category_data_file = os.path.join(DATA_DIR, 'category_data.json')
 
-    if not os.path.exists(custom_posts_file):
-        return {"status": "no_posts", "message": "No posts found."}
+    posts = safe_read_json(custom_posts_file, [])
+    if not posts:
+        posts = safe_read_json(all_posts_file, [])
 
-    with open(custom_posts_file, 'r', encoding='utf-8') as f:
-        posts = json.load(f)
+    if not posts:
+        return {"status": "no_posts", "message": "No posts found."}
 
     purged_slugs = []
     updated_posts = []
@@ -210,17 +261,8 @@ def audit_and_execute_lifecycle():
                     "days_ago": abs(days_remaining)
                 })
 
-                if os.path.exists(html_file):
-                    try:
-                        os.remove(html_file)
-                    except Exception:
-                        pass
-                raw_file = os.path.join(RAW_CLONE_DIR, f"{slug}.html")
-                if os.path.exists(raw_file):
-                    try:
-                        os.remove(raw_file)
-                    except Exception:
-                        pass
+                safe_delete_file(html_file)
+                safe_delete_file(os.path.join(RAW_CLONE_DIR, f"{slug}.html"))
                 continue
 
             elif days_remaining < 0:
@@ -280,12 +322,9 @@ def audit_and_execute_lifecycle():
         sorted_all_posts.extend(active_posts_by_category[cat])
     sorted_all_posts.sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
 
-    # Save to custom_posts.json and all_posts.json
-    with open(custom_posts_file, 'w', encoding='utf-8') as f:
-        json.dump(sorted_all_posts, f, indent=2)
-
-    with open(all_posts_file, 'w', encoding='utf-8') as f:
-        json.dump(sorted_all_posts, f, indent=2)
+    # Save to custom_posts.json and all_posts.json (Vercel-safe)
+    safe_write_json(custom_posts_file, sorted_all_posts)
+    safe_write_json(all_posts_file, sorted_all_posts)
 
     # Save category_data.json
     cat_data = {}
@@ -302,8 +341,7 @@ def audit_and_execute_lifecycle():
                 'lifecycle_state': p.get('lifecycle_state', 'ACTIVE')
             })
 
-    with open(category_data_file, 'w', encoding='utf-8') as f:
-        json.dump(cat_data, f, indent=2)
+    safe_write_json(category_data_file, cat_data)
 
     # Update Homepage Category Boxes in pages/index.html & original_index.html
     category_column_map = {
@@ -344,11 +382,14 @@ def audit_and_execute_lifecycle():
                             li.append(BeautifulSoup(link_markup, 'html.parser'))
                             ul.append(li)
 
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(str(soup))
-            print(f" [OK] Synced homepage boxes with blinking badges: {filepath}")
+            try:
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(str(soup))
+            except (OSError, IOError):
+                # Read-only filesystem on Vercel
+                pass
         except Exception as e:
-            print(f"Error updating {filepath}: {e}")
+            print(f"Notice: Homepage box sync ({e})")
 
     sync_homepage_boxes(os.path.join(PAGES_DIR, 'index.html'))
     sync_homepage_boxes(os.path.join(BASE_DIR, 'original_index.html'))
