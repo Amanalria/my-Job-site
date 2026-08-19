@@ -194,34 +194,38 @@ def get_nav_search_styles_html():
     return """<style id="st-nav-search-styles">
 .main-navigation {
     background-color: #0b213f !important;
-    position: relative;
-    z-index: 99999;
-    clear: both;
+    position: relative !important;
+    z-index: 99999 !important;
+    clear: both !important;
+    width: 100% !important;
 }
 .main-navigation .inside-navigation {
     display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 12px;
-    min-height: 46px;
-    position: relative;
-    box-sizing: border-box;
+    align-items: center !important;
+    justify-content: space-between !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 12px !important;
+    min-height: 46px !important;
+    position: relative !important;
+    box-sizing: border-box !important;
 }
 .main-navigation .menu-toggle {
     display: none;
-    background: transparent;
-    border: none;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    padding: 10px 4px;
-    align-items: center;
-    gap: 8px;
-    line-height: 1;
-    text-transform: capitalize;
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    padding: 10px 4px !important;
+    align-items: center !important;
+    gap: 8px !important;
+    line-height: 1 !important;
+    text-transform: capitalize !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation !important;
+    pointer-events: auto !important;
 }
 .main-navigation .menu-toggle:focus {
     outline: none;
@@ -555,67 +559,81 @@ def get_search_modal_html():
 def get_gp_scripts_html():
     return """<script id="st-nav-search-scripts">
 (function() {
-    function initStudyTopperNavSearch() {
-        var menuBtn = document.querySelector('.menu-toggle');
+    function initStudyTopperNavigation() {
         var siteNav = document.getElementById('site-navigation');
+        var menuBtn = document.querySelector('.menu-toggle');
         var mainNav = document.getElementById('primary-menu');
+        var searchModal = document.getElementById('gp-search');
 
-        // Toggle Main Mobile Navigation
-        if (menuBtn && siteNav) {
-            menuBtn.onclick = function(e) {
+        if (!siteNav || !menuBtn) return;
+        if (siteNav.dataset.stNavInitialized === 'true') return;
+        siteNav.dataset.stNavInitialized = 'true';
+
+        // 1. Mobile Hamburger Menu Toggle
+        function handleMenuToggle(e) {
+            if (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var isToggled = siteNav.classList.toggle('toggled');
-                menuBtn.setAttribute('aria-expanded', isToggled ? 'true' : 'false');
-                if (mainNav) {
-                    mainNav.style.display = isToggled ? 'block' : '';
-                }
-            };
+            }
+            var isCurrentlyToggled = siteNav.classList.contains('toggled');
+            if (isCurrentlyToggled) {
+                siteNav.classList.remove('toggled');
+                menuBtn.setAttribute('aria-expanded', 'false');
+                if (mainNav) mainNav.style.display = 'none';
+            } else {
+                siteNav.classList.add('toggled');
+                menuBtn.setAttribute('aria-expanded', 'true');
+                if (mainNav) mainNav.style.display = 'block';
+            }
         }
 
-        // Toggle 'More' Submenu on Click / Tap
-        var subMenuParents = document.querySelectorAll('.menu-item-has-children');
-        subMenuParents.forEach(function(parentLi) {
-            var triggerLink = parentLi.querySelector('a');
-            var subMenu = parentLi.querySelector('.sub-menu');
-            var arrowToggle = parentLi.querySelector('.dropdown-menu-toggle');
+        menuBtn.addEventListener('click', handleMenuToggle, true);
+        menuBtn.addEventListener('touchend', handleMenuToggle, true);
 
-            function toggleSubMenu(e) {
+        // 2. 'More' / Submenu Dropdown Controller
+        var moreParents = document.querySelectorAll('.menu-item-has-children');
+        moreParents.forEach(function(parentLi) {
+            var toggleLink = parentLi.querySelector('a');
+            var subMenu = parentLi.querySelector('.sub-menu');
+            var arrowSvg = parentLi.querySelector('.dropdown-menu-toggle svg');
+
+            function toggleDropdown(e) {
                 if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var isOpen = parentLi.classList.toggle('sub-menu-open');
-                    parentLi.classList.toggle('sfHover', isOpen);
-                    if (subMenu) {
-                        subMenu.style.display = isOpen ? 'block' : 'none';
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
                     }
-                    var arrowSvg = parentLi.querySelector('.dropdown-menu-toggle svg');
-                    if (arrowSvg) {
-                        arrowSvg.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+                    var isOpen = parentLi.classList.contains('sub-menu-open');
+                    if (isOpen) {
+                        parentLi.classList.remove('sub-menu-open', 'sfHover');
+                        if (subMenu) subMenu.style.display = 'none';
+                        if (arrowSvg) arrowSvg.style.transform = 'rotate(0deg)';
+                    } else {
+                        parentLi.classList.add('sub-menu-open', 'sfHover');
+                        if (subMenu) subMenu.style.display = 'block';
+                        if (arrowSvg) arrowSvg.style.transform = 'rotate(180deg)';
                     }
                 }
             }
 
-            if (triggerLink) {
-                triggerLink.addEventListener('click', toggleSubMenu);
-            }
-            if (arrowToggle && arrowToggle !== triggerLink) {
-                arrowToggle.addEventListener('click', toggleSubMenu);
+            if (toggleLink) {
+                toggleLink.addEventListener('click', toggleDropdown, true);
+                toggleLink.addEventListener('touchend', toggleDropdown, true);
             }
         });
 
-        // Search Modal Controller
-        var searchTriggers = document.querySelectorAll('[data-gpmodal-trigger="gp-search"], .icon-search, a[aria-controls="gp-search"]');
-        var searchModal = document.getElementById('gp-search');
-
+        // 3. Search Modal Controller
         function openSearch(e) {
-            if (e) { e.preventDefault(); e.stopPropagation(); }
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             if (searchModal) {
                 searchModal.classList.add('gp-modal--open');
                 searchModal.style.display = 'flex';
-                var input = searchModal.querySelector('input[name="q"], input[type="search"]');
-                if (input) {
-                    setTimeout(function() { input.focus(); }, 80);
+                var inp = searchModal.querySelector('input[name="q"], input[type="search"]');
+                if (inp) {
+                    setTimeout(function() { inp.focus(); }, 60);
                 }
             }
         }
@@ -627,8 +645,10 @@ def get_gp_scripts_html():
             }
         }
 
-        searchTriggers.forEach(function(btn) {
-            btn.addEventListener('click', openSearch);
+        var searchBtns = document.querySelectorAll('[data-gpmodal-trigger="gp-search"], .icon-search, a[aria-controls="gp-search"]');
+        searchBtns.forEach(function(btn) {
+            btn.addEventListener('click', openSearch, true);
+            btn.addEventListener('touchend', openSearch, true);
         });
 
         if (searchModal) {
@@ -640,13 +660,13 @@ def get_gp_scripts_html():
 
             var form = searchModal.querySelector('form');
             if (form) {
-                form.onsubmit = function(e) {
+                form.addEventListener('submit', function(e) {
                     var inp = form.querySelector('input[name="q"], input[type="search"]');
                     if (inp && inp.value.trim()) {
                         window.location.href = '/search?q=' + encodeURIComponent(inp.value.trim());
-                        return false;
+                        e.preventDefault();
                     }
-                };
+                });
             }
         }
 
@@ -658,9 +678,9 @@ def get_gp_scripts_html():
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initStudyTopperNavSearch);
+        document.addEventListener('DOMContentLoaded', initStudyTopperNavigation);
     } else {
-        initStudyTopperNavSearch();
+        initStudyTopperNavigation();
     }
 })();
 </script>"""
