@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Auto-Lifecycle &amp; Expiry Manager ‹ {{ settings.site_name }} — WordPress Classic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dashicons/0.9.0/css/dashicons.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #f0f0f1; color: #3c434a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 13px; line-height: 1.4em; min-height: 100vh; display: flex; }
+
+        .wp-sidebar { width: 160px; background: #1d2327; color: #fff; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 999; transition: transform 0.3s ease; }
+        .wp-brand { padding: 12px 16px; font-size: 14px; font-weight: 700; color: #fff; background: #2271b1; display: flex; align-items: center; gap: 8px; }
+        .wp-menu { list-style: none; margin: 10px 0; }
+        .wp-menu li a { display: flex; align-items: center; gap: 8px; padding: 8px 14px; color: #c3c4c7; text-decoration: none; font-size: 13px; transition: 0.1s; }
+        .wp-menu li a:hover, .wp-menu li a.active { background: #2271b1; color: #fff; }
+        .wp-menu-separator { height: 1px; background: #3c434a; margin: 8px 0; }
+
+        .wp-mobile-bar { display: none; background: #1d2327; color: #fff; padding: 10px 16px; width: 100%; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; z-index: 1000; height: 50px; }
+        .wp-hamburger { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+        .wp-sidebar-backdrop { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 998; }
+
+        .wp-main { flex: 1; padding: 25px 30px; overflow-y: auto; }
+        .wp-heading-inline { font-size: 23px; font-weight: 400; line-height: 1.3; color: #1d2327; margin-bottom: 20px; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 25px; }
+        .stat-card { background: #fff; border: 1px solid #c3c4c7; padding: 16px; box-shadow: 0 1px 1px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 15px; border-radius: 4px; }
+        .stat-icon { font-size: 28px; width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .stat-val { font-size: 22px; font-weight: 700; color: #1d2327; line-height: 1; }
+        .stat-lbl { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+        .postbox { background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,0.04); padding: 20px; margin-bottom: 20px; border-radius: 4px; }
+        .postbox h2 { font-size: 15px; font-weight: 600; color: #1d2327; margin-bottom: 15px; border-bottom: 1px solid #f0f0f1; padding-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 13px; }
+        .wp-input { width: 100%; padding: 7px 10px; border: 1px solid #8c8f94; border-radius: 3px; font-size: 13px; }
+        .wp-input:focus { border-color: #2271b1; outline: none; }
+        .form-help { font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4; }
+
+        .btn-wp { display: inline-flex; align-items: center; gap: 6px; background: #2271b1; color: #fff; padding: 8px 16px; border-radius: 3px; font-size: 13px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; }
+        .btn-wp:hover { background: #135e96; }
+        .btn-success { background: #10b981; }
+        .btn-success:hover { background: #059669; }
+        .btn-danger { background: #ef4444; }
+        .btn-danger:hover { background: #dc2626; }
+
+        .badge-state { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .badge-urgent { background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; }
+        .badge-active { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+        .badge-expired { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+        .wp-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .wp-table th, .wp-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f0f0f1; font-size: 13px; }
+        .wp-table th { background: #f8fafc; font-weight: 600; color: #1e293b; }
+        .wp-table tr:hover { background: #f8fafc; }
+
+        @media (max-width: 768px) {
+            body { display: block; padding-top: 50px; }
+            .wp-mobile-bar { display: flex; }
+            .wp-sidebar { position: fixed; top: 0; left: 0; height: 100vh; transform: translateX(-100%); width: 220px; }
+            .wp-sidebar.open { transform: translateX(0); }
+            .wp-sidebar-backdrop.open { display: block; }
+            .wp-main { padding: 15px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .wp-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wp-mobile-bar">
+        <button class="wp-hamburger" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+        <span style="font-weight:700; font-size:14px;">⚡ Auto-Lifecycle Manager</span>
+        <a href="/" target="_blank" style="color:#fff; text-decoration:none;"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    </div>
+    <div class="wp-sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+    <div class="wp-sidebar" id="wpSidebar">
+        <div class="wp-brand"><i class="fa-brands fa-wordpress"></i> {{ settings.site_name }}</div>
+        <ul class="wp-menu">
+            <li><a href="/admin/dashboard"><i class="dashicons dashicons-dashboard"></i> Dashboard</a></li>
+            <li class="wp-menu-separator"></li>
+            <li><a href="/admin/posts"><i class="dashicons dashicons-admin-post"></i> All Posts</a></li>
+            <li><a href="/admin/posts/new"><i class="dashicons dashicons-plus-alt"></i> Add New</a></li>
+            <li><a href="/admin/categories"><i class="dashicons dashicons-category"></i> Categories</a></li>
+            <li><a href="/admin/lifecycle" class="active"><i class="dashicons dashicons-backup"></i> Auto-Lifecycle</a></li>
+            <li class="wp-menu-separator"></li>
+            <li><a href="/admin/settings"><i class="dashicons dashicons-admin-settings"></i> SEO &amp; Settings</a></li>
+            <li><a href="/alria"><i class="dashicons dashicons-edit"></i> Visual /alria</a></li>
+            <li><a href="/ads.txt" target="_blank"><i class="dashicons dashicons-media-text"></i> ads.txt</a></li>
+            <li><a href="/sitemap.xml" target="_blank"><i class="dashicons dashicons-networking"></i> sitemap.xml</a></li>
+            <li class="wp-menu-separator"></li>
+            <li><a href="/" target="_blank"><i class="dashicons dashicons-admin-site"></i> Visit Site</a></li>
+        </ul>
+    </div>
+
+    <div class="wp-main">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:20px;">
+            <div>
+                <h1 class="wp-heading-inline" style="margin-bottom:4px;">Automated Vacancy Lifecycle Engine</h1>
+                <p style="color:#64748b; font-size:12px;">Auto-sorts closing vacancies to top, demotes expired posts, and purges after 1 day grace period with automatic GitHub sync.</p>
+            </div>
+            <button class="btn-wp btn-success" onclick="runLifecycleAuditNow()" id="auditBtn">
+                <i class="dashicons dashicons-update"></i> Run Audit &amp; Cleanup Now
+            </button>
+        </div>
+
+        <!-- Live Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#dbeafe; color:#1d4ed8;"><i class="fa-solid fa-briefcase"></i></div>
+                <div>
+                    <div class="stat-val" id="statTotal">{{ total_posts }}</div>
+                    <div class="stat-lbl">Active Posts</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#fee2e2; color:#b91c1c;"><i class="fa-solid fa-fire"></i></div>
+                <div>
+                    <div class="stat-val" id="statUrgent" style="color:#b91c1c;">{{ urgent_count }}</div>
+                    <div class="stat-lbl">Urgent (Closing Soon &lt;= 3 Days)</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#f1f5f9; color:#64748b;"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                <div>
+                    <div class="stat-val" id="statExpired">{{ expired_count }}</div>
+                    <div class="stat-lbl">Expired (Demoted to Bottom)</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#dcfce7; color:#15803d;"><i class="fa-brands fa-github"></i></div>
+                <div>
+                    <div class="stat-val" style="color:#15803d;">Active</div>
+                    <div class="stat-lbl">Auto GitHub Sync Enabled</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Automation Settings Box -->
+        <div class="postbox">
+            <h2>⚙️ Lifecycle Automation Rules &amp; Schedule</h2>
+            <form id="lifecycleConfigForm" onsubmit="saveLifecycleConfig(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Enable Automated Lifecycle Engine</label>
+                        <select class="wp-input" id="cfgEnabled">
+                            <option value="true" {% if config.lifecycle_enabled %}selected{% endif %}>Active (Runs Background Daemon Every 60 Mins)</option>
+                            <option value="false" {% if not config.lifecycle_enabled %}selected{% endif %}>Disabled</option>
+                        </select>
+                        <div class="form-help">Automatically moves closing vacancies to the top of categories and homepage.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Urgent Pinning Window (Days Before Last Date)</label>
+                        <input type="number" class="wp-input" id="cfgUrgentDays" value="{{ config.urgent_days_threshold }}" min="1" max="15">
+                        <div class="form-help">When a vacancy has &le; this number of days left, it pins to the top with an urgent badge.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Expired Post Grace Period (Days Before Permanent Deletion)</label>
+                        <input type="number" class="wp-input" id="cfgGraceDays" value="{{ config.expired_grace_period_days }}" min="1" max="30">
+                        <div class="form-help">Number of days an expired post remains at the bottom before getting completely purged from site &amp; GitHub.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Auto GitHub Sync on Post Purge</label>
+                        <select class="wp-input" id="cfgGitSync">
+                            <option value="true" {% if config.auto_git_sync %}selected{% endif %}>Enabled (Auto Git Commit &amp; Push on Delete)</option>
+                            <option value="false" {% if not config.auto_git_sync %}selected{% endif %}>Disabled</option>
+                        </select>
+                        <div class="form-help">Automatically pushes deletions and updates to your GitHub repository.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Auto-Detect Date Extension Notices</label>
+                        <select class="wp-input" id="cfgAutoExt">
+                            <option value="true" {% if config.auto_detect_date_extension %}selected{% endif %}>Enabled (Auto-scans extended date notices)</option>
+                            <option value="false" {% if not config.auto_detect_date_extension %}selected{% endif %}>Disabled</option>
+                        </select>
+                        <div class="form-help">Automatically updates last date and recalculates ranking when date extensions are published.</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:15px; display:flex; gap:10px; align-items:center;">
+                    <button type="submit" class="btn-wp"><i class="dashicons dashicons-saved"></i> Save Lifecycle Settings</button>
+                    <span id="saveStatus" style="font-size:12px; font-weight:600; color:#10b981;"></span>
+                </div>
+            </form>
+        </div>
+
+        <!-- Post Status Matrix -->
+        <div class="postbox">
+            <h2>
+                <span>📋 Live Vacancy Tracking &amp; State Matrix</span>
+                <span style="font-size:12px; font-weight:normal; color:#64748b;">Last Evaluated: {{ config.last_run_timestamp or 'Just Now' }}</span>
+            </h2>
+
+            <table class="wp-table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Vacancy / Post Title</th>
+                        <th>Category</th>
+                        <th>Application Last Date</th>
+                        <th>Days Left</th>
+                        <th>Priority Rank</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in posts %}
+                    <tr>
+                        <td>
+                            {% if p.lifecycle_state == 'URGENT_PINNED' %}
+                                <span class="badge-state badge-urgent"><i class="fa-solid fa-fire"></i> {{ p.lifecycle_badge or 'Urgent' }}</span>
+                            {% elif p.lifecycle_state == 'EXPIRED_DEMOTED' %}
+                                <span class="badge-state badge-expired"><i class="fa-solid fa-ban"></i> Closed</span>
+                            {% else %}
+                                <span class="badge-state badge-active"><i class="fa-solid fa-check"></i> Active</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <strong><a href="/{{ p.slug }}/" target="_blank" style="color:#2271b1; text-decoration:none;">{{ p.title }}</a></strong>
+                            <div style="font-size:11px; color:#64748b;">Slug: /{{ p.slug }}/</div>
+                        </td>
+                        <td><span style="background:#f1f5f9; padding:2px 6px; border-radius:3px; font-size:11px;">{{ p.category }}</span></td>
+                        <td><strong>{{ p.application_last_date or 'Open / Ongoing' }}</strong></td>
+                        <td>
+                            {% if p.days_remaining is not none %}
+                                {% if p.days_remaining < 0 %}
+                                    <span style="color:#ef4444; font-weight:700;">Expired ({{ p.days_remaining|abs }}d ago)</span>
+                                {% elif p.days_remaining <= 3 %}
+                                    <span style="color:#b91c1c; font-weight:700;">{{ p.days_remaining }} Days Left</span>
+                                {% else %}
+                                    <span style="color:#15803d;">{{ p.days_remaining }} Days</span>
+                                {% endif %}
+                            {% else %}
+                                <span style="color:#64748b;">—</span>
+                            {% endif %}
+                        </td>
+                        <td><code>{{ p.sort_priority or 50 }}</code></td>
+                        <td>
+                            <a href="/admin/posts/edit/{{ p.id }}" class="btn-wp" style="padding:4px 8px; font-size:11px;"><i class="dashicons dashicons-edit"></i> Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('wpSidebar').classList.toggle('open');
+            document.getElementById('sidebarBackdrop').classList.toggle('open');
+        }
+
+        async function saveLifecycleConfig(e) {
+            e.preventDefault();
+            const payload = {
+                lifecycle_enabled: document.getElementById('cfgEnabled').value === 'true',
+                urgent_days_threshold: parseInt(document.getElementById('cfgUrgentDays').value) || 3,
+                expired_grace_period_days: parseInt(document.getElementById('cfgGraceDays').value) || 1,
+                auto_git_sync: document.getElementById('cfgGitSync').value === 'true',
+                auto_detect_date_extension: document.getElementById('cfgAutoExt').value === 'true'
+            };
+
+            const res = await fetch('/api/admin/lifecycle-save-config', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            const statusSpan = document.getElementById('saveStatus');
+            if (data.success) {
+                statusSpan.innerText = '✓ Settings Saved & Applied!';
+                setTimeout(() => statusSpan.innerText = '', 3000);
+            }
+        }
+
+        async function runLifecycleAuditNow() {
+            const btn = document.getElementById('auditBtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Running Audit...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/admin/lifecycle-run', {method: 'POST'});
+                const data = await res.json();
+                if (data.status === 'success') {
+                    alert(`Lifecycle Audit Completed Successfully!\n- Active Posts: ${data.total_active_posts}\n- Purged Posts: ${data.purged_count}\n- GitHub Synced: ${data.git_synced ? 'Yes' : 'No'}`);
+                    window.location.reload();
+                } else {
+                    alert('Audit message: ' + (data.message || 'Complete'));
+                }
+            } catch (err) {
+                alert('Error running audit: ' + err);
+            } finally {
+                btn.innerHTML = '<i class="dashicons dashicons-update"></i> Run Audit & Cleanup Now';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

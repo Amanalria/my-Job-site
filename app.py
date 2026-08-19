@@ -3,6 +3,7 @@ import os
 import re
 import json
 import uuid
+import vacancy_lifecycle_engine as lifecycle
 from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
@@ -2601,6 +2602,39 @@ def admin_settings():
     settings = load_settings()
     return render_template('admin/settings.html', settings=settings)
 
+@app.route('/admin/lifecycle')
+def admin_lifecycle():
+    settings = load_settings()
+    config = lifecycle.load_lifecycle_settings()
+    custom_posts = load_custom_posts()
+    
+    urgent_count = sum(1 for p in custom_posts if p.get('lifecycle_state') == 'URGENT_PINNED')
+    expired_count = sum(1 for p in custom_posts if p.get('lifecycle_state') == 'EXPIRED_DEMOTED')
+    
+    return render_template(
+        'admin/lifecycle.html',
+        settings=settings,
+        config=config,
+        posts=custom_posts,
+        total_posts=len(custom_posts),
+        urgent_count=urgent_count,
+        expired_count=expired_count
+    )
+
+@app.route('/api/admin/lifecycle-run', methods=['POST'])
+def api_lifecycle_run():
+    res = lifecycle.audit_and_execute_lifecycle()
+    return jsonify(res)
+
+@app.route('/api/admin/lifecycle-save-config', methods=['POST'])
+def api_lifecycle_save_config():
+    data = request.get_json(silent=True) or {}
+    config = lifecycle.load_lifecycle_settings()
+    config.update(data)
+    lifecycle.save_lifecycle_settings(config)
+    res = lifecycle.audit_and_execute_lifecycle()
+    return jsonify({"success": True, "config": config, "audit": res})
+
 # ==================== API ADMIN ENDPOINTS ====================
 
 @app.route('/api/admin/save-settings', methods=['GET', 'POST'])
@@ -2819,7 +2853,17 @@ if __name__ == '__main__':
     print(" - robots.txt:            http://127.0.0.1:9093/robots.txt")
     print(" - sitemap.xml:           http://127.0.0.1:9093/sitemap.xml")
     print(" - Admin Dashboard:       http://127.0.0.1:9093/admin/dashboard")
+    print(" - Auto-Lifecycle Engine: http://127.0.0.1:9093/admin/lifecycle")
     print(" - Category Manager:      http://127.0.0.1:9093/admin/categories")
     print(" - SEO & Settings:        http://127.0.0.1:9093/admin/settings")
     print("===================================================================")
+    
+    # Initialize and start automated vacancy lifecycle background worker
+    try:
+        lifecycle.start_lifecycle_background_daemon(interval_minutes=60)
+        lifecycle.audit_and_execute_lifecycle()
+        print(" [OK] Automated Vacancy Lifecycle Background Daemon Started!")
+    except Exception as e:
+        print(f"Notice: Lifecycle startup warning ({e})")
+
     app.run(host='0.0.0.0', port=9093, debug=False)
