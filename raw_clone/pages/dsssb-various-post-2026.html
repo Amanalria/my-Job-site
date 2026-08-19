@@ -145,7 +145,7 @@ p{margin-bottom:0em;}
 
 span.custom-post-time {
     font-family: Times New Roman;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     text-align: left;
     margin-left: 3px;
@@ -275,7 +275,7 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
     background: transparent !important;
     border: none !important;
     color: #ffffff !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
     font-weight: 700 !important;
     cursor: pointer !important;
     padding: 10px 4px !important;
@@ -418,20 +418,33 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
     background-color: #07162c !important;
 }
 
-/* Mobile Responsive */
+/* Mobile Responsive - Compact Original Sarkari Result Style */
 @media (max-width: 768px) {
     .main-navigation .inside-navigation {
         flex-wrap: wrap !important;
-        padding: 0 10px !important;
+        padding: 0 8px !important;
+        min-height: 38px !important;
+        height: auto !important;
     }
     .main-navigation .menu-toggle {
         display: flex !important;
+        padding: 6px 4px !important;
+        font-size: 14px !important;
+        line-height: 1 !important;
+        min-height: 38px !important;
+        height: auto !important;
+    }
+    .main-navigation .menu-toggle .gp-icon svg {
+        width: 16px !important;
+        height: 16px !important;
     }
     .main-navigation .main-nav {
         display: none !important;
         width: 100% !important;
         order: 3 !important;
-        background-color: #0b213f !important;
+        background-color: #05055f !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     .main-navigation.toggled .main-nav {
         display: block !important;
@@ -440,33 +453,64 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
         flex-direction: column !important;
         width: 100% !important;
         align-items: stretch !important;
-        border-top: 1px solid rgba(255,255,255,0.1) !important;
+        border-top: 1px solid rgba(255,255,255,0.08) !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     .main-navigation .main-nav ul.menu > li {
         width: 100% !important;
-        border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: relative !important;
     }
     .main-navigation .main-nav ul.menu > li > a {
-        padding: 13px 16px !important;
-        font-size: 15px !important;
+        padding: 7px 12px !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        line-height: 1.25 !important;
+        min-height: unset !important;
+        height: auto !important;
+        display: flex !important;
+        align-items: center !important;
         justify-content: space-between !important;
+        text-decoration: none !important;
+        color: #ffffff !important;
+    }
+    .main-navigation .main-nav ul.menu > li.current-menu-item > a {
+        background-color: #070763 !important;
     }
     .main-navigation ul.sub-menu {
         position: static !important;
         box-shadow: none !important;
-        background-color: #07162c !important;
+        background-color: #04044a !important;
         padding: 0 !important;
+        margin: 0 !important;
         border-top: none !important;
         display: none !important;
+        width: 100% !important;
     }
     .main-navigation .main-nav ul.menu > li.sfHover > ul.sub-menu,
-    .main-navigation .main-nav ul.menu > li.sub-menu-open > ul.sub-menu {
+    .main-navigation .main-nav ul.menu > li.sub-menu-open > ul.sub-menu,
+    .main-navigation ul.sub-menu.sub-menu-open {
         display: block !important;
     }
+    .main-navigation ul.sub-menu li {
+        border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
     .main-navigation ul.sub-menu li a {
-        padding-left: 32px !important;
-        font-size: 14px !important;
-        background: #061325 !important;
+        padding: 6.5px 12px 6.5px 24px !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        line-height: 1.25 !important;
+        background: #04044a !important;
+        min-height: unset !important;
+        height: auto !important;
+        display: block !important;
+        color: #ffffff !important;
     }
 }
 
@@ -592,6 +636,8 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
 <li class="menu-item menu-item-has-children">
 <a aria-expanded="false" href="javascript:void(0);" role="button">More<span class="dropdown-menu-toggle" role="presentation"><span class="gp-icon icon-arrow"><svg aria-hidden="true" height="1em" viewbox="0 0 330 512" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M305.913 197.085c0 2.266-1.133 4.815-2.833 6.514L171.087 335.593c-1.7 1.7-4.249 2.832-6.515 2.832s-4.815-1.133-6.515-2.832L26.064 203.599c-1.7-1.7-2.832-4.248-2.832-6.514s1.132-4.816 2.832-6.515l14.162-14.163c1.7-1.699 3.966-2.832 6.515-2.832 2.266 0 4.815 1.133 6.515 2.832l111.316 111.317 111.316-111.317c1.7-1.699 4.249-2.832 6.515-2.832s4.815 1.133 6.515 2.832l14.162 14.163c1.7 1.7 2.833 4.249 2.833 6.515z"></path></svg></span></span></a>
 <ul class="sub-menu">
+<li class="menu-item"><a href="/important/">Important</a></li>
+<li class="menu-item"><a href="/certificate-verification/">Certificate Verification</a></li>
 <li class="menu-item"><a href="/contact/">Contact Us</a></li>
 <li class="menu-item"><a href="/privacy-policy/">Privacy Policy</a></li>
 <li class="menu-item"><a href="/terms-and-conditions/">Terms &amp; Conditions</a></li>
@@ -1519,7 +1565,7 @@ document.addEventListener("DOMContentLoaded", function () {
             display: block !important;
             padding: 12px 15px !important;
             color: #ffffff !important;
-            font-size: 15px !important;
+            font-size: 14px !important;
             font-weight: 600 !important;
             text-decoration: none !important;
         }
@@ -1585,7 +1631,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .search-modal-fields input[type="search"] {
         flex: 1 !important;
         padding: 12px 16px !important;
-        font-size: 15px !important;
+        font-size: 14px !important;
         border: 2px solid #0c2340 !important;
         border-radius: 4px !important;
         outline: none !important;
@@ -1642,11 +1688,15 @@ var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Su
         var searchModal = document.getElementById('gp-search');
 
         if (!siteNav || !menuBtn) return;
-        if (siteNav.dataset.stNavInitialized === 'true') return;
-        siteNav.dataset.stNavInitialized = 'true';
+        if (siteNav.dataset.stNavV2Initialized === 'true') return;
+        siteNav.dataset.stNavV2Initialized = 'true';
 
         // 1. Mobile Hamburger Menu Toggle
+        var lastMenuToggleTs = 0;
         function handleMenuToggle(e) {
+            var now = Date.now();
+            if (now - lastMenuToggleTs < 250) return;
+            lastMenuToggleTs = now;
             if (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1663,38 +1713,50 @@ var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Su
             }
         }
 
-        menuBtn.addEventListener('click', handleMenuToggle, true);
-        menuBtn.addEventListener('touchend', handleMenuToggle, true);
+        menuBtn.addEventListener('click', handleMenuToggle);
 
         // 2. 'More' / Submenu Dropdown Controller
         var moreParents = document.querySelectorAll('.menu-item-has-children');
         moreParents.forEach(function(parentLi) {
-            var toggleLink = parentLi.querySelector('a');
-            var subMenu = parentLi.querySelector('.sub-menu');
-            var arrowSvg = parentLi.querySelector('.dropdown-menu-toggle svg');
+            var toggleLink = parentLi.querySelector(':scope > a') || parentLi.querySelector('a');
+            var subMenu = parentLi.querySelector(':scope > .sub-menu') || parentLi.querySelector('.sub-menu');
+            var arrowSvg = parentLi.querySelector('.dropdown-menu-toggle svg') || parentLi.querySelector('.dropdown-menu-toggle');
+            var lastToggleTs = 0;
 
             function toggleDropdown(e) {
-                if (window.innerWidth <= 768) {
-                    if (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
+                var now = Date.now();
+                if (now - lastToggleTs < 250) return;
+                lastToggleTs = now;
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                var isOpen = parentLi.classList.contains('sub-menu-open') || (subMenu && subMenu.classList.contains('sub-menu-open'));
+                if (isOpen) {
+                    parentLi.classList.remove('sub-menu-open', 'sfHover');
+                    if (toggleLink) toggleLink.setAttribute('aria-expanded', 'false');
+                    if (subMenu) {
+                        subMenu.classList.remove('sub-menu-open');
+                        subMenu.style.setProperty('display', 'none', 'important');
                     }
-                    var isOpen = parentLi.classList.contains('sub-menu-open');
-                    if (isOpen) {
-                        parentLi.classList.remove('sub-menu-open', 'sfHover');
-                        if (subMenu) subMenu.style.display = 'none';
-                        if (arrowSvg) arrowSvg.style.transform = 'rotate(0deg)';
-                    } else {
-                        parentLi.classList.add('sub-menu-open', 'sfHover');
-                        if (subMenu) subMenu.style.display = 'block';
-                        if (arrowSvg) arrowSvg.style.transform = 'rotate(180deg)';
+                    if (arrowSvg) arrowSvg.style.transform = 'rotate(0deg)';
+                } else {
+                    parentLi.classList.add('sub-menu-open', 'sfHover');
+                    if (toggleLink) toggleLink.setAttribute('aria-expanded', 'true');
+                    if (subMenu) {
+                        subMenu.classList.add('sub-menu-open');
+                        subMenu.style.setProperty('display', 'block', 'important');
                     }
+                    if (arrowSvg) arrowSvg.style.transform = 'rotate(180deg)';
                 }
             }
 
             if (toggleLink) {
-                toggleLink.addEventListener('click', toggleDropdown, true);
-                toggleLink.addEventListener('touchend', toggleDropdown, true);
+                toggleLink.addEventListener('click', toggleDropdown);
+            }
+            var dropdownSpan = parentLi.querySelector('.dropdown-menu-toggle');
+            if (dropdownSpan && dropdownSpan !== toggleLink) {
+                dropdownSpan.addEventListener('click', toggleDropdown);
             }
         });
 
@@ -1723,8 +1785,7 @@ var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Su
 
         var searchBtns = document.querySelectorAll('[data-gpmodal-trigger="gp-search"], .icon-search, a[aria-controls="gp-search"]');
         searchBtns.forEach(function(btn) {
-            btn.addEventListener('click', openSearch, true);
-            btn.addEventListener('touchend', openSearch, true);
+            btn.addEventListener('click', openSearch);
         });
 
         if (searchModal) {
