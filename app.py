@@ -97,6 +97,20 @@ def save_single_post(post_item):
         supa.save_post_to_supabase(post_item)
 
     try:
+        from thumbnail_generator import generate_post_thumbnail
+        thumb_filename = f"{slug}.webp"
+        thumb_abs_path = os.path.join('/root/sarkari-result-portal/static/thumbnails', thumb_filename)
+        posts_badge = post_item.get('total_posts') or (post_item.get('custom_badge') if any(c.isdigit() for c in str(post_item.get('custom_badge', ''))) else '')
+        generate_post_thumbnail(
+            title=post_item.get('title', slug),
+            total_posts=str(posts_badge) if posts_badge else '',
+            category_badge=post_item.get('category', 'latest-jobs').replace('-', ' ').title(),
+            output_path=thumb_abs_path
+        )
+    except Exception as e:
+        print("Thumbnail auto-generation error in save_single_post:", e)
+
+    try:
         page_file = os.path.join(PAGES_DIR, f"{slug}.html")
         if post_item.get('html_content'):
             with open(page_file, 'w', encoding='utf-8') as f:
@@ -810,7 +824,23 @@ def render_single_post_html(post, settings):
 
     cleaned_content = clean_post_html_content(raw_content, settings)
     
-    banner_url = f"/static/images/rrc_nfr_banner_2026.jpg" if 'nfr' in slug else f"/static/images/rrb_alp_banner_2026.jpg"
+    # Dynamic WebP Post Thumbnail Generator (< 10KB)
+    try:
+        from thumbnail_generator import generate_post_thumbnail
+        thumb_filename = f"{slug}.webp"
+        thumb_abs_path = os.path.join('/root/sarkari-result-portal/static/thumbnails', thumb_filename)
+        if not os.path.exists(thumb_abs_path) or os.path.getsize(thumb_abs_path) == 0:
+            posts_badge = post.get('total_posts') or (badge_val if any(c.isdigit() for c in str(badge_val)) else '')
+            generate_post_thumbnail(
+                title=title,
+                total_posts=str(posts_badge),
+                category_badge=category_name,
+                output_path=thumb_abs_path
+            )
+        banner_url = f"/static/thumbnails/{thumb_filename}"
+    except Exception as e:
+        print("Thumbnail gen error in render_single_post_html:", e)
+        banner_url = "/static/images/studytopper_banner_base.webp"
 
     tags_list = [t.strip() for t in tags_str.split(',') if t.strip()]
     tag_chips = ''.join([f'<span class="st-tag-chip">#{t}</span>' for t in tags_list])
