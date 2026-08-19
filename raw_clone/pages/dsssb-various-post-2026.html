@@ -923,7 +923,6 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
 </div>
 </div>
 </div>
-
 <div class="site-footer">
 <div class="gb-container gb-container-7d9550dd naman_footer alignwide">
 <div class="gb-grid-wrapper gb-grid-wrapper-b76f312f">
@@ -974,7 +973,6 @@ ins.adsbygoogle[data-ad-status="unfilled"] + div,
 </form>
 </div>
 </div>
-
 <script type="speculationrules">
 {"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/generatepress/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
 </script>
@@ -1019,34 +1017,56 @@ const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(
 </script>
 <!-- Google tag (gtag.js) -->
 
-<script id="studytopper-interactive-nav-search">
+<!-- GeneratePress Authentic Menu & Search Modal Script -->
+<script>
+var generatepressMenu = {"toggleOpenedSubMenus":true,"openSubMenuLabel":"Open Sub-Menu","closeSubMenuLabel":"Close Sub-Menu"};
+</script>
+<script src="/wp-content/themes/generatepress/assets/js/menu.min.js?ver=3.5.1"></script>
+<script src="/wp-content/themes/generatepress/assets/dist/modal.js?ver=3.5.1"></script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-    // 1. Mobile Menu Toggle
+    // 1. Mobile Menu Toggle - 100% Exact GeneratePress Behavior
     var menuToggle = document.querySelector(".menu-toggle");
     var siteNav = document.getElementById("site-navigation");
+    var primaryMenu = document.getElementById("primary-menu");
+    
     if (menuToggle && siteNav) {
         menuToggle.addEventListener("click", function (e) {
             e.preventDefault();
-            var isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
-            menuToggle.setAttribute("aria-expanded", !isExpanded);
-            siteNav.classList.toggle("toggled");
+            var isToggled = siteNav.classList.contains("toggled");
+            if (isToggled) {
+                siteNav.classList.remove("toggled");
+                menuToggle.setAttribute("aria-expanded", "false");
+                if (primaryMenu) {
+                    var ul = primaryMenu.querySelector("ul");
+                    if (ul) ul.style.display = "none";
+                }
+            } else {
+                siteNav.classList.add("toggled");
+                menuToggle.setAttribute("aria-expanded", "true");
+                if (primaryMenu) {
+                    var ul = primaryMenu.querySelector("ul");
+                    if (ul) ul.style.display = "block";
+                }
+            }
         });
     }
 
-    // 2. Dropdown Sub-menu Toggle on Mobile / Click
+    // 2. Dropdown Sub-menu Toggle on Mobile
     var dropdownToggles = document.querySelectorAll(".menu-item-has-children > a, .dropdown-menu-toggle");
     dropdownToggles.forEach(function (dt) {
         dt.addEventListener("click", function (e) {
             var parentLi = dt.closest(".menu-item-has-children");
             if (parentLi && window.innerWidth < 769) {
-                if (dt.getAttribute("href") === "#" || dt.classList.contains("dropdown-menu-toggle") || dt.closest(".dropdown-menu-toggle")) {
+                var href = dt.getAttribute("href");
+                if (!href || href === "#" || dt.classList.contains("dropdown-menu-toggle") || dt.closest(".dropdown-menu-toggle")) {
                     e.preventDefault();
                 }
                 parentLi.classList.toggle("sfHover");
                 var subMenu = parentLi.querySelector(".sub-menu");
                 if (subMenu) {
                     if (subMenu.style.display === "block") {
-                        subMenu.style.display = "";
+                        subMenu.style.display = "none";
                     } else {
                         subMenu.style.display = "block";
                     }
@@ -1055,30 +1075,25 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // 3. Search Modal Trigger & Close
+    // 3. Search Modal Trigger & Submission
     var searchTriggers = document.querySelectorAll('[data-gpmodal-trigger="gp-search"], .icon-search, a[aria-controls="gp-search"]');
     var searchModal = document.getElementById("gp-search");
-    
+
     function openSearchModal(e) {
         if (e) e.preventDefault();
         if (searchModal) {
-            searchModal.classList.add("is-active", "gp-modal--open");
+            searchModal.classList.add("gp-modal--open", "is-active");
             searchModal.style.display = "flex";
-            var input = searchModal.querySelector('input[name="s"], input[type="search"]');
+            var input = searchModal.querySelector('input[name="s"], input[name="q"], input[type="search"]');
             if (input) {
-                setTimeout(function () { input.focus(); }, 100);
-            }
-        } else {
-            var q = prompt("Search Study Topper:");
-            if (q && q.trim()) {
-                window.location.href = "/search?q=" + encodeURIComponent(q.trim());
+                setTimeout(function () { input.focus(); }, 50);
             }
         }
     }
 
     function closeSearchModal(e) {
         if (searchModal) {
-            searchModal.classList.remove("is-active", "gp-modal--open");
+            searchModal.classList.remove("gp-modal--open", "is-active");
             searchModal.style.display = "none";
         }
     }
@@ -1088,27 +1103,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (searchModal) {
-        var closeTriggers = searchModal.querySelectorAll("[data-gpmodal-close], .gp-modal__close-btn");
-        closeTriggers.forEach(function (ct) {
-            ct.addEventListener("click", function (e) {
-                if (e.target === ct || ct.hasAttribute("data-gpmodal-close")) {
+        var closeBtns = searchModal.querySelectorAll("[data-gpmodal-close], .gp-modal__close-btn, .gp-modal__overlay");
+        closeBtns.forEach(function (btn) {
+            btn.addEventListener("click", function (e) {
+                if (e.target === btn || btn.hasAttribute("data-gpmodal-close") || btn.classList.contains("gp-modal__close-btn")) {
                     closeSearchModal(e);
                 }
             });
         });
-        
+
         searchModal.addEventListener("click", function (e) {
             if (e.target === searchModal || e.target.classList.contains("gp-modal__overlay")) {
                 closeSearchModal(e);
             }
         });
 
-        // Search Form Submit Handler
-        var searchForm = searchModal.querySelector("form");
-        if (searchForm) {
-            searchForm.addEventListener("submit", function (e) {
+        var form = searchModal.querySelector("form");
+        if (form) {
+            form.addEventListener("submit", function (e) {
                 e.preventDefault();
-                var input = searchForm.querySelector('input[name="s"], input[type="search"]');
+                var input = form.querySelector('input[name="s"], input[name="q"], input[type="search"]');
                 var val = input ? input.value.trim() : "";
                 if (val) {
                     window.location.href = "/search?q=" + encodeURIComponent(val);
@@ -1118,107 +1132,182 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") {
+        if (e.key === "Escape" || e.keyCode === 27) {
             closeSearchModal();
         }
     });
 });
 </script>
-<style id="studytopper-nav-search-css">
-    /* Mobile Navigation Styles */
+<style id="gp-mobile-nav-fix-css">
+    /* GeneratePress Authentic Mobile Menu Layout */
     @media (max-width: 768px) {
+        .main-navigation .inside-navigation {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            flex-wrap: wrap !important;
+            padding: 0 10px !important;
+        }
+        .main-navigation .menu-toggle {
+            display: block !important;
+            background: transparent !important;
+            color: #ffffff !important;
+            border: none !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            cursor: pointer !important;
+            padding: 10px 0 !important;
+            text-align: left !important;
+            outline: none !important;
+        }
+        .main-navigation .menu-toggle .gp-icon {
+            margin-right: 6px !important;
+            font-size: 18px !important;
+            vertical-align: middle !important;
+        }
+        .main-navigation .menu-bar-items {
+            display: flex !important;
+            align-items: center !important;
+            margin-left: auto !important;
+        }
+        .main-navigation .menu-bar-items a {
+            color: #ffffff !important;
+            font-size: 18px !important;
+            padding: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+        .main-navigation .main-nav {
+            width: 100% !important;
+            flex-basis: 100% !important;
+        }
+        .main-navigation .main-nav > ul {
+            display: none;
+            width: 100% !important;
+            background-color: #0c2340 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            list-style: none !important;
+            border-top: 1px solid rgba(255,255,255,0.15) !important;
+        }
         .main-navigation.toggled .main-nav > ul {
             display: block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
         }
-        .main-navigation:not(.toggled) .main-nav > ul {
-            display: none !important;
-        }
-        .main-navigation .main-nav ul li.sfHover > ul.sub-menu {
+        .main-navigation .main-nav > ul > li {
             display: block !important;
-            position: static !important;
             width: 100% !important;
+            text-align: left !important;
+            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        }
+        .main-navigation .main-nav > ul > li > a {
+            display: block !important;
+            padding: 12px 15px !important;
+            color: #ffffff !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+        }
+        .main-navigation .main-nav > ul > li > a:hover {
+            background: rgba(255,255,255,0.1) !important;
+        }
+        .main-navigation .main-nav ul li.menu-item-has-children > ul.sub-menu {
+            display: none;
+            background: #08172c !important;
+            padding: 0 !important;
+            list-style: none !important;
+        }
+        .main-navigation .main-nav ul li.menu-item-has-children.sfHover > ul.sub-menu {
+            display: block !important;
+        }
+        .main-navigation .main-nav ul li.menu-item-has-children > ul.sub-menu li a {
+            padding: 10px 25px !important;
+            font-size: 14px !important;
+            color: #e2e8f0 !important;
+            display: block !important;
         }
     }
 
-    /* Interactive Search Modal */
+    /* Search Modal Popup */
     .gp-modal.gp-search-modal {
         display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.75);
-        z-index: 999999;
-        align-items: center;
-        justify-content: center;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background: rgba(0, 0, 0, 0.75) !important;
+        z-index: 999999 !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
-    .gp-modal.gp-search-modal.is-active,
-    .gp-modal.gp-search-modal.gp-modal--open {
+    .gp-modal.gp-search-modal.gp-modal--open,
+    .gp-modal.gp-search-modal.is-active {
         display: flex !important;
     }
     .gp-modal__overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
     }
     .gp-modal__container {
-        position: relative;
-        background: #ffffff;
-        padding: 24px;
-        border-radius: 8px;
-        max-width: 550px;
-        width: 90%;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        z-index: 1000000;
+        position: relative !important;
+        background: #ffffff !important;
+        padding: 24px 20px !important;
+        border-radius: 8px !important;
+        max-width: 520px !important;
+        width: 92% !important;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.6) !important;
+        z-index: 1000000 !important;
     }
     .search-modal-fields {
-        display: flex;
-        gap: 8px;
+        display: flex !important;
+        gap: 8px !important;
+        align-items: center !important;
     }
     .search-modal-fields input[type="search"] {
-        flex: 1;
-        padding: 12px 16px;
-        font-size: 16px;
-        border: 2px solid #0c2340;
-        border-radius: 4px;
-        outline: none;
+        flex: 1 !important;
+        padding: 12px 16px !important;
+        font-size: 15px !important;
+        border: 2px solid #0c2340 !important;
+        border-radius: 4px !important;
+        outline: none !important;
+        color: #000000 !important;
+        background: #ffffff !important;
     }
     .search-modal-fields button {
-        background: #ab183d;
-        color: #ffffff;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background: #ab183d !important;
+        color: #ffffff !important;
+        border: none !important;
+        padding: 12px 20px !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-weight: 700 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
     .search-modal-fields button:hover {
-        background: #8b0000;
+        background: #8b0000 !important;
     }
     .gp-modal__close-btn {
-        position: absolute;
-        top: -12px;
-        right: -12px;
-        background: #000;
-        color: #fff;
-        border: 2px solid #fff;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        font-weight: bold;
+        position: absolute !important;
+        top: -14px !important;
+        right: -14px !important;
+        background: #ab183d !important;
+        color: #ffffff !important;
+        border: 2px solid #ffffff !important;
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 50% !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 18px !important;
+        font-weight: bold !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
     }
 </style>
 </body>
