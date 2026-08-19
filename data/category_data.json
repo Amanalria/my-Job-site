@@ -7,16 +7,18 @@
       "url": "/railway-nfr-2026/",
       "short_desc": "Northeast Frontier Railway (RRC NFR) invites online applications for trade apprentice engagement across diverse mechanical, electrical, and engineering divisions. Selection is based purely on 10th and ITI merit without any written exam.",
       "date": "22 August 2026",
-      "lifecycle_state": "URGENT_PINNED"
+      "lifecycle_state": "URGENT_PINNED",
+      "is_pinned": true
     },
     {
       "title": "IGCAR Trade Apprentice Online Form 2026",
       "title_raw": "IGCAR Trade Apprentice Online Form 2026",
-      "badge_html": "",
+      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">6 Days Left!</span>",
       "url": "/igcar-apprentice-2026/",
       "short_desc": "Indira Gandhi Centre for Atomic Research (IGCAR) Kalpakkam announces technical trade apprentice engagement for engineering and vocational trade certificate holders.",
       "date": "25 August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "URGENT_PINNED",
+      "is_pinned": true
     },
     {
       "title": "IBPS Clerk (CSA) 16th Online Form 2026",
@@ -25,7 +27,8 @@
       "url": "/ibps-clerk-16th-2026/",
       "short_desc": "Institute of Banking Personnel Selection (IBPS) announces Common Recruitment Process (CRP CSA XVI) for Customer Service Associates and Clerical cadre across participating public sector banks.",
       "date": "28 August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "UPESSC Principal Online Form 2026",
@@ -34,7 +37,8 @@
       "url": "/upessc-principal-2026/",
       "short_desc": "Uttar Pradesh Education Service Selection Commission (UPESSC) releases recruitment notice for Principal positions in aided intermediate and secondary institutions across Uttar Pradesh.",
       "date": "30 August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "BPSC School Teacher TRE 4.0 Online Form 2026",
@@ -43,7 +47,8 @@
       "url": "/bpsc-school-teacher-tre-4-0-2026/",
       "short_desc": "Bihar Public Service Commission (BPSC) invites online applications for TRE 4.0 Primary, Middle, Secondary, and Higher Secondary School Teacher vacancies across Bihar schools. Eligible candidates can review vacancy distribution, eligibility criteria, and application procedure below.",
       "date": "05 September 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     }
   ],
   "admission": [
@@ -54,7 +59,8 @@
       "url": "/sav-bihar-class-6-2026/",
       "short_desc": "Bihar School Examination Board (BSEB) invites online applications for entrance admission to Class VI in Simultala Awasiya Vidyalaya (SAV) Jamui for academic session 2027-28.",
       "date": "28 August 2026 (Extended)",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "URGENT_PINNED",
+      "is_pinned": true
     },
     {
       "title": "Bihar Secondary Teachers Eligibility Test STET 2026",
@@ -63,7 +69,8 @@
       "url": "/bihar-stet-2026/",
       "short_desc": "Bihar School Examination Board (BSEB) invites online applications for Bihar Secondary Teachers Eligibility Test (STET 2026) for qualifying prospective Paper 1 (Secondary 9-10) and Paper 2 (Higher Secondary 11-12) teachers.",
       "date": "31 August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "IIT GATE 2027 Online Form",
@@ -72,7 +79,8 @@
       "url": "/iit-gate-2027/",
       "short_desc": "Organizing Institute of Technology invites online applications for Graduate Aptitude Test in Engineering (GATE 2027) for M.Tech/Ph.D admissions and recruitment in premier Public Sector Undertakings (PSUs).",
       "date": "26 September 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "UP DELEd (BTC) 2026 Online Counselling",
@@ -81,7 +89,8 @@
       "url": "/up-deled-2026/",
       "short_desc": "Examination Regulatory Authority (PNP) Prayagraj, Uttar Pradesh releases state rank cards, counselling schedule, and college seat choice filling portal for Diploma in Elementary Education (D.El.Ed BTC 2026).",
       "date": "Choice Filling: September 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "IIT JAM 2027 Online Form",
@@ -90,7 +99,8 @@
       "url": "/iit-jam-2027/",
       "short_desc": "Indian Institute of Technology (IIT) invites online applications for Joint Admission Test for Masters (JAM 2027) for admission to M.Sc., Joint M.Sc.-Ph.D., M.Sc.-Ph.D. Dual Degree, and integrated postgraduate science programs across premier IITs and IISc.",
       "date": "11 October 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     }
   ],
   "answer-key": [
@@ -101,7 +111,8 @@
       "url": "/nta-icar-aieea-pg-and-phd-2026/",
       "short_desc": "National Testing Agency (NTA) issues the provisional answer keys and candidate response sheets for Indian Council of Agricultural Research (ICAR) AIEEA PG and AICE JRF/SRF Ph.D entrance examinations.",
       "date": "Objection Window: 24 August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "NTA CSIR UGC NET June Answer Key 2026",
@@ -110,7 +121,8 @@
       "url": "/nta-csir-ugc-net-june-2026/",
       "short_desc": "NTA publishes the official provisional answer keys and recorded responses for the Joint CSIR UGC NET June examination across chemical, earth, life, mathematical, and physical sciences.",
       "date": "Objection Window: 25 August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Bihar BPSC Assistant Prosecution Officer APO Answer Key 2026",
@@ -119,7 +131,8 @@
       "url": "/bpsc-apo-2026/",
       "short_desc": "Bihar Public Service Commission (BPSC) releases provisional answer keys for General Studies and Law papers in the Assistant Prosecution Officer preliminary test.",
       "date": "Objection Deadline: 26 August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Delhi DSSSB Various Post Answer Key 2026",
@@ -128,7 +141,8 @@
       "url": "/dsssb-various-post-2026/",
       "short_desc": "Delhi Subordinate Services Selection Board (DSSSB) releases draft answer keys and objection link for computer-based tests conducted for various teaching, technical, and ministerial posts.",
       "date": "Objection Last Date: 27 August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
@@ -137,7 +151,8 @@
       "url": "/upsssc-agriculture-technical-assistant-group-c-2026/",
       "short_desc": "UPSSSC publishes provisional answer keys for Agriculture Technical Assistant (Pravidhik Sahayak Group C) examination.",
       "date": "Objection Date: 28 August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     }
   ],
   "result": [
@@ -148,7 +163,8 @@
       "url": "/rpsc-1st-grade-teacher-result-2025/",
       "short_desc": "Rajasthan Public Service Commission (RPSC Ajmer) releases subject-wise provisional selection lists and cutoff scores for School Lecturer (School Education Department) examination.",
       "date": "Result: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "SSC CHSL (10+2) Tier 1 Result & Merit List 2026",
@@ -157,7 +173,8 @@
       "url": "/ssc-chsl-tier-1-result-2026/",
       "short_desc": "Staff Selection Commission publishes Tier-1 Computer Based Examination results and cutoff marks for Combined Higher Secondary Level (10+2) Lower Division Clerk (LDC), Junior Secretariat Assistant (JSA), and Data Entry Operator (DEO) recruitments.",
       "date": "Result Declared: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "SSC CGL Tier 1 Result, Scorecard & Cutoff Marks 2026",
@@ -166,7 +183,8 @@
       "url": "/ssc-cgl-tier-1-result-2026/",
       "short_desc": "Staff Selection Commission (SSC) declares the Computer Based Examination (Tier-I) results, normalized cutoff marks, and merit lists of candidates shortlisted for Tier-II descriptive/online examination.",
       "date": "Result Declared: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "UP Police Constable Written Exam Result & Scorecard 2024-2026",
@@ -175,7 +193,8 @@
       "url": "/up-police-constable-result-2024/",
       "short_desc": "Uttar Pradesh Police Recruitment and Promotion Board (UPPRPB) issues the normalized scorecards, cutoff marks, and candidate shortlist for Document Verification & Physical Standards Test (DV/PST) for 60,244 Constable posts.",
       "date": "Result Declared: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Bihar Police Constable Written Exam Result 2024-2026",
@@ -184,7 +203,8 @@
       "url": "/bihar-police-constable-result-2024/",
       "short_desc": "Central Selection Board of Constable (CSBC Bihar) announces the written examination results and physical standard / efficiency test (PET) shortlisted candidate roll numbers for 21,391 Constable vacancies in Bihar Police.",
       "date": "Result Declared: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Bihar Police Prohibition Constable Result 2026",
@@ -193,7 +213,8 @@
       "url": "/csbc-bihar-prohibition-constable-2026/",
       "short_desc": "Central Selection Board of Constable (CSBC) Bihar publishes the written examination results and physical endurance test (PET) qualified list for Prohibition Constable recruitment.",
       "date": "Result: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Bihar Police CSBC Constable Operator Result 2026",
@@ -202,7 +223,8 @@
       "url": "/bihar-police-csbc-constable-operator-2026/",
       "short_desc": "CSBC Bihar releases scorecards and shortlisted candidate rolls for Bihar Police Wireless Operator and Technical Constable recruitment examination.",
       "date": "Result: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Bihar Police CSBC Constable GD Result 2026",
@@ -211,7 +233,8 @@
       "url": "/bihar-police-csbc-constable-2026/",
       "short_desc": "Central Selection Board of Constable publishes the comprehensive list of candidates qualified in Bihar Police GD Constable written examination for PET evaluation.",
       "date": "Result: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "KVS NVS Teaching & Non-Teaching Tier-II Result 2026",
@@ -220,7 +243,8 @@
       "url": "/kvs-nvs-teaching-non-teaching-2026/",
       "short_desc": "Kendriya Vidyalaya Sangathan (KVS) and Navodaya Vidyalaya Samiti (NVS) release combined Tier-II written examination results and interview shortlist.",
       "date": "Result Declared: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "UPSSSC VDO 2023 Final Result & Cutoff",
@@ -229,7 +253,8 @@
       "url": "/upsssc-vdo-2023/",
       "short_desc": "Uttar Pradesh Subordinate Services Selection Commission (UPSSSC) declares the final selection result and category-wise cutoff marks for Village Development Officer (Gram Vikas Adhikari) examination.",
       "date": "Final Result: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     }
   ],
   "admit-card": [
@@ -240,7 +265,8 @@
       "url": "/upsssc-lower-pcs-2026/",
       "short_desc": "UPSSSC releases the preliminary examination admit cards and exam city information slips for Lower Subordinate Services recruitment examination.",
       "date": "Exam Date: September 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "BSF HCM & ASI Steno Admit Card 2026",
@@ -249,7 +275,8 @@
       "url": "/bsf-hcm-asi-steno-2025/",
       "short_desc": "Border Security Force (BSF) publishes the Computer Based Written Examination (CBT) admit cards for Head Constable Ministerial and Assistant Sub Inspector Steno posts.",
       "date": "Exam Date: September 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Cotton Corporation of India CCI Exam City Details 2026",
@@ -258,7 +285,8 @@
       "url": "/cci-various-post-2026/",
       "short_desc": "Cotton Corporation of India Limited (CCIL) activates exam city intimation slip and admit card download portal for Management Trainee, Junior Commercial Executive and Junior Assistant posts.",
       "date": "Exam Date: September 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "NTA AIAPGET Admit Card 2026",
@@ -267,7 +295,8 @@
       "url": "/nta-aiapget-2026/",
       "short_desc": "National Testing Agency (NTA) issues the All India Ayush Post Graduate Entrance Test (AIAPGET 2026) admit cards for Ayurveda, Unani, Siddha & Homeopathy MD/MS courses.",
       "date": "Exam Date: August 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "NBEMS Group A, B & C Exam City Details 2026",
@@ -276,7 +305,8 @@
       "url": "/nbems-various-post-2026/",
       "short_desc": "National Board of Examinations in Medical Sciences (NBEMS) releases advance exam city intimation slip and hall tickets for Junior Assistant, Senior Assistant, and Accountant recruitment.",
       "date": "Exam: September 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     }
   ],
   "syllabus": [
@@ -287,7 +317,8 @@
       "url": "/bpsc-exam-calendar-2026/",
       "short_desc": "Bihar Public Service Commission (BPSC) releases the official updated examination calendar outlining test dates, mains schedules, and result declaration timelines for 2026-27 recruitments.",
       "date": "Valid For: 2026-2027",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Delhi Laxmi Yojana Online Application Form 2026",
@@ -296,7 +327,8 @@
       "url": "/delhi-laxmi-yojana-2026/",
       "short_desc": "Government of NCT Delhi announces financial empowerment and educational support scheme guidelines for girl children and women across the capital city.",
       "date": "Ongoing Application",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "UPPSC Combined Exam Calendar 2026",
@@ -305,7 +337,8 @@
       "url": "/uppsc-exam-calendar-2026/",
       "short_desc": "Uttar Pradesh Public Service Commission (UPPSC) publishes the revised annual calendar for Combined State / Upper Subordinate Services (PCS), RO / ARO, and Staff Nurse recruitments.",
       "date": "Valid For: 2026-2027",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Staff Selection Commission SSC Revised Calendar 2026-27",
@@ -314,7 +347,8 @@
       "url": "/ssc-exam-calendar-2026-27/",
       "short_desc": "Staff Selection Commission (SSC) releases the updated annual examination planner specifying notification release dates, application windows, and computer-based test slots for CGL, CHSL, MTS, GD Constable, and CPO examinations.",
       "date": "Valid for: 2026-2027",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "UP Pre & Post Matric Scholarship Online Form 2026-27",
@@ -323,7 +357,8 @@
       "url": "/up-scholarship-2026/",
       "short_desc": "Social Welfare Department, Government of Uttar Pradesh opens student scholarship registration for Pre-Matric (Class 9-10) and Post-Matric (Class 11-12, UG, PG, Diploma) courses.",
       "date": "31 October 2026",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     }
   ],
   "certificate-verification": [
@@ -334,7 +369,8 @@
       "url": "/voter-id-card-online-apply-2026/",
       "short_desc": "Election Commission of India (ECI) invites citizens to apply online for new Voter ID (Form 6), correction of personal details (Form 8), and download digital e-EPIC card through the National Voters' Service Portal (ECI Voters Portal).",
       "date": "Open Throughout Year",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "NSDL / UTIITSL PAN Card Online Apply & Instant e-PAN",
@@ -343,7 +379,8 @@
       "url": "/pan-card-online-apply-2026/",
       "short_desc": "Income Tax Department of India facilitates online application for new Permanent Account Number (PAN Form 49A), reprint of physical PVC card, and instant free e-PAN generation through Aadhaar verification.",
       "date": "Open Year Round",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "UIDAI Aadhar Card Online Update, Correction & Download",
@@ -352,7 +389,8 @@
       "url": "/aadhar-card-update-download-2026/",
       "short_desc": "Unique Identification Authority of India (UIDAI) provides online services on the myAadhaar portal for updating address, document revalidation, checking PVC card order status, and downloading masked/regular e-Aadhaar PDF.",
       "date": "Open Year Round",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "Bihar RTPS Service Online Caste, Income & Residence Certificate",
@@ -361,7 +399,8 @@
       "url": "/bihar-rtps-caste-income-residential-certificate/",
       "short_desc": "Government of Bihar provides online issuance and electronic verification of Jati (Caste), Aay (Income), Niwas (Residential), Non-Creamy Layer (NCL), and EWS certificates through the ServicePlus RTPS portal.",
       "date": "Open Year Round",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     },
     {
       "title": "UP eDistrict Caste, Income, Domicile & Birth Certificate Verification",
@@ -370,7 +409,8 @@
       "url": "/up-edistrict-certificate-verification/",
       "short_desc": "Revenue Department, Government of Uttar Pradesh enables citizens to apply for and verify Jati Praman Patra, Aay Praman Patra, Niwas Praman Patra, and Divyang certificates online via the UP eDistrict citizen portal.",
       "date": "Open Year Round",
-      "lifecycle_state": "ACTIVE"
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     }
   ]
 }

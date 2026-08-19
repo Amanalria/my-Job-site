@@ -204,7 +204,15 @@
     "expired_grace_period_days": 1,
     "auto_git_sync": true,
     "auto_detect_date_extension": true,
-    "last_run_timestamp": "2026-08-19T22:10:52.176986",
+    "pinned_posts": [
+      "railway-nfr-2026",
+      "sav-bihar-class-6-2026"
+    ],
+    "last_run_timestamp": "2026-08-19T22:25:02.155795",
     "last_purged_posts": []
-  }
+  },
+  "pinned_posts": [
+    "railway-nfr-2026",
+    "sav-bihar-class-6-2026"
+  ]
 }

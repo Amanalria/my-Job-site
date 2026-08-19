@@ -14,7 +14,6 @@ RAW_CLONE_DIR = os.path.join(BASE_DIR, 'raw_clone/pages')
 SETTINGS_FILE = os.path.join(DATA_DIR, 'settings.json')
 TMP_DATA_DIR = '/tmp/sarkari_data'
 
-# Ensure tmp dir exists
 try:
     os.makedirs(TMP_DATA_DIR, exist_ok=True)
 except Exception:
@@ -39,7 +38,6 @@ def safe_read_json(filepath, default_value=None):
     filename = os.path.basename(filepath)
     tmp_path = os.path.join(TMP_DATA_DIR, filename)
     
-    # Check /tmp first for serverless updated copies
     if os.path.exists(tmp_path):
         try:
             with open(tmp_path, 'r', encoding='utf-8') as f:
@@ -57,17 +55,14 @@ def safe_read_json(filepath, default_value=None):
     return default_value if default_value is not None else []
 
 def safe_write_json(filepath, data):
-    # 1. Attempt writing to target file
     written = False
     try:
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2)
         written = True
-    except (OSError, IOError) as e:
-        # Read-only filesystem on Vercel / AWS Lambda
+    except (OSError, IOError):
         pass
 
-    # 2. Also write to /tmp cache for serverless persistence across warm requests
     try:
         os.makedirs(TMP_DATA_DIR, exist_ok=True)
         filename = os.path.basename(filepath)
@@ -86,7 +81,6 @@ def safe_delete_file(filepath):
             os.remove(filepath)
             return True
     except (OSError, IOError):
-        # Read-only FS on serverless
         pass
     return False
 
@@ -96,7 +90,6 @@ def parse_date_string(date_str):
 
     s = date_str.strip().lower()
 
-    # Match "28 August 2026" or "28 Aug 2026"
     extended_match = re.search(r'(\d{1,2})\s+([a-z]+)\s+(\d{4})', s)
     if extended_match:
         d = int(extended_match.group(1))
@@ -108,7 +101,6 @@ def parse_date_string(date_str):
             except Exception:
                 pass
 
-    # Match DD-MM-YYYY or DD/MM/YYYY or DD.MM.YYYY
     dmy_match = re.search(r'(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})', s)
     if dmy_match:
         try:
@@ -119,7 +111,6 @@ def parse_date_string(date_str):
         except Exception:
             pass
 
-    # Match YYYY-MM-DD
     ymd_match = re.search(r'(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})', s)
     if ymd_match:
         try:
@@ -139,18 +130,36 @@ def load_lifecycle_settings():
         "expired_grace_period_days": 1,
         "auto_git_sync": True,
         "auto_detect_date_extension": True,
+        "pinned_posts": ["railway-nfr-2026", "sav-bihar-class-6-2026"],
         "last_run_timestamp": None,
         "last_purged_posts": []
     }
     saved = safe_read_json(SETTINGS_FILE, {})
     lifecycle_config = saved.get('lifecycle_config', {})
     default_settings.update(lifecycle_config)
+    if 'pinned_posts' in saved and 'pinned_posts' not in lifecycle_config:
+        default_settings['pinned_posts'] = saved.get('pinned_posts', default_settings['pinned_posts'])
     return default_settings
 
 def save_lifecycle_settings(config):
     saved = safe_read_json(SETTINGS_FILE, {})
     saved['lifecycle_config'] = config
+    saved['pinned_posts'] = config.get('pinned_posts', [])
     safe_write_json(SETTINGS_FILE, saved)
+
+def toggle_pin_post(slug):
+    config = load_lifecycle_settings()
+    pinned = config.get('pinned_posts', [])
+    if slug in pinned:
+        pinned.remove(slug)
+        is_pinned = False
+    else:
+        pinned.insert(0, slug)
+        is_pinned = True
+    config['pinned_posts'] = pinned
+    save_lifecycle_settings(config)
+    audit_and_execute_lifecycle()
+    return is_pinned
 
 def run_git_sync(commit_msg):
     try:
@@ -203,6 +212,7 @@ def audit_and_execute_lifecycle():
     urgent_threshold = int(config.get('urgent_days_threshold', 3))
     grace_period = int(config.get('expired_grace_period_days', 1))
     auto_git = config.get('auto_git_sync', True)
+    pinned_slugs = set(config.get('pinned_posts', []))
     today = date.today()
 
     custom_posts_file = os.path.join(DATA_DIR, 'custom_posts.json')
@@ -227,7 +237,7 @@ def audit_and_execute_lifecycle():
         last_date_str = post.get('application_last_date', '')
         html_file = os.path.join(PAGES_DIR, f"{slug}.html")
 
-        # 1. Check for date extension in HTML content or title
+        # Check for date extension in HTML content or title
         is_extended = 'extend' in last_date_str.lower() or 'extend' in title.lower() or post.get('custom_badge') == 'Date Extended'
 
         if config.get('auto_detect_date_extension', True) and os.path.exists(html_file):
@@ -250,6 +260,10 @@ def audit_and_execute_lifecycle():
         if parsed_date:
             days_remaining = (parsed_date - today).days
 
+        # Check if manually pinned
+        is_pinned = (slug in pinned_slugs) or post.get('is_pinned', False)
+        post['is_pinned'] = is_pinned
+
         # Classify state and priority
         if days_remaining is not None:
             if days_remaining < -grace_period:
@@ -271,7 +285,20 @@ def audit_and_execute_lifecycle():
                 post['days_remaining'] = days_remaining
                 post['lifecycle_badge'] = 'Closed'
                 post['badge_html'] = ''
-                post['sort_priority'] = -1000 + days_remaining # Lowest priority (bottom)
+                post['sort_priority'] = -1000 + days_remaining
+
+            elif is_pinned:
+                # Manually or Auto Pinned -> Top of list with badge!
+                post['lifecycle_state'] = 'URGENT_PINNED'
+                post['days_remaining'] = days_remaining
+                badge_text = "Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!"
+                if is_extended:
+                    badge_text = "Date Extended!"
+                    post['badge_html'] = f' - <span class="agy-blinking-badge agy-extended-blink">{badge_text}</span>'
+                else:
+                    post['badge_html'] = f' - <span class="agy-blinking-badge agy-urgent-blink">{badge_text}</span>'
+                post['lifecycle_badge'] = badge_text
+                post['sort_priority'] = 100000 - min(days_remaining, 10)
 
             elif days_remaining <= urgent_threshold:
                 # Urgent: Closing Soon (<= 3 days) -> Pinned to top with blinking badge!
@@ -280,7 +307,7 @@ def audit_and_execute_lifecycle():
                 badge_text = "Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!"
                 post['lifecycle_badge'] = badge_text
                 post['badge_html'] = f' - <span class="agy-blinking-badge agy-urgent-blink">{badge_text}</span>'
-                post['sort_priority'] = 10000 - days_remaining # Absolute top priority
+                post['sort_priority'] = 10000 - days_remaining
 
             else:
                 # Active
@@ -289,19 +316,25 @@ def audit_and_execute_lifecycle():
                 if is_extended:
                     post['lifecycle_badge'] = 'Date Extended'
                     post['badge_html'] = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
-                    post['sort_priority'] = 5000 - min(days_remaining, 30) # High priority for extended dates
+                    post['sort_priority'] = 5000 - min(days_remaining, 30)
                 else:
                     post['lifecycle_badge'] = ''
                     post['badge_html'] = ''
                     post['sort_priority'] = 100 - min(days_remaining, 90)
         else:
-            post['lifecycle_state'] = 'ACTIVE'
             post['days_remaining'] = None
-            if is_extended:
+            if is_pinned:
+                post['lifecycle_state'] = 'URGENT_PINNED'
+                post['lifecycle_badge'] = 'Pinned'
+                post['badge_html'] = ' - <span class="agy-blinking-badge agy-urgent-blink">Important!</span>'
+                post['sort_priority'] = 100000
+            elif is_extended:
+                post['lifecycle_state'] = 'ACTIVE'
                 post['lifecycle_badge'] = 'Date Extended'
                 post['badge_html'] = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
                 post['sort_priority'] = 4000
             else:
+                post['lifecycle_state'] = 'ACTIVE'
                 post['lifecycle_badge'] = ''
                 post['badge_html'] = ''
                 post['sort_priority'] = 50
@@ -312,21 +345,18 @@ def audit_and_execute_lifecycle():
             active_posts_by_category[category] = []
         active_posts_by_category[category].append(post)
 
-    # Sort each category: Urgent Pinned (top) -> Date Extended -> Active -> Expired Demoted (bottom)
+    # Sort each category: Pinned (Absolute Top) -> Urgent -> Date Extended -> Active -> Expired (Bottom)
     for cat in active_posts_by_category:
         active_posts_by_category[cat].sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
 
-    # Reassemble global custom_posts
     sorted_all_posts = []
     for cat in active_posts_by_category:
         sorted_all_posts.extend(active_posts_by_category[cat])
     sorted_all_posts.sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
 
-    # Save to custom_posts.json and all_posts.json (Vercel-safe)
     safe_write_json(custom_posts_file, sorted_all_posts)
     safe_write_json(all_posts_file, sorted_all_posts)
 
-    # Save category_data.json
     cat_data = {}
     for cat, p_list in active_posts_by_category.items():
         cat_data[cat] = []
@@ -338,12 +368,12 @@ def audit_and_execute_lifecycle():
                 'url': f"/{p.get('slug')}/",
                 'short_desc': p.get('short_desc', ''),
                 'date': p.get('application_last_date', p.get('application_start_date', '')),
-                'lifecycle_state': p.get('lifecycle_state', 'ACTIVE')
+                'lifecycle_state': p.get('lifecycle_state', 'ACTIVE'),
+                'is_pinned': p.get('is_pinned', False)
             })
 
     safe_write_json(category_data_file, cat_data)
 
-    # Update Homepage Category Boxes in pages/index.html & original_index.html
     category_column_map = {
         'gb-grid-column-0b76599a': 'result',
         'gb-grid-column-c7488d9a': 'latest-jobs',
@@ -362,7 +392,6 @@ def audit_and_execute_lifecycle():
 
             soup = BeautifulSoup(content, 'html.parser')
 
-            # Ensure blinking CSS is present in head
             if not soup.find(id='agy-lifecycle-blink-css'):
                 if soup.head:
                     soup.head.append(BeautifulSoup(BLINKING_CSS, 'html.parser'))
@@ -374,7 +403,7 @@ def audit_and_execute_lifecycle():
                     if ul:
                         ul.clear()
                         cat_posts = cat_data.get(cat_key, [])
-                        for item in cat_posts[:10]:
+                        for item in cat_posts[:12]:
                             li = soup.new_tag('li')
                             title_text = item.get('title_raw', item.get('title', ''))
                             badge = item.get('badge_html', '')
@@ -382,11 +411,40 @@ def audit_and_execute_lifecycle():
                             li.append(BeautifulSoup(link_markup, 'html.parser'))
                             ul.append(li)
 
+            # Update Top 8 Quick Cards on homepage
+            top_urgent_posts = []
+            for c_k in ['latest-jobs', 'result', 'admit-card', 'admission']:
+                top_urgent_posts.extend(active_posts_by_category.get(c_k, []))
+            top_urgent_posts.sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
+
+            top_box_classes = [
+                'gb-grid-column-2f6de309',
+                'gb-grid-column-6de8e6a5',
+                'gb-grid-column-f69a2a15',
+                'gb-grid-column-cb185b36',
+                'gb-grid-column-962a1393',
+                'gb-grid-column-48ff7430',
+                'gb-grid-column-3b560729',
+                'gb-grid-column-659c2f86'
+            ]
+
+            for idx, b_cls in enumerate(top_box_classes):
+                if idx < len(top_urgent_posts):
+                    p_item = top_urgent_posts[idx]
+                    boxes = soup.find_all(class_=b_cls)
+                    for b in boxes:
+                        a_tag = b.find('a')
+                        if a_tag:
+                            a_tag['href'] = f"/{p_item.get('slug')}/"
+                            b_txt = p_item.get('title', '')
+                            b_badge = p_item.get('badge_html', '')
+                            a_tag.clear()
+                            a_tag.append(BeautifulSoup(f"{b_txt}{b_badge}", 'html.parser'))
+
             try:
                 with open(filepath, 'w', encoding='utf-8') as f:
                     f.write(str(soup))
             except (OSError, IOError):
-                # Read-only filesystem on Vercel
                 pass
         except Exception as e:
             print(f"Notice: Homepage box sync ({e})")
@@ -394,13 +452,11 @@ def audit_and_execute_lifecycle():
     sync_homepage_boxes(os.path.join(PAGES_DIR, 'index.html'))
     sync_homepage_boxes(os.path.join(BASE_DIR, 'original_index.html'))
 
-    # Update config run record
     config['last_run_timestamp'] = datetime.now().isoformat()
     if purged_slugs:
         config['last_purged_posts'] = purged_slugs
     save_lifecycle_settings(config)
 
-    # Auto Git push if posts were purged and auto_git is enabled
     git_synced = False
     if purged_slugs and auto_git:
         commit_msg = f"chore(lifecycle): auto-purge {len(purged_slugs)} expired vacancies past grace period"
@@ -415,7 +471,6 @@ def audit_and_execute_lifecycle():
         "git_synced": git_synced
     }
 
-# Background Daemon Worker Thread
 def start_lifecycle_background_daemon(interval_minutes=60):
     def daemon_loop():
         time.sleep(5)

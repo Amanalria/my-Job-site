@@ -1368,6 +1368,10 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         elif 'adsbygoogle' in classes:
             s.decompose()
 
+    # 1b. Inject Blinking Animation CSS for Urgent & Extended Vacancies
+    if not soup.find(id='agy-lifecycle-blink-css') and soup.head:
+        soup.head.append(BeautifulSoup(lifecycle.BLINKING_CSS, 'html.parser'))
+
     # 2. Inject Google Analytics (GA4) if ID is provided
     seo_cfg = settings.get('seo', {})
     ga_id = seo_cfg.get('google_analytics_id', '').strip()
@@ -1778,18 +1782,40 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 ul_tag.clear()
                 cat_new_posts = [p for p in all_active_posts if p.get('category') == cat_key and not p.get('is_temporary')]
                 if cat_new_posts:
+                    today_date = datetime.now().date()
+                    pinned_set = set(lifecycle.load_lifecycle_settings().get('pinned_posts', []))
+                    
                     for cp in cat_new_posts:
+                        slug = cp.get('slug')
+                        is_pin = (slug in pinned_set) or cp.get('is_pinned', False)
+                        last_date_str = cp.get('application_last_date', '')
+                        title_str = cp.get('title', '')
+                        is_ext = 'extend' in (last_date_str + title_str + str(cp.get('custom_badge', ''))).lower() or cp.get('is_date_extended', False)
+                        parsed_d = lifecycle.parse_date_string(last_date_str)
+                        days_rem = (parsed_d - today_date).days if parsed_d else None
+                        
+                        if is_pin:
+                            badge_text = "Date Extended!" if is_ext else ("Last Date Today!" if days_rem == 0 else f"{days_rem} Days Left!" if days_rem is not None else "3 Days Left!")
+                            badge_class = "agy-extended-blink" if is_ext else "agy-urgent-blink"
+                            cp['badge_markup'] = f' - <span class="agy-blinking-badge {badge_class}">{badge_text}</span>'
+                            cp['calc_priority'] = 100000 - min(days_rem or 10, 10)
+                        elif days_rem is not None and days_rem <= 3:
+                            badge_text = "Last Date Today!" if days_rem == 0 else f"{days_rem} Days Left!"
+                            cp['badge_markup'] = f' - <span class="agy-blinking-badge agy-urgent-blink">{badge_text}</span>'
+                            cp['calc_priority'] = 10000 - days_rem
+                        elif is_ext:
+                            cp['badge_markup'] = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
+                            cp['calc_priority'] = 5000
+                        else:
+                            cp['badge_markup'] = ''
+                            cp['calc_priority'] = 100 - min(days_rem or 90, 90)
+                            
+                    cat_new_posts.sort(key=lambda x: x.get('calc_priority', 0), reverse=True)
+                    
+                    for cp in cat_new_posts[:12]:
                         new_li = soup.new_tag('li')
-                        new_a = soup.new_tag('a', **{'class': 'wp-block-latest-posts__post-title', 'href': f'/{cp["slug"]}/'})
-                        badge_suffix = ''
-                        if cp.get('custom_badge'):
-                            badge_suffix = f" – {cp.get('custom_badge')}"
-                        elif cp.get('is_date_extended'):
-                            badge_suffix = " – Date Extend"
-                        elif cp.get('is_pinned'):
-                            badge_suffix = " – Last Date Soon"
-                        new_a.string = f"{cp['title']}{badge_suffix}"
-                        new_li.append(new_a)
+                        link_html = f'<a class="wp-block-latest-posts__post-title" href="/{cp["slug"]}/">{cp["title"]}{cp.get("badge_markup", "")}</a>'
+                        new_li.append(BeautifulSoup(link_html, 'html.parser'))
                         ul_tag.append(new_li)
                 else:
                     empty_li = soup.new_tag('li', style='list-style:none; color:#64748b; font-size:13px; padding:15px 10px; text-align:center; font-style:italic;')
@@ -2430,12 +2456,15 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
     today = datetime.now().date()
     config = lifecycle.load_lifecycle_settings()
     urgent_threshold = int(config.get('urgent_days_threshold', 3))
+    pinned_set = set(config.get('pinned_posts', []))
     
     posts_by_category = {}
     for p in all_posts:
         cat = p.get('category', 'latest-jobs')
+        slug = p.get('slug')
         last_date_str = p.get('application_last_date', '')
         title = p.get('title', '')
+        is_pinned = (slug in pinned_set) or p.get('is_pinned', False)
         
         is_extended = 'extend' in last_date_str.lower() or 'extend' in title.lower() or p.get('custom_badge') == 'Date Extended'
         parsed_date = lifecycle.parse_date_string(last_date_str)
@@ -2447,6 +2476,11 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                 p_state = 'EXPIRED'
                 p_badge = ''
                 p_priority = -1000 + days_remaining
+            elif is_pinned:
+                p_state = 'URGENT_PINNED'
+                badge_text = "Date Extended!" if is_extended else ("Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!")
+                p_badge = f' - <span class="agy-blinking-badge {"agy-extended-blink" if is_extended else "agy-urgent-blink"}">{badge_text}</span>'
+                p_priority = 100000 - min(days_remaining, 10)
             elif days_remaining <= urgent_threshold:
                 p_state = 'URGENT'
                 txt = "Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!"
@@ -2461,16 +2495,22 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                     p_badge = ''
                     p_priority = 100 - min(days_remaining, 90)
         else:
-            p_state = 'ACTIVE'
-            if is_extended:
+            if is_pinned:
+                p_state = 'URGENT_PINNED'
+                p_badge = ' - <span class="agy-blinking-badge agy-urgent-blink">Important!</span>'
+                p_priority = 100000
+            elif is_extended:
+                p_state = 'ACTIVE'
                 p_badge = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
                 p_priority = 4000
             else:
+                p_state = 'ACTIVE'
                 p_badge = ''
                 p_priority = 50
                 
         p['calculated_badge'] = p_badge
         p['calculated_priority'] = p_priority
+        p['is_pinned'] = is_pinned
         
         if cat not in posts_by_category:
             posts_by_category[cat] = []
@@ -2715,8 +2755,25 @@ def admin_lifecycle():
     settings = load_settings()
     config = lifecycle.load_lifecycle_settings()
     custom_posts = load_custom_posts()
+    pinned_set = set(config.get('pinned_posts', []))
     
-    urgent_count = sum(1 for p in custom_posts if p.get('lifecycle_state') == 'URGENT_PINNED')
+    urgent_posts = []
+    extended_posts = []
+    
+    for p in custom_posts:
+        slug = p.get('slug')
+        is_pin = slug in pinned_set or p.get('is_pinned', False)
+        p['is_pinned'] = is_pin
+        
+        days_rem = p.get('days_remaining')
+        is_ext = 'extend' in (p.get('application_last_date', '') + p.get('title', '') + p.get('custom_badge', '')).lower()
+        
+        if is_pin or (days_rem is not None and 0 <= days_rem <= config.get('urgent_days_threshold', 3)):
+            urgent_posts.append(p)
+        if is_ext:
+            extended_posts.append(p)
+            
+    urgent_count = len(urgent_posts)
     expired_count = sum(1 for p in custom_posts if p.get('lifecycle_state') == 'EXPIRED_DEMOTED')
     
     return render_template(
@@ -2724,10 +2781,22 @@ def admin_lifecycle():
         settings=settings,
         config=config,
         posts=custom_posts,
+        urgent_posts=urgent_posts,
+        extended_posts=extended_posts,
+        pinned_slugs=list(pinned_set),
         total_posts=len(custom_posts),
         urgent_count=urgent_count,
         expired_count=expired_count
     )
+
+@app.route('/api/admin/toggle-pin-post/<slug>', methods=['GET', 'POST'])
+@app.route('/api/admin/toggle-pin-post/<slug>/', methods=['GET', 'POST'])
+def api_toggle_pin_post(slug):
+    try:
+        is_pinned = lifecycle.toggle_pin_post(slug)
+        return jsonify({"success": True, "slug": slug, "is_pinned": is_pinned})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 @app.route('/api/admin/lifecycle-run', methods=['GET', 'POST'])
 @app.route('/api/admin/lifecycle-run/', methods=['GET', 'POST'])

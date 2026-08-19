@@ -13,8 +13,27 @@
     "lifecycle_state": "URGENT_PINNED",
     "days_remaining": 3,
     "lifecycle_badge": "3 Days Left!",
-    "sort_priority": 9997,
-    "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">3 Days Left!</span>"
+    "sort_priority": 99997,
+    "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">3 Days Left!</span>",
+    "is_pinned": true
+  },
+  {
+    "id": "post_igcar_apprentice_2026",
+    "slug": "igcar-apprentice-2026",
+    "title": "IGCAR Trade Apprentice Online Form 2026",
+    "category": "latest-jobs",
+    "short_desc": "Indira Gandhi Centre for Atomic Research (IGCAR) Kalpakkam announces technical trade apprentice engagement for engineering and vocational trade certificate holders.",
+    "application_start_date": "20 July 2026",
+    "application_last_date": "25 August 2026",
+    "custom_badge": "",
+    "tags": "latest-jobs, Govt Job, Study Topper",
+    "created_at": "2026-08-19T18:20:20.084182",
+    "lifecycle_state": "URGENT_PINNED",
+    "days_remaining": 6,
+    "lifecycle_badge": "6 Days Left!",
+    "sort_priority": 99994,
+    "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">6 Days Left!</span>",
+    "is_pinned": true
   },
   {
     "id": "post_sav_bihar_class_6_2026",
@@ -27,11 +46,12 @@
     "custom_badge": "",
     "tags": "admission, Govt Job, Study Topper",
     "created_at": "2026-08-19T18:20:21.296574",
-    "lifecycle_state": "ACTIVE",
+    "lifecycle_state": "URGENT_PINNED",
     "days_remaining": 9,
-    "lifecycle_badge": "Date Extended",
-    "sort_priority": 4991,
-    "badge_html": " - <span class=\"agy-blinking-badge agy-extended-blink\">Date Extended!</span>"
+    "lifecycle_badge": "Date Extended!",
+    "sort_priority": 99991,
+    "badge_html": " - <span class=\"agy-blinking-badge agy-extended-blink\">Date Extended!</span>",
+    "is_pinned": true
   },
   {
     "id": "post_nta_icar_aieea_pg_and_phd_2026",
@@ -48,24 +68,8 @@
     "days_remaining": 5,
     "lifecycle_badge": "",
     "sort_priority": 95,
-    "badge_html": ""
-  },
-  {
-    "id": "post_igcar_apprentice_2026",
-    "slug": "igcar-apprentice-2026",
-    "title": "IGCAR Trade Apprentice Online Form 2026",
-    "category": "latest-jobs",
-    "short_desc": "Indira Gandhi Centre for Atomic Research (IGCAR) Kalpakkam announces technical trade apprentice engagement for engineering and vocational trade certificate holders.",
-    "application_start_date": "20 July 2026",
-    "application_last_date": "25 August 2026",
-    "custom_badge": "",
-    "tags": "latest-jobs, Govt Job, Study Topper",
-    "created_at": "2026-08-19T18:20:20.084182",
-    "lifecycle_state": "ACTIVE",
-    "days_remaining": 6,
-    "lifecycle_badge": "",
-    "sort_priority": 94,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_nta_csir_ugc_net_june_2026",
@@ -82,7 +86,8 @@
     "days_remaining": 6,
     "lifecycle_badge": "",
     "sort_priority": 94,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_bpsc_apo_2026",
@@ -99,7 +104,8 @@
     "days_remaining": 7,
     "lifecycle_badge": "",
     "sort_priority": 93,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_dsssb_various_post_2026",
@@ -116,7 +122,8 @@
     "days_remaining": 8,
     "lifecycle_badge": "",
     "sort_priority": 92,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_ibps_clerk_16th_2026",
@@ -133,7 +140,8 @@
     "days_remaining": 9,
     "lifecycle_badge": "",
     "sort_priority": 91,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_upsssc_agriculture_technical_assistant_group_c_2026",
@@ -150,7 +158,8 @@
     "days_remaining": 9,
     "lifecycle_badge": "",
     "sort_priority": 91,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_upessc_principal_2026",
@@ -167,7 +176,8 @@
     "days_remaining": 11,
     "lifecycle_badge": "",
     "sort_priority": 89,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_bihar_stet_2026",
@@ -184,7 +194,8 @@
     "days_remaining": 12,
     "lifecycle_badge": "",
     "sort_priority": 88,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_bpsc_school_teacher_tre_4_0_2026",
@@ -201,7 +212,8 @@
     "days_remaining": 17,
     "lifecycle_badge": "",
     "sort_priority": 83,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_iit_gate_2027",
@@ -218,7 +230,8 @@
     "days_remaining": 38,
     "lifecycle_badge": "",
     "sort_priority": 62,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_up_deled_2026",
@@ -235,7 +248,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_rpsc_1st_grade_teacher_result_2025",
@@ -252,7 +266,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_ssc_chsl_tier_1_result_2026",
@@ -269,7 +284,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_ssc_cgl_tier_1_result_2026",
@@ -286,7 +302,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_up_police_constable_result_2024",
@@ -303,7 +320,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_bihar_police_constable_result_2024",
@@ -320,7 +338,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_csbc_bihar_prohibition_constable_2026",
@@ -337,7 +356,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_bihar_police_csbc_constable_operator_2026",
@@ -354,7 +374,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_bihar_police_csbc_constable_2026",
@@ -371,7 +392,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_kvs_nvs_teaching_non_teaching_2026",
@@ -388,7 +410,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_upsssc_vdo_2023",
@@ -405,7 +428,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_upsssc_lower_pcs_2026",
@@ -422,7 +446,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_bsf_hcm_asi_steno_2025",
@@ -439,7 +464,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_cci_various_post_2026",
@@ -456,7 +482,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_nta_aiapget_2026",
@@ -473,7 +500,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_nbems_various_post_2026",
@@ -490,7 +518,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_bpsc_exam_calendar_2026",
@@ -507,7 +536,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_delhi_laxmi_yojana_2026",
@@ -524,7 +554,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_uppsc_exam_calendar_2026",
@@ -541,7 +572,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_ssc_exam_calendar_2026_27",
@@ -558,7 +590,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_voter_id_card_online_apply_2026",
@@ -575,7 +608,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_pan_card_online_apply_2026",
@@ -592,7 +626,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_aadhar_card_update_download_2026",
@@ -609,7 +644,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_bihar_rtps_caste_income_residential_certificate",
@@ -626,7 +662,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_up_edistrict_certificate_verification",
@@ -643,7 +680,8 @@
     "days_remaining": null,
     "lifecycle_badge": "",
     "sort_priority": 50,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_iit_jam_2027",
@@ -660,7 +698,8 @@
     "days_remaining": 53,
     "lifecycle_badge": "",
     "sort_priority": 47,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   },
   {
     "id": "post_up_scholarship_2026",
@@ -677,6 +716,7 @@
     "days_remaining": 73,
     "lifecycle_badge": "",
     "sort_priority": 27,
-    "badge_html": ""
+    "badge_html": "",
+    "is_pinned": false
   }
 ]
