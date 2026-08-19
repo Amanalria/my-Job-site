@@ -2423,7 +2423,123 @@ def dynamic_sitemap():
 
     return Response('\n'.join(xml_lines), mimetype='application/xml')
 
-# ==================== CORE HOMEPAGE & /ALRIA ROUTE ====================
+def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
+    soup = BeautifulSoup(raw_html, 'html.parser')
+    all_posts = load_all_active_posts()
+    
+    today = datetime.now().date()
+    config = lifecycle.load_lifecycle_settings()
+    urgent_threshold = int(config.get('urgent_days_threshold', 3))
+    
+    posts_by_category = {}
+    for p in all_posts:
+        cat = p.get('category', 'latest-jobs')
+        last_date_str = p.get('application_last_date', '')
+        title = p.get('title', '')
+        
+        is_extended = 'extend' in last_date_str.lower() or 'extend' in title.lower() or p.get('custom_badge') == 'Date Extended'
+        parsed_date = lifecycle.parse_date_string(last_date_str)
+        
+        days_remaining = (parsed_date - today).days if parsed_date else None
+        
+        if days_remaining is not None:
+            if days_remaining < 0:
+                p_state = 'EXPIRED'
+                p_badge = ''
+                p_priority = -1000 + days_remaining
+            elif days_remaining <= urgent_threshold:
+                p_state = 'URGENT'
+                txt = "Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!"
+                p_badge = f' - <span class="agy-blinking-badge agy-urgent-blink">{txt}</span>'
+                p_priority = 10000 - days_remaining
+            else:
+                p_state = 'ACTIVE'
+                if is_extended:
+                    p_badge = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
+                    p_priority = 5000 - min(days_remaining, 30)
+                else:
+                    p_badge = ''
+                    p_priority = 100 - min(days_remaining, 90)
+        else:
+            p_state = 'ACTIVE'
+            if is_extended:
+                p_badge = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
+                p_priority = 4000
+            else:
+                p_badge = ''
+                p_priority = 50
+                
+        p['calculated_badge'] = p_badge
+        p['calculated_priority'] = p_priority
+        
+        if cat not in posts_by_category:
+            posts_by_category[cat] = []
+        posts_by_category[cat].append(p)
+        
+    for cat in posts_by_category:
+        posts_by_category[cat].sort(key=lambda x: x.get('calculated_priority', 0), reverse=True)
+        
+    # Inject blinking CSS in head
+    if not soup.find(id='agy-lifecycle-blink-css'):
+        if soup.head:
+            soup.head.append(BeautifulSoup(lifecycle.BLINKING_CSS, 'html.parser'))
+            
+    # Inject into the 6 category boxes
+    category_column_map = {
+        'gb-grid-column-0b76599a': 'result',
+        'gb-grid-column-c7488d9a': 'latest-jobs',
+        'gb-grid-column-e64d3148': 'admit-card',
+        'gb-grid-column-d19ddc59': 'answer-key',
+        'gb-grid-column-b48dca36': 'syllabus',
+        'gb-grid-column-51daea0e': 'admission'
+    }
+    
+    for col_cls, cat_key in category_column_map.items():
+        col = soup.find(class_=col_cls)
+        if col:
+            ul = col.find('ul')
+            if ul:
+                ul.clear()
+                cat_list = posts_by_category.get(cat_key, [])
+                for item in cat_list[:12]:
+                    li = soup.new_tag('li')
+                    title_raw = item.get('title', '')
+                    badge_html = item.get('calculated_badge', '')
+                    markup = f'<a href="/{item.get("slug")}/" class="wp-block-latest-posts__post-title">{title_raw}{badge_html}</a>'
+                    li.append(BeautifulSoup(markup, 'html.parser'))
+                    ul.append(li)
+                    
+    # Also update Top 8 Colorful Quick Boxes
+    top_urgent_posts = []
+    for cat in ['latest-jobs', 'result', 'admit-card', 'admission']:
+        top_urgent_posts.extend(posts_by_category.get(cat, []))
+    top_urgent_posts.sort(key=lambda x: x.get('calculated_priority', 0), reverse=True)
+    
+    top_box_classes = [
+        'gb-grid-column-2f6de309',
+        'gb-grid-column-6de8e6a5',
+        'gb-grid-column-f69a2a15',
+        'gb-grid-column-cb185b36',
+        'gb-grid-column-962a1393',
+        'gb-grid-column-48ff7430',
+        'gb-grid-column-3b560729',
+        'gb-grid-column-659c2f86'
+    ]
+    
+    for idx, b_cls in enumerate(top_box_classes):
+        if idx < len(top_urgent_posts):
+            p_item = top_urgent_posts[idx]
+            boxes = soup.find_all(class_=b_cls)
+            for b in boxes:
+                a_tag = b.find('a')
+                if a_tag:
+                    a_tag['href'] = f"/{p_item.get('slug')}/"
+                    b_txt = p_item.get('title', '')
+                    b_badge = p_item.get('calculated_badge', '')
+                    a_tag.clear()
+                    a_tag.append(BeautifulSoup(f"{b_txt}{b_badge}", 'html.parser'))
+                    
+    return sanitize_html(str(soup), host, is_alria_mode=is_alria_mode)
 
 @app.route('/')
 @app.route('/alria')
@@ -2435,10 +2551,12 @@ def home():
 
     is_alria = (request.path in ['/alria', '/alria/']) or (request.args.get('alria') == '1')
     index_file = os.path.join(PAGES_DIR, 'index.html')
+    if not os.path.exists(index_file):
+        index_file = os.path.join(BASE_DIR, 'original_index.html')
     if os.path.exists(index_file):
         with open(index_file, 'r', encoding='utf-8') as f:
             content = f.read()
-        sanitized = sanitize_html(content, request.host, is_alria_mode=is_alria)
+        sanitized = render_dynamic_homepage_html(content, request.host, is_alria_mode=is_alria)
         return Response(sanitized, mimetype='text/html')
     abort(404)
 
