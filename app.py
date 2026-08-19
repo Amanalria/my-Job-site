@@ -238,8 +238,20 @@ def get_footer_html(settings):
 </div>"""
 
 def render_single_post_html(post, settings):
-    title = post.get('title', 'Study Topper Notification')
+    site_name = settings.get('site_name', 'STUDY TOPPER™')
+    domain = settings.get('domain', 'studytopper.in')
+    
+    socials = settings.get('socials', {})
+    wa_url = socials.get('whatsapp', 'https://whatsapp.com/')
+    tg_url = socials.get('telegram', 'https://t.me/')
+    ig_url = socials.get('instagram', 'https://instagram.com/')
+    yt_url = socials.get('youtube', 'https://youtube.com/')
+    fb_url = socials.get('facebook', 'https://facebook.com/')
+    tw_url = socials.get('twitter', 'https://x.com/')
+
+    title = post.get('title', 'Govt Job Online Form')
     headline = post.get('headline') or title
+    slug = post.get('slug', '')
     category_slug = post.get('category', 'latest-jobs')
     category_name = category_slug.replace('-', ' ').title()
     short_desc = post.get('short_desc', '')
@@ -398,12 +410,243 @@ def render_single_post_html(post, settings):
         </div>
     </nav>
 
-                </main>
+    <div class="st-post-container">
+        <!-- Breadcrumb -->
+        <nav class="st-breadcrumb">
+            <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+            <span>»</span>
+            <a href="/{category_slug}/">{category_name}</a>
+            <span>»</span>
+            <span class="current">{title}</span>
+        </nav>
+
+        <!-- Hero Card -->
+        <div class="st-hero-card">
+            <div class="st-badge-strip">
+                <span class="st-badge st-badge-primary">🔥 Latest Notification</span>
+                <span class="st-badge st-badge-success">{badge_val}</span>
+                <span class="st-badge st-badge-info">Active &amp; Verified</span>
             </div>
+
+            <h1 class="st-post-title">{headline}</h1>
+            
+            <div class="st-meta-bar">
+                <div class="st-meta-item"><i class="fa-regular fa-building"></i> <strong>Recruitment Board:</strong> Indian Railways / Govt of India</div>
+                <div class="st-meta-item"><i class="fa-regular fa-calendar-days"></i> <strong>Application Window:</strong> {app_start} to {app_last}</div>
+                <div class="st-meta-item"><i class="fa-solid fa-shield-halved"></i> <strong>Status:</strong> Active Online Form</div>
+            </div>
+
+            <!-- Stats Ribbon -->
+            <div class="st-stats-grid">
+                <div class="st-stat-box">
+                    <div class="st-stat-label">Total Posts</div>
+                    <div class="st-stat-value red">{badge_val}</div>
+                </div>
+                <div class="st-stat-box">
+                    <div class="st-stat-label">Application Mode</div>
+                    <div class="st-stat-value">Online Portal</div>
+                </div>
+                <div class="st-stat-box">
+                    <div class="st-stat-label">Last Date</div>
+                    <div class="st-stat-value red">{app_last}</div>
+                </div>
+                <div class="st-stat-box">
+                    <div class="st-stat-label">Job Location</div>
+                    <div class="st-stat-value green">All India</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Banner Image (Zero Copyright) -->
+        <div style="text-align:center; margin:15px 0;">
+            <img src="{banner_url}" alt="{title} | {site_name}" style="max-width:100%; height:auto; border-radius:8px; border:2px solid #ab183d; box-shadow:0 4px 12px rgba(0,0,0,0.06);" />
+        </div>
+
+        <!-- Short Overview -->
+        <div class="st-info-box">
+            <strong class="label"><i class="fa-solid fa-circle-info"></i> Short Information :</strong>
+            {short_desc}
+        </div>
+
+        <!-- Social Strip -->
+        <div class="st-social-strip">
+            <div class="st-social-title"><i class="fa-solid fa-bell"></i> Get Instant Govt Job Alerts On Your Phone</div>
+            <div class="st-social-btns">
+                <a href="{wa_url}" target="_blank" class="st-btn-wa"><i class="fa-brands fa-whatsapp"></i> Join WhatsApp Channel</a>
+                <a href="{tg_url}" target="_blank" class="st-btn-tg"><i class="fa-brands fa-telegram"></i> Join Telegram Group</a>
+            </div>
+        </div>
+
+        <!-- Two Column Matrix -->
+        <div class="st-matrix-grid">
+            <div class="st-matrix-card">
+                <div class="st-matrix-head">
+                    <i class="fa-regular fa-calendar-check"></i> Important Dates
+                </div>
+                <div class="st-matrix-body">
+                    <ul class="st-list">
+                        <li>
+                            <span class="key">Application Start Date</span>
+                            <span class="val">{app_start}</span>
+                        </li>
+                        <li>
+                            <span class="key">Last Date to Apply Online</span>
+                            <span class="val highlight">{app_last}</span>
+                        </li>
+                        <li>
+                            <span class="key">Fee Payment Last Date</span>
+                            <span class="val">{app_last}</span>
+                        </li>
+                        <li>
+                            <span class="key">Exam / Merit List Date</span>
+                            <span class="val">As per Schedule</span>
+                        </li>
+                        <li>
+                            <span class="key">Admit Card Release</span>
+                            <span class="val">Before Exam</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="st-matrix-card">
+                <div class="st-matrix-head blue">
+                    <i class="fa-solid fa-indian-rupee-sign"></i> Application Fee
+                </div>
+                <div class="st-matrix-body">
+                    <ul class="st-list">
+                        <li>
+                            <span class="key">General / OBC / EWS</span>
+                            <span class="val">₹ 100/- to ₹ 500/-</span>
+                        </li>
+                        <li>
+                            <span class="key">SC / ST / PwBD</span>
+                            <span class="val" style="color:#16a34a;">₹ 0/- or Refundable</span>
+                        </li>
+                        <li>
+                            <span class="key">All Female Candidates</span>
+                            <span class="val" style="color:#16a34a;">₹ 0/- or Refundable</span>
+                        </li>
+                        <li>
+                            <span class="key">Payment Mode</span>
+                            <span class="val" style="font-size:12px;">Online (UPI, Debit Card, Net Banking)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Structured Body Table / Post Content -->
+        <div class="st-section-card">
+            <div class="st-section-head">
+                <i class="fa-solid fa-graduation-cap"></i> Vacancy Breakdown &amp; Educational Qualification
+            </div>
+            <div class="st-section-body" style="padding:15px;">
+                {cleaned_content if cleaned_content and len(cleaned_content) > 50 else f'<p>{short_desc}</p>'}
+            </div>
+        </div>
+
+        <!-- How To Apply -->
+        <div class="st-section-card">
+            <div class="st-section-head">
+                <i class="fa-solid fa-list-check"></i> Step-by-Step Guide to Fill Online Application Form
+            </div>
+            <div class="st-section-body">
+                <div class="st-steps-container">
+                    <div class="st-step-item">
+                        <div class="st-step-num">1</div>
+                        <div class="st-step-text"><strong>Visit Official Portal:</strong> Open the official application link given under the Important Links section below.</div>
+                    </div>
+                    <div class="st-step-item">
+                        <div class="st-step-num">2</div>
+                        <div class="st-step-text"><strong>New Registration (OTR):</strong> Register with your valid active Mobile Number, Email ID, and basic details.</div>
+                    </div>
+                    <div class="st-step-item">
+                        <div class="st-step-num">3</div>
+                        <div class="st-step-text"><strong>Fill Application Form:</strong> Enter your educational qualifications, trade details, and preferred post/zone options.</div>
+                    </div>
+                    <div class="st-step-item">
+                        <div class="st-step-num">4</div>
+                        <div class="st-step-text"><strong>Upload Documents:</strong> Upload clear scanned copies of Passport Photograph, Signature, and required Certificates.</div>
+                    </div>
+                    <div class="st-step-item">
+                        <div class="st-step-num">5</div>
+                        <div class="st-step-text"><strong>Fee Payment &amp; Printout:</strong> Pay application fee online (if applicable) and download your final confirmation printout.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Useful Important Links Hub -->
+        <div class="st-links-hub">
+            <div class="st-links-head">
+                <i class="fa-solid fa-link"></i> SOME USEFUL IMPORTANT LINKS
+            </div>
+            <div class="st-link-row">
+                <span>Apply Online Registration Form</span>
+                <a href="#" target="_blank" class="st-link-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Click Here</a>
+            </div>
+            <div class="st-link-row">
+                <span>Download Official Notification PDF</span>
+                <a href="#" target="_blank" class="st-link-btn"><i class="fa-solid fa-download"></i> Click Here</a>
+            </div>
+            <div class="st-link-row">
+                <span>Check Study Topper Official Portal</span>
+                <a href="/" target="_blank" class="st-link-btn blue"><i class="fa-solid fa-globe"></i> Click Here</a>
+            </div>
+            <div class="st-link-row">
+                <span>Join Study Topper WhatsApp Channel</span>
+                <a href="{wa_url}" target="_blank" class="st-link-btn green"><i class="fa-brands fa-whatsapp"></i> Join Now</a>
+            </div>
+            <div class="st-link-row">
+                <span>Join Study Topper Telegram Community</span>
+                <a href="{tg_url}" target="_blank" class="st-link-btn blue"><i class="fa-brands fa-telegram"></i> Join Now</a>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="st-tags-box">
+            <strong style="font-size:13px; color:#475569;"><i class="fa-solid fa-tags" style="color:#cd0808;"></i> Tags:</strong>
+            {tag_chips}
         </div>
     </div>
 
-    {footer_render}
+    <!-- Site Footer -->
+    <div class="site-footer">
+        <div class="gb-container gb-container-7d9550dd naman_footer alignwide">
+            <div class="gb-grid-wrapper gb-grid-wrapper-b76f312f">
+                <div class="gb-grid-column gb-grid-column-53cb46e2">
+                    <div class="gb-container gb-container-53cb46e2">
+                        <div class="sarkari-wrapper">
+                            <h3>Connect With Us</h3>
+                            <div class="sarkari-grid">
+                                <a href="{tw_url}" target="_blank">Study Topper @X</a>
+                                <a href="{tg_url}" target="_blank">Study Topper @Telegram</a>
+                                <a href="{wa_url}" target="_blank">Study Topper @WhatsApp</a>
+                                <a href="{ig_url}" target="_blank">Study Topper @Instagram</a>
+                                <a href="{fb_url}" target="_blank">Study Topper @Facebook</a>
+                                <a href="{yt_url}" target="_blank">Study Topper @YouTube</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gb-container gb-container-d1f47294">
+            <div class="gb-headline gb-headline-e41178b2 gb-headline-text" style="font-size:14px; margin-bottom:8px;">
+                Copyright © 2026 | <strong><a href="/" data-type="link" data-id="{domain}">{domain}</a></strong><br>
+                Official Website of Study Topper™ – {domain}
+            </div>
+
+            <div class="gb-container-658f27a5" style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+                <a class="gb-button gb-button-7d526092 gb-button-text" href="/" style="color:#ffffff !important; text-decoration:underline;">Home</a>
+                <a class="gb-button gb-button-05aacc7b gb-button-text" href="/contact/" style="color:#ffffff !important; text-decoration:underline;">Contact</a>
+                <a class="gb-button gb-button-c050fa03 gb-button-text" href="/privacy-policy/" style="color:#ffffff !important; text-decoration:underline;">Privacy Policy</a>
+                <a class="gb-button gb-button-6172bea5 gb-button-text" href="/disclaimer/" style="color:#ffffff !important; text-decoration:underline;">Disclaimer</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>"""
 
