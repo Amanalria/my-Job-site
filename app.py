@@ -1599,18 +1599,18 @@ def dynamic_page_router(slug):
         cat_html = render_category_page_html(clean_slug, cat_title, cat_posts, settings)
         return Response(sanitize_html(cat_html, request.host), mimetype='text/html')
 
-    # 2. User-Created Single Post Routing
-    for p in all_posts:
-        if p.get('slug') == clean_slug or p.get('id') == clean_slug:
-            post_html = render_single_post_html(p, settings)
-            return Response(sanitize_html(post_html, request.host), mimetype='text/html')
-
-    # 3. Static User HTML Page in PAGES_DIR (if explicitly created by user)
+    # 2. Exact Scraped / Static Post Page in PAGES_DIR (100% Exact HTML Design)
     page_file = os.path.join(PAGES_DIR, f"{clean_slug}.html")
     if os.path.exists(page_file) and clean_slug != 'index':
         with open(page_file, 'r', encoding='utf-8') as f:
             content = f.read()
         return Response(sanitize_html(content, request.host), mimetype='text/html')
+
+    # 3. Dynamic User-Created Single Post Routing
+    for p in all_posts:
+        if p.get('slug') == clean_slug or p.get('id') == clean_slug:
+            post_html = render_single_post_html(p, settings)
+            return Response(sanitize_html(post_html, request.host), mimetype='text/html')
 
     # Zero external scraper fallback! Only show clean 404
     abort(404)
