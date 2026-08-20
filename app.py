@@ -1374,10 +1374,7 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
         .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
         .cat-card {{ border: 2px solid #cd0808; border-radius: 4px; padding: 20px; background: #fff; }}
         h1.cat-heading {{ background: #cd0808; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
-        .gb-container-7d9550dd {{ background:#212121; padding:25px 15px 15px; }}
-        .gb-container-d1f47294 {{ background:#1d2327; color:#fff; text-align:center; padding:18px 10px; }}
-        .gb-container-d1f47294 a {{ color:#fff; }}
-        .gb-button {{ background:#000000 !important; color:#ffffff !important; padding:6px 14px; border-radius:4px; text-decoration:underline; font-size:13px; border:1px solid #333; }}
+
     </style>
 </head>
 <body class="wp-theme-generatepress">
@@ -1432,10 +1429,7 @@ def render_search_page_html(query, search_results, settings):
         .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
         .cat-card {{ border: 2px solid #cd0808; border-radius: 4px; padding: 20px; background: #fff; }}
         h1.cat-heading {{ background: #cd0808; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
-        .gb-container-7d9550dd {{ background:#212121; padding:25px 15px 15px; }}
-        .gb-container-d1f47294 {{ background:#1d2327; color:#fff; text-align:center; padding:18px 10px; }}
-        .gb-container-d1f47294 a {{ color:#fff; }}
-        .gb-button {{ background:#000000 !important; color:#ffffff !important; padding:6px 14px; border-radius:4px; text-decoration:underline; font-size:13px; border:1px solid #333; }}
+
     </style>
 </head>
 <body class="wp-theme-generatepress">
@@ -2156,91 +2150,104 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         color: #ffffff !important;
     }}
 
-    /* Universal Homepage Footer Styles */
-    .site-footer {{
+    /* Universal Single-Background Seamless Footer Styles */
+    .site-footer, 
+    footer.site-footer, 
+    .naman_footer, 
+    .gb-container.gb-container-7d9550dd, 
+    .gb-container-7d9550dd, 
+    .gb-container.gb-container-d1f47294, 
+    .gb-container-d1f47294 {{
+        background-color: var(--sarkari-foot-bg, #1c1c1c) !important;
+        background: var(--sarkari-foot-bg, #1c1c1c) !important;
+        color: var(--sarkari-foot-txt, #ffffff) !important;
         width: 100% !important;
         clear: both !important;
-        margin-top: 30px !important;
     }}
-    .gb-container.gb-container-7d9550dd.naman_footer.alignwide, .naman_footer {{
-        background: #212121 !important;
-        padding: 25px 15px 18px !important;
+    .naman_footer {{
+        padding: 22px 15px 6px !important;
     }}
     .sarkari-wrapper {{
         max-width: 600px !important;
         margin: 0 auto !important;
         text-align: center !important;
-        background: #1e1e1e !important;
-        padding: 20px !important;
-        border-radius: 6px !important;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 10px !important;
     }}
-    .sarkari-wrapper h3 {{
-        color: #ffffff !important;
-        margin: 0 0 15px 0 !important;
-        font-size: 18px !important;
+    .sarkari-wrapper h3, .sarkari-wrapper h2 {{
+        color: var(--sarkari-foot-txt, #ffffff) !important;
+        margin: 0 0 12px 0 !important;
+        font-size: 16px !important;
         font-weight: 700 !important;
         text-align: center !important;
     }}
     .sarkari-grid {{
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        gap: 12px !important;
+        gap: 8px 16px !important;
         justify-content: center !important;
     }}
     .sarkari-grid a {{
-        background: #2a2a2a !important;
-        color: #ffffff !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        color: var(--sarkari-foot-txt, #ffffff) !important;
+        display: block !important;
         font-size: 13.5px !important;
-        padding: 8px 12px !important;
+        padding: 3px 6px !important;
         text-decoration: none !important;
-        border-radius: 4px !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
         font-weight: 500 !important;
-        transition: background 0.15s ease !important;
+        text-align: center !important;
     }}
     .sarkari-grid a:hover {{
-        background: #3a3a3a !important;
         text-decoration: underline !important;
+        background: transparent !important;
+        color: #4da3ff !important;
     }}
     .gb-container.gb-container-d1f47294, .gb-container-d1f47294 {{
-        background: #1d2327 !important;
-        color: #ffffff !important;
+        padding: 10px 10px 22px !important;
         text-align: center !important;
-        padding: 18px 10px !important;
+        background: transparent !important;
+        background-color: transparent !important;
     }}
     .gb-headline-e41178b2 {{
-        font-size: 13.5px !important;
+        font-size: 13px !important;
         line-height: 1.6 !important;
-        color: #ffffff !important;
+        color: var(--sarkari-foot-txt, #ffffff) !important;
         margin-bottom: 8px !important;
     }}
     .gb-headline-e41178b2 a {{
-        color: #ffffff !important;
+        color: var(--sarkari-foot-txt, #ffffff) !important;
         text-decoration: none !important;
         font-weight: 700 !important;
     }}
     .gb-container-658f27a5 {{
         display: flex !important;
         justify-content: center !important;
-        gap: 10px !important;
+        gap: 14px !important;
         flex-wrap: wrap !important;
-        margin-top: 10px !important;
+        margin-top: 8px !important;
     }}
     .gb-button.gb-button-text, .gb-button {{
-        background: #000000 !important;
-        color: #ffffff !important;
-        padding: 6px 14px !important;
-        border-radius: 4px !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        color: var(--sarkari-foot-txt, #ffffff) !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
         text-decoration: underline !important;
         font-size: 13px !important;
-        border: 1px solid #333333 !important;
-        display: inline-block !important;
+        border: none !important;
+        box-shadow: none !important;
+        display: inline !important;
     }}
     .gb-button:hover {{
-        background: #222222 !important;
+        background: transparent !important;
+        color: #4da3ff !important;
     }}
     .alria-edit-btn {{
         background: #ef4444 !important;
