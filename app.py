@@ -26,6 +26,23 @@ PRIMARY_CATEGORIES = [
     'certificate-verification', 'important', 'contact', 'disclaimer', 'privacy-policy'
 ]
 
+MAIN_CSS_CACHE = ""
+try:
+    _main_css_file = os.path.join(WP_CONTENT_DIR, 'themes', 'generatepress', 'assets', 'css', 'main.min.css')
+    if os.path.exists(_main_css_file):
+        with open(_main_css_file, 'r', encoding='utf-8') as f:
+            MAIN_CSS_CACHE = f.read()
+except Exception as e:
+    print("Notice: Could not load main.min.css cache:", e)
+
+STYLE_32_CSS_CACHE = ""
+try:
+    _s32_file = os.path.join(WP_CONTENT_DIR, 'uploads', 'generateblocks', 'style-32.css')
+    if os.path.exists(_s32_file):
+        with open(_s32_file, 'r', encoding='utf-8') as f:
+            STYLE_32_CSS_CACHE = f.read()
+except Exception as e:
+    print("Notice: Could not load style-32.css cache:", e)
 
 # ==================== UNIFIED POST MANAGEMENT SYSTEM ====================
 
@@ -890,7 +907,7 @@ def render_single_post_html(post, settings):
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap"></noscript>
-    <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
+    <style id="generatepress-main-css">{MAIN_CSS_CACHE}</style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     {get_nav_search_styles_html()}
     <style>
@@ -1465,8 +1482,28 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         if 'fonts.googleapis.com' in href:
             if any(bad in href for bad in ['Helvetica', 'Arial', 'Lato:', 'Source+Sans+Pro:200']):
                 link.decompose()
+        elif 'main.min.css' in href:
+            if MAIN_CSS_CACHE and soup.head:
+                if not soup.find(id='generatepress-main-css'):
+                    inline_css = soup.new_tag('style', id='generatepress-main-css')
+                    inline_css.string = MAIN_CSS_CACHE
+                    soup.head.append(inline_css)
+                link.decompose()
+            else:
+                link['media'] = 'print'
+                link['onload'] = "this.media='all'"
+        elif 'style-32.css' in href:
+            if STYLE_32_CSS_CACHE and soup.head:
+                if not soup.find(id='generateblocks-style-32'):
+                    s32_tag = soup.new_tag('style', id='generateblocks-style-32')
+                    s32_tag.string = STYLE_32_CSS_CACHE
+                    soup.head.append(s32_tag)
+                link.decompose()
+            else:
+                link['media'] = 'print'
+                link['onload'] = "this.media='all'"
         # Make secondary non-critical CSS non-blocking
-        elif any(c in href for c in ['style-32.css', 'featured-images.min.css']):
+        elif any(c in href for c in ['featured-images.min.css', 'all.min.css']):
             link['media'] = 'print'
             link['onload'] = "this.media='all'"
 
@@ -1488,8 +1525,26 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         if s.get('src') and not s.get('defer') and not s.get('async'):
             s['defer'] = True
 
-    # 1d. Images Performance & Accessibility (0 CLS + Lazy Loading)
+    # 1d. Images Performance & 0 CLS (Explicit Dimensions)
     for img in soup.find_all('img'):
+        src = (img.get('src') or '').lower()
+        if 'live-gif' in src or 'live' in src:
+            img['width'] = '62'
+            img['height'] = '20'
+            img['style'] = 'width:62px !important; height:20px !important; aspect-ratio:62/20 !important; display:inline-block !important; vertical-align:middle !important;'
+            if img.get('srcset'):
+                del img['srcset']
+            if img.get('sizes'):
+                del img['sizes']
+        elif 'sarkari-result-6' in src:
+            img['width'] = '150'
+            img['height'] = '150'
+            img['style'] = 'width:150px !important; height:150px !important; aspect-ratio:1/1 !important;'
+        elif '512px512px' in src:
+            img['width'] = '300'
+            img['height'] = '300'
+            img['style'] = 'width:300px !important; height:300px !important; aspect-ratio:1/1 !important;'
+        
         if not img.get('alt'):
             img['alt'] = settings.get('site_name', 'Study Topper')
         if not img.get('loading') and not img.get('fetchpriority'):
@@ -1767,10 +1822,10 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     }}
     .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li,
     ul.wp-block-latest-posts.wp-block-latest-posts__list li {{
-        padding: 2px 0 4px 0 !important;
-        line-height: 1.35 !important;
+        padding: 3px 0 5px 0 !important;
+        margin-bottom: 6px !important;
+        line-height: 1.45 !important;
         font-size: 13.5px !important;
-        margin: 0 !important;
     }}
     .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a,
     .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a.wp-block-latest-posts__post-title,
@@ -1781,6 +1836,9 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         font-family: Arial, Helvetica, sans-serif !important;
         text-decoration: underline !important;
         text-decoration-color: #0000ef !important;
+        display: inline-block !important;
+        padding: 2px 0 !important;
+        min-height: 24px !important;
     }}
     .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a:hover,
     ul.wp-block-latest-posts a:hover {{
@@ -1821,14 +1879,19 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         }}
         .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li,
         ul.wp-block-latest-posts.wp-block-latest-posts__list li {{
-            padding: 2px 0 3px 0 !important;
-            font-size: 12px !important;
+            padding: 3px 0 4px 0 !important;
+            margin-bottom: 5px !important;
+            font-size: 12.5px !important;
+            line-height: 1.4 !important;
         }}
         .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a,
         .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a.wp-block-latest-posts__post-title {{
-            font-size: 12px !important;
-            line-height: 1.3 !important;
+            font-size: 12.5px !important;
+            line-height: 1.35 !important;
             font-weight: 600 !important;
+            display: inline-block !important;
+            padding: 2px 0 !important;
+            min-height: 24px !important;
         }}
     }}
 
