@@ -10,8 +10,12 @@
     "custom_badge": "32,388 Posts",
     "tags": "latest-jobs, Bihar Public Service Commission (BPSC), Study Topper",
     "created_at": "2026-08-21T03:17:31.279570",
-    "lifecycle_state": "ACTIVE",
-    "is_pinned": true
+    "lifecycle_state": "URGENT_PINNED",
+    "is_pinned": true,
+    "days_remaining": 39,
+    "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">39 Days Left!</span>",
+    "lifecycle_badge": "39 Days Left!",
+    "sort_priority": 99990
   },
   {
     "id": "post_ibps_clerk_16th_2026",
@@ -24,7 +28,11 @@
     "custom_badge": "11,403 Posts",
     "tags": "latest-jobs, Institute of Banking Personnel Selection (IBPS), Study Topper",
     "created_at": "2026-08-21T03:17:30.803265",
-    "lifecycle_state": "ACTIVE",
-    "is_pinned": true
+    "lifecycle_state": "URGENT_PINNED",
+    "is_pinned": false,
+    "days_remaining": 0,
+    "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">Last Date Today!</span>",
+    "lifecycle_badge": "Last Date Today!",
+    "sort_priority": 10000
   }
 ]

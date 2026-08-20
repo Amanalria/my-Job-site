@@ -193,8 +193,8 @@
                             <td><strong style="color:#b91c1c;">{{ p.application_last_date or 'Closing Soon' }}</strong></td>
                             <td>
                                 <span style="color:#b91c1c; font-weight:800; font-size:13px;">
-                                    {% if p.days_remaining is not none %}
-                                        {{ p.days_remaining }} Days Left
+                                    {% if p.get('days_remaining') is not none %}
+                                        {{ p.get('days_remaining') }} Days Left
                                     {% else %}
                                         Urgent
                                     {% endif %}
@@ -262,7 +262,7 @@
                             <td><strong style="color:#0284c7;">{{ p.application_last_date or 'Extended' }}</strong></td>
                             <td>
                                 <span style="color:#0284c7; font-weight:700;">
-                                    {% if p.days_remaining is not none %}{{ p.days_remaining }} Days{% else %}Ongoing{% endif %}
+                                    {% if p.get('days_remaining') is not none %}{{ p.get('days_remaining') }} Days{% else %}Ongoing{% endif %}
                                 </span>
                             </td>
                             <td>
@@ -336,13 +336,13 @@
                         <td><span style="background:#f1f5f9; padding:2px 6px; border-radius:3px; font-size:11px;">{{ p.category }}</span></td>
                         <td><strong>{{ p.application_last_date or 'Open / Ongoing' }}</strong></td>
                         <td>
-                            {% if p.days_remaining is not none %}
-                                {% if p.days_remaining < 0 %}
-                                    <span style="color:#ef4444; font-weight:700;">Expired ({{ p.days_remaining|abs }}d ago)</span>
-                                {% elif p.days_remaining <= (config.urgent_days_threshold or 3) %}
-                                    <span style="color:#b91c1c; font-weight:800;">{{ p.days_remaining }} Days Left</span>
+                            {% if p.get('days_remaining') is not none %}
+                                {% if p.get('days_remaining') is not none and p.get('days_remaining') < 0 %}
+                                    <span style="color:#ef4444; font-weight:700;">Expired ({{ p.get('days_remaining')|abs }}d ago)</span>
+                                {% elif p.get('days_remaining') is not none and p.get('days_remaining') <= (config.urgent_days_threshold or 3) %}
+                                    <span style="color:#b91c1c; font-weight:800;">{{ p.get('days_remaining') }} Days Left</span>
                                 {% else %}
-                                    <span style="color:#15803d;">{{ p.days_remaining }} Days</span>
+                                    <span style="color:#15803d;">{{ p.get('days_remaining') }} Days</span>
                                 {% endif %}
                             {% else %}
                                 <span style="color:#64748b;">—</span>

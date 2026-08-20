@@ -4135,6 +4135,7 @@ def admin_lifecycle():
     custom_posts = load_custom_posts()
     pinned_set = set(config.get('pinned_posts', []))
     urgent_threshold = int(config.get('urgent_days_threshold', 3))
+    today = datetime.now().date()
     
     urgent_posts = []
     extended_posts = []
@@ -4145,10 +4146,14 @@ def admin_lifecycle():
         is_pin = slug in pinned_set or p.get('is_pinned', False)
         p['is_pinned'] = is_pin
         
-        days_rem = p.get('days_remaining')
-        is_ext = 'extend' in (p.get('application_last_date', '') + p.get('title', '') + str(p.get('custom_badge', ''))).lower()
+        last_date_str = p.get('application_last_date', '')
+        parsed_date = lifecycle.parse_date_string(last_date_str)
+        days_rem = (parsed_date - today).days if parsed_date else None
+        p['days_remaining'] = days_rem
         
-        # Strict threshold check: Only posts <= urgent_threshold days left
+        is_ext = 'extend' in (last_date_str + p.get('title', '') + str(p.get('custom_badge', ''))).lower()
+        p['is_date_extended'] = is_ext
+        
         if days_rem is not None and 0 <= days_rem <= urgent_threshold:
             urgent_posts.append(p)
         if is_ext:
@@ -4157,7 +4162,7 @@ def admin_lifecycle():
             pinned_posts_list.append(p)
             
     urgent_count = len(urgent_posts)
-    expired_count = sum(1 for p in custom_posts if p.get('lifecycle_state') == 'EXPIRED_DEMOTED')
+    expired_count = sum(1 for p in custom_posts if (p.get('days_remaining') is not None and p.get('days_remaining') < 0) or p.get('lifecycle_state') == 'EXPIRED_DEMOTED')
     
     return render_template(
         'admin/lifecycle.html',
@@ -4195,6 +4200,8 @@ def api_unpin_post(slug):
 
 @app.route('/api/admin/toggle-pin-post/<slug>', methods=['GET', 'POST'])
 @app.route('/api/admin/toggle-pin-post/<slug>/', methods=['GET', 'POST'])
+@app.route('/api/admin/toggle-pin/<slug>', methods=['GET', 'POST'])
+@app.route('/api/admin/toggle-pin/<slug>/', methods=['GET', 'POST'])
 @auth.admin_required
 def api_toggle_pin_post(slug):
     try:
