@@ -17,43 +17,41 @@ Whenever the user mentions **"sarkari result universal design"**, **"universal p
 ├────────────────────────────────────────────────────────────────────────┤
 │ 2. Compact GeneratePress Navigation Bar (Mobile Hamburger + More Menu) │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 3. Live Breaking Marquee News Ribbon                                   │
+│ 3. Post Title Header (Centered, bold rich blue #0c0a8d, font 24-26px)  │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 4. Official WhatsApp & Telegram Community Join Bar                     │
+│ 4. Post Date & Timestamp (Red accent #cd0808)                          │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 5. Breadcrumb Trail: Home > [Category Name] > [Post Title]            │
+│ 5. Dual Overview Section (English Overview + Hindi संक्षिप्त विवरण)    │
+│    - Fills space cleanly with zero blank gap                           │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 6. Post Title Header (Centered, bold navy #0b213f, font-size 22-26px)  │
+│ 6. Social Share Buttons: [WhatsApp #25D366] [Telegram #0088cc]         │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 7. Humanized Intro Paragraph (Brief overview, board, notification)     │
-├────────────────────────────────────────────────────────────────────────┤
-│ 8. 2-Column Table: Important Dates & Application Fee                   │
+│ 7. 2-Column Table: Important Dates & Application Fee                   │
 │    - Header: #ab183d background, #ffffff bold text                     │
 │    - Left: Application Start, Last Date, Fee Last Date, Exam Date      │
 │    - Right: Gen/OBC/EWS Fee, SC/ST/PH Fee, Payment Mode                │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 9. Age Limit & Relaxation Table                                        │
+│ 8. Age Limit & Relaxation Table (#ab183d header)                       │
 │    - Min Age, Max Age, Reference Date, Category Relaxations            │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 10. Vacancy Details & Eligibility Table                                │
-│     - Columns: Post Name | Total Posts | Eligibility Matrix            │
+│ 9. Vacancy Details & Eligibility Table                                 │
+│    - Header: #f53c00 vibrant orange, #ffffff bold white text           │
+│    - Columns: Post Name | Total Posts | Eligibility Matrix             │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 11. Category-Wise Vacancy Breakdown Table                              │
-│     - Columns: Post / Category | UR | OBC | EWS | SC | ST | Total      │
+│ 10. Dynamic 3-Day Rotating "You May Also Check" Widget                 │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 12. Selection Process / Exam Pattern Table                             │
-│     - Written Exam, Physical/Skill Test, DV, Medical                   │
+│ 11. Step-by-Step "How to Apply Online Form" Guide (Left-aligned list)  │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 13. Step-by-Step "How to Apply Online Form" Guide (Ordered List)       │
+│ 12. Useful Important Links Table                                       │
+│     - Header Box: Solid Red #ab183d, #ffffff bold white text           │
+│     - Links Table Fill: Light red tint #fff0f3, #ab183d borders        │
+│     - Links: Bold blue #0000ef Click Here                              │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 14. Useful Important Links Table                                       │
-│     - Apply Online, Download Notification, Official Website, Social    │
+│ 13. Frequently Asked Questions (FAQ) Section                           │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 15. Frequently Asked Questions (FAQ) Section                           │
+│ 14. Custom WebP Post Thumbnail (/static/thumbnails/<slug>.webp)        │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 16. Related Posts / Latest Category Updates                            │
-├────────────────────────────────────────────────────────────────────────┤
-│ 17. Official Footer (About, Policies, Disclaimer, Copyright Notice)    │
+│ 15. Official Footer (About, Policies, Disclaimer, Copyright Notice)    │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
