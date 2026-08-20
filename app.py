@@ -1626,10 +1626,25 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         soup.head.append(pconn2)
         soup.head.append(font_link)
 
-    # 1c. LCP Text Element Immediate Zero-Delay Render Optimization
+    # 1c. LCP Text Element Immediate Zero-Delay Render Optimization (Homepage & Post Pages)
+    # Homepage LCP headline
     for p_tag in soup.find_all(class_=re.compile(r'gb-headline-d55a09d3')):
         curr_style = p_tag.get('style', '')
         p_tag['style'] = (curr_style + ' font-family: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important; font-display: swap !important; font-size: 13.5px !important; line-height: 1.5 !important; color: #000000 !important; margin: 4px auto 6px auto !important; text-align: center !important; text-rendering: optimizeSpeed !important;').strip()
+
+    # Post Page LCP Heading (H1) & Intro Overview (<p>)
+    for h1_tag in soup.find_all(['h1', 'h2']):
+        h1_style = h1_tag.get('style', '')
+        if 'font-family' not in h1_style:
+            h1_tag['style'] = (h1_style + ' font-family: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important; text-rendering: optimizeSpeed !important;').strip()
+
+    for p_lcp in soup.find_all(class_=re.compile(r'gb-headline-550ae316|short_Details')):
+        # Unwrap invalid nested <p>
+        inner_p = p_lcp.find('p')
+        if inner_p:
+            inner_p.unwrap()
+        p_style = p_lcp.get('style', '')
+        p_lcp['style'] = (p_style + ' font-family: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important; font-display: swap !important; text-rendering: optimizeSpeed !important; contain-intrinsic-size: none !important;').strip()
 
     # 1d. Defer all local JavaScript
     for s in soup.find_all('script'):
