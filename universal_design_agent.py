@@ -70,13 +70,15 @@ class UniversalDesignAgent:
             os.path.join(self.pages_dir, "rrb-je-2026.html"),
             os.path.join(self.pages_dir, "ssc-cgl-2026.html"),
             os.path.join(self.pages_dir, "railway-nfr-2026.html"),
-            os.path.join(self.pages_dir, "ssc-gd-constable-2026.html")
+            os.path.join(self.pages_dir, "index.html"),
+            os.path.join(self.base_dir, "original_index.html"),
+            os.path.join(self.base_dir, "raw_clone", "pages", "index.html")
         ]
         for ref in ref_candidates:
             if os.path.exists(ref):
                 with open(ref, "r", encoding="utf-8") as f:
                     return f.read()
-        raise FileNotFoundError("No reference GeneratePress post template found in pages directory!")
+        raise FileNotFoundError("No reference GeneratePress template found!")
 
     def humanize_overview(self, data: Dict[str, Any]) -> str:
         """

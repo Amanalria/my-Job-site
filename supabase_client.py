@@ -71,14 +71,21 @@ def fetch_posts_from_supabase():
     return None
 
 def save_post_to_supabase(post_data):
+    import uuid
     url, key = get_supabase_credentials()
     if not url or not key:
         return False
     try:
+        allowed_cols = {'id', 'slug', 'title', 'category', 'short_desc', 'application_start_date', 'application_last_date', 'custom_badge', 'is_pinned', 'created_at', 'html_content'}
+        filtered_payload = {k: v for k, v in post_data.items() if k in allowed_cols}
+        slug = filtered_payload.get('slug', 'default')
+        raw_id = filtered_payload.get('id', '')
+        if not raw_id or len(raw_id) != 36:
+            filtered_payload['id'] = str(uuid.uuid5(uuid.NAMESPACE_DNS, slug))
         headers = get_headers(key)
         headers['Prefer'] = 'resolution=merge-duplicates'
         req_url = f"{url}/rest/v1/posts"
-        res = requests.post(req_url, headers=headers, json=post_data, timeout=8)
+        res = requests.post(req_url, headers=headers, json=filtered_payload, timeout=8)
         return res.status_code in [200, 201, 204]
     except Exception:
         return False
