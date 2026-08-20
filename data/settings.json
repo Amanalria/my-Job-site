@@ -7,7 +7,7 @@
     "google_analytics_id": "",
     "google_site_verification": ""
   },
-  "domain": "Latest Jobs, Results, Etc.",
+  "domain": "studytopper.in",
   "footer": {
     "nav_links": [
       {
@@ -67,7 +67,7 @@
     "whatsapp": "https://whatsapp.com/channel/0029Vb6Vts9EQIagEOLHXH44",
     "instagram": "https://instagram.com/aman_alria"
   },
-  "tagline": "Study Topper \u2122 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
+  "tagline": "Latest Jobs, Results, Etc.",
   "supabase": {
     "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsdHpqdGRrdWNiZ3BwaWppZXZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNzAzNTEsImV4cCI6MjEwMjY0NjM1MX0.u8PLHsBsxaB0njzOmtAcD7riuXC4rA1TXQJrDMfbFV4",
     "url": "https://hltzjtdkucbgppijievw.supabase.co",
@@ -96,6 +96,7 @@
       "q": "Which Government Recruitment Boards And Exams Are Covered On StudyTopper.In?"
     }
   ],
+  "header_bg": "#cd0808",
   "site_name": "STUDY TOPPER\u2122",
   "categories": [
     {
@@ -147,10 +148,14 @@
       "slug": "important"
     }
   ],
+  "desc_color": "#ffffff",
   "robots_txt": "User-agent: *\r\nDisallow: /admin/\r\nDisallow: /admin\r\nDisallow: /alria\r\nDisallow: /api/\r\nAllow: /\r\n\r\nSitemap: https://yourdomain.com/sitemap.xml",
+  "title_font": "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
   "title_text": "STUDY TOPPER\u2122",
+  "desc_weight": "700",
   "footer_text": "Copyright \u00a9 2026 StudyTopper.in | All Rights Reserved. Educational Career Guidance Portal.",
-  "gap_spacing": 2.0,
+  "gap_spacing": "2",
+  "title_color": "#ffffff",
   "grid_headers": {
     "result": {
       "title": "Results",
@@ -206,6 +211,7 @@
     "syllabus_header_bg": "#cd0808",
     "admission_header_bg": "#cd0808"
   },
+  "title_weight": "900",
   "deleted_posts": [
     "railway-rrb-group-d-level-1-recruitment-2026-online",
     "bpsc-school-teacher-tre-4-0-2026",
@@ -282,6 +288,8 @@
   "info_content_2": "",
   "info_content_3": "",
   "info_content_4": "",
+  "pad_bot_mobile": "40",
+  "pad_top_mobile": "43",
   "highlight_cards": [
     {
       "url": "https://studytopper.in/igcar-apprentice-2026/",
@@ -316,6 +324,8 @@
       "title": ""
     }
   ],
+  "pad_bot_desktop": "58",
+  "pad_top_desktop": "58",
   "top_banner_text": "Study Topper \u2122 Official website \u2013 Get Online Form, Results, Admit Card, Answer Key, Syllabus, Career News, Sarkari Yojana, Scholarship, Sarkari Notice etc.",
   "top_pages_table": [
     {
@@ -389,7 +399,7 @@
   "top_pages_url_7": "",
   "top_pages_url_8": "",
   "top_pages_url_9": "",
-  "desc_size_mobile": 18.8,
+  "desc_size_mobile": "18.8",
   "footer_nav_lbl_0": "Home",
   "footer_nav_lbl_1": "Contact",
   "footer_nav_lbl_2": "Privacy Policy",
@@ -419,20 +429,47 @@
   "top_pages_url_12": "",
   "top_pages_url_13": "",
   "top_pages_url_14": "",
-  "desc_size_desktop": 25.8,
+  "desc_size_desktop": "25.8",
   "footer_soc_name_0": "Study Topper @X",
   "footer_soc_name_1": "Study Topper @Telegram",
   "footer_soc_name_2": "Study Topper @WhatsApp",
   "footer_soc_name_3": "Study Topper @Instagram",
   "footer_soc_name_4": "Study Topper @Facebook",
   "footer_soc_name_5": "Study Topper @YouTube",
-  "title_size_mobile": 36.0,
+  "header_customizer": {
+    "desc_text": "Latest Jobs, Results, Etc.",
+    "header_bg": "#cd0808",
+    "desc_color": "#ffffff",
+    "title_font": "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "title_text": "STUDY TOPPER\u2122",
+    "desc_weight": "700",
+    "gap_spacing": 2.0,
+    "title_color": "#ffffff",
+    "title_weight": "900",
+    "pad_bot_mobile": 40,
+    "pad_top_mobile": 43,
+    "pad_bot_desktop": 58,
+    "pad_top_desktop": 58,
+    "desc_size_mobile": 18.8,
+    "desc_size_desktop": 25.8,
+    "min_height_mobile": 130,
+    "title_size_mobile": 36.0,
+    "min_height_desktop": 150,
+    "title_size_desktop": 51.0,
+    "desc_letter_spacing": 0.3,
+    "title_letter_spacing": 0.8
+  },
+  "min_height_mobile": "130",
+  "title_size_mobile": "36",
   "top_pages_text_10": "",
   "top_pages_text_11": "",
   "top_pages_text_12": "",
   "top_pages_text_13": "",
   "top_pages_text_14": "",
-  "title_size_desktop": 51.0,
+  "min_height_desktop": "150",
+  "title_size_desktop": "51",
+  "desc_letter_spacing": "0.3",
   "footer_connect_title": "Connect With Study Topper",
+  "title_letter_spacing": "0.8",
   "footer_copyright_text": "Copyright \u00a9 2026 StudyTopper.in | All Rights Reserved. Educational Career Guidance Portal."
 }

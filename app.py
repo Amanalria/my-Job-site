@@ -2184,20 +2184,21 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     if soup.head:
         soup.head.append(center_style)
 
-    # 8. Dynamic Site Name & Domain Name Subtitle in Header
-    site_name = settings.get('site_name', 'STUDY TOPPER')
-    if site_name:
-        if soup.title:
-            soup.title.string = f"{site_name} : Study Topper Official, Latest Online Form, Result, Admit Card"
+    # 8. Dynamic Site Name & Domain Name Subtitle in Header (Header Customizer sync)
+    hc = settings.get('header_customizer', {})
+    header_title_text = hc.get('title_text') or settings.get('site_name', 'STUDY TOPPER™')
+    header_desc_text = hc.get('desc_text') or settings.get('domain', 'Latest Jobs, Results, Etc.')
+
+    if header_title_text:
+        if soup.title and not soup.title.string:
+            soup.title.string = f"{header_title_text} : Study Topper Official, Latest Online Form, Result, Admit Card"
         for mt in soup.find_all(class_='main-title'):
             a = mt.find('a')
-            if a: a.string = site_name
-            else: mt.string = site_name
+            if a: a.string = header_title_text
+            else: mt.string = header_title_text
 
-    # Display website domain in Header subtitle (e.g. studytopper.in)
-    domain_text = settings.get('domain', 'SarkariResult.com.cm')
     for sd in soup.find_all(class_='site-description'):
-        sd.string = domain_text
+        sd.string = header_desc_text
 
     # 9. Dynamic Top Banner Text
     top_text = settings.get('top_banner_text')
@@ -3896,10 +3897,54 @@ def api_save_settings():
 
     try:
         settings = load_settings()
+        if 'header_customizer' not in settings:
+            settings['header_customizer'] = {}
+
         if request.is_json:
             data = request.get_json(silent=True) or {}
         else:
             data = request.form.to_dict()
+
+        # Parse and update Header Customizer (Special Edit) fields
+        hc_fields = {
+            'title_text': str,
+            'title_size_desktop': float,
+            'title_size_mobile': float,
+            'title_weight': str,
+            'title_font': str,
+            'title_color': str,
+            'title_letter_spacing': float,
+            'desc_text': str,
+            'desc_size_desktop': float,
+            'desc_size_mobile': float,
+            'desc_weight': str,
+            'desc_font': str,
+            'desc_color': str,
+            'desc_letter_spacing': float,
+            'gap_spacing': float,
+            'header_bg': str,
+            'pad_top_desktop': int,
+            'pad_bot_desktop': int,
+            'min_height_desktop': int,
+            'pad_top_mobile': int,
+            'pad_bot_mobile': int,
+            'min_height_mobile': int
+        }
+
+        for field, f_type in hc_fields.items():
+            if field in data and data[field] is not None and str(data[field]).strip() != '':
+                try:
+                    val = f_type(data[field])
+                    settings['header_customizer'][field] = val
+                    if field == 'title_text':
+                        settings['site_name'] = str(val)
+                    elif field == 'desc_text':
+                        settings['tagline'] = str(val)
+                    elif field == 'header_bg':
+                        if 'theme_colors' not in settings: settings['theme_colors'] = {}
+                        settings['theme_colors']['header_bg'] = str(val)
+                except (ValueError, TypeError):
+                    pass
 
         for k, v in data.items():
             if k == 'socials' and isinstance(v, dict):
