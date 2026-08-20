@@ -222,61 +222,80 @@ class UniversalDesignAgent:
 <h3 class="gb-headline gb-headline-7d5f86e8 gb-headline-text" style="font-size: 16px; font-weight: 600; text-align: center; color: #009703; line-height: 1.25; margin: 0; padding: 2px 4px 6px 4px; background: #ffffff; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{data.get('organization', 'Recruitment')} Examination 2026 : Short Details</h3>
 <p class="gb-headline gb-headline-79adf169 gb-headline-text" style="margin: 0 0 6px 0; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; text-align: center; font-size: 18px; font-weight: 700;"><a href="/" style="color: #0000ff; text-decoration: underline;">StudyTopper.in</a></p>
 
-<!-- 2-COL BOX 1: IMPORTANT DATES & APPLICATION FEE -->
-<table style="width: 100%; border-collapse: collapse; border-top: 2px solid #5b032f; margin: 0; padding: 0;">
-<tbody>
-<tr>
-<td style="width: 50%; vertical-align: top; border-right: 1px solid #5b032f; padding: 0; margin: 0;">
-  <div style="background-color: #5b032f; color: #ffffff; padding: 8px 10px; font-size: 20px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">Important Dates</div>
-  <div style="padding: 12px 14px; background-color: #ffffff;">
-    <ul style="padding-left: 20px; margin: 0; list-style-type: disc; text-align: left; font-size: 14pt; line-height: 1.6; font-family: Hind, 'Open Sans', sans-serif;">
-      {dates_li}
-    </ul>
-  </div>
-</td>
-<td style="width: 50%; vertical-align: top; padding: 0; margin: 0;">
-  <div style="background-color: #5b032f; color: #ffffff; padding: 8px 10px; font-size: 20px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">Application Fee</div>
-  <div style="padding: 12px 14px; background-color: #ffffff;">
-    <ul style="padding-left: 20px; margin: 0; list-style-type: disc; text-align: left; font-size: 14pt; line-height: 1.6; font-family: Hind, 'Open Sans', sans-serif;">
-      {fee_li}
-    </ul>
-    <div style="margin-top: 10px; font-size: 14pt; line-height: 1.5; color: #000000; border-top: 1px dashed #ccc; padding-top: 8px; font-family: Hind, 'Open Sans', sans-serif;">
-      <strong>Payment Mode (Online):</strong> Payment can be made using Debit Card, Credit Card, Net Banking, or UPI.
+<style id="st-post-boxes-responsive-css">
+@media (min-width: 768px) {{
+    .st-col-half {{
+        flex: 1 1 50% !important;
+        max-width: 50% !important;
+        width: 50% !important;
+    }}
+    .st-col-border-right {{
+        border-right: 1px solid #5b032f !important;
+    }}
+}}
+@media (max-width: 767px) {{
+    .st-col-half {{
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }}
+    .st-col-border-right {{
+        border-right: none !important;
+        border-bottom: 2px solid #5b032f !important;
+    }}
+}}
+</style>
+<!-- RESPONSIVE 2-COL BOX 1: IMPORTANT DATES & APPLICATION FEE -->
+<div class="st-grid-row" style="display: flex; flex-wrap: wrap; width: 100%; border-top: 2px solid #5b032f; margin: 0; padding: 0; box-sizing: border-box;">
+  <!-- Left Col: Important Dates -->
+  <div class="st-col-half st-col-border-right" style="box-sizing: border-box; vertical-align: top;">
+    <div style="background-color: #5b032f; color: #ffffff; padding: 8px 10px; font-size: 20px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">Important Dates</div>
+    <div style="padding: 12px 14px; background-color: #ffffff;">
+      <ul style="padding-left: 20px; margin: 0; list-style-type: disc; text-align: left; font-size: 14pt; line-height: 1.6; font-family: Hind, 'Open Sans', sans-serif;">
+        {dates_li}
+      </ul>
     </div>
   </div>
-</td>
-</tr>
-</tbody>
-</table>
+  <!-- Right Col: Application Fee -->
+  <div class="st-col-half" style="box-sizing: border-box; vertical-align: top;">
+    <div style="background-color: #5b032f; color: #ffffff; padding: 8px 10px; font-size: 20px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">Application Fee</div>
+    <div style="padding: 12px 14px; background-color: #ffffff;">
+      <ul style="padding-left: 20px; margin: 0; list-style-type: disc; text-align: left; font-size: 14pt; line-height: 1.6; font-family: Hind, 'Open Sans', sans-serif;">
+        {fee_li}
+      </ul>
+      <div style="margin-top: 10px; font-size: 14pt; line-height: 1.5; color: #000000; border-top: 1px dashed #ccc; padding-top: 8px; font-family: Hind, 'Open Sans', sans-serif;">
+        <strong>Payment Mode (Online):</strong> Payment can be made using Debit Card, Credit Card, Net Banking, or UPI.
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- 2-COL BOX 2: AGE LIMITS & TOTAL POST -->
-<table style="width: 100%; border-collapse: collapse; border-top: 2px solid #5b032f; margin: 0; padding: 0;">
-<tbody>
-<tr>
-<td style="width: 50%; vertical-align: top; border-right: 1px solid #5b032f; padding: 0; margin: 0;">
-  <div style="background-color: #046132; color: #ffffff; padding: 8px 10px; font-size: 17px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">{data.get('organization', 'Recruitment')} : Age Limits As On {data.get('age_as_on', '01 August 2026')}</div>
-  <div style="padding: 12px 14px; background-color: #ffffff;">
-    <ul style="padding-left: 20px; margin: 0; list-style-type: disc; text-align: left; font-size: 14pt; line-height: 1.6; font-family: Hind, 'Open Sans', sans-serif;">
-      {age_li}
-    </ul>
+<!-- RESPONSIVE 2-COL BOX 2: AGE LIMITS & TOTAL POST -->
+<div class="st-grid-row" style="display: flex; flex-wrap: wrap; width: 100%; border-top: 2px solid #5b032f; margin: 0; padding: 0; box-sizing: border-box;">
+  <!-- Left Col: Age Limits -->
+  <div class="st-col-half st-col-border-right" style="box-sizing: border-box; vertical-align: top;">
+    <div style="background-color: #046132; color: #ffffff; padding: 8px 10px; font-size: 17px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">{data.get('organization', 'Recruitment')} : Age Limits As On {data.get('age_as_on', '01 August 2026')}</div>
+    <div style="padding: 12px 14px; background-color: #ffffff;">
+      <ul style="padding-left: 20px; margin: 0; list-style-type: disc; text-align: left; font-size: 14pt; line-height: 1.6; font-family: Hind, 'Open Sans', sans-serif;">
+        {age_li}
+      </ul>
+    </div>
   </div>
-</td>
-<td style="width: 50%; vertical-align: top; padding: 0; margin: 0;">
-  <div style="background-color: #f53c00; color: #ffffff; padding: 8px 10px; font-size: 20px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">Total Post</div>
-  <div style="padding: 24px 10px; background-color: #ffffff; text-align: center;">
-    <span style="font-size: 28px; font-weight: 800; color: #000000; font-family: Hind, 'Open Sans', sans-serif;">{total_posts}</span>
+  <!-- Right Col: Total Post -->
+  <div class="st-col-half" style="box-sizing: border-box; vertical-align: top;">
+    <div style="background-color: #f53c00; color: #ffffff; padding: 8px 10px; font-size: 20px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">Total Post</div>
+    <div style="padding: 24px 10px; background-color: #ffffff; text-align: center;">
+      <span style="font-size: 28px; font-weight: 800; color: #000000; font-family: Hind, 'Open Sans', sans-serif;">{total_posts}</span>
+    </div>
   </div>
-</td>
-</tr>
-</tbody>
-</table>
+</div>
 </div>
 <script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9762662687323163"></script>
 <!-- Study Topper -->
 <ins class="adsbygoogle" data-ad-client="ca-pub-9762662687323163" data-ad-format="auto" data-ad-slot="7596594071" data-full-width-responsive="true" style="display:block"></ins>
 <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
 <div class="gb-container gb-container-ec1f6e4c">
-<h6 class="gb-headline gb-headline-c7683bda gb-headline-text">{title} : Vacancy Details</h6>
+<h2 class="gb-headline gb-headline-c7683bda gb-headline-text" style="font-size: 24px; font-weight: 800; text-align: center; color: #ef0303; line-height: 1.35; margin: 20px 0 12px 0; padding: 6px 4px; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{title} : Vacancy Details</h2>
 <div class="gb-headline gb-headline-60ccea19 gb-headline-text">
 <table style="border-collapse: collapse; width: 100%; height: 150px;">
 <tbody>
