@@ -1862,27 +1862,39 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         font-weight: 700 !important;
         font-size: 13.5px !important;
     }}
-    /* View More Buttons - Light Sky Blue */
+    /* View More Buttons - Original Shape & Light Sky Blue Color */
     a.wp-block-button__link, 
-    .wp-block-button__link, 
-    .wp-block-button a, 
-    .has-accent-2-background-color, 
+    .wp-block-button__link,
+    .has-accent-2-background-color,
     :root .has-accent-2-background-color,
     :root :where(.wp-element-button, .wp-block-button__link).has-accent-2-background-color {{
         background-color: #38bdf8 !important; /* light skyblue */
         background: #38bdf8 !important;
         color: #ffffff !important;
-        border-radius: 4px !important;
-        font-weight: 700 !important;
-        display: inline-block !important;
-        transition: background 0.2s ease !important;
+        text-decoration: none !important;
     }}
     a.wp-block-button__link:hover, 
-    .wp-block-button__link:hover, 
-    .wp-block-button a:hover {{
+    .wp-block-button__link:hover {{
         background-color: #0284c7 !important;
         background: #0284c7 !important;
         color: #ffffff !important;
+        text-decoration: underline !important;
+    }}
+
+    /* StudyTopper Tools Headline - 60% Reduced Spacing */
+    p.has-text-align-center.SarkariResult-Tools, 
+    .SarkariResult-Tools {{
+        font-size: 20px !important;
+        padding: 4px 0 !important;
+        margin: 2px 0 4px 0 !important;
+        text-decoration: underline !important;
+        text-align: center !important;
+    }}
+    p.has-text-align-center.SarkariResult-Tools a, 
+    .SarkariResult-Tools a {{
+        color: #0000ef !important;
+        text-decoration: underline !important;
+        font-weight: 700 !important;
     }}
     p.gb-headline-d55a09d3, .gb-headline-d55a09d3, .gb-headline-text {{
         font-family: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
