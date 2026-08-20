@@ -172,7 +172,7 @@ class UniversalDesignAgent:
 <span style="font-size: 19px; font-weight: 800; color: #000000; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">Apply Online Link</span>
 </td>
 <td style="width: 50%; padding: 14px 16px; text-align: center;">
-<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="{data.get('apply_link', 'https://studytopper.in')}" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
+<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="{data.get('apply_link', 'https://studytopper.in')}" aria-label="Click Here to Apply Online for {title}" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
 </td>
 </tr>
 <tr style="border-bottom: 1px solid #000000; background-color: #fff37a;">
@@ -180,7 +180,7 @@ class UniversalDesignAgent:
 <span style="font-size: 19px; font-weight: 800; color: #000000; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">Check Official Notification</span>
 </td>
 <td style="width: 50%; padding: 14px 16px; text-align: center;">
-<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="{data.get('notification_link', data.get('official_website', 'https://studytopper.in'))}" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
+<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="{data.get('notification_link', data.get('official_website', 'https://studytopper.in'))}" aria-label="Click Here to Download Official Notification for {title}" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
 </td>
 </tr>
 <tr style="border-bottom: 1px solid #000000; background-color: #fff37a;">
@@ -188,7 +188,7 @@ class UniversalDesignAgent:
 <span style="font-size: 19px; font-weight: 800; color: #000000; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">Photo / Sign Resizer Tool</span>
 </td>
 <td style="width: 50%; padding: 14px 16px; text-align: center;">
-<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="https://indtool.in" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
+<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="https://indtool.in" aria-label="Click Here for Photo and Signature Resizer Tool at IndTool" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
 </td>
 </tr>
 <tr style="border-bottom: 1px solid #000000; background-color: #fff37a;">
@@ -196,7 +196,7 @@ class UniversalDesignAgent:
 <span style="font-size: 19px; font-weight: 800; color: #000000; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">Check Sarkari Result</span>
 </td>
 <td style="width: 50%; padding: 14px 16px; text-align: center;">
-<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="/" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
+<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="/" aria-label="Click Here to Visit StudyTopper Home Page for Latest Jobs and Results" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
 </td>
 </tr>
 <tr style="background-color: #fff37a;">
@@ -204,7 +204,7 @@ class UniversalDesignAgent:
 <span style="font-size: 19px; font-weight: 800; color: #000000; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">Official Website</span>
 </td>
 <td style="width: 50%; padding: 14px 16px; text-align: center;">
-<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="{data.get('official_website', 'https://studytopper.in')}" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
+<span style="font-size: 20px; font-weight: 800; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"><a href="{data.get('official_website', 'https://studytopper.in')}" aria-label="Click Here to Visit Official Website of {data.get('organization', 'Exam Board')}" rel="noopener noreferrer" style="color: #0000ef; font-weight: 800; text-decoration: none;" target="_blank">Click Here</a></span>
 </td>
 </tr>
 """

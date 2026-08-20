@@ -1636,9 +1636,12 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         if s.get('src') and not s.get('defer') and not s.get('async'):
             s['defer'] = True
 
-    # 1e. Images Performance & 0 CLS (Explicit Dimensions)
+    # 1e. Images Performance & 0 CLS (Explicit Dimensions for all images)
     for img in soup.find_all('img'):
         src = (img.get('src') or '').lower()
+        img_classes = img.get('class', [])
+        img_style = img.get('style', '')
+
         if 'live-gif' in src or 'live' in src:
             img['width'] = '62'
             img['height'] = '20'
@@ -1646,10 +1649,8 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             img['fetchpriority'] = 'high'
             img['decoding'] = 'async'
             img['style'] = 'width:62px !important; height:20px !important; aspect-ratio:62/20 !important; display:inline-block !important; vertical-align:middle !important;'
-            if img.get('srcset'):
-                del img['srcset']
-            if img.get('sizes'):
-                del img['sizes']
+            if img.get('srcset'): del img['srcset']
+            if img.get('sizes'): del img['sizes']
         elif 'sarkari-result-6' in src:
             img['width'] = '150'
             img['height'] = '150'
@@ -1658,11 +1659,27 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             img['width'] = '300'
             img['height'] = '300'
             img['style'] = 'width:300px !important; height:300px !important; aspect-ratio:1/1 !important;'
-        
+        elif any(k in src for k in ['thumbnail', 'banner', 'wp-content/uploads', '.webp', '.png', '.jpg', '.jpeg']) or 'aligncenter' in img_classes:
+            # Post Featured Thumbnails / Banners
+            img['width'] = '600'
+            img['height'] = '338'
+            if 'aspect-ratio' not in img_style:
+                img['style'] = (img_style + ' max-width: 100% !important; height: auto !important; aspect-ratio: 16/9 !important; display: block !important; margin-left: auto !important; margin-right: auto !important;').strip()
+            if not img.get('loading'):
+                img['loading'] = 'eager'
+                img['fetchpriority'] = 'high'
+                img['decoding'] = 'async'
+        else:
+            if not img.get('width'): img['width'] = '300'
+            if not img.get('height'): img['height'] = '200'
+            if 'aspect-ratio' not in img_style:
+                img['style'] = (img_style + ' max-width: 100% !important; height: auto !important;').strip()
+
         if not img.get('alt'):
-            img['alt'] = settings.get('site_name', 'Study Topper')
-        if not img.get('loading') and not img.get('fetchpriority'):
+            img['alt'] = settings.get('site_name', 'Study Topper Official Portal')
+        if not img.get('loading'):
             img['loading'] = 'lazy'
+        if not img.get('decoding'):
             img['decoding'] = 'async'
 
     # 1e. Contrast Fixes for WCAG AA (Replace hardcoded light/bright reds & colors)
@@ -1676,6 +1693,38 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     # 1f. Inject Blinking Animation CSS for Urgent & Extended Vacancies
     if not soup.find(id='agy-lifecycle-blink-css') and soup.head:
         soup.head.append(BeautifulSoup(lifecycle.BLINKING_CSS, 'html.parser'))
+
+    
+    # 1h. SEO & Accessibility: Descriptive aria-labels for generic "Click Here" / "Download" links
+    post_title_for_aria = ""
+    h1_tag = soup.find('h1')
+    if h1_tag:
+        post_title_for_aria = h1_tag.get_text().strip()
+    
+    for a_tag in soup.find_all('a'):
+        link_text = a_tag.get_text().strip()
+        link_href = (a_tag.get('href') or '').strip()
+        
+        # Check if text is generic
+        if link_text.lower() in ['click here', 'clickhere', 'link 1', 'link 2', 'link', 'download', 'official website', 'apply online', 'view']:
+            context_label = ""
+            # Check parent table row for row description
+            tr = a_tag.find_parent('tr')
+            if tr:
+                tds = tr.find_all(['td', 'th'])
+                if len(tds) > 0 and tds[0] != a_tag.find_parent(['td', 'th']):
+                    context_label = tds[0].get_text().strip()
+            
+            if not context_label and post_title_for_aria:
+                context_label = f"{link_text} for {post_title_for_aria}"
+            elif context_label and post_title_for_aria:
+                context_label = f"{link_text} for {context_label} - {post_title_for_aria}"
+            elif not context_label:
+                context_label = f"Official Link: {link_text}"
+                
+            # Truncate clean aria-label
+            context_label = re.sub(r'\s+', ' ', context_label).strip()[:100]
+            a_tag['aria-label'] = context_label
 
     # 1g. Dynamic 3-Day Rotating "You May Also Check" Active Post Replacement
     cur_slug = current_path.strip('/')
@@ -3753,6 +3802,38 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                     markup = f'<a href="/{item.get("slug")}/" class="wp-block-latest-posts__post-title">{title_raw}{badge_html}</a>'
                     li.append(BeautifulSoup(markup, 'html.parser'))
                     ul.append(li)
+    
+    # 1h. SEO & Accessibility: Descriptive aria-labels for generic "Click Here" / "Download" links
+    post_title_for_aria = ""
+    h1_tag = soup.find('h1')
+    if h1_tag:
+        post_title_for_aria = h1_tag.get_text().strip()
+    
+    for a_tag in soup.find_all('a'):
+        link_text = a_tag.get_text().strip()
+        link_href = (a_tag.get('href') or '').strip()
+        
+        # Check if text is generic
+        if link_text.lower() in ['click here', 'clickhere', 'link 1', 'link 2', 'link', 'download', 'official website', 'apply online', 'view']:
+            context_label = ""
+            # Check parent table row for row description
+            tr = a_tag.find_parent('tr')
+            if tr:
+                tds = tr.find_all(['td', 'th'])
+                if len(tds) > 0 and tds[0] != a_tag.find_parent(['td', 'th']):
+                    context_label = tds[0].get_text().strip()
+            
+            if not context_label and post_title_for_aria:
+                context_label = f"{link_text} for {post_title_for_aria}"
+            elif context_label and post_title_for_aria:
+                context_label = f"{link_text} for {context_label} - {post_title_for_aria}"
+            elif not context_label:
+                context_label = f"Official Link: {link_text}"
+                
+            # Truncate clean aria-label
+            context_label = re.sub(r'\s+', ' ', context_label).strip()[:100]
+            a_tag['aria-label'] = context_label
+
     return sanitize_html(str(soup), host, is_alria_mode=is_alria_mode)
 
 
