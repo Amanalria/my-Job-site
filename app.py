@@ -1653,11 +1653,13 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     if rotating_post:
         rot_slug = rotating_post.get('slug', '')
         rot_title = rotating_post.get('title', '')
-        for tag in soup.find_all(['li', 'p', 'div', 'td']):
+        for tag in soup.find_all(['span', 'p', 'td', 'li']):
+            if len(tag.find_all(['div', 'table'])) > 0:
+                continue
             tag_text = tag.get_text()
-            if 'You May Also Check' in tag_text or 'You May Also Read' in tag_text:
+            if ('You May Also Check' in tag_text or 'You May Also Read' in tag_text):
                 a_tag = tag.find('a')
-                if a_tag:
+                if a_tag and not any(cls in a_tag.get('class', []) for cls in ['social-button', 'social-btn-compact', 'whatsapp', 'telegram', 'wa', 'tg']):
                     a_tag['href'] = f"/{rot_slug}/"
                     a_tag['target'] = '_blank'
                     a_tag['rel'] = 'noopener'
