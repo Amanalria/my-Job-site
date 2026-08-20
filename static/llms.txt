@@ -1,0 +1,18 @@
+# StudyTopper (studytopper.in)
+> Official Government Jobs, Sarkari Results, Admit Cards, and Educational Career Guidance Portal.
+
+## Overview
+StudyTopper provides accurate and timely information on government recruitments, competitive exams, answer keys, syllabus, and admit cards across India.
+
+## Key Sections
+- Latest Jobs: /latest-jobs/
+- Admit Cards: /admit-card/
+- Results: /result/
+- Answer Keys: /answer-key/
+- Syllabus: /syllabus/
+- Admission: /admission/
+- Certificate Verification: /certificate-verification/
+
+## Feeds & Sitemaps
+- Sitemap: https://studytopper.in/sitemap.xml
+- Robots: https://studytopper.in/robots.txt

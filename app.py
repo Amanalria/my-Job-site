@@ -16,6 +16,7 @@ app.secret_key = 'sarkari_official_secret_2026'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PAGES_DIR = os.path.join(BASE_DIR, 'pages')
 WP_CONTENT_DIR = os.path.join(BASE_DIR, 'wp-content')
+WP_INCLUDES_DIR = os.path.join(BASE_DIR, 'wp-includes')
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 SETTINGS_FILE = os.path.join(DATA_DIR, 'settings.json')
 POSTS_FILE = os.path.join(DATA_DIR, 'posts.json')
@@ -1539,9 +1540,12 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         src = (s.get('src') or '').lower()
         content = (s.string or s.get_text() or '').lower()
         classes = s.get('class', [])
-        if any(ad in src for ad in ['googlesyndication', 'doubleclick', 'google-analytics', 'googletagmanager', 'izooto', 'cloudflare-static']):
+        s_id = (s.get('id') or '').lower()
+        if any(ad in src for ad in ['googlesyndication', 'doubleclick', 'google-analytics', 'googletagmanager', 'izooto', 'cloudflare-static', 'comment-reply', 'wp-emoji']):
             s.decompose()
-        elif any(bad in content for bad in ['g-bx9pepg50m', 'g-lz32t0n2xe', 'googletagmanager', 'gtag(\'config\'', 'izooto']):
+        elif any(bad in content for bad in ['g-bx9pepg50m', 'g-lz32t0n2xe', 'googletagmanager', 'gtag(\'config\'', 'izooto', 'concatemoji', 'wpemoji']):
+            s.decompose()
+        elif any(bad_id in s_id for bad_id in ['comment-reply', 'wp-emoji']):
             s.decompose()
         elif 'adsbygoogle' in classes:
             s.decompose()
@@ -3230,7 +3234,31 @@ def serve_wp_content(filepath):
         return Response('/* fallback js */', mimetype='application/javascript')
     abort(404)
 
+@app.route('/wp-includes/<path:filepath>')
+def serve_wp_includes(filepath):
+    clean_filepath = filepath.split('?')[0]
+    for base in [WP_INCLUDES_DIR, os.path.join(BASE_DIR, 'raw_clone', 'wp-includes'), os.path.join(BASE_DIR, 'static')]:
+        target = os.path.join(base, clean_filepath)
+        if os.path.exists(target) and os.path.isfile(target):
+            return send_from_directory(os.path.dirname(target), os.path.basename(target))
+    if clean_filepath.endswith('.js'):
+        return Response('/* wp-includes js fallback */', mimetype='application/javascript')
+    elif clean_filepath.endswith('.css'):
+        return Response('/* wp-includes css fallback */', mimetype='text/css')
+    return Response('/* wp-includes fallback */', mimetype='text/plain')
+
 # ==================== SEO & CRAWLER PROTECTION ROUTES ====================
+
+@app.route('/llms.txt')
+def serve_llms_txt():
+    for f in [os.path.join(BASE_DIR, 'llms.txt'), os.path.join(BASE_DIR, 'static', 'llms.txt')]:
+        if os.path.exists(f):
+            with open(f, 'r', encoding='utf-8') as fp:
+                return Response(fp.read(), mimetype='text/plain')
+    default_llms = """# StudyTopper (studytopper.in)
+> Official Government Jobs, Sarkari Results, Admit Cards, and Educational Career Guidance Portal.
+"""
+    return Response(default_llms, mimetype='text/plain')
 
 @app.route('/ads.txt')
 def ads_txt():
