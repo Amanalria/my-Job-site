@@ -947,8 +947,7 @@ def render_single_post_html(post, settings):
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     {get_nav_search_styles_html()}
     <style>
-        * {{ box-sizing: border-box; }}
-        body {{ background-color:#ffffff; color:#000000; font-family:Arial, Helvetica, sans-serif; margin:0; padding:0; line-height:1.5; font-size:14px; text-rendering:optimizeSpeed; }}
+        body {{ background-color:#ffffff; color:#000000; font-family:Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; }}
         .site-header {{ background-color:#cd0808; text-align:center; padding:15px 0; }}
         .main-title {{ text-transform:uppercase; font-size:45px; font-weight:800; margin:0; line-height:1.1; }}
         .main-title a {{ color:#ffffff; text-decoration:none; }}
@@ -958,35 +957,88 @@ def render_single_post_html(post, settings):
         .main-navigation .main-nav ul li a {{ color:#ffffff; padding:10px 14px; font-size:14px; font-weight:700; text-decoration:none; display:block; }}
         .main-navigation .main-nav ul li a:hover {{ background-color:#982704; }}
 
-        .st-post-container {{ max-width:1070px; margin:15px auto 40px; padding:0 10px; font-family:Arial, Helvetica, sans-serif; color:#000000; }}
-        .st-breadcrumb {{ font-size:13.5px; color:#64748b; margin-bottom:12px; padding:6px 10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; }}
+        .st-post-container {{ max-width:1060px; margin:20px auto 40px; padding:0 12px; font-family:Open Sans, Arial, sans-serif; color:#1e293b; line-height:1.6; }}
+        .st-breadcrumb {{ display:flex; align-items:center; flex-wrap:wrap; gap:6px; font-size:13px; color:#64748b; margin-bottom:14px; padding:8px 14px; background:#f8fafc; border-radius:6px; border:1px solid #e2e8f0; }}
         .st-breadcrumb a {{ color:#0284c7; text-decoration:none; font-weight:600; }}
         .st-breadcrumb a:hover {{ text-decoration:underline; }}
         .st-breadcrumb span.current {{ color:#0f172a; font-weight:600; }}
 
-        .st-post-headline {{ color:#cd0808; font-size:24px; font-weight:800; text-align:center; margin:12px 0 10px; line-height:1.3; }}
-        .st-short-info {{ font-size:14px; line-height:1.6; margin-bottom:14px; background:#fdfdfd; padding:10px 12px; border-left:4px solid #ab183d; border-radius:2px; }}
+        .st-hero-card {{ background:#ffffff; border:1px solid #e2e8f0; border-top:4px solid #cd0808; border-radius:8px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); margin-bottom:20px; }}
+        .st-badge-strip {{ display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; }}
+        .st-badge {{ font-size:11.5px; font-weight:700; padding:4px 10px; border-radius:4px; text-transform:uppercase; }}
+        .st-badge-primary {{ background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; }}
+        .st-badge-success {{ background:#dcfce7; color:#15803d; border:1px solid #86efac; }}
+        .st-badge-info {{ background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; }}
 
-        .st-join-bar {{ text-align:center; margin:12px 0 16px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }}
-        .st-join-wa {{ background-color:#075e54; color:#ffffff !important; padding:8px 18px; border-radius:20px; text-decoration:none; font-weight:700; font-size:13.5px; display:inline-flex; align-items:center; gap:6px; }}
-        .st-join-tg {{ background-color:#0284c7; color:#ffffff !important; padding:8px 18px; border-radius:20px; text-decoration:none; font-weight:700; font-size:13.5px; display:inline-flex; align-items:center; gap:6px; }}
+        .st-post-title {{ font-size:24px; font-weight:800; color:#0f172a; margin:0 0 10px; line-height:1.35; }}
+        .st-meta-bar {{ display:flex; align-items:center; flex-wrap:wrap; gap:16px; font-size:13px; color:#64748b; border-bottom:1px dashed #cbd5e1; padding-bottom:12px; margin-bottom:14px; }}
+        .st-meta-item {{ display:flex; align-items:center; gap:6px; }}
+        .st-meta-item i {{ color:#cd0808; }}
 
-        .st-table-universal {{ width:100%; border-collapse:collapse; border:2px solid #ab183d; margin-bottom:16px; font-size:13.5px; }}
-        .st-table-universal th {{ background-color:#ab183d; color:#ffffff; padding:8px 10px; border:1px solid #ab183d; font-size:15px; font-weight:700; }}
-        .st-table-universal td {{ padding:10px 12px; border:1px solid #ab183d; background-color:#ffffff; vertical-align:top; }}
-        .st-table-universal ul {{ margin:0; padding-left:18px; line-height:1.7; }}
-        .st-table-universal ol {{ margin:0; padding-left:20px; line-height:1.7; }}
-        .st-table-universal a {{ color:#0000ef; font-weight:700; text-decoration:underline; }}
+        .st-stats-grid {{ display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-top:14px; }}
+        .st-stat-box {{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px; text-align:center; }}
+        .st-stat-label {{ font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; margin-bottom:4px; }}
+        .st-stat-value {{ font-size:17px; font-weight:800; color:#0f172a; }}
+        .st-stat-value.red {{ color:#dc2626; }}
+        .st-stat-value.green {{ color:#16a34a; }}
 
-        .st-tags-box {{ display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; padding:12px; background:#f8fafc; border-radius:4px; border:1px solid #e2e8f0; align-items:center; }}
-        .st-tag-chip {{ background:#ffffff; border:1px solid #cbd5e1; color:#334155; padding:3px 10px; border-radius:3px; font-size:12px; font-weight:600; }}
+        .st-info-box {{ background:#fff8f8; border:1px solid #fecaca; border-left:5px solid #dc2626; padding:16px 20px; border-radius:6px; margin:20px 0; font-size:14px; line-height:1.7; }}
+        .st-info-box strong.label {{ color:#991b1b; font-weight:700; font-size:14.5px; }}
 
-        @media (max-width:768px) {{
-            .main-title {{ font-size:28px; }}
-            .site-description {{ font-size:17px; }}
-            .st-post-headline {{ font-size:19px; }}
-            .st-table-universal td, .st-table-universal th {{ padding:8px 6px; font-size:13px; }}
-        }}
+        .st-social-strip {{ display:flex; justify-content:space-between; align-items:center; background:#0f172a; color:#ffffff; padding:12px 18px; border-radius:8px; margin:20px 0; flex-wrap:wrap; gap:12px; }}
+        .st-social-title {{ font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; }}
+        .st-social-btns {{ display:flex; gap:10px; flex-wrap:wrap; }}
+        .st-btn-wa {{ background:#16a34a; color:#ffffff !important; text-decoration:none; padding:7px 16px; border-radius:6px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; }}
+        .st-btn-tg {{ background:#0284c7; color:#ffffff !important; text-decoration:none; padding:7px 16px; border-radius:6px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; }}
+
+        .st-matrix-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:24px 0; }}
+        @media (max-width:768px) {{ .st-matrix-grid {{ grid-template-columns:1fr; gap:16px; }} .main-title {{ font-size:30px; }} .site-description {{ font-size:18px; }} .st-post-title {{ font-size:19px; }} }}
+
+        .st-matrix-card {{ background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; }}
+        .st-matrix-head {{ background:#cd0808; color:#ffffff; padding:12px 16px; font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }}
+        .st-matrix-head.blue {{ background:#0c2340; }}
+        .st-matrix-body {{ padding:16px; }}
+        .st-list {{ list-style:none; margin:0; padding:0; }}
+        .st-list li {{ display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:13.5px; }}
+        .st-list li:last-child {{ border-bottom:none; }}
+        .st-list li span.key {{ color:#475569; font-weight:500; }}
+        .st-list li span.val {{ color:#0f172a; font-weight:700; }}
+        .st-list li span.val.highlight {{ color:#dc2626; font-size:14px; }}
+
+        .st-section-card {{ background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; margin:24px 0; }}
+        .st-section-head {{ background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:14px 18px; font-size:16px; font-weight:700; color:#0f172a; display:flex; align-items:center; gap:8px; }}
+        .st-section-head i {{ color:#cd0808; }}
+        .st-section-body {{ padding:18px; font-size:14px; }}
+
+        .st-table-responsive {{ width:100%; overflow-x:auto; margin-top:10px; }}
+        .st-table {{ width:100%; border-collapse:collapse; text-align:left; font-size:13.5px; }}
+        .st-table th {{ background:#0c2340; color:#ffffff; padding:12px 14px; font-weight:700; border:1px solid #1e293b; }}
+        .st-table td {{ padding:12px 14px; border:1px solid #e2e8f0; vertical-align:middle; }}
+        .st-table tr:nth-child(even) td {{ background:#f8fafc; }}
+
+        .st-steps-container {{ display:flex; flex-direction:column; gap:12px; margin-top:10px; }}
+        .st-step-item {{ display:flex; align-items:flex-start; gap:14px; background:#f8fafc; border:1px solid #e2e8f0; padding:12px 16px; border-radius:6px; }}
+        .st-step-num {{ background:#cd0808; color:#ffffff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex-shrink:0; margin-top:2px; }}
+        .st-step-text {{ font-size:13.5px; color:#334155; line-height:1.6; }}
+
+        .st-links-hub {{ background:#ffffff; border:2px solid #16a34a; border-radius:8px; overflow:hidden; margin:28px 0; }}
+        .st-links-head {{ background:#16a34a; color:#ffffff; padding:14px 18px; font-size:17px; font-weight:800; text-align:center; }}
+        .st-link-row {{ display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-bottom:1px solid #e2e8f0; font-size:14px; font-weight:600; }}
+        .st-link-row:last-child {{ border-bottom:none; }}
+        .st-link-row:nth-child(even) {{ background:#fdfdfd; }}
+        .st-link-btn {{ background:#cd0808; color:#ffffff !important; text-decoration:none; padding:6px 16px; border-radius:5px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; }}
+        .st-link-btn.green {{ background:#16a34a; }}
+        .st-link-btn.blue {{ background:#0284c7; }}
+
+        .st-tags-box {{ display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; padding:14px; background:#f8fafc; border-radius:6px; border:1px solid #e2e8f0; align-items:center; }}
+        .st-tag-chip {{ background:#ffffff; border:1px solid #cbd5e1; color:#334155; padding:4px 10px; border-radius:4px; font-size:12px; font-weight:600; }}
+
+        .site-footer {{ background-color:#212121; color:#ffffff; }}
+        .sarkari-wrapper {{ padding:25px 20px; text-align:center; }}
+        .sarkari-wrapper h3 {{ color:#ffffff; font-size:18px; margin-bottom:14px; font-weight:700; }}
+        .sarkari-grid {{ display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; }}
+        .sarkari-grid a {{ background:#2f4468; color:#ffffff !important; padding:6px 14px; border-radius:4px; text-decoration:none; font-size:13px; font-weight:600; }}
+        .gb-container-d1f47294 {{ background-color:#171717; color:#ffffff; text-align:center; padding:18px 0; }}
     </style>
 </head>
 <body class="wp-theme-generatepress single-post no-sidebar">
@@ -1004,213 +1056,200 @@ def render_single_post_html(post, settings):
     <div class="st-post-container">
         <!-- Breadcrumb -->
         <nav class="st-breadcrumb">
-            <a href="/"><i class="fa-solid fa-house"></i> Home</a> » 
-            <a href="/{category_slug}/">{category_name}</a> » 
+            <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+            <span>»</span>
+            <a href="/{category_slug}/">{category_name}</a>
+            <span>»</span>
             <span class="current">{title}</span>
         </nav>
 
-        <!-- Post Headline -->
-        <h1 class="st-post-headline">{headline}</h1>
+        <!-- Hero Card -->
+        <div class="st-hero-card">
+            <div class="st-badge-strip">
+                <span class="st-badge st-badge-primary">🔥 Latest Notification</span>
+                <span class="st-badge st-badge-success">{badge_val}</span>
+                <span class="st-badge st-badge-info">Active &amp; Verified</span>
+            </div>
 
-        <!-- Short Information -->
-        <div class="st-short-info">
-            <strong style="color:#ab183d;"><i class="fa-solid fa-circle-info"></i> Short Information : </strong>
+            <h1 class="st-post-title">{headline}</h1>
+            
+            <div class="st-meta-bar">
+                <div class="st-meta-item"><i class="fa-regular fa-building"></i> <strong>Recruitment Board:</strong> Indian Railways / Govt of India</div>
+                <div class="st-meta-item"><i class="fa-regular fa-calendar-days"></i> <strong>Application Window:</strong> {app_start} to {app_last}</div>
+                <div class="st-meta-item"><i class="fa-solid fa-shield-halved"></i> <strong>Status:</strong> Active Online Form</div>
+            </div>
+
+            <!-- Stats Ribbon -->
+            <div class="st-stats-grid">
+                <div class="st-stat-box">
+                    <div class="st-stat-label">Total Posts</div>
+                    <div class="st-stat-value red">{badge_val}</div>
+                </div>
+                <div class="st-stat-box">
+                    <div class="st-stat-label">Application Mode</div>
+                    <div class="st-stat-value">Online Portal</div>
+                </div>
+                <div class="st-stat-box">
+                    <div class="st-stat-label">Last Date</div>
+                    <div class="st-stat-value red">{app_last}</div>
+                </div>
+                <div class="st-stat-box">
+                    <div class="st-stat-label">Job Location</div>
+                    <div class="st-stat-value green">All India</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Banner Image (Zero Copyright) -->
+        <div style="text-align:center; margin:15px 0;">
+            <img src="{banner_url}" alt="{title} | {site_name}" style="max-width:100%; height:auto; border-radius:8px; border:2px solid #ab183d; box-shadow:0 4px 12px rgba(0,0,0,0.06);" />
+        </div>
+
+        <!-- Short Overview -->
+        <div class="st-info-box">
+            <strong class="label"><i class="fa-solid fa-circle-info"></i> Short Information :</strong>
             {short_desc}
         </div>
 
-        <!-- Social Join Bar -->
-        <div class="st-join-bar">
-            <a href="{wa_url}" target="_blank" rel="noopener noreferrer" class="st-join-wa"><i class="fa-brands fa-whatsapp"></i> Join WhatsApp Channel</a>
-            <a href="{tg_url}" target="_blank" rel="noopener noreferrer" class="st-join-tg"><i class="fa-brands fa-telegram"></i> Join Telegram Channel</a>
+        <!-- Social Strip -->
+        <div class="st-social-strip">
+            <div class="st-social-title"><i class="fa-solid fa-bell"></i> Get Instant Govt Job Alerts On Your Phone</div>
+            <div class="st-social-btns">
+                <a href="{wa_url}" target="_blank" class="st-btn-wa"><i class="fa-brands fa-whatsapp"></i> Join WhatsApp Channel</a>
+                <a href="{tg_url}" target="_blank" class="st-btn-tg"><i class="fa-brands fa-telegram"></i> Join Telegram Group</a>
+            </div>
         </div>
 
-        <!-- 2-Column Important Dates & Application Fee Table -->
-        <table class="st-table-universal">
-            <thead>
-                <tr>
-                    <th style="width:50%; text-align:center;">Important Dates</th>
-                    <th style="width:50%; text-align:center;">Application Fee</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <ul>
-                            <li>Application Begin : <strong>{app_start}</strong></li>
-                            <li>Last Date for Apply Online : <strong style="color:#b91c1c;">{app_last}</strong></li>
-                            <li>Last Date Pay Exam Fee : <strong>{app_last}</strong></li>
-                            <li>Exam Date : <strong>As per Schedule</strong></li>
-                            <li>Admit Card Available : <strong>Before Exam</strong></li>
-                        </ul>
-                    </td>
-                    <td>
-                        <ul>
-                            <li>General / OBC / EWS : <strong>Rs. 100/- to 500/- (Post Wise)</strong></li>
-                            <li>SC / ST / PH : <strong>Rs. 0/- (Exempted)</strong></li>
-                            <li>All Category Female : <strong>Rs. 0/- (Exempted)</strong></li>
-                            <li>Pay Exam Fee Through Online Debit Card, Credit Card, Net Banking, UPI Mode.</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Two Column Matrix -->
+        <div class="st-matrix-grid">
+            <div class="st-matrix-card">
+                <div class="st-matrix-head">
+                    <i class="fa-regular fa-calendar-check"></i> Important Dates
+                </div>
+                <div class="st-matrix-body">
+                    <ul class="st-list">
+                        <li>
+                            <span class="key">Application Start Date</span>
+                            <span class="val">{app_start}</span>
+                        </li>
+                        <li>
+                            <span class="key">Last Date to Apply Online</span>
+                            <span class="val highlight">{app_last}</span>
+                        </li>
+                        <li>
+                            <span class="key">Fee Payment Last Date</span>
+                            <span class="val">{app_last}</span>
+                        </li>
+                        <li>
+                            <span class="key">Exam / Merit List Date</span>
+                            <span class="val">As per Schedule</span>
+                        </li>
+                        <li>
+                            <span class="key">Admit Card Release</span>
+                            <span class="val">Before Exam</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-        <!-- Age Limit Table -->
-        <table class="st-table-universal">
-            <thead>
-                <tr>
-                    <th colspan="2" style="text-align:center;">Age Limit Criteria (As on {app_last})</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="2">
-                        <ul>
-                            <li>Minimum Age : <strong>18 Years</strong></li>
-                            <li>Maximum Age : <strong>25 - 35 Years (Post Wise)</strong></li>
-                            <li>Age Relaxation Extra as per Official Recruitment Rules. Read full notification for category relaxation details.</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="st-matrix-card">
+                <div class="st-matrix-head blue">
+                    <i class="fa-solid fa-indian-rupee-sign"></i> Application Fee
+                </div>
+                <div class="st-matrix-body">
+                    <ul class="st-list">
+                        <li>
+                            <span class="key">General / OBC / EWS</span>
+                            <span class="val">₹ 100/- to ₹ 500/-</span>
+                        </li>
+                        <li>
+                            <span class="key">SC / ST / PwBD</span>
+                            <span class="val" style="color:#16a34a;">₹ 0/- or Refundable</span>
+                        </li>
+                        <li>
+                            <span class="key">All Female Candidates</span>
+                            <span class="val" style="color:#16a34a;">₹ 0/- or Refundable</span>
+                        </li>
+                        <li>
+                            <span class="key">Payment Mode</span>
+                            <span class="val" style="font-size:12px;">Online (UPI, Debit Card, Net Banking)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-        <!-- Vacancy Details Table -->
-        <table class="st-table-universal">
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center;">Vacancy Details (Total : {badge_val} Posts)</th>
-                </tr>
-                <tr style="background-color:#f1f5f9; color:#0b213f;">
-                    <th style="background-color:#f1f5f9; color:#0b213f; border:1px solid #ab183d; text-align:left; font-size:13.5px; width:30%;">Post Name</th>
-                    <th style="background-color:#f1f5f9; color:#0b213f; border:1px solid #ab183d; text-align:center; font-size:13.5px; width:20%;">Total Post</th>
-                    <th style="background-color:#f1f5f9; color:#0b213f; border:1px solid #ab183d; text-align:left; font-size:13.5px; width:50%;">Eligibility Criteria</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="font-weight:600;">{title}</td>
-                    <td style="text-align:center; font-weight:bold; color:#b91c1c;">{badge_val}</td>
-                    <td>10th / 12th / Diploma / Degree in relevant trade/discipline from recognized Institute/Board. For detailed eligibility criteria, read the official notification.</td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Structured Body Table / Post Content -->
+        <div class="st-section-card">
+            <div class="st-section-head">
+                <i class="fa-solid fa-graduation-cap"></i> Vacancy Breakdown &amp; Educational Qualification
+            </div>
+            <div class="st-section-body" style="padding:15px;">
+                {cleaned_content if cleaned_content and len(cleaned_content) > 50 else f'<p>{short_desc}</p>'}
+            </div>
+        </div>
 
-        <!-- Extra Body / Dynamic Table Content (if available) -->
-        {extra_content_html}
+        <!-- How To Apply -->
+        <div class="st-section-card">
+            <div class="st-section-head">
+                <i class="fa-solid fa-list-check"></i> Step-by-Step Guide to Fill Online Application Form
+            </div>
+            <div class="st-section-body">
+                <div class="st-steps-container">
+                    <div class="st-step-item">
+                        <div class="st-step-num">1</div>
+                        <div class="st-step-text"><strong>Visit Official Portal:</strong> Open the official application link given under the Important Links section below.</div>
+                    </div>
+                    <div class="st-step-item">
+                        <div class="st-step-num">2</div>
+                        <div class="st-step-text"><strong>New Registration (OTR):</strong> Register with your valid active Mobile Number, Email ID, and basic details.</div>
+                    </div>
+                    <div class="st-step-item">
+                        <div class="st-step-num">3</div>
+                        <div class="st-step-text"><strong>Fill Application Form:</strong> Enter your educational qualifications, trade details, and preferred post/zone options.</div>
+                    </div>
+                    <div class="st-step-item">
+                        <div class="st-step-num">4</div>
+                        <div class="st-step-text"><strong>Upload Documents:</strong> Upload clear scanned copies of Passport Photograph, Signature, and required Certificates.</div>
+                    </div>
+                    <div class="st-step-item">
+                        <div class="st-step-num">5</div>
+                        <div class="st-step-text"><strong>Fee Payment &amp; Printout:</strong> Pay application fee online (if applicable) and download your final confirmation printout.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <!-- How to Apply Step-by-Step Instructions -->
-        <table class="st-table-universal">
-            <thead>
-                <tr>
-                    <th style="text-align:center;">How to Fill {clean_how_title} Online Form 2026</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <ol>
-                            <li>Candidate can apply online between <strong>{app_start}</strong> to <strong>{app_last}</strong>.</li>
-                            <li>Candidate read the notification before apply the recruitment application form.</li>
-                            <li>Kindly check and collect all document - Eligibility, ID Proof, Address Details, Basic Details.</li>
-                            <li>Kindly ready scan document related to recruitment form - Photo, Sign, ID Proof, Etc.</li>
-                            <li>Before submit the application form must check the preview and all column carefully.</li>
-                            <li>If candidate required to paying the application fee must submit. If you have not the required application fees your form is not completed.</li>
-                            <li>Take a print out of final submitted form for future reference.</li>
-                        </ol>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Useful Important Links Table -->
-        <table class="st-table-universal">
-            <thead>
-                <tr>
-                    <th colspan="2" style="text-align:center;">Some Useful Important Links</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="font-weight:bold; width:60%;">Apply Online</td>
-                    <td style="text-align:center;">
-                        <a href="#" target="_blank" rel="noopener noreferrer">Click Here</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-weight:bold;">Download Official Notification</td>
-                    <td style="text-align:center;">
-                        <a href="#" target="_blank" rel="noopener noreferrer">Click Here</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-weight:bold;">Official Website</td>
-                    <td style="text-align:center;">
-                        <a href="/" target="_blank" rel="noopener noreferrer">Click Here</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-weight:bold;">Join WhatsApp Channel</td>
-                    <td style="text-align:center;">
-                        <a href="{wa_url}" target="_blank" rel="noopener noreferrer" style="color:#075e54;">Join Now</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-weight:bold;">Join Telegram Channel</td>
-                    <td style="text-align:center;">
-                        <a href="{tg_url}" target="_blank" rel="noopener noreferrer" style="color:#0284c7;">Join Now</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- FAQ Table -->
-        <table class="st-table-universal">
-            <thead>
-                <tr>
-                    <th style="text-align:center;">Frequently Asked Questions (FAQ)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="background-color:#f8fafc; font-weight:bold; color:#0b213f;">Q: What is the last date to apply for {title}?</td>
-                </tr>
-                <tr>
-                    <td style="line-height:1.45;">Ans: The last date to submit online application form is {app_last}.</td>
-                </tr>
-                <tr>
-                    <td style="background-color:#f8fafc; font-weight:bold; color:#0b213f;">Q: How many vacancies are released under {title}?</td>
-                </tr>
-                <tr>
-                    <td style="line-height:1.45;">Ans: There are total {badge_val} posts available for this recruitment.</td>
-                </tr>
-                <tr>
-                    <td style="background-color:#f8fafc; font-weight:bold; color:#0b213f;">Q: What is the minimum age required to apply?</td>
-                </tr>
-                <tr>
-                    <td style="line-height:1.45;">Ans: Candidates must be at least 18 years old as on {app_last}.</td>
-                </tr>
-                <tr>
-                    <td style="background-color:#f8fafc; font-weight:bold; color:#0b213f;">Q: What is the official website for application?</td>
-                </tr>
-                <tr>
-                    <td style="line-height:1.45;">Ans: You can check official links and updates at {domain}.</td>
-                </tr>
-                <tr>
-                    <td style="background-color:#f8fafc; font-weight:bold; color:#0b213f;">Q: How can I pay the examination fee?</td>
-                </tr>
-                <tr>
-                    <td style="line-height:1.45;">Ans: Fee can be paid online using Debit Card, Credit Card, Net Banking, or UPI.</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Related Posts Table -->
-        {related_posts_table}
+        <!-- Useful Important Links Hub -->
+        <div class="st-links-hub">
+            <div class="st-links-head">
+                <i class="fa-solid fa-link"></i> SOME USEFUL IMPORTANT LINKS
+            </div>
+            <div class="st-link-row">
+                <span>Apply Online Registration Form</span>
+                <a href="#" target="_blank" class="st-link-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Click Here</a>
+            </div>
+            <div class="st-link-row">
+                <span>Download Official Notification PDF</span>
+                <a href="#" target="_blank" class="st-link-btn"><i class="fa-solid fa-download"></i> Click Here</a>
+            </div>
+            <div class="st-link-row">
+                <span>Check Study Topper Official Portal</span>
+                <a href="/" target="_blank" class="st-link-btn blue"><i class="fa-solid fa-globe"></i> Click Here</a>
+            </div>
+            <div class="st-link-row">
+                <span>Join Study Topper WhatsApp Channel</span>
+                <a href="{wa_url}" target="_blank" class="st-link-btn green"><i class="fa-brands fa-whatsapp"></i> Join Now</a>
+            </div>
+            <div class="st-link-row">
+                <span>Join Study Topper Telegram Community</span>
+                <a href="{tg_url}" target="_blank" class="st-link-btn blue"><i class="fa-brands fa-telegram"></i> Join Now</a>
+            </div>
+        </div>
 
         <!-- Tags -->
         <div class="st-tags-box">
-            <strong style="font-size:13px; color:#475569;"><i class="fa-solid fa-tags" style="color:#ab183d;"></i> Tags:</strong>
+            <strong style="font-size:13px; color:#475569;"><i class="fa-solid fa-tags" style="color:#cd0808;"></i> Tags:</strong>
             {tag_chips}
         </div>
     </div>
@@ -3318,19 +3357,19 @@ def dynamic_page_router(slug):
     }
     target_slug = alias_map.get(clean_slug, clean_slug)
 
-    # 2. Dynamic Single Post Routing (100% Universal Design Standard for all posts)
-    for p in all_posts:
-        if p.get('slug') == clean_slug or p.get('id') == clean_slug or p.get('slug') == target_slug:
-            post_html = render_single_post_html(p, settings)
-            return Response(sanitize_html(post_html, request.host), mimetype='text/html')
-
-    # 3. Static Informational Pages (about, contact, privacy, disclaimer, terms)
+    # 2. Exact Scraped / Saved Post Page in PAGES_DIR, raw_clone, or templates
     for dir_path in [PAGES_DIR, os.path.join(BASE_DIR, 'raw_clone', 'pages'), os.path.join(BASE_DIR, 'templates')]:
         page_file = os.path.join(dir_path, f"{target_slug}.html")
         if os.path.exists(page_file) and target_slug != 'index':
             with open(page_file, 'r', encoding='utf-8') as f:
                 content = f.read()
             return Response(sanitize_html(content, request.host), mimetype='text/html')
+
+    # 3. Dynamic User-Created Single Post Routing
+    for p in all_posts:
+        if p.get('slug') == clean_slug or p.get('id') == clean_slug or p.get('slug') == target_slug:
+            post_html = render_single_post_html(p, settings)
+            return Response(sanitize_html(post_html, request.host), mimetype='text/html')
 
     # Zero external scraper fallback! Only show clean 404
     abort(404)
