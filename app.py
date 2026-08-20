@@ -13,6 +13,21 @@ from flask import Flask, send_from_directory, request, Response, abort, jsonify,
 app = Flask(__name__)
 app.secret_key = 'sarkari_official_secret_2026'
 
+# High-Performance Compression (Gzip & Brotli)
+try:
+    from flask_compress import Compress
+    app.config['COMPRESS_MIMETYPES'] = [
+        'text/html', 'text/css', 'text/xml', 'text/plain', 'text/markdown',
+        'application/json', 'application/javascript', 'application/xml',
+        'image/svg+xml', 'application/ld+json'
+    ]
+    app.config['COMPRESS_LEVEL'] = 6
+    app.config['COMPRESS_MIN_SIZE'] = 128
+    Compress(app)
+    print("Flask-Compress initialized successfully!")
+except Exception as e:
+    print("Notice: Flask-Compress init warning:", e)
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PAGES_DIR = os.path.join(BASE_DIR, 'pages')
 WP_CONTENT_DIR = os.path.join(BASE_DIR, 'wp-content')
@@ -27,6 +42,26 @@ PRIMARY_CATEGORIES = [
     'latest-jobs', 'admit-card', 'result', 'admission', 'syllabus', 'answer-key',
     'certificate-verification', 'important', 'contact', 'disclaimer', 'privacy-policy'
 ]
+
+
+# High-Speed In-Memory Page Cache for 0ms Server TTFB
+_RENDERED_PAGE_CACHE = {}
+_RENDERED_PAGE_CACHE_TIME = {}
+PAGE_CACHE_TTL_SECONDS = 60
+
+def get_cached_response(cache_key: str):
+    now = time.time()
+    if cache_key in _RENDERED_PAGE_CACHE:
+        if (now - _RENDERED_PAGE_CACHE_TIME.get(cache_key, 0)) < PAGE_CACHE_TTL_SECONDS:
+            return _RENDERED_PAGE_CACHE[cache_key]
+    return None
+
+def set_cached_response(cache_key: str, content: str):
+    if len(_RENDERED_PAGE_CACHE) > 500:
+        _RENDERED_PAGE_CACHE.clear()
+        _RENDERED_PAGE_CACHE_TIME.clear()
+    _RENDERED_PAGE_CACHE[cache_key] = content
+    _RENDERED_PAGE_CACHE_TIME[cache_key] = time.time()
 
 MAIN_CSS_CACHE = ""
 try:
@@ -1540,7 +1575,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     # 1a. Clean broken font links and dead /cf-fonts/ CSS
     for st in soup.find_all('style'):
         st_text = st.get_text()
-        if '/cf-fonts/' in st_text or st.get('id') == 'generate-google-fonts-css':
+        if '/cf-fonts/' in st_text or st.get('id') in ['generate-google-fonts-css', 'wp-img-auto-sizes-contain-inline-css']:
             st.decompose()
 
     for link in soup.find_all('link', rel='stylesheet'):
@@ -1586,7 +1621,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     # 1c. LCP Text Element Immediate Zero-Delay Render Optimization
     for p_tag in soup.find_all(class_=re.compile(r'gb-headline-d55a09d3')):
         curr_style = p_tag.get('style', '')
-        p_tag['style'] = (curr_style + ' font-family: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important; font-display: swap !important; text-rendering: optimizeSpeed !important; content-visibility: visible !important; contain-intrinsic-size: auto !important;').strip()
+        p_tag['style'] = (curr_style + ' font-family: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important; font-display: swap !important; font-size: 13.5px !important; line-height: 1.5 !important; color: #000000 !important; margin: 4px auto 6px auto !important; text-align: center !important; text-rendering: optimizeSpeed !important;').strip()
 
     # 1d. Defer all local JavaScript
     for s in soup.find_all('script'):
@@ -3537,15 +3572,17 @@ def serve_wp_includes(filepath):
 # ==================== SEO & CRAWLER PROTECTION ROUTES ====================
 
 @app.route('/llms.txt')
+@app.route('/llms-full.txt')
 def serve_llms_txt():
     for f in [os.path.join(BASE_DIR, 'llms.txt'), os.path.join(BASE_DIR, 'static', 'llms.txt')]:
         if os.path.exists(f):
             with open(f, 'r', encoding='utf-8') as fp:
-                return Response(fp.read(), mimetype='text/plain')
-    default_llms = """# StudyTopper (studytopper.in)
-> Official Government Jobs, Sarkari Results, Admit Cards, and Educational Career Guidance Portal.
+                return Response(fp.read(), mimetype='text/markdown; charset=utf-8')
+    default_llms = """# StudyTopper
+
+> StudyTopper (studytopper.in) is India's leading online portal for official government job notifications, competitive examination results, admit cards, answer keys, syllabus, and career guidance since 2009.
 """
-    return Response(default_llms, mimetype='text/plain')
+    return Response(default_llms, mimetype='text/markdown; charset=utf-8')
 
 @app.route('/ads.txt')
 def ads_txt():
@@ -3710,6 +3747,25 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                     ul.append(li)
     return sanitize_html(str(soup), host, is_alria_mode=is_alria_mode)
 
+
+@app.after_request
+def add_performance_and_cache_headers(response):
+    path = request.path
+    # 1. Static Assets Caching (1 Year Browser Cache + Immutable)
+    if path.startswith(('/static/', '/wp-content/', '/wp-includes/')) or path.endswith(('.webp', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.woff2', '.woff', '.ttf', '.css', '.js', '.ico')):
+        response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+    elif path in ['/llms.txt', '/llms-full.txt']:
+        response.headers['Content-Type'] = 'text/markdown; charset=utf-8'
+        response.headers['Cache-Control'] = 'public, max-age=3600'
+    elif response.mimetype == 'text/html':
+        if not path.startswith('/admin') and request.method == 'GET':
+            response.headers['Cache-Control'] = 'public, max-age=120, stale-while-revalidate=600'
+    
+    # 2. Performance & Security Headers
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Vary'] = 'Accept-Encoding'
+    return response
+
 @app.route('/')
 @app.route('/alria')
 @app.route('/alria/')
@@ -3719,6 +3775,12 @@ def home():
         return redirect(f'/search?q={search_q}')
 
     is_alria = (request.path in ['/alria', '/alria/']) or (request.args.get('alria') == '1')
+    cache_key = f"home_{request.host}_{is_alria}"
+    if not is_alria:
+        cached = get_cached_response(cache_key)
+        if cached:
+            return Response(cached, mimetype='text/html')
+
     index_file = os.path.join(PAGES_DIR, 'index.html')
     if not os.path.exists(index_file):
         index_file = os.path.join(BASE_DIR, 'original_index.html')
@@ -3726,6 +3788,8 @@ def home():
         with open(index_file, 'r', encoding='utf-8') as f:
             content = f.read()
         sanitized = render_dynamic_homepage_html(content, request.host, is_alria_mode=is_alria)
+        if not is_alria:
+            set_cached_response(cache_key, sanitized)
         return Response(sanitized, mimetype='text/html')
     abort(404)
 
@@ -3780,9 +3844,15 @@ def dynamic_page_router(slug):
     for dir_path in [PAGES_DIR, os.path.join(BASE_DIR, 'raw_clone', 'pages'), os.path.join(BASE_DIR, 'templates')]:
         page_file = os.path.join(dir_path, f"{target_slug}.html")
         if os.path.exists(page_file) and target_slug != 'index':
+            cache_key = f"page_{target_slug}_{request.host}"
+            cached = get_cached_response(cache_key)
+            if cached:
+                return Response(cached, mimetype='text/html')
             with open(page_file, 'r', encoding='utf-8') as f:
                 content = f.read()
-            return Response(sanitize_html(content, request.host), mimetype='text/html')
+            sanitized = sanitize_html(content, request.host)
+            set_cached_response(cache_key, sanitized)
+            return Response(sanitized, mimetype='text/html')
 
     # 3. Dynamic User-Created Single Post Routing
     for p in all_posts:

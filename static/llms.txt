@@ -1,18 +1,19 @@
-# StudyTopper (studytopper.in)
-> Official Government Jobs, Sarkari Results, Admit Cards, and Educational Career Guidance Portal.
+# StudyTopper
 
-## Overview
-StudyTopper provides accurate and timely information on government recruitments, competitive exams, answer keys, syllabus, and admit cards across India.
+> StudyTopper (studytopper.in) is India's leading online portal for official government job notifications, competitive examination results, admit cards, answer keys, syllabus, and career guidance since 2009.
 
 ## Key Sections
-- Latest Jobs: /latest-jobs/
-- Admit Cards: /admit-card/
-- Results: /result/
-- Answer Keys: /answer-key/
-- Syllabus: /syllabus/
-- Admission: /admission/
-- Certificate Verification: /certificate-verification/
 
-## Feeds & Sitemaps
-- Sitemap: https://studytopper.in/sitemap.xml
-- Robots: https://studytopper.in/robots.txt
+- [Latest Jobs](https://studytopper.in/latest-jobs/): Comprehensive updates on Central and State government vacancies, online application forms, and eligibility details.
+- [Admit Cards](https://studytopper.in/admit-card/): Hall tickets, exam city slips, and call letters for all major recruitment and entrance exams.
+- [Results](https://studytopper.in/result/): Fast and verified exam results, merit lists, scorecards, and cutoff marks.
+- [Answer Keys](https://studytopper.in/answer-key/): Official question papers, provisional and final answer keys with objection links.
+- [Syllabus](https://studytopper.in/syllabus/): Detailed exam pattern, selection process, and official PDF syllabi.
+- [Admission](https://studytopper.in/admission/): University entrance forms, counselling schedules, and admission notifications.
+- [Candidate Tools](https://indtool.in): Free candidate utility tools including image resizer, signature cropper, and photo date maker.
+
+## Feeds & Resources
+
+- [Sitemap](https://studytopper.in/sitemap.xml): Complete XML sitemap of all published posts and category archives.
+- [Robots](https://studytopper.in/robots.txt): Crawler and search engine instructions.
+- [Full LLM Specification](https://studytopper.in/llms-full.txt): Complete context documentation for AI agents and LLMs.
