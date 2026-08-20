@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyTopper™ Admin & Special Edit Login</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0b213f 0%, #07162c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #ffffff;
+        }
+        .login-card {
+            background: #ffffff;
+            color: #1e293b;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .login-header {
+            background: #cd0808;
+            color: #ffffff;
+            padding: 24px 20px;
+            text-align: center;
+        }
+        .login-header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .login-header p {
+            font-size: 13px;
+            margin-top: 4px;
+            opacity: 0.9;
+        }
+        .login-body {
+            padding: 28px 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 15px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus {
+            border-color: #cd0808;
+            box-shadow: 0 0 0 3px rgba(205, 8, 8, 0.15);
+        }
+        .password-wrap {
+            position: relative;
+        }
+        .toggle-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-submit {
+            width: 100%;
+            background: #cd0808;
+            color: #ffffff;
+            padding: 13px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-submit:hover {
+            background: #b91c1c;
+        }
+        .btn-submit:active {
+            transform: scale(0.99);
+        }
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            margin-bottom: 20px;
+            border: 1px solid #fecaca;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            margin-bottom: 20px;
+            border: 1px solid #bbf7d0;
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-header">
+            <h1>Study Topper™</h1>
+            <p>Admin Portal & Special Edit Security Gate</p>
+        </div>
+        <div class="login-body">
+            {% if error %}
+            <div class="alert-error">
+                <span>⚠️</span>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+            {% if success %}
+            <div class="alert-success">
+                <span>{{ success }}</span>
+            </div>
+            {% endif %}
+            
+            <form method="POST" action="/admin/login{% if next_url %}?next={{ next_url }}{% endif %}">
+                <div class="form-group">
+                    <label for="username">User ID / Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter Admin User ID" required autofocus value="{{ username or '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrap">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Enter Security Password" required>
+                        <button type="button" class="toggle-btn" onclick="togglePass()">Show</button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-submit">Secure Login</button>
+            </form>
+            
+            <div class="footer-note">
+                🔒 Protected by StudyTopper Multi-Layer Security Shield & Rate Limiting
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePass() {
+            var p = document.getElementById('password');
+            var btn = document.querySelector('.toggle-btn');
+            if (p.type === 'password') {
+                p.type = 'text';
+                btn.textContent = 'Hide';
+            } else {
+                p.type = 'password';
+                btn.textContent = 'Show';
+            }
+        }
+    </script>
+</body>
+</html>

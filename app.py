@@ -1,3 +1,4 @@
+import auth
 import supabase_client as supa
 import os
 import re
@@ -3584,8 +3585,20 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
 
 # Favicon & Static Asset Handlers
 @app.route('/favicon.ico')
+def serve_favicon_ico():
+    for f in [os.path.join(BASE_DIR, 'favicon.ico'), os.path.join(BASE_DIR, 'static', 'favicon.ico')]:
+        if os.path.exists(f):
+            return send_from_directory(os.path.dirname(f), os.path.basename(f), mimetype='image/x-icon')
+    return Response(b'', mimetype='image/x-icon')
+
 @app.route('/favicon.png')
-def serve_favicon():
+@app.route('/apple-touch-icon.png')
+@app.route('/apple-touch-icon-precomposed.png')
+def serve_favicon_png():
+    for f in [os.path.join(BASE_DIR, 'static', 'apple-touch-icon.png'), os.path.join(BASE_DIR, 'static', 'favicon-32x32.png')]:
+        if os.path.exists(f):
+            return send_from_directory(os.path.dirname(f), os.path.basename(f), mimetype='image/png')
+    return Response(b'', mimetype='image/png')
     for f in [
         os.path.join(WP_CONTENT_DIR, 'uploads', '2025', '06', '512px512px-150x150.png'),
         os.path.join(BASE_DIR, 'raw_clone', 'wp-content', 'uploads', '2025', '06', '512px512px-150x150.png')
@@ -3864,6 +3877,8 @@ def home():
         return redirect(f'/search?q={search_q}')
 
     is_alria = (request.path in ['/alria', '/alria/']) or (request.args.get('alria') == '1')
+    if is_alria and not auth.is_authenticated():
+        return redirect('/admin/login?next=/alria')
     cache_key = f"home_{request.host}_{is_alria}"
     if not is_alria:
         cached = get_cached_response(cache_key)
@@ -3962,11 +3977,44 @@ def candidate_tools(tool_name):
         return render_template(f'tools/{clean_tool}.html', settings=load_settings())
     abort(404)
 
+
+# ==================== HIGH-SECURITY ADMIN AUTHENTICATION ====================
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if auth.is_authenticated():
+        return redirect(request.args.get('next') or '/admin/dashboard')
+    
+    error = None
+    success = None
+    next_url = request.args.get('next', '')
+    
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
+        ip = auth.get_client_ip()
+        
+        valid, msg = auth.verify_credentials(username, password, ip)
+        if valid:
+            auth.login_user(username)
+            dest = next_url if next_url and not next_url.startswith('/admin/login') else '/admin/dashboard'
+            return redirect(dest)
+        else:
+            error = msg
+            
+    return render_template('admin/login.html', error=error, success=success, next_url=next_url)
+
+@app.route('/admin/logout')
+def admin_logout():
+    auth.logout_user()
+    return redirect('/admin/login')
+
 # ==================== ADMIN PANEL ROUTES ====================
 
 @app.route('/admin')
 @app.route('/admin/')
 @app.route('/admin/dashboard')
+@auth.admin_required
 def admin_dashboard():
     settings = load_settings()
     post_count = 0
@@ -3984,17 +4032,20 @@ def admin_dashboard():
     )
 
 @app.route('/admin/posts')
+@auth.admin_required
 def admin_posts():
     settings = load_settings()
     posts = load_all_active_posts()
     return render_template('admin/posts.html', settings=settings, posts=posts)
 
 @app.route('/admin/posts/new')
+@auth.admin_required
 def admin_post_new():
     settings = load_settings()
     return render_template('admin/post_form.html', settings=settings, post=None)
 
 @app.route('/admin/posts/edit/<post_id>')
+@auth.admin_required
 def admin_post_edit(post_id):
     settings = load_settings()
     all_posts = load_all_active_posts()
@@ -4045,16 +4096,19 @@ def admin_post_edit(post_id):
     return render_template('admin/post_form.html', settings=settings, post=target_post)
 
 @app.route('/admin/categories')
+@auth.admin_required
 def admin_categories():
     settings = load_settings()
     return render_template('admin/categories.html', settings=settings)
 
 @app.route('/admin/settings')
+@auth.admin_required
 def admin_settings():
     settings = load_settings()
     return render_template('admin/settings.html', settings=settings)
 
 @app.route('/admin/lifecycle')
+@auth.admin_required
 def admin_lifecycle():
     settings = load_settings()
     config = lifecycle.load_lifecycle_settings()
@@ -4101,6 +4155,7 @@ def admin_lifecycle():
 
 @app.route('/api/admin/pin-post/<slug>', methods=['GET', 'POST'])
 @app.route('/api/admin/pin-post/<slug>/', methods=['GET', 'POST'])
+@auth.admin_required
 def api_pin_post(slug):
     try:
         lifecycle.pin_post(slug)
@@ -4110,6 +4165,7 @@ def api_pin_post(slug):
 
 @app.route('/api/admin/unpin-post/<slug>', methods=['GET', 'POST'])
 @app.route('/api/admin/unpin-post/<slug>/', methods=['GET', 'POST'])
+@auth.admin_required
 def api_unpin_post(slug):
     try:
         lifecycle.unpin_post(slug)
@@ -4119,6 +4175,7 @@ def api_unpin_post(slug):
 
 @app.route('/api/admin/toggle-pin-post/<slug>', methods=['GET', 'POST'])
 @app.route('/api/admin/toggle-pin-post/<slug>/', methods=['GET', 'POST'])
+@auth.admin_required
 def api_toggle_pin_post(slug):
     try:
         is_pinned = lifecycle.toggle_pin_post(slug)
@@ -4128,6 +4185,7 @@ def api_toggle_pin_post(slug):
 
 @app.route('/api/admin/lifecycle-run', methods=['GET', 'POST'])
 @app.route('/api/admin/lifecycle-run/', methods=['GET', 'POST'])
+@auth.admin_required
 def api_lifecycle_run():
     try:
         res = lifecycle.audit_and_execute_lifecycle()
@@ -4137,6 +4195,7 @@ def api_lifecycle_run():
 
 @app.route('/api/admin/lifecycle-save-config', methods=['GET', 'POST'])
 @app.route('/api/admin/lifecycle-save-config/', methods=['GET', 'POST'])
+@auth.admin_required
 def api_lifecycle_save_config():
     if request.method == 'GET':
         return redirect('/admin/lifecycle')
@@ -4167,6 +4226,7 @@ def api_lifecycle_save_config():
 
 @app.route('/api/admin/save-settings', methods=['GET', 'POST'])
 @app.route('/api/admin/save-settings/', methods=['GET', 'POST'])
+@auth.admin_required
 def api_save_settings():
     if request.method == 'GET':
         return redirect('/admin/settings')
