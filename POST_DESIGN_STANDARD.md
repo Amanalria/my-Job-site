@@ -224,6 +224,8 @@ Whenever the user mentions **"sarkari result universal design"**, **"universal p
 ---
 
 ## 3. Humanizer Rewriting Guidelines (35-Signs of AI Check)
+- **Minimum Word Count**: Every post MUST strictly contain **700+ words** (in-depth coverage of overview, eligibility, syllabus, how to apply, and FAQs).
+- **Mandatory 5 FAQs**: Every post MUST contain exactly **5 Frequently Asked Questions** with clear, direct answers.
 - **Zero Em-Dashes/En-Dashes**: Never use `—` or `–` in body copy. Use commas, colons, or parentheses.
 - **Banned AI Buzzwords**: `delve`, `tapestry`, `testament`, `pivotal`, `landscape`, `intricate`, `fostering`, `furthermore`, `moreover`, `in conclusion`, `in this digital age`.
 - **Short Paragraphs**: 2–3 sentences max per paragraph for optimal readability on mobile phones.
