@@ -172,7 +172,165 @@
                     </div>
                 </div>
 
-                <!-- 3. Homepage Theme & Section Colors -->
+                
+                <!-- 3. Header Typography & Sizing Customizer (Special Edit) -->
+                <div class="postbox" style="grid-column: 1 / -1; border-left: 4px solid #ef4444;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <h2 style="margin:0; font-size:16px; color:#1e293b;"><i class="fa-solid fa-heading" style="color:#ef4444; margin-right:6px;"></i> Header Typography, Sizing &amp; Spacing Customizer (Special Edit)</h2>
+                        <a href="/alria" target="_blank" style="background:#ef4444; color:#fff; padding:4px 10px; border-radius:4px; font-size:11px; font-weight:700; text-decoration:none;"><i class="fa-solid fa-eye"></i> Live /alria Visual Editor</a>
+                    </div>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:14px;">Independently adjust title size, subtitle size, font family, letter spacing, top/bottom padding, and header height for both Desktop and Mobile devices.</p>
+
+                    {% set hc = settings.header_customizer if settings.header_customizer else {} %}
+
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+                        <!-- Section A: Main Title (STUDY TOPPER) -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                            <h3 style="font-size:13px; font-weight:700; color:#b91c1c; margin:0 0 10px; border-bottom:1px solid #cbd5e1; padding-bottom:4px;">1. Main Title (e.g. STUDY TOPPER™)</h3>
+                            
+                            <div class="form-group" style="margin-bottom:8px;">
+                                <label style="font-size:11px; font-weight:600;">Title Text</label>
+                                <input type="text" name="title_text" class="wp-input" value="{{ hc.title_text if hc.title_text else settings.site_name }}" placeholder="STUDY TOPPER™" style="font-weight:700; font-size:13px;">
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Desktop Font Size (px)</label>
+                                    <input type="number" step="0.5" name="title_size_desktop" class="wp-input" value="{{ hc.title_size_desktop if hc.title_size_desktop else 51 }}" style="font-size:12px;">
+                                </div>
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Mobile Font Size (px)</label>
+                                    <input type="number" step="0.5" name="title_size_mobile" class="wp-input" value="{{ hc.title_size_mobile if hc.title_size_mobile else 36 }}" style="font-size:12px;">
+                                </div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Font Weight</label>
+                                    <select name="title_weight" class="wp-input" style="font-size:12px;">
+                                        <option value="900" {% if hc.title_weight == '900' %}selected{% endif %}>900 (Black / Extra Bold)</option>
+                                        <option value="800" {% if hc.title_weight == '800' %}selected{% endif %}>800 (Heavy)</option>
+                                        <option value="700" {% if hc.title_weight == '700' %}selected{% endif %}>700 (Bold)</option>
+                                        <option value="600" {% if hc.title_weight == '600' %}selected{% endif %}>600 (Semi-Bold)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Letter Spacing (px)</label>
+                                    <input type="number" step="0.1" name="title_letter_spacing" class="wp-input" value="{{ hc.title_letter_spacing if hc.title_letter_spacing is not none else 0.8 }}" style="font-size:12px;">
+                                </div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Text Color</label>
+                                    <input type="color" name="title_color" value="{{ hc.title_color if hc.title_color else '#ffffff' }}" class="color-picker">
+                                </div>
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Font Family</label>
+                                    <select name="title_font" class="wp-input" style="font-size:11px;">
+                                        <option value="'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Open Sans (Default)</option>
+                                        <option value="Hind, 'Open Sans', sans-serif" {% if 'Hind' in (hc.title_font or '') %}selected{% endif %}>Hind (Category Table)</option>
+                                        <option value="Arial, Helvetica, sans-serif" {% if 'Arial' in (hc.title_font or '') and 'Open Sans' not in (hc.title_font or '') %}selected{% endif %}>Arial / Sans-Serif</option>
+                                        <option value="'Segoe UI', Roboto, sans-serif" {% if 'Segoe UI' in (hc.title_font or '') and 'Open Sans' not in (hc.title_font or '') %}selected{% endif %}>Segoe UI</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section B: Subtitle / Description (Latest Jobs, Results, Etc.) -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                            <h3 style="font-size:13px; font-weight:700; color:#1d4ed8; margin:0 0 10px; border-bottom:1px solid #cbd5e1; padding-bottom:4px;">2. Subtitle / Description (e.g. Latest Jobs, Results, Etc.)</h3>
+
+                            <div class="form-group" style="margin-bottom:8px;">
+                                <label style="font-size:11px; font-weight:600;">Subtitle Text</label>
+                                <input type="text" name="desc_text" class="wp-input" value="{{ hc.desc_text if hc.desc_text else settings.domain }}" placeholder="Latest Jobs, Results, Etc." style="font-weight:600; font-size:13px;">
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Desktop Font Size (px)</label>
+                                    <input type="number" step="0.1" name="desc_size_desktop" class="wp-input" value="{{ hc.desc_size_desktop if hc.desc_size_desktop else 25.8 }}" style="font-size:12px;">
+                                </div>
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Mobile Font Size (px)</label>
+                                    <input type="number" step="0.1" name="desc_size_mobile" class="wp-input" value="{{ hc.desc_size_mobile if hc.desc_size_mobile else 18.8 }}" style="font-size:12px;">
+                                </div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Font Weight</label>
+                                    <select name="desc_weight" class="wp-input" style="font-size:12px;">
+                                        <option value="700" {% if hc.desc_weight == '700' %}selected{% endif %}>700 (Bold)</option>
+                                        <option value="600" {% if hc.desc_weight == '600' %}selected{% endif %}>600 (Semi-Bold)</option>
+                                        <option value="800" {% if hc.desc_weight == '800' %}selected{% endif %}>800 (Heavy)</option>
+                                        <option value="500" {% if hc.desc_weight == '500' %}selected{% endif %}>500 (Medium)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Letter Spacing (px)</label>
+                                    <input type="number" step="0.1" name="desc_letter_spacing" class="wp-input" value="{{ hc.desc_letter_spacing if hc.desc_letter_spacing is not none else 0.3 }}" style="font-size:12px;">
+                                </div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Text Color</label>
+                                    <input type="color" name="desc_color" value="{{ hc.desc_color if hc.desc_color else '#ffffff' }}" class="color-picker">
+                                </div>
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Gap from Title (Margin px)</label>
+                                    <input type="number" step="1" name="gap_spacing" class="wp-input" value="{{ hc.gap_spacing if hc.gap_spacing is not none else 2 }}" style="font-size:12px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section C: Header Sizing & Background Padding -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                            <h3 style="font-size:13px; font-weight:700; color:#047857; margin:0 0 10px; border-bottom:1px solid #cbd5e1; padding-bottom:4px;">3. Header Container Sizing &amp; Background</h3>
+
+                            <div class="form-group" style="margin-bottom:8px;">
+                                <label style="font-size:11px; font-weight:600;">Header Background Color</label>
+                                <input type="color" name="header_bg" value="{{ hc.header_bg if hc.header_bg else '#cd0808' }}" class="color-picker">
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Desktop Top Pad (px)</label>
+                                    <input type="number" name="pad_top_desktop" class="wp-input" value="{{ hc.pad_top_desktop if hc.pad_top_desktop else 58 }}" style="font-size:12px;">
+                                </div>
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Desktop Bot Pad (px)</label>
+                                    <input type="number" name="pad_bot_desktop" class="wp-input" value="{{ hc.pad_bot_desktop if hc.pad_bot_desktop else 58 }}" style="font-size:12px;">
+                                </div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Mobile Top Pad (px)</label>
+                                    <input type="number" name="pad_top_mobile" class="wp-input" value="{{ hc.pad_top_mobile if hc.pad_top_mobile else 43 }}" style="font-size:12px;">
+                                </div>
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Mobile Bot Pad (px)</label>
+                                    <input type="number" name="pad_bot_mobile" class="wp-input" value="{{ hc.pad_bot_mobile if hc.pad_bot_mobile else 40 }}" style="font-size:12px;">
+                                </div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Desktop Min Height</label>
+                                    <input type="number" name="min_height_desktop" class="wp-input" value="{{ hc.min_height_desktop if hc.min_height_desktop else 150 }}" style="font-size:12px;">
+                                </div>
+                                <div class="form-group" style="margin:0;">
+                                    <label style="font-size:11px; font-weight:600;">Mobile Min Height</label>
+                                    <input type="number" name="min_height_mobile" class="wp-input" value="{{ hc.min_height_mobile if hc.min_height_mobile else 130 }}" style="font-size:12px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Homepage Theme & Section Colors -->
                 <div class="postbox">
                     <h2>🎨 Master Homepage Theme &amp; Section Colors</h2>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">

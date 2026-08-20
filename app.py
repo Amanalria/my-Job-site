@@ -1738,6 +1738,28 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     wa_txt = theme.get('whatsapp_btn_text', '#ffffff')
     foot_bg = theme.get('footer_bg', '#1d2327')
     foot_txt = theme.get('footer_text', '#ffffff')
+    hc = settings.get('header_customizer', {})
+    hdr_bg = hc.get('header_bg', theme.get('header_bg', '#cd0808'))
+    pad_top_desktop = hc.get('pad_top_desktop', 58)
+    pad_bot_desktop = hc.get('pad_bot_desktop', 58)
+    min_height_desktop = hc.get('min_height_desktop', 150)
+    pad_top_mobile = hc.get('pad_top_mobile', 43)
+    pad_bot_mobile = hc.get('pad_bot_mobile', 40)
+    min_height_mobile = hc.get('min_height_mobile', 130)
+    title_size_desktop = hc.get('title_size_desktop', 51)
+    title_size_mobile = hc.get('title_size_mobile', 36)
+    title_weight = hc.get('title_weight', '900')
+    title_font = hc.get('title_font', "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif")
+    title_color = hc.get('title_color', theme.get('header_text', '#ffffff'))
+    title_letter_spacing = hc.get('title_letter_spacing', 0.8)
+    desc_size_desktop = hc.get('desc_size_desktop', 25.8)
+    desc_size_mobile = hc.get('desc_size_mobile', 18.8)
+    desc_weight = hc.get('desc_weight', '700')
+    desc_font = hc.get('desc_font', "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif")
+    desc_color = hc.get('desc_color', '#ffffff')
+    desc_letter_spacing = hc.get('desc_letter_spacing', 0.3)
+    gap_spacing = hc.get('gap_spacing', 2)
+
 
     center_style = soup.new_tag('style')
     # Injected Large Header
@@ -1757,62 +1779,63 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
 
 
 
-/* Full Large Big Red Header (50% Reduced Between-Title Spacing) */
-.site-header {{
-    background-color: #cd0808 !important;
-    color: #ffffff !important;
-    width: 100% !important;
-}}
-.site-header .inside-header, .inside-header {{
-    padding: 58px 20px 58px 20px !important;
-    min-height: 150px !important;
-    text-align: center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-}}
-.site-branding {{
-    text-align: center !important;
-}}
-.main-title {{
-    text-transform: uppercase !important;
-    font-size: 51px !important;
-    font-weight: 900 !important;
-    line-height: 1.1 !important;
-    margin: 0 !important;
-    letter-spacing: 0.8px !important;
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-}}
-.main-title a, .main-title a:hover {{
-    color: #ffffff !important;
-    text-decoration: none !important;
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-}}
-.site-description {{
-    font-weight: 700 !important;
-    font-size: 25.8px !important;
-    letter-spacing: 0.3px !important;
-    line-height: 1.2 !important;
-    color: #ffffff !important;
-    margin: 2px 0 0 0 !important;
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-}}
-@media (max-width: 768px) {{
+/* Dynamic Header Customizer (Special Edit) */
+    .site-header {{
+        background-color: {hdr_bg} !important;
+        color: {title_color} !important;
+        width: 100% !important;
+    }}
     .site-header .inside-header, .inside-header {{
-        padding: 43px 15px 40px 15px !important;
-        min-height: 130px !important;
+        padding: {pad_top_desktop}px 20px {pad_bot_desktop}px 20px !important;
+        min-height: {min_height_desktop}px !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }}
+    .site-branding {{
+        text-align: center !important;
     }}
     .main-title {{
-        font-size: 36px !important;
-        letter-spacing: 0.8px !important;
+        text-transform: uppercase !important;
+        font-size: {title_size_desktop}px !important;
+        font-weight: {title_weight} !important;
         line-height: 1.1 !important;
+        margin: 0 !important;
+        letter-spacing: {title_letter_spacing}px !important;
+        font-family: {title_font} !important;
+    }}
+    .main-title a, .main-title a:hover {{
+        color: {title_color} !important;
+        text-decoration: none !important;
+        font-family: {title_font} !important;
     }}
     .site-description {{
-        font-size: 18.8px !important;
-        margin-top: 2px !important;
+        font-weight: {desc_weight} !important;
+        font-size: {desc_size_desktop}px !important;
+        letter-spacing: {desc_letter_spacing}px !important;
+        line-height: 1.2 !important;
+        color: {desc_color} !important;
+        margin: {gap_spacing}px 0 0 0 !important;
+        font-family: {desc_font} !important;
     }}
-}}
+    @media (max-width: 768px) {{
+        .site-header .inside-header, .inside-header {{
+            padding: {pad_top_mobile}px 15px {pad_bot_mobile}px 15px !important;
+            min-height: {min_height_mobile}px !important;
+        }}
+        .main-title {{
+            font-size: {title_size_mobile}px !important;
+            letter-spacing: {title_letter_spacing}px !important;
+            line-height: 1.1 !important;
+        }}
+        .site-description {{
+            font-size: {desc_size_mobile}px !important;
+            margin-top: {gap_spacing}px !important;
+        }}
+    }}
+    
 
     
 
@@ -2419,6 +2442,28 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     # D. Apply Footer Theme Colors
     foot_bg = theme.get('footer_bg', '#1d2327')
     foot_txt = theme.get('footer_text', '#ffffff')
+    hc = settings.get('header_customizer', {})
+    hdr_bg = hc.get('header_bg', theme.get('header_bg', '#cd0808'))
+    pad_top_desktop = hc.get('pad_top_desktop', 58)
+    pad_bot_desktop = hc.get('pad_bot_desktop', 58)
+    min_height_desktop = hc.get('min_height_desktop', 150)
+    pad_top_mobile = hc.get('pad_top_mobile', 43)
+    pad_bot_mobile = hc.get('pad_bot_mobile', 40)
+    min_height_mobile = hc.get('min_height_mobile', 130)
+    title_size_desktop = hc.get('title_size_desktop', 51)
+    title_size_mobile = hc.get('title_size_mobile', 36)
+    title_weight = hc.get('title_weight', '900')
+    title_font = hc.get('title_font', "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif")
+    title_color = hc.get('title_color', theme.get('header_text', '#ffffff'))
+    title_letter_spacing = hc.get('title_letter_spacing', 0.8)
+    desc_size_desktop = hc.get('desc_size_desktop', 25.8)
+    desc_size_mobile = hc.get('desc_size_mobile', 18.8)
+    desc_weight = hc.get('desc_weight', '700')
+    desc_font = hc.get('desc_font', "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif")
+    desc_color = hc.get('desc_color', '#ffffff')
+    desc_letter_spacing = hc.get('desc_letter_spacing', 0.3)
+    gap_spacing = hc.get('gap_spacing', 2)
+
     for f_el in soup.find_all(class_=re.compile(r'site-footer|naman_footer|gb-container-d1f47294')):
         f_el['style'] = f"background-color:{foot_bg} !important; color:{foot_txt} !important;"
 
@@ -2715,18 +2760,51 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             </div>
         </div>
 
-        <!-- 2. Branding Modal with Color Controls -->
+        <!-- 2. Branding & Header Special Edit Modal -->
         <div id="modal-branding" class="alria-modal-backdrop">
-            <div class="alria-modal-card">
-                <h3>🏷️ Edit Portal Branding, Header URL &amp; Header Color</h3>
-                <div class="alria-input-group"><label>Site Title (Shown at Top in Header, e.g. STUDY TOPPER)</label><input type="text" id="b-site-name" value="{s_site_name}"></div>
-                <div class="alria-input-group"><label>Website URL (Shown below Site Title, e.g. SarkariResult.com.cm)</label><input type="text" id="b-domain" value="{s_domain}"></div>
-                <div class="alria-input-group"><label>Top Red Headline Banner Text</label><textarea id="b-top-banner" rows="3">{s_top_banner}</textarea></div>
+            <div class="alria-modal-card" style="max-width:760px;">
+                <h3>🏷️ Edit Header Typography, Sizing &amp; Branding (Special Edit)</h3>
                 
-                <h4 style="margin-top:14px; font-size:13px;">Header Background &amp; Text Color</h4>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
+                    <div class="alria-input-group"><label>Site Title (e.g. STUDY TOPPER™)</label><input type="text" id="b-site-name" value="{s_site_name}"></div>
+                    <div class="alria-input-group"><label>Subtitle / Description (e.g. Latest Jobs, Results, Etc.)</label><input type="text" id="b-domain" value="{s_domain}"></div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px; background:#f8fafc; padding:10px; border-radius:6px; border:1px solid #e2e8f0;">
+                    <div>
+                        <h4 style="margin:0 0 6px; font-size:12px; color:#b91c1c;">Title Font Size (px)</h4>
+                        <div style="display:flex; gap:6px;">
+                            <input type="number" id="b-title-size-d" step="0.5" placeholder="Desktop" style="width:50%;">
+                            <input type="number" id="b-title-size-m" step="0.5" placeholder="Mobile" style="width:50%;">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin:0 0 6px; font-size:12px; color:#1d4ed8;">Subtitle Font Size (px)</h4>
+                        <div style="display:flex; gap:6px;">
+                            <input type="number" id="b-desc-size-d" step="0.1" placeholder="Desktop" style="width:50%;">
+                            <input type="number" id="b-desc-size-m" step="0.1" placeholder="Mobile" style="width:50%;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:10px; background:#f8fafc; padding:10px; border-radius:6px; border:1px solid #e2e8f0;">
+                    <div>
+                        <label style="font-size:11px; font-weight:700;">Title-to-Subtitle Gap (px)</label>
+                        <input type="number" id="b-gap-spacing" step="1" style="margin-top:4px;">
+                    </div>
+                    <div>
+                        <label style="font-size:11px; font-weight:700;">Desktop Padding (px)</label>
+                        <input type="number" id="b-pad-top-d" style="margin-top:4px;">
+                    </div>
+                    <div>
+                        <label style="font-size:11px; font-weight:700;">Mobile Padding (px)</label>
+                        <input type="number" id="b-pad-top-m" style="margin-top:4px;">
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
                     <div class="alria-input-group">
-                        <label>Header Color</label>
+                        <label>Header Background Color</label>
                         <div class="alria-color-row"><input type="color" id="b-hdr-bg" value="{t_hdr_bg}" class="alria-color-picker"><input type="text" id="b-hdr-bg-txt" value="{t_hdr_bg}"></div>
                     </div>
                     <div class="alria-input-group">
@@ -2734,6 +2812,8 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                         <div class="alria-color-row"><input type="color" id="b-hdr-txt" value="{t_hdr_txt}" class="alria-color-picker"><input type="text" id="b-hdr-txt-txt" value="{t_hdr_txt}"></div>
                     </div>
                 </div>
+
+                <div class="alria-input-group"><label>Top Red Headline Banner Text</label><textarea id="b-top-banner" rows="2">{s_top_banner}</textarea></div>
 
                 <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-branding')">Cancel</button><button class="alria-btn-save" onclick="saveBranding()">Save Changes</button></div>
             </div>
@@ -3070,6 +3150,18 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 saveSettingsPayload({{ theme_colors: colors }});
             }}
 
+            function initHeaderCustomizerInputs() {{
+                const hc = siteSettings.header_customizer || {{}};
+                const tSd = document.getElementById('b-title-size-d'); if(tSd) tSd.value = hc.title_size_desktop || 51;
+                const tSm = document.getElementById('b-title-size-m'); if(tSm) tSm.value = hc.title_size_mobile || 36;
+                const dSd = document.getElementById('b-desc-size-d'); if(dSd) dSd.value = hc.desc_size_desktop || 25.8;
+                const dSm = document.getElementById('b-desc-size-m'); if(dSm) dSm.value = hc.desc_size_mobile || 18.8;
+                const gap = document.getElementById('b-gap-spacing'); if(gap) gap.value = hc.gap_spacing !== undefined ? hc.gap_spacing : 2;
+                const pTd = document.getElementById('b-pad-top-d'); if(pTd) pTd.value = hc.pad_top_desktop || 58;
+                const pTm = document.getElementById('b-pad-top-m'); if(pTm) pTm.value = hc.pad_top_mobile || 43;
+            }}
+            initHeaderCustomizerInputs();
+
             function saveBranding() {{
                 const siteNameEl = document.getElementById('b-site-name');
                 const domainEl = document.getElementById('b-domain');
@@ -3080,8 +3172,21 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 const payload = {{
                     site_name: siteNameEl ? siteNameEl.value : '',
                     domain: domainEl ? domainEl.value : '',
-                    top_banner_text: bannerEl ? bannerEl.value : ''
+                    title_text: siteNameEl ? siteNameEl.value : '',
+                    desc_text: domainEl ? domainEl.value : '',
+                    top_banner_text: bannerEl ? bannerEl.value : '',
+                    header_bg: hdrBgEl ? hdrBgEl.value : '#cd0808',
+                    title_color: hdrTxtEl ? hdrTxtEl.value : '#ffffff',
+                    desc_color: hdrTxtEl ? hdrTxtEl.value : '#ffffff'
                 }};
+
+                const tSd = document.getElementById('b-title-size-d'); if(tSd && tSd.value) payload.title_size_desktop = parseFloat(tSd.value);
+                const tSm = document.getElementById('b-title-size-m'); if(tSm && tSm.value) payload.title_size_mobile = parseFloat(tSm.value);
+                const dSd = document.getElementById('b-desc-size-d'); if(dSd && dSd.value) payload.desc_size_desktop = parseFloat(dSd.value);
+                const dSm = document.getElementById('b-desc-size-m'); if(dSm && dSm.value) payload.desc_size_mobile = parseFloat(dSm.value);
+                const gap = document.getElementById('b-gap-spacing'); if(gap && gap.value !== '') payload.gap_spacing = parseFloat(gap.value);
+                const pTd = document.getElementById('b-pad-top-d'); if(pTd && pTd.value) {{ payload.pad_top_desktop = parseInt(pTd.value); payload.pad_bot_desktop = parseInt(pTd.value); }}
+                const pTm = document.getElementById('b-pad-top-m'); if(pTm && pTm.value) {{ payload.pad_top_mobile = parseInt(pTm.value); payload.pad_bot_mobile = parseInt(pTm.value); }}
 
                 if (hdrBgEl || hdrTxtEl) {{
                     payload.theme_colors = {{

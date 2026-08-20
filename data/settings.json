@@ -73,6 +73,7 @@
     "url": "https://hltzjtdkucbgppijievw.supabase.co",
     "enabled": false
   },
+  "desc_text": "Latest Jobs, Results, Etc.",
   "faq_items": [
     {
       "a": "Study Topper (Studytopper.In) Is India's Premier Educational Platform Delivering Verified, Real-Time Alerts For Latest Government Recruitment, Exam Syllabus, Admit Cards, Answer Keys, Cutoffs, And Merit Lists.",
@@ -147,7 +148,9 @@
     }
   ],
   "robots_txt": "User-agent: *\r\nDisallow: /admin/\r\nDisallow: /admin\r\nDisallow: /alria\r\nDisallow: /api/\r\nAllow: /\r\n\r\nSitemap: https://yourdomain.com/sitemap.xml",
+  "title_text": "STUDY TOPPER\u2122",
   "footer_text": "Copyright \u00a9 2026 StudyTopper.in | All Rights Reserved. Educational Career Guidance Portal.",
+  "gap_spacing": 2.0,
   "grid_headers": {
     "result": {
       "title": "Results",
@@ -386,6 +389,7 @@
   "top_pages_url_7": "",
   "top_pages_url_8": "",
   "top_pages_url_9": "",
+  "desc_size_mobile": 18.8,
   "footer_nav_lbl_0": "Home",
   "footer_nav_lbl_1": "Contact",
   "footer_nav_lbl_2": "Privacy Policy",
@@ -415,34 +419,20 @@
   "top_pages_url_12": "",
   "top_pages_url_13": "",
   "top_pages_url_14": "",
+  "desc_size_desktop": 25.8,
   "footer_soc_name_0": "Study Topper @X",
   "footer_soc_name_1": "Study Topper @Telegram",
   "footer_soc_name_2": "Study Topper @WhatsApp",
   "footer_soc_name_3": "Study Topper @Instagram",
   "footer_soc_name_4": "Study Topper @Facebook",
   "footer_soc_name_5": "Study Topper @YouTube",
+  "title_size_mobile": 36.0,
   "top_pages_text_10": "",
   "top_pages_text_11": "",
   "top_pages_text_12": "",
   "top_pages_text_13": "",
   "top_pages_text_14": "",
+  "title_size_desktop": 51.0,
   "footer_connect_title": "Connect With Study Topper",
-  "footer_copyright_text": "Copyright \u00a9 2026 StudyTopper.in | All Rights Reserved. Educational Career Guidance Portal.",
-  "lifecycle_config": {
-    "lifecycle_enabled": true,
-    "urgent_days_threshold": 3,
-    "expired_grace_period_days": 1,
-    "auto_git_sync": true,
-    "auto_detect_date_extension": true,
-    "pinned_posts": [
-      "railway-nfr-2026",
-      "sav-bihar-class-6-2026"
-    ],
-    "last_run_timestamp": "2026-08-20T22:49:08.515344",
-    "last_purged_posts": []
-  },
-  "pinned_posts": [
-    "railway-nfr-2026",
-    "sav-bihar-class-6-2026"
-  ]
+  "footer_copyright_text": "Copyright \u00a9 2026 StudyTopper.in | All Rights Reserved. Educational Career Guidance Portal."
 }
