@@ -7,7 +7,7 @@
     "google_analytics_id": "",
     "google_site_verification": ""
   },
-  "domain": "studytopper.in",
+  "domain": "Latest Jobs, Results, Etc.",
   "footer": {
     "nav_links": [
       {
@@ -29,28 +29,16 @@
     ],
     "social_links": [
       {
-        "url": "https://x.com/studytopper",
-        "name": "Study Topper @X"
-      },
-      {
-        "url": "https://t.me/studytopper",
+        "url": "https://t.me/study_hub_rajasthan",
         "name": "Study Topper @Telegram"
       },
       {
-        "url": "https://whatsapp.com/channel/studytopper",
+        "url": "https://whatsapp.com/channel/0029Vb6Vts9EQIagEOLHXH44",
         "name": "Study Topper @WhatsApp"
       },
       {
-        "url": "https://instagram.com/studytopper",
+        "url": "Instagram.com/aman_alria",
         "name": "Study Topper @Instagram"
-      },
-      {
-        "url": "https://facebook.com/studytopper",
-        "name": "Study Topper @Facebook"
-      },
-      {
-        "url": "https://youtube.com/@studytopper",
-        "name": "Study Topper @YouTube"
       }
     ],
     "connect_title": "Connect With Study Topper",
@@ -72,8 +60,12 @@
   "faq_q_3": "How Can I Find Government Jobs For 10th Pass, 12th Pass, Or Graduates On Study Topper?",
   "faq_q_4": "Which Government Recruitment Boards And Exams Are Covered On StudyTopper.In?",
   "socials": {
-    "telegram": "https://t.me/studytopper_official_test",
-    "whatsapp": "https://whatsapp.com/channel/0029Vb-STUDYTOPPER-TEST"
+    "twitter": "",
+    "youtube": "",
+    "facebook": "",
+    "telegram": "https://t.me/study_hub_rajasthan",
+    "whatsapp": "https://whatsapp.com/channel/0029Vb6Vts9EQIagEOLHXH44",
+    "instagram": "https://instagram.com/aman_alria"
   },
   "tagline": "Study Topper \u2122 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
   "supabase": {
@@ -204,7 +196,7 @@
     "header_text": "#ffffff",
     "jobs_header_bg": "#cd0808",
     "admit_header_bg": "#cd0808",
-    "whatsapp_btn_bg": "#075e54",
+    "whatsapp_btn_bg": "#00a125",
     "answer_header_bg": "#cd0808",
     "result_header_bg": "#cd0808",
     "whatsapp_btn_text": "#ffffff",
@@ -226,7 +218,6 @@
     "ibps-po-mt-xvi-2026",
     "bpsc-project-manager-2026",
     "nta-ugc-net-june-2025",
-    "sbi-junior-associates-clerk-2026",
     "rajasthan-safai-karmchari-2026",
     "ibps-clerk-16th-2026",
     "rrvunl-je-junior-assistant-2026",
