@@ -1862,8 +1862,26 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         font-weight: 700 !important;
         font-size: 13.5px !important;
     }}
-    a.wp-block-button__link, .wp-block-button__link {{
-        background-color: #0000b8 !important;
+    /* View More Buttons - Light Sky Blue */
+    a.wp-block-button__link, 
+    .wp-block-button__link, 
+    .wp-block-button a, 
+    .has-accent-2-background-color, 
+    :root .has-accent-2-background-color,
+    :root :where(.wp-element-button, .wp-block-button__link).has-accent-2-background-color {{
+        background-color: #38bdf8 !important; /* light skyblue */
+        background: #38bdf8 !important;
+        color: #ffffff !important;
+        border-radius: 4px !important;
+        font-weight: 700 !important;
+        display: inline-block !important;
+        transition: background 0.2s ease !important;
+    }}
+    a.wp-block-button__link:hover, 
+    .wp-block-button__link:hover, 
+    .wp-block-button a:hover {{
+        background-color: #0284c7 !important;
+        background: #0284c7 !important;
         color: #ffffff !important;
     }}
     p.gb-headline-d55a09d3, .gb-headline-d55a09d3, .gb-headline-text {{
