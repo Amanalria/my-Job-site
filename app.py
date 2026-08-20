@@ -146,9 +146,25 @@ def clean_post_html_content(raw_html, settings):
     
     soup = BeautifulSoup(raw_html, 'html.parser')
     socials = settings.get('socials', {})
-    wa_url = socials.get('whatsapp', 'https://whatsapp.com/')
-    tg_url = socials.get('telegram', 'https://t.me/')
-    ig_url = socials.get('instagram', 'https://instagram.com/')
+    footer_cfg = settings.get('footer', {})
+    wa_url = socials.get('whatsapp') or 'https://whatsapp.com/'
+    tg_url = socials.get('telegram') or 'https://t.me/'
+    ig_url = socials.get('instagram') or 'https://instagram.com/'
+    yt_url = socials.get('youtube') or 'https://youtube.com/'
+    fb_url = socials.get('facebook') or 'https://facebook.com/'
+    tw_url = socials.get('twitter') or 'https://x.com/'
+
+    for s in footer_cfg.get('social_links', []):
+        s_name = s.get('name', '').lower()
+        s_url = s.get('url', '')
+        if s_url:
+            if 'whatsapp' in s_name: wa_url = s_url
+            elif 'telegram' in s_name: tg_url = s_url
+            elif 'instagram' in s_name: ig_url = s_url
+            elif 'youtube' in s_name: yt_url = s_url
+            elif 'facebook' in s_name: fb_url = s_url
+            elif 'x' in s_name or 'twitter' in s_name: tw_url = s_url
+
     domain = settings.get('domain', 'studytopper.in')
     site_name = settings.get('site_name', 'STUDY TOPPER™')
 
@@ -176,13 +192,21 @@ def clean_post_html_content(raw_html, settings):
     for a_tag in soup.find_all('a'):
         href = a_tag.get('href', '')
         text = a_tag.get_text(strip=True).lower()
+        cls_list = a_tag.get('class', [])
+        cls_str = ' '.join(cls_list) if isinstance(cls_list, list) else str(cls_list or '')
         
-        if 'whatsapp' in href.lower() or 'whatsapp' in text:
+        if 'whatsapp' in href.lower() or 'whatsapp' in text or 'whatsapp' in cls_str.lower():
             a_tag['href'] = wa_url
-        elif 't.me' in href.lower() or 'telegram' in text:
+        elif 't.me' in href.lower() or 'telegram' in text or 'telegram' in cls_str.lower():
             a_tag['href'] = tg_url
-        elif 'instagram' in href.lower() or 'instagram' in text:
+        elif 'instagram' in href.lower() or 'instagram' in text or 'instagram' in cls_str.lower():
             a_tag['href'] = ig_url
+        elif 'youtube' in href.lower() or 'youtube' in text or 'youtube' in cls_str.lower():
+            a_tag['href'] = yt_url
+        elif 'facebook' in href.lower() or 'facebook' in text or 'facebook' in cls_str.lower():
+            a_tag['href'] = fb_url
+        elif 'twitter' in href.lower() or text in ['@x', 'twitter'] or 'twitter' in cls_str.lower():
+            a_tag['href'] = tw_url
         elif 'sarkariresult' in href.lower():
             a_tag['href'] = '/'
 
@@ -1934,15 +1958,16 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
 
     # 13. Dynamic Full Footer Management (Connect With Us + Socials + Bottom Nav + Copyright)
     footer_cfg = settings.get('footer', {})
+    socials = settings.get('socials', {})
     connect_title = footer_cfg.get('connect_title', 'Connect With Us')
     
     default_social_links = [
-        {"name": "Study Topper @X", "url": settings.get('socials', {}).get('twitter', 'https://x.com/')},
-        {"name": "Study Topper @Telegram", "url": settings.get('socials', {}).get('telegram', 'https://t.me/')},
-        {"name": "Study Topper @WhatsApp", "url": settings.get('socials', {}).get('whatsapp', 'https://whatsapp.com/')},
-        {"name": "Study Topper @Instagram", "url": settings.get('socials', {}).get('instagram', 'https://instagram.com/')},
-        {"name": "Study Topper @Facebook", "url": settings.get('socials', {}).get('facebook', 'https://facebook.com/')},
-        {"name": "Study Topper @YouTube", "url": settings.get('socials', {}).get('youtube', 'https://youtube.com/')}
+        {"name": "Study Topper @X", "url": socials.get('twitter', 'https://x.com/')},
+        {"name": "Study Topper @Telegram", "url": socials.get('telegram', 'https://t.me/')},
+        {"name": "Study Topper @WhatsApp", "url": socials.get('whatsapp', 'https://whatsapp.com/')},
+        {"name": "Study Topper @Instagram", "url": socials.get('instagram', 'https://instagram.com/')},
+        {"name": "Study Topper @Facebook", "url": socials.get('facebook', 'https://facebook.com/')},
+        {"name": "Study Topper @YouTube", "url": socials.get('youtube', 'https://youtube.com/')}
     ]
     social_links = footer_cfg.get('social_links') or default_social_links
 
@@ -1996,6 +2021,124 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     foot_txt = theme.get('footer_text', '#ffffff')
     for f_el in soup.find_all(class_=re.compile(r'site-footer|naman_footer|gb-container-d1f47294')):
         f_el['style'] = f"background-color:{foot_bg} !important; color:{foot_txt} !important;"
+
+    # 14. Universal Post Page Dynamic Social Buttons & Follow Links
+    wa_url = socials.get('whatsapp')
+    tg_url = socials.get('telegram')
+    ig_url = socials.get('instagram')
+    yt_url = socials.get('youtube')
+    fb_url = socials.get('facebook')
+    tw_url = socials.get('twitter')
+
+    if not wa_url:
+        for s in footer_cfg.get('social_links', []):
+            if 'whatsapp' in s.get('name', '').lower() and s.get('url'):
+                wa_url = s.get('url')
+                break
+    if not tg_url:
+        for s in footer_cfg.get('social_links', []):
+            if 'telegram' in s.get('name', '').lower() and s.get('url'):
+                tg_url = s.get('url')
+                break
+    if not ig_url:
+        for s in footer_cfg.get('social_links', []):
+            if 'instagram' in s.get('name', '').lower() and s.get('url'):
+                ig_url = s.get('url')
+                break
+    if not yt_url:
+        for s in footer_cfg.get('social_links', []):
+            if 'youtube' in s.get('name', '').lower() and s.get('url'):
+                yt_url = s.get('url')
+                break
+    if not fb_url:
+        for s in footer_cfg.get('social_links', []):
+            if 'facebook' in s.get('name', '').lower() and s.get('url'):
+                fb_url = s.get('url')
+                break
+    if not tw_url:
+        for s in footer_cfg.get('social_links', []):
+            if ('@x' in s.get('name', '').lower() or 'twitter' in s.get('name', '').lower()) and s.get('url'):
+                tw_url = s.get('url')
+                break
+
+    wa_url = wa_url or 'https://whatsapp.com/'
+    tg_url = tg_url or 'https://t.me/'
+    ig_url = ig_url or 'https://instagram.com/'
+    yt_url = yt_url or 'https://youtube.com/'
+    fb_url = fb_url or 'https://facebook.com/'
+    tw_url = tw_url or 'https://x.com/'
+
+    # A. Top & Bottom standalone social buttons
+    for a_el in soup.find_all('a'):
+        cls_list = a_el.get('class', [])
+        cls_str = ' '.join(cls_list) if isinstance(cls_list, list) else str(cls_list or '')
+        text_str = a_el.get_text().strip().lower()
+        href_str = a_el.get('href', '').lower()
+
+        if 'whatsapp' in cls_str.lower() or text_str == 'whatsapp' or 'whatsapp.com' in href_str:
+            a_el['href'] = wa_url
+        elif 'telegram' in cls_str.lower() or text_str == 'telegram' or 't.me' in href_str:
+            a_el['href'] = tg_url
+        elif 'instagram' in cls_str.lower() or text_str == 'instagram' or 'instagram.com' in href_str:
+            a_el['href'] = ig_url
+        elif 'youtube' in cls_str.lower() or text_str == 'youtube' or 'youtube.com' in href_str:
+            a_el['href'] = yt_url
+        elif 'facebook' in cls_str.lower() or text_str == 'facebook' or 'facebook.com' in href_str:
+            a_el['href'] = fb_url
+        elif 'twitter' in cls_str.lower() or text_str == 'twitter' or text_str == '@x' or 'x.com' in href_str:
+            a_el['href'] = tw_url
+
+    # B. Important Links table rows (Join Our WhatsApp Channel / Join Our Telegram Channel)
+    for tr in soup.find_all('tr'):
+        tr_text = tr.get_text().lower()
+        if 'whatsapp channel' in tr_text or 'join our whatsapp' in tr_text:
+            for a in tr.find_all('a'):
+                a['href'] = wa_url
+        elif 'telegram channel' in tr_text or 'join our telegram' in tr_text:
+            for a in tr.find_all('a'):
+                a['href'] = tg_url
+        elif 'instagram channel' in tr_text or 'join our instagram' in tr_text:
+            for a in tr.find_all('a'):
+                a['href'] = ig_url
+        elif 'youtube channel' in tr_text or 'join our youtube' in tr_text:
+            for a in tr.find_all('a'):
+                a['href'] = yt_url
+
+    # 15. Universal Post Page Dynamic "Latest Posts" & "Related Posts" 2-Column Table
+    if all_active_posts:
+        latest_job_posts = [p for p in all_active_posts if p.get('category') == 'latest-jobs']
+        if len(latest_job_posts) < 5:
+            latest_job_posts = all_active_posts
+            
+        related_result_posts = [p for p in all_active_posts if p.get('category') in ['result', 'admit-card', 'answer-key', 'admission']]
+        if len(related_result_posts) < 5:
+            related_result_posts = [p for p in all_active_posts if p not in latest_job_posts[:6]]
+            if len(related_result_posts) < 5:
+                related_result_posts = all_active_posts
+
+        for tbl in soup.find_all('table'):
+            tbl_text = tbl.get_text()
+            if 'Latest Posts' in tbl_text and 'Related Posts' in tbl_text:
+                for td in tbl.find_all('td'):
+                    h3_tag = td.find(['h3', 'h4', 'strong'])
+                    if h3_tag and 'Latest Posts' in h3_tag.get_text():
+                        for old_p in td.find_all('p'):
+                            old_p.decompose()
+                        for lp in latest_job_posts[:6]:
+                            new_p = soup.new_tag('p')
+                            p_a = soup.new_tag('a', href=f"/{lp['slug']}/")
+                            p_a.string = lp.get('title', '')
+                            new_p.append(p_a)
+                            td.append(new_p)
+                    elif h3_tag and 'Related Posts' in h3_tag.get_text():
+                        for old_p in td.find_all('p'):
+                            old_p.decompose()
+                        for rp in related_result_posts[:6]:
+                            new_p = soup.new_tag('p')
+                            p_a = soup.new_tag('a', href=f"/{rp['slug']}/")
+                            p_a.string = rp.get('title', '')
+                            new_p.append(p_a)
+                            td.append(new_p)
     # 12. Inject /alria Live Editor Toolbar & In-place Buttons
     if is_alria_mode:
         if soup.head:
@@ -3238,7 +3381,10 @@ def api_save_settings():
             data = request.form.to_dict()
 
         for k, v in data.items():
-            if k.startswith('social_'):
+            if k == 'socials' and isinstance(v, dict):
+                if 'socials' not in settings: settings['socials'] = {}
+                settings['socials'].update(v)
+            elif k.startswith('social_'):
                 soc_k = k.replace('social_', '')
                 if 'socials' not in settings: settings['socials'] = {}
                 settings['socials'][soc_k] = v

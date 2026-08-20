@@ -8,16 +8,72 @@
     "google_site_verification": ""
   },
   "domain": "Latest Jobs, Results, Etc.",
+  "footer": {
+    "nav_links": [
+      {
+        "url": "/",
+        "label": "Home"
+      },
+      {
+        "url": "/contact/",
+        "label": "Contact"
+      },
+      {
+        "url": "/privacy-policy/",
+        "label": "Privacy Policy"
+      },
+      {
+        "url": "/disclaimer/",
+        "label": "Disclaimer"
+      }
+    ],
+    "social_links": [
+      {
+        "url": "https://x.com/studytopper",
+        "name": "Study Topper @X"
+      },
+      {
+        "url": "https://t.me/studytopper",
+        "name": "Study Topper @Telegram"
+      },
+      {
+        "url": "https://whatsapp.com/channel/studytopper",
+        "name": "Study Topper @WhatsApp"
+      },
+      {
+        "url": "https://instagram.com/studytopper",
+        "name": "Study Topper @Instagram"
+      },
+      {
+        "url": "https://facebook.com/studytopper",
+        "name": "Study Topper @Facebook"
+      },
+      {
+        "url": "https://youtube.com/@studytopper",
+        "name": "Study Topper @YouTube"
+      }
+    ],
+    "connect_title": "Connect With Study Topper",
+    "copyright_text": "Copyright \u00a9 2026 StudyTopper.in | All Rights Reserved. Educational Career Guidance Portal."
+  },
   "ads_txt": "",
   "adsense": {
     "enabled": false,
     "client_id": ""
   },
+  "faq_a_0": "Study Topper (Studytopper.In) Is India's Premier Educational Platform Delivering Verified, Real-Time Alerts For Latest Government Recruitment, Exam Syllabus, Admit Cards, Answer Keys, Cutoffs, And Merit Lists.",
+  "faq_a_1": "Our Editorial Team Monitors Official Recruitment Portals 24/7 In Real-Time, Updating Direct Candidate Links Instantly As Soon As Official Authorities Release Them.",
+  "faq_a_2": "No, All Recruitment Notifications, Application Guides, Syllabus Downloads, And Candidate Tools On StudyTopper.In Are 100% Free Of Charge For All Students.",
+  "faq_a_3": "You Can Browse The \"Latest Jobs\" Category On Our Homepage Or Check The Qualification-Wise Lists (10+2, Graduate, ITI, Diploma) In The Table Above To Find All Matching Active Recruitment Notices.",
+  "faq_a_4": "Study Topper Provides Complete Coverage For SSC, UPSC, Railway RRB, Banking (IBPS, SBI), Police Bharti (UP, Bihar, MP, Rajasthan), Teaching (BPSC TRE, MSPST, CTET, KVS), Defence, And State PSC Examinations Across All States.",
+  "faq_q_0": "Q 1. What Is Study Topper And How Does It Assist Candidates?",
+  "faq_q_1": "How Frequently Are Exam Results And Admit Cards Updated On Study Topper?",
+  "faq_q_2": "Is Any Fee Or Subscription Required To Access Study Topper?",
+  "faq_q_3": "How Can I Find Government Jobs For 10th Pass, 12th Pass, Or Graduates On Study Topper?",
+  "faq_q_4": "Which Government Recruitment Boards And Exams Are Covered On StudyTopper.In?",
   "socials": {
-    "youtube": "https://youtube.com/",
-    "telegram": "https://t.me/",
-    "whatsapp": "https://whatsapp.com/",
-    "instagram": "https://instagram.com/"
+    "telegram": "https://t.me/studytopper_official_test",
+    "whatsapp": "https://whatsapp.com/channel/0029Vb-STUDYTOPPER-TEST"
   },
   "tagline": "Study Topper \u2122 2026 : Sarkari Naukri, Latest Online Form & Govt Exam Results",
   "supabase": {
@@ -99,7 +155,7 @@
     }
   ],
   "robots_txt": "User-agent: *\r\nDisallow: /admin/\r\nDisallow: /admin\r\nDisallow: /alria\r\nDisallow: /api/\r\nAllow: /\r\n\r\nSitemap: https://yourdomain.com/sitemap.xml",
-  "footer_text": "Copyright \u00a9 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.",
+  "footer_text": "Copyright \u00a9 2026 StudyTopper.in | All Rights Reserved. Educational Career Guidance Portal.",
   "grid_headers": {
     "result": {
       "title": "Results",
@@ -126,6 +182,11 @@
       "more_url": "/latest-jobs/"
     }
   },
+  "info_title_0": "Study Topper 10+2 & Graduate Latest Jobs 2026",
+  "info_title_1": "",
+  "info_title_2": "",
+  "info_title_3": "",
+  "info_title_4": "",
   "theme_colors": {
     "nav_bg": "#171515",
     "nav_text": "#ffffff",
@@ -137,7 +198,7 @@
     "card_6_bg": "#0080ff",
     "card_7_bg": "#800000",
     "card_8_bg": "#00802b",
-    "footer_bg": "#1e293b",
+    "footer_bg": "#1c1c1c",
     "header_bg": "#cd0808",
     "footer_text": "#f8fafc",
     "header_text": "#ffffff",
@@ -223,6 +284,11 @@
       "text": "UPSC Civil Services IAS / IFS Pre Exam 2026 Online Form"
     }
   ],
+  "info_content_0": "Find Verified Updates For 10+2 Intermediate And Graduate Government Vacancies Across India. StudyTopper.In Provides Direct Official Application Links, Notification PDFs, Eligibility Criteria, Age Relaxation, Syllabus Downloads, And Deadline Alerts For Railway RRB, SSC CHSL, Defence, Police Bharti, And State Recruitment Boards Updated Daily.",
+  "info_content_1": "",
+  "info_content_2": "",
+  "info_content_3": "",
+  "info_content_4": "",
   "highlight_cards": [
     {
       "url": "https://studytopper.in/igcar-apprentice-2026/",
@@ -262,54 +328,114 @@
     {
       "url": "/result/",
       "text": "Bharat Result"
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
+    },
+    {
+      "url": "",
+      "text": ""
     }
   ],
-  "footer": {
-    "connect_title": "Connect With Study Topper",
-    "social_links": [
-      {
-        "name": "Study Topper @X",
-        "url": "https://x.com/studytopper"
-      },
-      {
-        "name": "Study Topper @Telegram",
-        "url": "https://t.me/studytopper"
-      },
-      {
-        "name": "Study Topper @WhatsApp",
-        "url": "https://whatsapp.com/channel/studytopper"
-      },
-      {
-        "name": "Study Topper @Instagram",
-        "url": "https://instagram.com/studytopper"
-      },
-      {
-        "name": "Study Topper @Facebook",
-        "url": "https://facebook.com/studytopper"
-      },
-      {
-        "name": "Study Topper @YouTube",
-        "url": "https://youtube.com/@studytopper"
-      }
-    ],
-    "nav_links": [
-      {
-        "label": "Home",
-        "url": "/"
-      },
-      {
-        "label": "Contact",
-        "url": "/contact/"
-      },
-      {
-        "label": "Privacy Policy",
-        "url": "/privacy-policy/"
-      },
-      {
-        "label": "Disclaimer",
-        "url": "/disclaimer/"
-      }
-    ],
-    "copyright_text": "Copyright \u00a9 2026 StudyTopper.in | All Rights Reserved. Educational Career Guidance Portal."
-  }
+  "top_pages_url_0": "/result/",
+  "top_pages_url_1": "",
+  "top_pages_url_2": "",
+  "top_pages_url_3": "",
+  "top_pages_url_4": "",
+  "top_pages_url_5": "",
+  "top_pages_url_6": "",
+  "top_pages_url_7": "",
+  "top_pages_url_8": "",
+  "top_pages_url_9": "",
+  "footer_nav_lbl_0": "Home",
+  "footer_nav_lbl_1": "Contact",
+  "footer_nav_lbl_2": "Privacy Policy",
+  "footer_nav_lbl_3": "Disclaimer",
+  "footer_nav_url_0": "/",
+  "footer_nav_url_1": "/contact/",
+  "footer_nav_url_2": "/privacy-policy/",
+  "footer_nav_url_3": "/disclaimer/",
+  "footer_soc_url_0": "https://x.com/studytopper",
+  "footer_soc_url_1": "https://t.me/studytopper",
+  "footer_soc_url_2": "https://whatsapp.com/channel/studytopper",
+  "footer_soc_url_3": "https://instagram.com/studytopper",
+  "footer_soc_url_4": "https://facebook.com/studytopper",
+  "footer_soc_url_5": "https://youtube.com/@studytopper",
+  "top_pages_text_0": "Bharat Result",
+  "top_pages_text_1": "",
+  "top_pages_text_2": "",
+  "top_pages_text_3": "",
+  "top_pages_text_4": "",
+  "top_pages_text_5": "",
+  "top_pages_text_6": "",
+  "top_pages_text_7": "",
+  "top_pages_text_8": "",
+  "top_pages_text_9": "",
+  "top_pages_url_10": "",
+  "top_pages_url_11": "",
+  "top_pages_url_12": "",
+  "top_pages_url_13": "",
+  "top_pages_url_14": "",
+  "footer_soc_name_0": "Study Topper @X",
+  "footer_soc_name_1": "Study Topper @Telegram",
+  "footer_soc_name_2": "Study Topper @WhatsApp",
+  "footer_soc_name_3": "Study Topper @Instagram",
+  "footer_soc_name_4": "Study Topper @Facebook",
+  "footer_soc_name_5": "Study Topper @YouTube",
+  "top_pages_text_10": "",
+  "top_pages_text_11": "",
+  "top_pages_text_12": "",
+  "top_pages_text_13": "",
+  "top_pages_text_14": "",
+  "footer_connect_title": "Connect With Study Topper",
+  "footer_copyright_text": "Copyright \u00a9 2026 StudyTopper.in | All Rights Reserved. Educational Career Guidance Portal."
 }
