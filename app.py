@@ -1755,15 +1755,16 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     }}
     
 
-/* Full Large Big Red Header (+5% Size & Open Sans Font) */
+
+/* Full Large Big Red Header (Fine-Tuned Description & Spacing) */
 .site-header {{
     background-color: #cd0808 !important;
     color: #ffffff !important;
     width: 100% !important;
 }}
 .site-header .inside-header, .inside-header {{
-    padding: 65px 20px 60px 20px !important;
-    min-height: 158px !important;
+    padding: 58px 20px 58px 20px !important;
+    min-height: 150px !important;
     text-align: center !important;
     display: flex !important;
     flex-direction: column !important;
@@ -1789,17 +1790,17 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
 }}
 .site-description {{
     font-weight: 700 !important;
-    font-size: 27.5px !important;
+    font-size: 25.8px !important;
     letter-spacing: 0.3px !important;
     line-height: 1.25 !important;
     color: #ffffff !important;
-    margin: 8px 0 0 0 !important;
+    margin: 5px 0 0 0 !important;
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
 }}
 @media (max-width: 768px) {{
     .site-header .inside-header, .inside-header {{
-        padding: 48px 15px 42px 15px !important;
-        min-height: 138px !important;
+        padding: 43px 15px 40px 15px !important;
+        min-height: 130px !important;
     }}
     .main-title {{
         font-size: 36px !important;
@@ -1807,10 +1808,12 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         line-height: 1.15 !important;
     }}
     .site-description {{
-        font-size: 20px !important;
-        margin-top: 6px !important;
+        font-size: 18.8px !important;
+        margin-top: 5px !important;
     }}
 }}
+
+    
 
     
 
