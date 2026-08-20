@@ -830,7 +830,9 @@ def get_header_html(settings=None):
 </div> </div>
 </header>'''
 
-def get_footer_html(settings):
+def get_footer_html(settings=None):
+    if not settings:
+        settings = load_settings()
     socials = settings.get('socials', {})
     domain = settings.get('domain', 'studytopper.in')
     site_name = settings.get('site_name', 'STUDY TOPPER™')
@@ -849,12 +851,12 @@ def get_footer_html(settings):
                     <div class="sarkari-wrapper">
                         <h3>Connect With Us</h3>
                         <div class="sarkari-grid">
-                            <a href="{tw_url}" target="_blank">Study Topper @X</a>
-                            <a href="{tg_url}" target="_blank">Study Topper @Telegram</a>
-                            <a href="{wa_url}" target="_blank">Study Topper @WhatsApp</a>
-                            <a href="{ig_url}" target="_blank">Study Topper @Instagram</a>
-                            <a href="{fb_url}" target="_blank">Study Topper @Facebook</a>
-                            <a href="{yt_url}" target="_blank">Study Topper @YouTube</a>
+                            <a href="{tw_url}" target="_blank" rel="noopener noreferrer">Study Topper @X</a>
+                            <a href="{tg_url}" target="_blank" rel="noopener noreferrer">Study Topper @Telegram</a>
+                            <a href="{wa_url}" target="_blank" rel="noopener noreferrer">Study Topper @WhatsApp</a>
+                            <a href="{ig_url}" target="_blank" rel="noopener noreferrer">Study Topper @Instagram</a>
+                            <a href="{fb_url}" target="_blank" rel="noopener noreferrer">Study Topper @Facebook</a>
+                            <a href="{yt_url}" target="_blank" rel="noopener noreferrer">Study Topper @YouTube</a>
                         </div>
                     </div>
                 </div>
@@ -862,17 +864,16 @@ def get_footer_html(settings):
         </div>
     </div>
 
-    <div class="gb-container gb-container-d1f47294" style="text-align:center; padding:15px 0;">
-        <div class="gb-headline gb-headline-e41178b2 gb-headline-text" style="font-size:14px; margin-bottom:8px;">
-            Copyright © 2026 | <strong><a href="/" data-type="link" data-id="{domain}">{domain}</a></strong><br>
-            Official Website of Study Topper™ – {domain}
+    <div class="gb-container gb-container-d1f47294">
+        <div class="gb-headline gb-headline-e41178b2 gb-headline-text">
+            Copyright © 2009 - 2026 | <strong><a href="/" data-type="link" data-id="{domain}">{domain}</a></strong><br/>
+            Study Topper™ ( Since 2009 )
         </div>
-
-        <div class="gb-container-658f27a5" style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
-            <a class="gb-button gb-button-7d526092 gb-button-text" href="/" style="color:#ffffff !important; text-decoration:underline;">Home</a>
-            <a class="gb-button gb-button-05aacc7b gb-button-text" href="/contact/" style="color:#ffffff !important; text-decoration:underline;">Contact</a>
-            <a class="gb-button gb-button-c050fa03 gb-button-text" href="/privacy-policy/" style="color:#ffffff !important; text-decoration:underline;">Privacy Policy</a>
-            <a class="gb-button gb-button-6172bea5 gb-button-text" href="/disclaimer/" style="color:#ffffff !important; text-decoration:underline;">Disclaimer</a>
+        <div class="gb-container-658f27a5" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <a class="gb-button gb-button-7d526092 gb-button-text" href="/">Home</a>
+            <a class="gb-button gb-button-05aacc7b gb-button-text" href="/contact/">Contact</a>
+            <a class="gb-button gb-button-c050fa03 gb-button-text" href="/privacy-policy/">Privacy Policy</a>
+            <a class="gb-button gb-button-6172bea5 gb-button-text" href="/disclaimer/">Disclaimer</a>
         </div>
     </div>
 </div>"""
@@ -2155,12 +2156,91 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         color: #ffffff !important;
     }}
 
-    footer.site-footer, .site-footer, .site-info {{
-        background-color: var(--sarkari-foot-bg) !important;
-        color: var(--sarkari-foot-txt) !important;
+    /* Universal Homepage Footer Styles */
+    .site-footer {{
+        width: 100% !important;
+        clear: both !important;
+        margin-top: 30px !important;
     }}
-    footer.site-footer a, .site-info a {{
-        color: var(--sarkari-foot-txt) !important;
+    .gb-container.gb-container-7d9550dd.naman_footer.alignwide, .naman_footer {{
+        background: #212121 !important;
+        padding: 25px 15px 18px !important;
+    }}
+    .sarkari-wrapper {{
+        max-width: 600px !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+        background: #1e1e1e !important;
+        padding: 20px !important;
+        border-radius: 6px !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+    }}
+    .sarkari-wrapper h3 {{
+        color: #ffffff !important;
+        margin: 0 0 15px 0 !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        text-align: center !important;
+    }}
+    .sarkari-grid {{
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+        justify-content: center !important;
+    }}
+    .sarkari-grid a {{
+        background: #2a2a2a !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 13.5px !important;
+        padding: 8px 12px !important;
+        text-decoration: none !important;
+        border-radius: 4px !important;
+        font-weight: 500 !important;
+        transition: background 0.15s ease !important;
+    }}
+    .sarkari-grid a:hover {{
+        background: #3a3a3a !important;
+        text-decoration: underline !important;
+    }}
+    .gb-container.gb-container-d1f47294, .gb-container-d1f47294 {{
+        background: #1d2327 !important;
+        color: #ffffff !important;
+        text-align: center !important;
+        padding: 18px 10px !important;
+    }}
+    .gb-headline-e41178b2 {{
+        font-size: 13.5px !important;
+        line-height: 1.6 !important;
+        color: #ffffff !important;
+        margin-bottom: 8px !important;
+    }}
+    .gb-headline-e41178b2 a {{
+        color: #ffffff !important;
+        text-decoration: none !important;
+        font-weight: 700 !important;
+    }}
+    .gb-container-658f27a5 {{
+        display: flex !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        flex-wrap: wrap !important;
+        margin-top: 10px !important;
+    }}
+    .gb-button.gb-button-text, .gb-button {{
+        background: #000000 !important;
+        color: #ffffff !important;
+        padding: 6px 14px !important;
+        border-radius: 4px !important;
+        text-decoration: underline !important;
+        font-size: 13px !important;
+        border: 1px solid #333333 !important;
+        display: inline-block !important;
+    }}
+    .gb-button:hover {{
+        background: #222222 !important;
     }}
     .alria-edit-btn {{
         background: #ef4444 !important;
