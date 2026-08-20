@@ -1740,6 +1740,8 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     foot_txt = theme.get('footer_text', '#ffffff')
 
     center_style = soup.new_tag('style')
+    # Injected Large Header
+
     center_style.string = f"""
     :root {{
         --sarkari-hdr-bg: {hdr_bg};
@@ -1750,6 +1752,56 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         --sarkari-wa-txt: {wa_txt};
         --sarkari-foot-bg: {foot_bg};
         --sarkari-foot-txt: {foot_txt};
+    }}
+    /* Restore Large Red Header (STUDY TOPPER & Latest Jobs, Results, Etc.) */
+    .site-header {{
+        background-color: #cd0808 !important;
+        color: #ffffff !important;
+    }}
+    .inside-header {{
+        padding: 45px 40px 40px 40px !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }}
+    .site-branding {{
+        text-align: center !important;
+    }}
+    .main-title {{
+        text-transform: uppercase !important;
+        font-size: 45px !important;
+        font-weight: 800 !important;
+        line-height: 1.2 !important;
+        margin: 0 !important;
+        letter-spacing: 0.5px !important;
+    }}
+    .main-title a, .main-title a:hover {{
+        color: #ffffff !important;
+        text-decoration: none !important;
+    }}
+    .site-description {{
+        font-weight: 600 !important;
+        font-size: 25px !important;
+        letter-spacing: 0.22px !important;
+        line-height: 1.3 !important;
+        color: #ffffff !important;
+        margin: 6px 0 0 0 !important;
+    }}
+    @media (max-width: 768px) {{
+        .inside-header {{
+            padding: 30px 15px 25px 15px !important;
+        }}
+        .main-title {{
+            font-size: 32px !important;
+            letter-spacing: 0.61px !important;
+            line-height: 1.2 !important;
+        }}
+        .site-description {{
+            font-size: 18px !important;
+            margin-top: 4px !important;
+        }}
     }}
     body {{
         background-color: #ffffff !important;
