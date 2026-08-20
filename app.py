@@ -3,6 +3,7 @@ import os
 import re
 import json
 import uuid
+import time
 import vacancy_lifecycle_engine as lifecycle
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -96,6 +97,24 @@ def load_all_active_posts():
     result = list(posts_map.values())
     result.sort(key=lambda x: x.get('created_at', x.get('post_date', '')), reverse=True)
     return result
+
+def get_rotating_related_post(current_slug=None):
+    """
+    Returns an active post dict for the 'You May Also Check' widget.
+    Rotates deterministically every 3 days.
+    Guaranteed to never be deleted, expired, or 404.
+    """
+    all_posts = load_all_active_posts()
+    active = [p for p in all_posts if p.get('slug') != current_slug]
+    if not active:
+        active = all_posts
+    if not active:
+        return None
+    # 3 days = 86400 * 3 seconds
+    period_idx = int(time.time() // (86400 * 3))
+    salt = sum(ord(c) for c in (current_slug or ''))
+    selected_post = active[(period_idx + salt) % len(active)]
+    return selected_post
 
 def save_single_post(post_item):
     slug = post_item.get('slug')
@@ -920,6 +939,23 @@ def render_single_post_html(post, settings):
     </table>
     """ if rel_rows else ""
 
+    rotating_post = get_rotating_related_post(slug)
+    rot_check_html = ""
+    if rotating_post:
+        rot_slug = rotating_post.get('slug', '')
+        rot_title = rotating_post.get('title', '')
+        rot_check_html = f"""
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; margin: 16px 0; background: #ffffff;">
+            <tbody>
+                <tr>
+                    <td style="padding: 10px 14px; text-align: left;">
+                        <span style="font-size: 14.5px;"><strong><span style="color: #800000;">• You May Also Check :</span></strong> <a href="/{rot_slug}/" target="_blank" rel="noopener" style="color: #0000ef; font-weight: 700; text-decoration: underline;">{rot_title}</a></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        """
+
     extra_content_html = ""
     if cleaned_content and len(cleaned_content.strip()) > 50:
         extra_content_html = f"""<div style="margin: 16px 0;">{cleaned_content}</div>"""
@@ -963,56 +999,57 @@ def render_single_post_html(post, settings):
         .st-breadcrumb a:hover {{ text-decoration:underline; }}
         .st-breadcrumb span.current {{ color:#0f172a; font-weight:600; }}
 
-        .st-hero-card {{ background:#ffffff; border:1px solid #e2e8f0; border-top:4px solid #cd0808; border-radius:8px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); margin-bottom:20px; }}
-        .st-badge-strip {{ display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; }}
-        .st-badge {{ font-size:11.5px; font-weight:700; padding:4px 10px; border-radius:4px; text-transform:uppercase; }}
-        .st-badge-primary {{ background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; }}
-        .st-badge-success {{ background:#dcfce7; color:#15803d; border:1px solid #86efac; }}
-        .st-badge-info {{ background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; }}
+        .st-hero-card {{ background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:20px; box-shadow:0 4px 16px rgba(0,0,0,0.04); margin-bottom:20px; }}
+        .st-badge-strip {{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }}
+        .st-badge {{ font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px; display:inline-flex; align-items:center; gap:5px; }}
+        .st-badge-primary {{ background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; }}
+        .st-badge-success {{ background:#dcfce7; color:#15803d; border:1px solid #bbf7d0; }}
+        .st-badge-info {{ background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; }}
 
-        .st-post-title {{ font-size:24px; font-weight:800; color:#0f172a; margin:0 0 10px; line-height:1.35; }}
-        .st-meta-bar {{ display:flex; align-items:center; flex-wrap:wrap; gap:16px; font-size:13px; color:#64748b; border-bottom:1px dashed #cbd5e1; padding-bottom:12px; margin-bottom:14px; }}
+        .st-post-title {{ font-size:22px; font-weight:800; color:#0f172a; line-height:1.35; margin:0 0 14px; text-align:center; }}
+        .st-meta-bar {{ display:flex; flex-wrap:wrap; justify-content:center; gap:16px; font-size:13px; color:#475569; padding:10px 0; border-top:1px solid #f1f5f9; border-bottom:1px solid #f1f5f9; margin-bottom:18px; }}
         .st-meta-item {{ display:flex; align-items:center; gap:6px; }}
-        .st-meta-item i {{ color:#cd0808; }}
 
-        .st-stats-grid {{ display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-top:14px; }}
-        .st-stat-box {{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px; text-align:center; }}
-        .st-stat-label {{ font-size:12px; color:#64748b; font-weight:600; text-transform:uppercase; margin-bottom:4px; }}
-        .st-stat-value {{ font-size:17px; font-weight:800; color:#0f172a; }}
-        .st-stat-value.red {{ color:#dc2626; }}
+        .st-stats-grid {{ display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; }}
+        .st-stat-box {{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px; text-align:center; }}
+        .st-stat-label {{ font-size:11.5px; color:#64748b; font-weight:600; text-transform:uppercase; margin-bottom:4px; }}
+        .st-stat-value {{ font-size:14.5px; font-weight:800; color:#0f172a; }}
+        .st-stat-value.red {{ color:#cd0808; }}
         .st-stat-value.green {{ color:#16a34a; }}
 
-        .st-info-box {{ background:#fff8f8; border:1px solid #fecaca; border-left:5px solid #dc2626; padding:16px 20px; border-radius:6px; margin:20px 0; font-size:14px; line-height:1.7; }}
-        .st-info-box strong.label {{ color:#991b1b; font-weight:700; font-size:14.5px; }}
+        .st-info-box {{ background:#f0fdf4; border-left:4px solid #16a34a; padding:14px 18px; border-radius:0 6px 6px 0; margin:20px 0; font-size:14px; color:#166534; line-height:1.6; }}
+        .st-info-box strong.label {{ color:#14532d; font-size:15px; display:block; margin-bottom:6px; }}
 
-        .st-social-strip {{ display:flex; justify-content:space-between; align-items:center; background:#0f172a; color:#ffffff; padding:12px 18px; border-radius:8px; margin:20px 0; flex-wrap:wrap; gap:12px; }}
-        .st-social-title {{ font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; }}
+        .st-social-strip {{ background:linear-gradient(135deg, #0c2340, #1e3a8a); color:#ffffff; padding:16px 20px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin:20px 0; }}
+        .st-social-title {{ font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }}
         .st-social-btns {{ display:flex; gap:10px; flex-wrap:wrap; }}
-        .st-btn-wa {{ background:#16a34a; color:#ffffff !important; text-decoration:none; padding:7px 16px; border-radius:6px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; }}
-        .st-btn-tg {{ background:#0284c7; color:#ffffff !important; text-decoration:none; padding:7px 16px; border-radius:6px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; }}
+        .st-btn-wa {{ background:#16a34a; color:#ffffff !important; text-decoration:none; padding:8px 16px; border-radius:5px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; transition:0.2s; }}
+        .st-btn-wa:hover {{ background:#15803d; }}
+        .st-btn-tg {{ background:#0284c7; color:#ffffff !important; text-decoration:none; padding:8px 16px; border-radius:5px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px; transition:0.2s; }}
+        .st-btn-tg:hover {{ background:#0369a1; }}
 
-        .st-matrix-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:24px 0; }}
-        @media (max-width:768px) {{ .st-matrix-grid {{ grid-template-columns:1fr; gap:16px; }} .main-title {{ font-size:30px; }} .site-description {{ font-size:18px; }} .st-post-title {{ font-size:19px; }} }}
-
-        .st-matrix-card {{ background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; }}
-        .st-matrix-head {{ background:#cd0808; color:#ffffff; padding:12px 16px; font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }}
-        .st-matrix-head.blue {{ background:#0c2340; }}
+        .st-matrix-grid {{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin:24px 0; }}
+        .st-matrix-card {{ background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.03); }}
+        .st-matrix-head {{ background:#ab183d; color:#ffffff; padding:12px 16px; font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }}
+        .st-matrix-head.blue {{ background:#0284c7; }}
         .st-matrix-body {{ padding:16px; }}
         .st-list {{ list-style:none; margin:0; padding:0; }}
-        .st-list li {{ display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:13.5px; }}
+        .st-list li {{ display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:13.5px; text-align:left; }}
         .st-list li:last-child {{ border-bottom:none; }}
-        .st-list li span.key {{ color:#475569; font-weight:500; }}
-        .st-list li span.val {{ color:#0f172a; font-weight:700; }}
+        .st-list li span.key {{ color:#475569; font-weight:500; text-align:left; }}
+        .st-list li span.val {{ color:#0f172a; font-weight:700; text-align:right; }}
         .st-list li span.val.highlight {{ color:#dc2626; font-size:14px; }}
 
         .st-section-card {{ background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; margin:24px 0; }}
         .st-section-head {{ background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:14px 18px; font-size:16px; font-weight:700; color:#0f172a; display:flex; align-items:center; gap:8px; }}
         .st-section-head i {{ color:#cd0808; }}
-        .st-section-body {{ padding:18px; font-size:14px; }}
+        .st-section-body {{ padding:18px; font-size:14px; text-align:left; }}
+        .st-section-body ul, .st-section-body ol {{ text-align:left !important; padding-left:20px !important; }}
+        .st-section-body li {{ text-align:left !important; margin-bottom:4px !important; }}
 
         .st-table-responsive {{ width:100%; overflow-x:auto; margin-top:10px; }}
         .st-table {{ width:100%; border-collapse:collapse; text-align:left; font-size:13.5px; }}
-        .st-table th {{ background:#0c2340; color:#ffffff; padding:12px 14px; font-weight:700; border:1px solid #1e293b; }}
+        .st-table th {{ background:#f53c00; color:#ffffff; padding:10px 12px; font-weight:700; border:1px solid #d35400; text-align:center; }}
         .st-table td {{ padding:12px 14px; border:1px solid #e2e8f0; vertical-align:middle; }}
         .st-table tr:nth-child(even) td {{ background:#f8fafc; }}
 
@@ -1188,6 +1225,8 @@ def render_single_post_html(post, settings):
                 {cleaned_content if cleaned_content and len(cleaned_content) > 50 else f'<p>{short_desc}</p>'}
             </div>
         </div>
+
+        {rot_check_html}
 
         <!-- How To Apply -->
         <div class="st-section-card">
@@ -1604,6 +1643,25 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     if not soup.find(id='agy-lifecycle-blink-css') and soup.head:
         soup.head.append(BeautifulSoup(lifecycle.BLINKING_CSS, 'html.parser'))
 
+    # 1g. Dynamic 3-Day Rotating "You May Also Check" Active Post Replacement
+    cur_slug = current_path.strip('/')
+    rotating_post = get_rotating_related_post(cur_slug)
+    if rotating_post:
+        rot_slug = rotating_post.get('slug', '')
+        rot_title = rotating_post.get('title', '')
+        for tag in soup.find_all(['li', 'p', 'div', 'td']):
+            tag_text = tag.get_text()
+            if 'You May Also Check' in tag_text or 'You May Also Read' in tag_text:
+                a_tag = tag.find('a')
+                if a_tag:
+                    a_tag['href'] = f"/{rot_slug}/"
+                    a_tag['target'] = '_blank'
+                    a_tag['rel'] = 'noopener'
+                    if a_tag.find('strong'):
+                        a_tag.find('strong').string = rot_title
+                    else:
+                        a_tag.string = rot_title
+
     # 2. Inject Zero-Latency High Performance Google Analytics (GA4)
     ga_id = seo_cfg.get('google_analytics_id', '').strip()
     if ga_id and soup.body:
@@ -1879,18 +1937,21 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     }}
     .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts,
     ul.wp-block-latest-posts.wp-block-latest-posts__list {{
-        padding: 6px 6px 8px 20px !important;
+        padding: 6px 6px 8px 18px !important;
         margin: 0 !important;
         list-style-type: disc !important;
+        list-style-position: outside !important;
         flex: 1 !important;
         box-sizing: border-box !important;
     }}
     .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li,
     ul.wp-block-latest-posts.wp-block-latest-posts__list li {{
         padding: 3px 0 5px 0 !important;
-        margin-bottom: 6px !important;
-        line-height: 1.45 !important;
+        margin-bottom: 5px !important;
+        line-height: 1.4 !important;
         font-size: 13.5px !important;
+        text-align: left !important;
+        list-style-position: outside !important;
     }}
     .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a,
     .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a.wp-block-latest-posts__post-title,
@@ -1901,9 +1962,9 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         font-family: Arial, Helvetica, sans-serif !important;
         text-decoration: underline !important;
         text-decoration-color: #0000ef !important;
-        display: inline-block !important;
-        padding: 2px 0 !important;
-        min-height: 24px !important;
+        display: inline !important;
+        padding: 0 !important;
+        min-height: auto !important;
     }}
     .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a:hover,
     ul.wp-block-latest-posts a:hover {{
@@ -1940,24 +2001,67 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         }}
         .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts,
         ul.wp-block-latest-posts.wp-block-latest-posts__list {{
-            padding: 4px 4px 6px 15px !important;
+            padding: 4px 4px 6px 16px !important;
+            list-style-type: disc !important;
+            list-style-position: outside !important;
         }}
         .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li,
         ul.wp-block-latest-posts.wp-block-latest-posts__list li {{
-            padding: 3px 0 4px 0 !important;
-            margin-bottom: 5px !important;
+            padding: 2px 0 4px 0 !important;
+            margin-bottom: 4px !important;
             font-size: 12.5px !important;
-            line-height: 1.4 !important;
+            line-height: 1.35 !important;
+            text-align: left !important;
+            list-style-position: outside !important;
         }}
         .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a,
         .gb-grid-wrapper-180dce95 ul.wp-block-latest-posts li a.wp-block-latest-posts__post-title {{
             font-size: 12.5px !important;
             line-height: 1.35 !important;
             font-weight: 600 !important;
-            display: inline-block !important;
-            padding: 2px 0 !important;
-            min-height: 24px !important;
+            display: inline !important;
+            padding: 0 !important;
+            min-height: auto !important;
         }}
+    }}
+
+    /* Post Page & Table Bullet Lists Left Alignment */
+    .gb-container ul, .gb-container ol,
+    .gb-headline ul, .gb-headline ol,
+    .entry-content ul, .entry-content ol,
+    .st-post-container ul, .st-post-container ol,
+    table ul, table ol,
+    div[class*="gb-headline-"] ul, div[class*="gb-headline-"] ol {{
+        text-align: left !important;
+        list-style-position: outside !important;
+        padding-left: 20px !important;
+        margin: 4px 0 6px 0 !important;
+    }}
+    .gb-container ul li, .gb-container ol li,
+    .gb-headline ul li, .gb-headline ol li,
+    .entry-content ul li, .entry-content ol li,
+    .st-post-container ul li, .st-post-container ol li,
+    table ul li, table ol li,
+    div[class*="gb-headline-"] ul li, div[class*="gb-headline-"] ol li {{
+        text-align: left !important;
+        margin-bottom: 4px !important;
+        line-height: 1.5 !important;
+    }}
+
+    /* Orange Table Headers (Post Name | Total Posts | Eligibility Criteria) */
+    table th,
+    .st-table th,
+    th {{
+        background-color: #f53c00 !important;
+        color: #ffffff !important;
+        text-align: center !important;
+        padding: 8px 10px !important;
+        font-weight: 700 !important;
+        font-size: 14.5px !important;
+        border: 1px solid #d35400 !important;
+    }}
+    table th *, th * {{
+        color: #ffffff !important;
     }}
 
     footer.site-footer, .site-footer, .site-info {{

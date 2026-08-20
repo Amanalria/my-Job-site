@@ -124,10 +124,10 @@ Whenever the user mentions **"sarkari result universal design"**, **"universal p
             <tr style="background-color: #ab183d; color: #ffffff;">
                 <th colspan="3" style="padding: 8px 10px; text-align: center; font-size: 15px;">Vacancy Details (Total: [Total Vacancies])</th>
             </tr>
-            <tr style="background-color: #f1f5f9; color: #0b213f;">
-                <th style="padding: 8px 10px; border: 1px solid #ab183d; text-align: left; font-size: 13.5px;">Post Name</th>
-                <th style="padding: 8px 10px; border: 1px solid #ab183d; text-align: center; font-size: 13.5px;">Total Post</th>
-                <th style="padding: 8px 10px; border: 1px solid #ab183d; text-align: left; font-size: 13.5px;">Eligibility Criteria</th>
+            <tr style="background-color: #f53c00; color: #ffffff;">
+                <th style="padding: 8px 10px; border: 1px solid #d35400; text-align: left; font-size: 13.5px; color: #ffffff; background-color: #f53c00;">Post Name</th>
+                <th style="padding: 8px 10px; border: 1px solid #d35400; text-align: center; font-size: 13.5px; color: #ffffff; background-color: #f53c00;">Total Post</th>
+                <th style="padding: 8px 10px; border: 1px solid #d35400; text-align: left; font-size: 13.5px; color: #ffffff; background-color: #f53c00;">Eligibility Criteria</th>
             </tr>
         </thead>
         <tbody>
