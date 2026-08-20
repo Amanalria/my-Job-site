@@ -813,6 +813,23 @@ def get_gp_scripts_html():
 })();
 </script>"""
 
+def get_header_html(settings=None):
+    if not settings:
+        settings = load_settings()
+    hc = settings.get('header_customizer', {})
+    site_name = hc.get('title_text', settings.get('site_name', 'STUDY TOPPER™'))
+    domain = hc.get('desc_text', settings.get('domain', 'Latest Jobs, Results, Etc.'))
+
+    return f'''<header aria-label="Site" class="site-header grid-container" id="masthead" itemscope="" itemtype="https://schema.org/WPHeader">
+<div class="inside-header grid-container">
+<div class="site-branding">
+<p class="main-title" itemprop="headline">
+<a href="/" rel="home">{site_name}</a>
+</p>
+<p class="site-description" itemprop="description">{domain}</p>
+</div> </div>
+</header>'''
+
 def get_footer_html(settings):
     socials = settings.get('socials', {})
     domain = settings.get('domain', 'studytopper.in')
@@ -1321,8 +1338,7 @@ CATEGORY_SLUG_MAP = {
 
 def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
     site_name = settings.get('site_name', 'STUDY TOPPER™')
-    domain = settings.get('domain', 'studytopper.in')
-    footer_text = settings.get('footer_text', 'Copyright © 2009 - 2026 | SarkariResult.com.cm. All Rights Reserved.')
+    domain = settings.get('domain', 'Latest Jobs, Results, Etc.')
 
     if cat_posts:
         items_html = ''
@@ -1334,7 +1350,7 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
                 badge_suffix = " – Date Extend"
             elif p.get('is_pinned'):
                 badge_suffix = " – Last Date Soon"
-            items_html += f'<li style="margin-bottom:12px; font-size:14.5px;"><a href="/{p.get("slug")}/" style="color:#0000c0; text-decoration:none; font-weight:600;">{p.get("title")}{badge_suffix}</a></li>'
+            items_html += f'<li style="margin-bottom:12px; font-size:15px;"><a href="/{p.get("slug")}/" style="color:#0000c0; text-decoration:none; font-weight:600;">{p.get("title")}{badge_suffix}</a></li>'
         posts_list_html = f'<ul style="list-style-type:square; padding-left:25px; margin:15px 0;">{items_html}</ul>'
     else:
         posts_list_html = '<div style="text-align:center; padding:50px 15px; color:#64748b;"><i class="fa-solid fa-folder-open" style="font-size:42px; color:#cbd5e1; display:block; margin-bottom:12px;"></i><p style="font-size:17px; font-weight:600; color:#334155; margin:0 0 6px;">No posts in this category yet</p><p style="font-size:13.5px; margin:0;">New notifications published from Admin Panel will appear here automatically.</p></div>'
@@ -1345,27 +1361,18 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{cat_title} 2026 : {site_name}</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap">
     <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     {get_nav_search_styles_html()}
     <style>
         * {{ box-sizing: border-box; }}
-        body {{ font-family: Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
-        header.site-header {{ background-color: #ab183d; text-align: center; padding: 15px 10px; }}
-        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; text-transform:uppercase; }}
-        .main-title a {{ color: #fff; text-decoration: none; }}
-        .site-description {{ color: #fff; font-size: 16px; font-weight: 700; margin: 4px 0 0; text-transform:uppercase; }}
-        .page-container {{ max-width: 1040px; margin: 20px auto; padding: 0 12px; min-height: 400px; }}
-        .breadcrumb {{ font-size: 13px; color: #555; margin-bottom: 15px; }}
+        body {{ font-family: 'Open Sans', Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
+        .page-container {{ max-width: 1070px; margin: 15px auto; padding: 0 12px; min-height: 400px; }}
+        .breadcrumb {{ font-size: 13.5px; color: #555; margin-bottom: 12px; font-weight: 600; }}
         .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
-        .cat-card {{ border: 2px solid #ab183d; border-radius: 4px; padding: 20px; background: #fff; }}
-        h1.cat-heading {{ background: #ab183d; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
-        .sarkari-wrapper {{ max-width:600px; margin:0 auto; text-align:center; background:#1e1e1e; padding:20px; border-radius:6px; }}
-        .sarkari-wrapper h3 {{ color:#fff; margin-bottom:15px; }}
-        .sarkari-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }}
-        .sarkari-grid a {{ background:#2a2a2a; color:#fff; padding:10px; text-decoration:none; border-radius:4px; font-size:14px; display:flex; align-items:center; justify-content:center; }}
-        .sarkari-grid a:hover {{ background:#3a3a3a; }}
+        .cat-card {{ border: 2px solid #cd0808; border-radius: 4px; padding: 20px; background: #fff; }}
+        h1.cat-heading {{ background: #cd0808; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
         .gb-container-7d9550dd {{ background:#212121; padding:25px 15px 15px; }}
         .gb-container-d1f47294 {{ background:#1d2327; color:#fff; text-align:center; padding:18px 10px; }}
         .gb-container-d1f47294 a {{ color:#fff; }}
@@ -1373,10 +1380,7 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
     </style>
 </head>
 <body class="wp-theme-generatepress">
-    <header class="site-header">
-        <h1 class="main-title"><a href="/">{site_name}</a></h1>
-        <p class="site-description">{domain}</p>
-    </header>
+    {get_header_html(settings)}
     {get_nav_html()}
     <div class="page-container">
         <div class="breadcrumb">
@@ -1386,7 +1390,7 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
             <h1 class="cat-heading">{cat_title} 2026 : {site_name}</h1>
             {posts_list_html}
             <div style="text-align:center; margin-top:30px;">
-                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Study Topper Home</a>
+                <a href="/" style="background:#cd0808; color:#fff; text-decoration:none; padding:10px 22px; border-radius:4px; font-weight:700; font-size:14px; display:inline-block;">« Back to Study Topper Home</a>
             </div>
         </div>
     </div>
@@ -1398,13 +1402,13 @@ def render_category_page_html(cat_slug, cat_title, cat_posts, settings):
 
 def render_search_page_html(query, search_results, settings):
     site_name = settings.get('site_name', 'STUDY TOPPER™')
-    domain = settings.get('domain', 'studytopper.in')
+    domain = settings.get('domain', 'Latest Jobs, Results, Etc.')
 
     if search_results:
         items_html = ''
         for p in search_results:
             cat_name = p.get('category', 'Notification').replace('-', ' ').title()
-            items_html += f'<li style="margin-bottom:12px; font-size:14.5px;"><a href="/{p.get("slug")}/" style="color:#0000c0; text-decoration:none; font-weight:600;">{p.get("title")}</a> <span style="background:#f1f5f9; color:#475569; padding:1px 6px; border-radius:3px; font-size:11px; font-weight:600; margin-left:6px;">{cat_name}</span></li>'
+            items_html += f'<li style="margin-bottom:12px; font-size:15px;"><a href="/{p.get("slug")}/" style="color:#0000c0; text-decoration:none; font-weight:600;">{p.get("title")}</a> <span style="background:#f1f5f9; color:#475569; padding:1px 6px; border-radius:3px; font-size:11px; font-weight:600; margin-left:6px;">{cat_name}</span></li>'
         results_html = f'<ul style="list-style-type:square; padding-left:25px; margin:15px 0;">{items_html}</ul>'
     else:
         results_html = f'<div style="text-align:center; padding:50px 15px; color:#64748b;"><i class="fa-solid fa-magnifying-glass" style="font-size:42px; color:#cbd5e1; display:block; margin-bottom:12px;"></i><p style="font-size:17px; font-weight:600; color:#334155; margin:0 0 6px;">No official notifications found for "{query}"</p><p style="font-size:13.5px; margin:0;">Only verified notifications published on this portal are searched.</p></div>'
@@ -1415,27 +1419,18 @@ def render_search_page_html(query, search_results, settings):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search: {query} - {site_name}</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap">
     <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     {get_nav_search_styles_html()}
     <style>
         * {{ box-sizing: border-box; }}
-        body {{ font-family: Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
-        header.site-header {{ background-color: #ab183d; text-align: center; padding: 15px 10px; }}
-        .main-title {{ margin: 0; font-size: 32px; font-weight: 800; text-transform:uppercase; }}
-        .main-title a {{ color: #fff; text-decoration: none; }}
-        .site-description {{ color: #fff; font-size: 16px; font-weight: 700; margin: 4px 0 0; text-transform:uppercase; }}
-        .page-container {{ max-width: 1040px; margin: 20px auto; padding: 0 12px; min-height: 400px; }}
-        .breadcrumb {{ font-size: 13px; color: #555; margin-bottom: 15px; }}
+        body {{ font-family: 'Open Sans', Arial, Helvetica, sans-serif; margin:0; padding:0; background:#fff; color:#000; font-size:14px; line-height:1.5; }}
+        .page-container {{ max-width: 1070px; margin: 15px auto; padding: 0 12px; min-height: 400px; }}
+        .breadcrumb {{ font-size: 13.5px; color: #555; margin-bottom: 12px; font-weight: 600; }}
         .breadcrumb a {{ color: #0000ef; text-decoration: underline; }}
-        .cat-card {{ border: 2px solid #ab183d; border-radius: 4px; padding: 20px; background: #fff; }}
-        h1.cat-heading {{ background: #ab183d; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
-        .sarkari-wrapper {{ max-width:600px; margin:0 auto; text-align:center; background:#1e1e1e; padding:20px; border-radius:6px; }}
-        .sarkari-wrapper h3 {{ color:#fff; margin-bottom:15px; }}
-        .sarkari-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }}
-        .sarkari-grid a {{ background:#2a2a2a; color:#fff; padding:10px; text-decoration:none; border-radius:4px; font-size:14px; display:flex; align-items:center; justify-content:center; }}
-        .sarkari-grid a:hover {{ background:#3a3a3a; }}
+        .cat-card {{ border: 2px solid #cd0808; border-radius: 4px; padding: 20px; background: #fff; }}
+        h1.cat-heading {{ background: #cd0808; color: #fff; font-size: 20px; text-align: center; padding: 12px; margin: -20px -20px 20px -20px; font-weight: 700; }}
         .gb-container-7d9550dd {{ background:#212121; padding:25px 15px 15px; }}
         .gb-container-d1f47294 {{ background:#1d2327; color:#fff; text-align:center; padding:18px 10px; }}
         .gb-container-d1f47294 a {{ color:#fff; }}
@@ -1443,10 +1438,7 @@ def render_search_page_html(query, search_results, settings):
     </style>
 </head>
 <body class="wp-theme-generatepress">
-    <header class="site-header">
-        <h1 class="main-title"><a href="/">{site_name}</a></h1>
-        <p class="site-description">{domain}</p>
-    </header>
+    {get_header_html(settings)}
     {get_nav_html()}
     <div class="page-container">
         <div class="breadcrumb">
@@ -1456,7 +1448,7 @@ def render_search_page_html(query, search_results, settings):
             <h1 class="cat-heading">Search Results for : "{query}"</h1>
             {results_html}
             <div style="text-align:center; margin-top:30px;">
-                <a href="/" style="background:#ab183d; color:#fff; text-decoration:none; padding:8px 18px; border-radius:4px; font-weight:700; font-size:13px; display:inline-block;">« Back to Study Topper Home</a>
+                <a href="/" style="background:#cd0808; color:#fff; text-decoration:none; padding:10px 22px; border-radius:4px; font-weight:700; font-size:14px; display:inline-block;">« Back to Study Topper Home</a>
             </div>
         </div>
     </div>
