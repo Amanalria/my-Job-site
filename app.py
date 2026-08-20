@@ -1754,15 +1754,16 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         --sarkari-foot-txt: {foot_txt};
     }}
     
-/* Full Large Big Red Header */
+
+/* Full Large Big Red Header (+5% Size & Open Sans Font) */
 .site-header {{
     background-color: #cd0808 !important;
     color: #ffffff !important;
     width: 100% !important;
 }}
 .site-header .inside-header, .inside-header {{
-    padding: 60px 20px 55px 20px !important;
-    min-height: 150px !important;
+    padding: 65px 20px 60px 20px !important;
+    min-height: 158px !important;
     text-align: center !important;
     display: flex !important;
     flex-direction: column !important;
@@ -1774,39 +1775,44 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
 }}
 .main-title {{
     text-transform: uppercase !important;
-    font-size: 48px !important;
+    font-size: 51px !important;
     font-weight: 900 !important;
     line-height: 1.15 !important;
     margin: 0 !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 0.8px !important;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
 }}
 .main-title a, .main-title a:hover {{
     color: #ffffff !important;
     text-decoration: none !important;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
 }}
 .site-description {{
     font-weight: 700 !important;
-    font-size: 26px !important;
+    font-size: 27.5px !important;
     letter-spacing: 0.3px !important;
     line-height: 1.25 !important;
     color: #ffffff !important;
     margin: 8px 0 0 0 !important;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
 }}
 @media (max-width: 768px) {{
     .site-header .inside-header, .inside-header {{
-        padding: 45px 15px 40px 15px !important;
-        min-height: 130px !important;
+        padding: 48px 15px 42px 15px !important;
+        min-height: 138px !important;
     }}
     .main-title {{
-        font-size: 34px !important;
+        font-size: 36px !important;
         letter-spacing: 0.8px !important;
         line-height: 1.15 !important;
     }}
     .site-description {{
-        font-size: 19px !important;
+        font-size: 20px !important;
         margin-top: 6px !important;
     }}
 }}
+
+    
 
     
     body {{
