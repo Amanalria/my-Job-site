@@ -285,6 +285,62 @@
                     </div>
                     {% endfor %}
                 </div>
+
+                <!-- 9. Full Website Footer Manager -->
+                <div class="postbox" style="grid-column: 1 / -1;">
+                    <h2>🔗 Full Website Footer Manager</h2>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Customize Connect heading, social channel buttons, bottom quick links, and copyright text.</p>
+                    
+                    <h3 style="font-size:14px; color:#2563eb; margin:14px 0 8px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">1. Connect Section Heading</h3>
+                    <div class="form-group">
+                        <label>Connect Heading (e.g. Connect With Us)</label>
+                        <input type="text" name="footer_connect_title" class="wp-input" value="{{ settings.footer.connect_title if settings.footer and settings.footer.connect_title else 'Connect With Us' }}">
+                    </div>
+
+                    <h3 style="font-size:14px; color:#2563eb; margin:14px 0 8px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">2. Social Channel Buttons (Label + URL)</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                        {% set default_socs = [
+                            {'name': 'Study Topper @X', 'url': settings.socials.twitter if settings.socials else 'https://x.com/'},
+                            {'name': 'Study Topper @Telegram', 'url': settings.socials.telegram if settings.socials else 'https://t.me/'},
+                            {'name': 'Study Topper @WhatsApp', 'url': settings.socials.whatsapp if settings.socials else 'https://whatsapp.com/'},
+                            {'name': 'Study Topper @Instagram', 'url': settings.socials.instagram if settings.socials else 'https://instagram.com/'},
+                            {'name': 'Study Topper @Facebook', 'url': settings.socials.facebook if settings.socials else 'https://facebook.com/'},
+                            {'name': 'Study Topper @YouTube', 'url': settings.socials.youtube if settings.socials else 'https://youtube.com/'}
+                        ] %}
+                        {% for i in range(6) %}
+                        {% set s = settings.footer.social_links[i] if settings.footer and settings.footer.social_links and i < settings.footer.social_links|length else default_socs[i] %}
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; padding:8px;">
+                            <label style="font-size:11px; font-weight:700; color:#334155;">Social Channel {{ i+1 }}</label>
+                            <input type="text" name="footer_soc_name_{{ i }}" class="wp-input" value="{{ s.name if s else '' }}" placeholder="Button Label (e.g. Study Topper @X)" style="margin-bottom:4px; font-size:12px;">
+                            <input type="text" name="footer_soc_url_{{ i }}" class="wp-input" value="{{ s.url if s else '' }}" placeholder="URL (e.g. https://x.com/)" style="font-size:11px;">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <h3 style="font-size:14px; color:#059669; margin:18px 0 8px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">3. Bottom Quick Navigation Links</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px;">
+                        {% set default_navs = [
+                            {'label': 'Home', 'url': '/'},
+                            {'label': 'Contact', 'url': '/contact/'},
+                            {'label': 'Privacy Policy', 'url': '/privacy-policy/'},
+                            {'label': 'Disclaimer', 'url': '/disclaimer/'}
+                        ] %}
+                        {% for i in range(4) %}
+                        {% set nl = settings.footer.nav_links[i] if settings.footer and settings.footer.nav_links and i < settings.footer.nav_links|length else default_navs[i] %}
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; padding:8px;">
+                            <label style="font-size:11px; font-weight:700; color:#334155;">Nav Link {{ i+1 }}</label>
+                            <input type="text" name="footer_nav_lbl_{{ i }}" class="wp-input" value="{{ nl.label if nl else '' }}" placeholder="Label" style="margin-bottom:4px; font-size:12px;">
+                            <input type="text" name="footer_nav_url_{{ i }}" class="wp-input" value="{{ nl.url if nl else '' }}" placeholder="URL" style="font-size:11px;">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <h3 style="font-size:14px; color:#d97706; margin:18px 0 8px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">4. Copyright &amp; Guidance Notice</h3>
+                    <div class="form-group">
+                        <label>Copyright &amp; Disclaimer Text</label>
+                        <textarea name="footer_copyright_text" class="wp-input" rows="3">{{ settings.footer.copyright_text if settings.footer and settings.footer.copyright_text else settings.footer_text }}</textarea>
+                    </div>
+                </div>
             </div>
 
             <div style="margin-top:20px;">

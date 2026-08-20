@@ -1932,29 +1932,70 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                     faq_wrap.append(q_p)
                     faq_wrap.append(a_p)
 
-    # 13. Dynamic Footer Copyright Text & Social Links
-    if settings.get('footer_text'):
-        foot_div = soup.find(class_='gb-headline-e41178b2') or soup.find(class_=re.compile(r'gb-headline-.*e41178b2'))
-        if foot_div:
-            foot_div.string = settings.get('footer_text')
+    # 13. Dynamic Full Footer Management (Connect With Us + Socials + Bottom Nav + Copyright)
+    footer_cfg = settings.get('footer', {})
+    connect_title = footer_cfg.get('connect_title', 'Connect With Us')
+    
+    default_social_links = [
+        {"name": "Study Topper @X", "url": settings.get('socials', {}).get('twitter', 'https://x.com/')},
+        {"name": "Study Topper @Telegram", "url": settings.get('socials', {}).get('telegram', 'https://t.me/')},
+        {"name": "Study Topper @WhatsApp", "url": settings.get('socials', {}).get('whatsapp', 'https://whatsapp.com/')},
+        {"name": "Study Topper @Instagram", "url": settings.get('socials', {}).get('instagram', 'https://instagram.com/')},
+        {"name": "Study Topper @Facebook", "url": settings.get('socials', {}).get('facebook', 'https://facebook.com/')},
+        {"name": "Study Topper @YouTube", "url": settings.get('socials', {}).get('youtube', 'https://youtube.com/')}
+    ]
+    social_links = footer_cfg.get('social_links') or default_social_links
 
-    socials = settings.get('socials', {})
-    sarkari_grid = soup.find(class_='sarkari-grid')
-    if sarkari_grid and socials:
-        for a in sarkari_grid.find_all('a'):
-            txt = a.get_text()
-            if '@Telegram' in txt and socials.get('telegram'):
-                a['href'] = socials.get('telegram')
-            elif '@WhatsApp' in txt and socials.get('whatsapp'):
-                a['href'] = socials.get('whatsapp')
-            elif '@YouTube' in txt and socials.get('youtube'):
-                a['href'] = socials.get('youtube')
-            elif '@Instagram' in txt and socials.get('instagram'):
-                a['href'] = socials.get('instagram')
-            elif '@Facebook' in txt and socials.get('facebook'):
-                a['href'] = socials.get('facebook')
-            elif '@X' in txt and socials.get('twitter'):
-                a['href'] = socials.get('twitter')
+    default_nav_links = [
+        {"label": "Home", "url": "/"},
+        {"label": "Contact", "url": "/contact/"},
+        {"label": "Privacy Policy", "url": "/privacy-policy/"},
+        {"label": "Disclaimer", "url": "/disclaimer/"}
+    ]
+    footer_nav_links = footer_cfg.get('nav_links') or default_nav_links
+    copyright_text = footer_cfg.get('copyright_text') or settings.get('footer_text', 'Copyright © 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.')
+
+    # A. Connect With Us Box & Social Grid
+    sarkari_wrapper = soup.find(class_='sarkari-wrapper')
+    if sarkari_wrapper:
+        h3 = sarkari_wrapper.find('h3') or sarkari_wrapper.find('h2')
+        if h3:
+            h3.string = connect_title
+        grid = sarkari_wrapper.find(class_='sarkari-grid')
+        if grid:
+            grid.clear()
+            for s in social_links:
+                s_name = s.get('name', '').strip()
+                s_url = s.get('url', '').strip()
+                if s_name:
+                    s_a = soup.new_tag('a', href=s_url or '#', target="_blank", rel="noopener noreferrer")
+                    s_a.string = s_name
+                    grid.append(s_a)
+
+    # B. Bottom Copyright Headline
+    foot_div = soup.find(class_='gb-headline-e41178b2') or soup.find(class_=re.compile(r'gb-headline-.*e41178b2'))
+    if foot_div:
+        foot_div.clear()
+        foot_div.append(BeautifulSoup(copyright_text.replace('\n', '<br/>'), 'html.parser'))
+
+    # C. Bottom Nav Links
+    foot_nav = soup.find(class_='gb-container-658f27a5')
+    if foot_nav:
+        foot_nav.clear()
+        for nl in footer_nav_links:
+            lbl = nl.get('label', '').strip()
+            url = nl.get('url', '').strip()
+            if lbl:
+                n_a = soup.new_tag('a', href=url or '#')
+                n_a['class'] = 'gb-button gb-button-text'
+                n_a.string = lbl
+                foot_nav.append(n_a)
+
+    # D. Apply Footer Theme Colors
+    foot_bg = theme.get('footer_bg', '#1d2327')
+    foot_txt = theme.get('footer_text', '#ffffff')
+    for f_el in soup.find_all(class_=re.compile(r'site-footer|naman_footer|gb-container-d1f47294')):
+        f_el['style'] = f"background-color:{foot_bg} !important; color:{foot_txt} !important;"
     # 12. Inject /alria Live Editor Toolbar & In-place Buttons
     if is_alria_mode:
         if soup.head:
@@ -2244,13 +2285,38 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             </div>
         </div>
 
-        <!-- 6. Footer & Socials Modal with Color Controls -->
+        <!-- 6. Full Footer & Socials Modal -->
         <div id="modal-footer-socials" class="alria-modal-backdrop">
-            <div class="alria-modal-card">
-                <h3>🔗 Edit Footer, Socials &amp; Footer Color</h3>
-                <div class="alria-input-group"><label>Footer Copyright Text</label><textarea id="f-text" rows="2">{s_footer_text}</textarea></div>
+            <div class="alria-modal-card" style="max-width:780px;">
+                <h3>🔗 Edit Full Website Footer &amp; Social Channels</h3>
                 
-                <h4 style="margin-top:10px;">Footer Colors</h4>
+                <!-- Section 1: Connect Box -->
+                <h4 style="margin:14px 0 8px; color:#2563eb; font-size:14px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">1. Connect Section Heading &amp; Social Channels</h4>
+                <div class="alria-input-group">
+                    <label>Connect Box Title (e.g. Connect With Us)</label>
+                    <input type="text" id="foot-connect-title" value="{settings.get('footer', {}).get('connect_title', 'Connect With Us')}">
+                </div>
+                
+                <div style="margin-top:10px;">
+                    <label style="font-size:12px; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Social Channel Buttons (Button Label + URL)</label>
+                    <div id="footer-socials-container"></div>
+                    <button type="button" onclick="addNewSocialLink()" style="background:#0284c7; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:700; cursor:pointer; margin-top:6px;">+ Add Social Channel</button>
+                </div>
+
+                <!-- Section 2: Bottom Navigation Links -->
+                <h4 style="margin:18px 0 8px; color:#059669; font-size:14px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">2. Bottom Navigation Links</h4>
+                <div id="footer-nav-container"></div>
+                <button type="button" onclick="addNewNavLink()" style="background:#059669; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-size:12px; font-weight:700; cursor:pointer; margin-top:6px;">+ Add Nav Link</button>
+
+                <!-- Section 3: Copyright Text -->
+                <h4 style="margin:18px 0 8px; color:#d97706; font-size:14px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">3. Copyright &amp; Disclaimer Notice</h4>
+                <div class="alria-input-group">
+                    <label>Copyright &amp; Guidance Paragraph Text</label>
+                    <textarea id="f-copyright-text" rows="3">{settings.get('footer', {}).get('copyright_text') or s_footer_text}</textarea>
+                </div>
+                
+                <!-- Section 4: Footer Colors -->
+                <h4 style="margin:16px 0 8px; color:#7c3aed; font-size:14px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">4. Footer Colors</h4>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
                     <div class="alria-input-group">
                         <label>Footer Background</label>
@@ -2262,14 +2328,10 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                     </div>
                 </div>
 
-                <h4>Official Social Channels</h4>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <div class="alria-input-group"><label>Telegram Link</label><input type="text" id="soc-tg" value="{s_tg}"></div>
-                    <div class="alria-input-group"><label>WhatsApp Link</label><input type="text" id="soc-wa" value="{s_wa}"></div>
-                    <div class="alria-input-group"><label>YouTube Link</label><input type="text" id="soc-yt" value="{s_yt}"></div>
-                    <div class="alria-input-group"><label>Instagram Link</label><input type="text" id="soc-ig" value="{s_ig}"></div>
+                <div class="alria-modal-actions">
+                    <button class="alria-btn-cancel" onclick="closeModal('modal-footer-socials')">Cancel</button>
+                    <button class="alria-btn-save" onclick="saveFooterSocials()">Save Full Footer</button>
                 </div>
-                <div class="alria-modal-actions"><button class="alria-btn-cancel" onclick="closeModal('modal-footer-socials')">Cancel</button><button class="alria-btn-save" onclick="saveFooterSocials()">Save Footer &amp; Socials</button></div>
             </div>
         </div>
 
@@ -2526,18 +2588,124 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 saveSettingsPayload({{ info_sections: info_secs, faq_items: faqs }});
             }}
 
+            function renderFooterSocialsInputs() {{
+                const cont = document.getElementById('footer-socials-container'); if(!cont) return; cont.innerHTML = '';
+                const defaultSoc = [
+                    {{ name: 'Study Topper @X', url: siteSettings.socials?.twitter || 'https://x.com/' }},
+                    {{ name: 'Study Topper @Telegram', url: siteSettings.socials?.telegram || 'https://t.me/' }},
+                    {{ name: 'Study Topper @WhatsApp', url: siteSettings.socials?.whatsapp || 'https://whatsapp.com/' }},
+                    {{ name: 'Study Topper @Instagram', url: siteSettings.socials?.instagram || 'https://instagram.com/' }},
+                    {{ name: 'Study Topper @Facebook', url: siteSettings.socials?.facebook || 'https://facebook.com/' }},
+                    {{ name: 'Study Topper @YouTube', url: siteSettings.socials?.youtube || 'https://youtube.com/' }}
+                ];
+                const socList = (siteSettings.footer && siteSettings.footer.social_links && siteSettings.footer.social_links.length) ? siteSettings.footer.social_links : defaultSoc;
+                socList.forEach((item, idx) => {{
+                    cont.innerHTML += `
+                    <div style="display:grid; grid-template-columns:1fr 1fr 60px; gap:8px; margin-bottom:6px; background:#f8fafc; padding:6px 8px; border-radius:4px; align-items:center;">
+                        <input type="text" id="foot-soc-name-${{idx}}" value="${{item.name || ''}}" placeholder="Button Label (e.g. Study Topper @X)" style="font-size:12px;">
+                        <input type="text" id="foot-soc-url-${{idx}}" value="${{item.url || ''}}" placeholder="URL (e.g. https://x.com/)" style="font-size:12px;">
+                        <button type="button" onclick="removeSocialLink(${{idx}})" style="background:#ef4444; color:#fff; border:none; border-radius:3px; padding:4px 6px; font-size:11px; cursor:pointer;">🗑️</button>
+                    </div>`;
+                }});
+            }}
+            renderFooterSocialsInputs();
+
+            function addNewSocialLink() {{
+                if(!siteSettings.footer) siteSettings.footer = {{}};
+                if(!siteSettings.footer.social_links) siteSettings.footer.social_links = [];
+                siteSettings.footer.social_links.push({{ name: 'New Social Channel', url: 'https://' }});
+                renderFooterSocialsInputs();
+            }}
+
+            function removeSocialLink(idx) {{
+                if(!siteSettings.footer) siteSettings.footer = {{}};
+                if(!siteSettings.footer.social_links) siteSettings.footer.social_links = [
+                    {{ name: 'Study Topper @X', url: 'https://x.com/' }},
+                    {{ name: 'Study Topper @Telegram', url: 'https://t.me/' }},
+                    {{ name: 'Study Topper @WhatsApp', url: 'https://whatsapp.com/' }},
+                    {{ name: 'Study Topper @Instagram', url: 'https://instagram.com/' }},
+                    {{ name: 'Study Topper @Facebook', url: 'https://facebook.com/' }},
+                    {{ name: 'Study Topper @YouTube', url: 'https://youtube.com/' }}
+                ];
+                siteSettings.footer.social_links.splice(idx, 1);
+                renderFooterSocialsInputs();
+            }}
+
+            function renderFooterNavInputs() {{
+                const cont = document.getElementById('footer-nav-container'); if(!cont) return; cont.innerHTML = '';
+                const defaultNav = [
+                    {{ label: 'Home', url: '/' }},
+                    {{ label: 'Contact', url: '/contact/' }},
+                    {{ label: 'Privacy Policy', url: '/privacy-policy/' }},
+                    {{ label: 'Disclaimer', url: '/disclaimer/' }}
+                ];
+                const navList = (siteSettings.footer && siteSettings.footer.nav_links && siteSettings.footer.nav_links.length) ? siteSettings.footer.nav_links : defaultNav;
+                navList.forEach((item, idx) => {{
+                    cont.innerHTML += `
+                    <div style="display:grid; grid-template-columns:1fr 1fr 60px; gap:8px; margin-bottom:6px; background:#f8fafc; padding:6px 8px; border-radius:4px; align-items:center;">
+                        <input type="text" id="foot-nav-lbl-${{idx}}" value="${{item.label || ''}}" placeholder="Link Label" style="font-size:12px;">
+                        <input type="text" id="foot-nav-url-${{idx}}" value="${{item.url || ''}}" placeholder="URL (e.g. /contact/)" style="font-size:12px;">
+                        <button type="button" onclick="removeNavLink(${{idx}})" style="background:#ef4444; color:#fff; border:none; border-radius:3px; padding:4px 6px; font-size:11px; cursor:pointer;">🗑️</button>
+                    </div>`;
+                }});
+            }}
+            renderFooterNavInputs();
+
+            function addNewNavLink() {{
+                if(!siteSettings.footer) siteSettings.footer = {{}};
+                if(!siteSettings.footer.nav_links) siteSettings.footer.nav_links = [];
+                siteSettings.footer.nav_links.push({{ label: 'New Link', url: '/' }});
+                renderFooterNavInputs();
+            }}
+
+            function removeNavLink(idx) {{
+                if(!siteSettings.footer) siteSettings.footer = {{}};
+                if(!siteSettings.footer.nav_links) siteSettings.footer.nav_links = [
+                    {{ label: 'Home', url: '/' }},
+                    {{ label: 'Contact', url: '/contact/' }},
+                    {{ label: 'Privacy Policy', url: '/privacy-policy/' }},
+                    {{ label: 'Disclaimer', url: '/disclaimer/' }}
+                ];
+                siteSettings.footer.nav_links.splice(idx, 1);
+                renderFooterNavInputs();
+            }}
+
             function saveFooterSocials() {{
+                const connectTitle = document.getElementById('foot-connect-title').value.trim();
+                const copyText = document.getElementById('f-copyright-text').value.trim();
+                const socList = [];
+                const socInputs = document.querySelectorAll('[id^="foot-soc-name-"]');
+                socInputs.forEach((el, idx) => {{
+                    const nEl = document.getElementById('foot-soc-name-' + idx);
+                    const uEl = document.getElementById('foot-soc-url-' + idx);
+                    if(nEl && uEl && nEl.value.trim()) {{
+                        socList.push({{ name: nEl.value.trim(), url: uEl.value.trim() }});
+                    }}
+                }});
+
+                const navList = [];
+                const navInputs = document.querySelectorAll('[id^="foot-nav-lbl-"]');
+                navInputs.forEach((el, idx) => {{
+                    const lEl = document.getElementById('foot-nav-lbl-' + idx);
+                    const uEl = document.getElementById('foot-nav-url-' + idx);
+                    if(lEl && uEl && lEl.value.trim()) {{
+                        navList.push({{ label: lEl.value.trim(), url: uEl.value.trim() }});
+                    }}
+                }});
+
+                const footerPayload = {{
+                    connect_title: connectTitle,
+                    social_links: socList,
+                    nav_links: navList,
+                    copyright_text: copyText
+                }};
+
                 saveSettingsPayload({{
-                    footer_text: document.getElementById('f-text').value,
+                    footer: footerPayload,
+                    footer_text: copyText,
                     theme_colors: {{
                         footer_bg: document.getElementById('f-bg').value,
                         footer_text: document.getElementById('f-txt').value
-                    }},
-                    socials: {{
-                        telegram: document.getElementById('soc-tg').value,
-                        whatsapp: document.getElementById('soc-wa').value,
-                        youtube: document.getElementById('soc-yt').value,
-                        instagram: document.getElementById('soc-ig').value
                     }}
                 }});
             }}
@@ -3130,23 +3298,34 @@ def api_save_settings():
                         'title': data.get(t_k, '').strip(),
                         'content': data.get(c_k, '').strip()
                     })
-            if has_info_secs:
-                settings['info_sections'] = form_info_secs
+            # 4. footer form parsing
+            if any(k.startswith('footer_') for k in data):
+                footer_cfg = settings.get('footer', {})
+                if 'footer_connect_title' in data:
+                    footer_cfg['connect_title'] = data['footer_connect_title'].strip()
+                if 'footer_copyright_text' in data:
+                    footer_cfg['copyright_text'] = data['footer_copyright_text'].strip()
+                    settings['footer_text'] = footer_cfg['copyright_text']
+                
+                soc_list = []
+                for i in range(20):
+                    n_k = f'footer_soc_name_{i}'
+                    u_k = f'footer_soc_url_{i}'
+                    if n_k in data and data[n_k].strip():
+                        soc_list.append({'name': data[n_k].strip(), 'url': data.get(u_k, '').strip()})
+                if soc_list:
+                    footer_cfg['social_links'] = soc_list
 
-            # 3. faq_items
-            form_faq_items = []
-            has_faq = False
-            for i in range(20):
-                q_k = f'faq_q_{i}'
-                a_k = f'faq_a_{i}'
-                if q_k in data or a_k in data:
-                    has_faq = True
-                    q_val = data.get(q_k, '').strip()
-                    a_val = data.get(a_k, '').strip()
-                    if q_val:
-                        form_faq_items.append({'q': q_val, 'a': a_val})
-            if has_faq:
-                settings['faq_items'] = form_faq_items
+                nav_list = []
+                for i in range(10):
+                    l_k = f'footer_nav_lbl_{i}'
+                    u_k = f'footer_nav_url_{i}'
+                    if l_k in data and data[l_k].strip():
+                        nav_list.append({'label': data[l_k].strip(), 'url': data.get(u_k, '').strip()})
+                if nav_list:
+                    footer_cfg['nav_links'] = nav_list
+
+                settings['footer'] = footer_cfg
 
         save_settings_data(settings)
         if request.is_json:
