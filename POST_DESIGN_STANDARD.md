@@ -1,231 +1,76 @@
-# StudyTopper™ Official Post Page Design & Humanizer Publishing Standard
+# StudyTopper™ Universal Post Design Standard
 
-## Permanent Rule & Standard for All Posts (All Chats & Sessions)
-
-Whenever the user mentions **"sarkari result universal design"**, **"universal post design"**, or asks to create, publish, scrape, or rewrite articles/posts for **StudyTopper™** (`studytopper.in`):
-1. **Mandatory Post Design Template**: Every post MUST follow the exact layout structure defined in this specification.
-2. **100% Humanizer Engine**: All article body copy, summaries, descriptions, and step-by-step guides must be rewritten in 100% original, natural human prose (zero duplicate content, zero AI stock clichés, short 2-3 sentence paragraphs, active voice).
-3. **Exact Fact Accuracy**: Board names, dates, vacancy counts, eligibility qualifications, fees, and official links must remain 100% technically accurate.
+> **Mandatory Rule for All Posts**: Every post published on StudyTopper™ (`studytopper.in`) must strictly adhere to this layout, typography, humanizer rewriting pipeline, and custom thumbnail specifications.
 
 ---
 
-## 1. Post Page Layout Structure
+## 1. Complete Workflow & Quality Pipeline (Every Single Post)
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│ 1. Site Header & Logo (STUDY TOPPER™ - studytopper.in)                │
-├────────────────────────────────────────────────────────────────────────┤
-│ 2. Compact GeneratePress Navigation Bar (Mobile Hamburger + More Menu) │
-├────────────────────────────────────────────────────────────────────────┤
-│ 3. Post Title Header (Left-aligned, bold royal blue #0000cd, 24px)     │
-├────────────────────────────────────────────────────────────────────────┤
-│ 4. Post Date Line (Left-aligned, red #cd0808 bold)                     │
-├────────────────────────────────────────────────────────────────────────┤
-│ 5. Overview Paragraph (Rich formatted English, bold/blue keywords,     │
-│    bold red Advt No, zero Hindi text)                                  │
-├────────────────────────────────────────────────────────────────────────┤
-│ 6. Social Buttons: [WhatsApp #00d084] [Telegram #0088cc] (Full width)  │
-├────────────────────────────────────────────────────────────────────────┤
-│ 7. 2-Column Table: Important Dates & Application Fee                   │
-│    - Header: #ab183d background, #ffffff bold text                     │
-│    - Left: Application Start, Last Date, Fee Last Date, Exam Date      │
-│    - Right: Gen/OBC/EWS Fee, SC/ST/PH Fee, Payment Mode                │
-├────────────────────────────────────────────────────────────────────────┤
-│ 8. Age Limit & Relaxation Table (#ab183d header)                       │
-│    - Min Age, Max Age, Reference Date, Category Relaxations            │
-├────────────────────────────────────────────────────────────────────────┤
-│ 9. Vacancy Details & Eligibility Table                                 │
-│    - Header: #f53c00 vibrant orange, #ffffff bold white text           │
-│    - Columns: Post Name | Total Posts | Eligibility Matrix             │
-├────────────────────────────────────────────────────────────────────────┤
-│ 10. Dynamic 3-Day Rotating "You May Also Check" Widget                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ 11. Step-by-Step "How to Apply Online Form" Guide (Left-aligned list)  │
-├────────────────────────────────────────────────────────────────────────┤
-│ 12. Useful Important Links Table (Screenshot_20260820-194153.png)      │
-│     - Header: Red bold text SOME USEFUL IMPORTANT LINKS on white bg    │
-│     - Table Fill: Soft pastel yellow #fff37a, 1px solid black border   │
-│     - Left: Bold black #000000 text                                    │
-│     - Right: Bold blue #0000ef Click Here (centered)                   │
-├────────────────────────────────────────────────────────────────────────┤
-│ 13. Frequently Asked Questions (FAQ) Section                           │
-├────────────────────────────────────────────────────────────────────────┤
-│ 14. Custom WebP Post Thumbnail (/static/thumbnails/<slug>.webp)        │
-├────────────────────────────────────────────────────────────────────────┤
-│ 15. Official Footer (About, Policies, Disclaimer, Copyright Notice)    │
-└────────────────────────────────────────────────────────────────────────┘
-```
+1. **Ingest / Scrape**: Extract official notification data from government / official recruitment portals.
+2. **Humanizer Agent Full Rewrite (`blader/humanizer`)**:
+   - **Zero Duplicate Content**: 100% rewritten from scratch. Never copy-paste text directly from other websites.
+   - **No Robotic AI Markers**: Enforce Wikipedia's 35 "Signs of AI Writing" rules (0 em-dashes `—`, no AI clichés like "beacon", "testament", "tapestry", "crucial role", etc.).
+   - **Overview Word Count Requirement**: Strictly **90 to 100 words in clean English**. If source details are short, expand autonomously with comprehensive key details (organization name in blue, notice number in red, start/end dates, total vacancy count, age limits, and eligibility). Zero Hindi text.
+3. **Custom Thumbnail Image Requirement**:
+   - Every single post MUST have its own custom WebP thumbnail image saved at `/static/thumbnails/<slug>.webp` (generated with 1200x675 / 16:9 or 1:1 aspect ratio, bold typography, official badges).
+4. **Universal Design Rendering**: Render HTML strictly conforming to the component specifications below.
+5. **Multi-Location Publishing**:
+   - Add post to Homepage (`pages/index.html`) Colorful Box 1 and Latest Jobs column.
+   - Add post to appropriate Category page (`/latest-jobs/`, etc.).
+   - Add post URL to `sitemap.xml` with current ISO timestamp.
+   - Save to `data/all_posts.json` and sync with Supabase database.
 
 ---
 
-## 2. Standard HTML Content Template
+## 2. Typography & Color Specifications
 
-```html
-<div class="st-post-container" style="font-family: Arial, Helvetica, sans-serif; color: #000000; line-height: 1.5; font-size: 14px;">
-    <!-- Intro Paragraph -->
-    <p style="margin-bottom: 12px; font-size: 14.5px; line-height: 1.6;">
-        <strong>[Post Title] :</strong> [Humanized, natural 2-3 sentence overview of recruitment, eligibility, and key notification details.]
-    </p>
-
-    <!-- Important Dates & Application Fee Table -->
-    <table style="width: 100%; border-collapse: collapse; border: 2px solid #ab183d; margin-bottom: 16px;">
-        <thead>
-            <tr style="background-color: #ab183d; color: #ffffff;">
-                <th style="padding: 8px 10px; border: 1px solid #ab183d; font-size: 15px; width: 50%;">Important Dates</th>
-                <th style="padding: 8px 10px; border: 1px solid #ab183d; font-size: 15px; width: 50%;">Application Fee</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr style="vertical-align: top;">
-                <td style="padding: 10px 12px; border: 1px solid #ab183d; background-color: #ffffff;">
-                    <ul style="margin: 0; padding-left: 18px; line-height: 1.6;">
-                        <li>Application Start Date: <strong>[Start Date]</strong></li>
-                        <li>Application Last Date: <strong style="color: #cd0808;">[Last Date]</strong></li>
-                        <li>Fee Payment Last Date: <strong>[Fee Last Date]</strong></li>
-                        <li>Exam / Result Date: <strong>[Exam / Schedule]</strong></li>
-                    </ul>
-                </td>
-                <td style="padding: 10px 12px; border: 1px solid #ab183d; background-color: #ffffff;">
-                    <ul style="margin: 0; padding-left: 18px; line-height: 1.6;">
-                        <li>General / OBC / EWS: <strong>[Fee Amount]</strong></li>
-                        <li>SC / ST / PH: <strong>[Fee Amount]</strong></li>
-                        <li>Payment Mode: <strong>Online Net Banking / Cards / UPI</strong></li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- Age Limit Table -->
-    <table style="width: 100%; border-collapse: collapse; border: 2px solid #ab183d; margin-bottom: 16px;">
-        <thead>
-            <tr style="background-color: #ab183d; color: #ffffff;">
-                <th colspan="2" style="padding: 8px 10px; text-align: center; font-size: 15px;">Age Limit Criteria & Relaxation</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 10px 12px; border: 1px solid #ab183d;" colspan="2">
-                    <ul style="margin: 0; padding-left: 18px; line-height: 1.6;">
-                        <li>Minimum Age: <strong>[Min Age]</strong></li>
-                        <li>Maximum Age: <strong>[Max Age]</strong></li>
-                        <li>Age Calculation Date: As on [Reference Date]</li>
-                        <li>Age Relaxation: Extra age relaxation applicable as per board recruitment rules.</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- Vacancy Details Table -->
-    <table style="width: 100%; border-collapse: collapse; border: 2px solid #ab183d; margin-bottom: 16px;">
-        <thead>
-            <tr style="background-color: #ab183d; color: #ffffff;">
-                <th colspan="3" style="padding: 8px 10px; text-align: center; font-size: 15px;">Vacancy Details (Total: [Total Vacancies])</th>
-            </tr>
-            <tr style="background-color: #f53c00; color: #ffffff;">
-                <th style="padding: 8px 10px; border: 1px solid #d35400; text-align: left; font-size: 13.5px; color: #ffffff; background-color: #f53c00;">Post Name</th>
-                <th style="padding: 8px 10px; border: 1px solid #d35400; text-align: center; font-size: 13.5px; color: #ffffff; background-color: #f53c00;">Total Post</th>
-                <th style="padding: 8px 10px; border: 1px solid #d35400; text-align: left; font-size: 13.5px; color: #ffffff; background-color: #f53c00;">Eligibility Criteria</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 8px 10px; border: 1px solid #ab183d; text-align: left; font-weight: 600;">[Post Name]</td>
-                <td style="padding: 8px 10px; border: 1px solid #ab183d; text-align: center; font-weight: bold; color: #cd0808;">[Count]</td>
-                <td style="padding: 8px 10px; border: 1px solid #ab183d; text-align: left;">[Detailed educational qualifications, marks, diploma/degree needed]</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- How to Apply Step-by-Step Instructions -->
-    <table style="width: 100%; border-collapse: collapse; border: 2px solid #ab183d; margin-bottom: 16px;">
-        <thead>
-            <tr style="background-color: #ab183d; color: #ffffff;">
-                <th style="padding: 8px 10px; text-align: center; font-size: 15px;">Step-by-Step Instructions & How to Apply</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 10px 14px; border: 1px solid #ab183d; background-color: #ffffff;">
-                    <ol style="margin: 0; padding-left: 20px; line-height: 1.6;">
-                        <li>Visit the official portal and read the full notification carefully.</li>
-                        <li>Complete One Time Registration (OTR) if required by the recruiting authority.</li>
-                        <li>Fill in personal, academic, and reservation category details accurately.</li>
-                        <li>Upload passport photo, signature, and required certificates in prescribed sizes.</li>
-                        <li>Submit application fee online and preserve a copy of confirmation page.</li>
-                    </ol>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- Useful Important Links Table -->
-    <table style="width: 100%; border-collapse: collapse; border: 2px solid #ab183d; margin-bottom: 16px;">
-        <thead>
-            <tr style="background-color: #ab183d; color: #ffffff;">
-                <th colspan="2" style="padding: 8px 10px; text-align: center; font-size: 15px;">Useful Important Links</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; font-weight: bold; width: 60%;">Apply Online Form</td>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; text-align: center;">
-                    <a href="[Apply URL]" target="_blank" rel="noopener noreferrer" style="color: #0000ef; font-weight: bold; text-decoration: underline;">Click Here</a>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; font-weight: bold;">Download Official Notification</td>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; text-align: center;">
-                    <a href="[Notification URL]" target="_blank" rel="noopener noreferrer" style="color: #0000ef; font-weight: bold; text-decoration: underline;">Click Here</a>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; font-weight: bold;">Join WhatsApp Channel</td>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; text-align: center;">
-                    <a href="https://whatsapp.com/" target="_blank" rel="noopener noreferrer" style="color: #00a82d; font-weight: bold; text-decoration: underline;">Join Now</a>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; font-weight: bold;">Join Telegram Channel</td>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; text-align: center;">
-                    <a href="https://t.me/" target="_blank" rel="noopener noreferrer" style="color: #0088cc; font-weight: bold; text-decoration: underline;">Join Now</a>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; font-weight: bold;">Official Website</td>
-                <td style="padding: 8px 12px; border: 1px solid #ab183d; text-align: center;">
-                    <a href="[Official Website URL]" target="_blank" rel="noopener noreferrer" style="color: #0000ef; font-weight: bold; text-decoration: underline;">Click Here</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- FAQ Table -->
-    <table style="width: 100%; border-collapse: collapse; border: 2px solid #ab183d; margin-bottom: 16px;">
-        <thead>
-            <tr style="background-color: #ab183d; color: #ffffff;">
-                <th style="padding: 8px 10px; text-align: center; font-size: 15px;">Frequently Asked Questions (FAQ)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 8px 10px; border: 1px solid #ab183d; background-color: #f8fafc; font-weight: bold; color: #0b213f;">Q: [Question 1]</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px 10px; border: 1px solid #ab183d; line-height: 1.45;">Ans: [Clear, direct answer]</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-```
+- **Global Font Family**: `Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;` (Clean Category Wise Vacancy Details font stack across all elements).
+- **H1 Post Title**:
+  - `font-size: 22px; font-weight: 700; color: #0000cd; text-align: left; margin: 8px 0 4px 0; line-height: 1.3; width: 100%;`
+- **Post Date**:
+  - `color: #cd0808; font-weight: 700; font-size: 15px; margin: 2px 0 7px 0; text-align: left;`
+  - Example: `Post Date: August 20, 2026 10:13 Am`
+- **Overview Paragraph (90–100 Words)**:
+  - `font-size: 16.8px; line-height: 1.55; color: #000000; text-align: justify; text-justify: inter-word; width: 100%; margin: 8px 0 14px 0; display: block;`
+  - Key highlights: Organization in blue (`<strong style="color: #0000cd;">...</strong>`), keywords in bold, and Notice number in red (`<strong style="color: #cd0808;">(CEN No. ... / Advt No. ...)</strong>`). Zero Hindi text.
+- **Social Buttons (Compact, Left-Aligned)**:
+  - Container: `display: flex; justify-content: flex-start; align-items: center; gap: 10px; margin: 10px 0 16px 0; width: 100%;`
+  - Left Button: `WhatsApp` (solid green `#00d084`, color `#ffffff`, `padding: 10px 18px; font-size: 15.5px; font-weight: 700; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; height: auto; text-decoration: none;`).
+  - Right Button: `Telegram` (solid blue `#0088cc`, color `#ffffff`, `padding: 10px 18px; font-size: 15.5px; font-weight: 700; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; height: auto; text-decoration: none;`).
+  - Text inside buttons MUST ALWAYS remain strictly `WhatsApp` and `Telegram` (never replace with post titles).
+- **H2 Section Header**:
+  - `font-size: 15.5px; font-weight: 700; text-align: center; color: #ef0303; line-height: 1.3; padding: 2px 2px; margin: 3px 0 1px 0;`
+- **H3 Section Header**:
+  - `font-size: 16px; font-weight: 600; text-align: center; color: #009703; line-height: 1.25; margin: 1px 0 2px 0; padding: 0;`
+- **StudyTopper.in Link**:
+  - `margin-top: 0; margin-bottom: 2px; text-align: center; font-size: 19px; font-weight: 600; color: #0000ff;`
 
 ---
 
-## 3. Humanizer Rewriting Guidelines (35-Signs of AI Check)
-- **Minimum Word Count**: Every post MUST strictly contain **700+ words** (in-depth coverage of overview, eligibility, syllabus, how to apply, and FAQs).
-- **Mandatory 5 FAQs**: Every post MUST contain exactly **5 Frequently Asked Questions** with clear, direct answers.
-- **Zero Em-Dashes/En-Dashes**: Never use `—` or `–` in body copy. Use commas, colons, or parentheses.
-- **Banned AI Buzzwords**: `delve`, `tapestry`, `testament`, `pivotal`, `landscape`, `intricate`, `fostering`, `furthermore`, `moreover`, `in conclusion`, `in this digital age`.
-- **Short Paragraphs**: 2–3 sentences max per paragraph for optimal readability on mobile phones.
-- **Active Voice**: Clearly state who is conducting the recruitment, dates, and instructions directly.
+## 3. Table Standards
+
+### 3.1 Important Dates & Application Fee Matrix (2-Column Grid)
+- Column 1 Header: `Important Dates` (Background `#5b032f`, text `#ffffff`, 20px).
+- Column 2 Header: `Application Fee` (Background `#5b032f`, text `#ffffff`, 20px).
+- Highlighted last dates in bold red `#ff0000`.
+
+### 3.2 Age Limits & Total Vacancy Row
+- Column 1: `Age Limits As On [Date]` (Background `#046132`, text `#ffffff`, 20px).
+- Column 2: `Total Post` (Background `#f53c00`, text `#ffffff`, 20px) with large bold count below (`25px`, `#000000`).
+
+### 3.3 Vacancy Details Matrix & Category-Wise Breakdown
+- Category Wise Header: `Railway RRB JE Recruitment 2026 : Category Wise Vacancy Details` (Background `#000080`, text `#ffffff`, `14pt`).
+- Matrix Headers (`Post Name`, `Total Posts`, `Eligibility Criteria`): Background `#f53c00`, text `#ffffff`, `15px`, bold, `padding: 6px 10px; border: 1px solid #d35400;`.
+
+### 3.4 Important Links Table (Screenshot_20260820-194153.png Standard)
+- Main Header: `SOME USEFUL IMPORTANT LINKS` (bold red `#cd0808` text, white background, `font-size: 20px; text-align: center; padding: 8px 4px;`).
+- Table Rows Fill: Pastel yellow background (`#fff37a`).
+- Grid lines: `1px solid #000000`.
+- Left Column: Bold black link label (`font-size: 17px; font-weight: 700; color: #000000; text-align: left; padding: 8px 12px;`).
+- Right Column: Bold blue action text (`Click Here` in `#0000ef`, `font-size: 17px; font-weight: 700; text-align: center; padding: 8px 12px;`).
+
+---
+
+## 4. FAQs Section
+- Minimum 5 relevant FAQs per post in clean structured format.
+- Questions bold, answers clear and human-written.
