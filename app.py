@@ -1572,10 +1572,18 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         elif 'adsbygoogle' in classes:
             s.decompose()
 
-    # 1a. Clean broken font links and dead /cf-fonts/ CSS
+        # 1a. Clean broken font links, dead /cf-fonts/ CSS, and unused WP block style tags
+    dead_style_ids = {
+        'wp-emoji-styles-inline-css', 'wp-block-image-inline-css', 'wp-block-library-inline-css',
+        'wp-block-button-inline-css', 'wp-block-latest-posts-inline-css', 'wp-block-list-inline-css',
+        'wp-block-paragraph-inline-css', 'wp-block-buttons-inline-css', 'wp-block-columns-inline-css',
+        'classic-theme-styles-inline-css', 'global-styles-inline-css', 'core-block-supports-inline-css',
+        'wp-img-auto-sizes-contain-inline-css'
+    }
     for st in soup.find_all('style'):
+        st_id = st.get('id', '')
         st_text = st.get_text()
-        if '/cf-fonts/' in st_text or st.get('id') in ['generate-google-fonts-css', 'wp-img-auto-sizes-contain-inline-css']:
+        if st_id in dead_style_ids or '/cf-fonts/' in st_text or st_id == 'generate-google-fonts-css':
             st.decompose()
 
     for link in soup.find_all('link', rel='stylesheet'):
@@ -2334,7 +2342,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     .alria-edit-btn:hover {{ background: #dc2626 !important; }}
     """
     if soup.head:
-        soup.head.append(center_style)
+        soup.head.insert(0, center_style)
 
     # 8. Dynamic Site Name & Domain Name Subtitle in Header (Header Customizer sync)
     hc = settings.get('header_customizer', {})
