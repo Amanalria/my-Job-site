@@ -17,14 +17,14 @@ Whenever the user mentions **"sarkari result universal design"**, **"universal p
 ├────────────────────────────────────────────────────────────────────────┤
 │ 2. Compact GeneratePress Navigation Bar (Mobile Hamburger + More Menu) │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 3. Post Title Header (Centered, bold rich blue #0c0a8d, font 24-26px)  │
+│ 3. Post Title Header (Left-aligned, bold royal blue #0000cd, 24px)     │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 4. Post Date & Timestamp (Red accent #cd0808)                          │
+│ 4. Post Date Line (Left-aligned, red #cd0808 bold)                     │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 5. Dual Overview Section (English Overview + Hindi संक्षिप्त विवरण)    │
-│    - Fills space cleanly with zero blank gap                           │
+│ 5. Overview Paragraph (Rich formatted English, bold/blue keywords,     │
+│    bold red Advt No, zero Hindi text)                                  │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 6. Social Share Buttons: [WhatsApp #25D366] [Telegram #0088cc]         │
+│ 6. Social Buttons: [WhatsApp #00d084] [Telegram #0088cc] (Full width)  │
 ├────────────────────────────────────────────────────────────────────────┤
 │ 7. 2-Column Table: Important Dates & Application Fee                   │
 │    - Header: #ab183d background, #ffffff bold text                     │
@@ -42,10 +42,11 @@ Whenever the user mentions **"sarkari result universal design"**, **"universal p
 ├────────────────────────────────────────────────────────────────────────┤
 │ 11. Step-by-Step "How to Apply Online Form" Guide (Left-aligned list)  │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 12. Useful Important Links Table                                       │
-│     - Header Box: Solid Red #ab183d, #ffffff bold white text           │
-│     - Links Table Fill: Light red tint #fff0f3, #ab183d borders        │
-│     - Links: Bold blue #0000ef Click Here                              │
+│ 12. Useful Important Links Table (Screenshot_20260820-194153.png)      │
+│     - Header: Red bold text SOME USEFUL IMPORTANT LINKS on white bg    │
+│     - Table Fill: Soft pastel yellow #fff37a, 1px solid black border   │
+│     - Left: Bold black #000000 text                                    │
+│     - Right: Bold blue #0000ef Click Here (centered)                   │
 ├────────────────────────────────────────────────────────────────────────┤
 │ 13. Frequently Asked Questions (FAQ) Section                           │
 ├────────────────────────────────────────────────────────────────────────┤
