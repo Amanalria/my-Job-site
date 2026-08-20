@@ -1531,6 +1531,9 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         if 'live-gif' in src or 'live' in src:
             img['width'] = '62'
             img['height'] = '20'
+            img['loading'] = 'eager'
+            img['fetchpriority'] = 'high'
+            img['decoding'] = 'async'
             img['style'] = 'width:62px !important; height:20px !important; aspect-ratio:62/20 !important; display:inline-block !important; vertical-align:middle !important;'
             if img.get('srcset'):
                 del img['srcset']
@@ -1551,7 +1554,15 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             img['loading'] = 'lazy'
             img['decoding'] = 'async'
 
-    # 1e. Inject Blinking Animation CSS for Urgent & Extended Vacancies
+    # 1e. Contrast Fixes for WCAG AA (Replace hardcoded light/bright reds & colors)
+    for tag in soup.find_all(['span', 'font', 'a', 'p', 'strong']):
+        style_attr = tag.get('style', '')
+        if '#ff0000' in style_attr or 'rgb(255, 0, 0)' in style_attr:
+            tag['style'] = re.sub(r'#ff0000|rgb\(255,\s*0,\s*0\)', '#b91c1c', style_attr)
+        if tag.get('color') == '#ff0000' or tag.get('color') == 'red':
+            tag['color'] = '#b91c1c'
+
+    # 1f. Inject Blinking Animation CSS for Urgent & Extended Vacancies
     if not soup.find(id='agy-lifecycle-blink-css') and soup.head:
         soup.head.append(BeautifulSoup(lifecycle.BLINKING_CSS, 'html.parser'))
 
@@ -1669,6 +1680,14 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         font-weight: 700 !important;
         font-size: 13.5px !important;
     }}
+    a.wp-block-button__link, .wp-block-button__link {{
+        background-color: #0000b8 !important;
+        color: #ffffff !important;
+    }}
+    p.gb-headline-d55a09d3, .gb-headline-d55a09d3, .gb-headline-text {{
+        font-family: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-display: swap !important;
+    }}
 
     /* === 8 HIGHLIGHT BOXES (SARKARI RESULT EXACT DESIGN) === */
     .gb-container-0d9861a2 {{
@@ -1713,6 +1732,14 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         box-sizing: border-box !important;
         overflow: hidden !important;
     }}
+    p.gb-headline-240edee9 {{ background-color: #c90000 !important; }}
+    p.gb-headline-8f95d922 {{ background-color: #b83e00 !important; }}
+    p.gb-headline-37224a92 {{ background-color: #a20999 !important; }}
+    p.gb-headline-68cafa90 {{ background-color: #0b109e !important; }}
+    p.gb-headline-106fdfbe {{ background-color: #585a05 !important; }}
+    p.gb-headline-19f08da4 {{ background-color: #005fa8 !important; }}
+    p.gb-headline-053dc0a0 {{ background-color: #5f0000 !important; }}
+    p.gb-headline-d128e870 {{ background-color: #066e1f !important; }}
     .gb-grid-wrapper-5aaa8125 .gb-headline a,
     .gb-grid-wrapper-389edcd7 .gb-headline a,
     .gb-container-0d9861a2 .gb-headline a {{

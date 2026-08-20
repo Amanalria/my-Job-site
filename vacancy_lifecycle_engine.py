@@ -214,11 +214,11 @@ BLINKING_CSS = """
     line-height: inherit !important;
 }
 .agy-urgent-blink {
-    color: #dc2626 !important;
+    color: #b91c1c !important;
     background: transparent !important;
 }
 .agy-extended-blink {
-    color: #0284c7 !important;
+    color: #0369a1 !important;
     background: transparent !important;
 }
 </style>
