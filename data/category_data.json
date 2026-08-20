@@ -3,7 +3,7 @@
     {
       "title": "Railway NFR Apprentice Online Form 2026",
       "title_raw": "Railway NFR Apprentice Online Form 2026",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">2 Days Left!</span>",
+      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">1 Days Left!</span>",
       "url": "/railway-nfr-2026/",
       "short_desc": "Northeast Frontier Railway (RRC NFR) invites online applications for trade apprentice engagement across diverse mechanical, electrical, and engineering divisions. Selection is based purely on 10th and ITI merit without any written exam.",
       "date": "22 August 2026",
@@ -137,11 +137,11 @@
     {
       "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
       "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "badge_html": "",
+      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">3 Days Left!</span>",
       "url": "/nta-icar-aieea-pg-and-phd-2026/",
       "short_desc": "National Testing Agency (NTA) issues the provisional answer keys and candidate response sheets for Indian Council of Agricultural Research (ICAR) AIEEA PG and AICE JRF/SRF Ph.D entrance examinations.",
       "date": "Objection Window: 24 August 2026",
-      "lifecycle_state": "ACTIVE",
+      "lifecycle_state": "URGENT_PINNED",
       "is_pinned": false
     },
     {
