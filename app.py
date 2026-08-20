@@ -4154,7 +4154,7 @@ def admin_lifecycle():
     
     for p in custom_posts:
         slug = p.get('slug')
-        is_pin = slug in pinned_set or p.get('is_pinned', False)
+        is_pin = (slug in pinned_set)
         p['is_pinned'] = is_pin
         
         last_date_str = p.get('application_last_date', '')
@@ -4165,6 +4165,22 @@ def admin_lifecycle():
         is_ext = 'extend' in (last_date_str + p.get('title', '') + str(p.get('custom_badge', ''))).lower()
         p['is_date_extended'] = is_ext
         
+        if is_pin:
+            p['sort_priority'] = 100000 - min(days_rem or 100, 100)
+            p['lifecycle_state'] = 'URGENT_PINNED'
+        elif days_rem is not None and 0 <= days_rem <= urgent_threshold:
+            p['sort_priority'] = 10000 - days_rem
+            p['lifecycle_state'] = 'URGENT_PINNED'
+        elif is_ext:
+            p['sort_priority'] = 5000
+            p['lifecycle_state'] = 'ACTIVE'
+        elif days_rem is not None and days_rem < 0:
+            p['sort_priority'] = -1000 + days_rem
+            p['lifecycle_state'] = 'EXPIRED_DEMOTED'
+        else:
+            p['sort_priority'] = 100 - min(days_rem or 90, 90)
+            p['lifecycle_state'] = 'ACTIVE'
+        
         if days_rem is not None and 0 <= days_rem <= urgent_threshold:
             urgent_posts.append(p)
         if is_ext:
@@ -4172,6 +4188,11 @@ def admin_lifecycle():
         if is_pin:
             pinned_posts_list.append(p)
             
+    custom_posts.sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
+    urgent_posts.sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
+    extended_posts.sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
+    pinned_posts_list.sort(key=lambda x: x.get('sort_priority', 0), reverse=True)
+    
     urgent_count = len(urgent_posts)
     expired_count = sum(1 for p in custom_posts if (p.get('days_remaining') is not None and p.get('days_remaining') < 0) or p.get('lifecycle_state') == 'EXPIRED_DEMOTED')
     

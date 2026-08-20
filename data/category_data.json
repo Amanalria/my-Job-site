@@ -1,16 +1,6 @@
 {
   "latest-jobs": [
     {
-      "title": "BPSC School Teacher TRE 4.0 Online Form 2026",
-      "title_raw": "BPSC School Teacher TRE 4.0 Online Form 2026",
-      "badge_html": "",
-      "url": "/bpsc-school-teacher-tre-4-0-2026/",
-      "short_desc": "Bihar Public Service Commission (BPSC) invites online applications for BPSC School Teacher TRE 4.0 Online Form 2026 for 32,388 Posts.",
-      "date": "29 September 2026",
-      "lifecycle_state": "URGENT_PINNED",
-      "is_pinned": true
-    },
-    {
       "title": "IBPS Clerk (CSA) 16th Online Form 2026",
       "title_raw": "IBPS Clerk (CSA) 16th Online Form 2026",
       "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">Last Date Today!</span>",
@@ -18,6 +8,16 @@
       "short_desc": "Institute of Banking Personnel Selection (IBPS) invites online applications for IBPS Clerk (CSA) 16th Online Form 2026 for 11,403 Posts.",
       "date": "21 August 2026",
       "lifecycle_state": "URGENT_PINNED",
+      "is_pinned": false
+    },
+    {
+      "title": "BPSC School Teacher TRE 4.0 Online Form 2026",
+      "title_raw": "BPSC School Teacher TRE 4.0 Online Form 2026",
+      "badge_html": "",
+      "url": "/bpsc-school-teacher-tre-4-0-2026/",
+      "short_desc": "Bihar Public Service Commission (BPSC) invites online applications for BPSC School Teacher TRE 4.0 Online Form 2026 for 32,388 Posts.",
+      "date": "29 September 2026",
+      "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
   ]

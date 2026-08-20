@@ -129,15 +129,28 @@ def load_lifecycle_settings():
         "expired_grace_period_days": 1,
         "auto_git_sync": True,
         "auto_detect_date_extension": True,
-        "pinned_posts": ["railway-nfr-2026", "sav-bihar-class-6-2026"],
+        "pinned_posts": [],
         "last_run_timestamp": None,
         "last_purged_posts": []
     }
-    saved = safe_read_json(SETTINGS_FILE, {})
+    saved = {}
+    try:
+        import supabase_client as supa
+        if supa.is_supabase_configured():
+            supa_settings = supa.fetch_settings_from_supabase()
+            if supa_settings:
+                saved = supa_settings
+    except Exception:
+        pass
+    if not saved:
+        saved = safe_read_json(SETTINGS_FILE, {})
+        
     lifecycle_config = saved.get('lifecycle_config', {})
     default_settings.update(lifecycle_config)
-    if 'pinned_posts' in saved and 'pinned_posts' not in lifecycle_config:
+    if 'pinned_posts' in saved:
         default_settings['pinned_posts'] = saved.get('pinned_posts', default_settings['pinned_posts'])
+    elif 'pinned_posts' in lifecycle_config:
+        default_settings['pinned_posts'] = lifecycle_config.get('pinned_posts', default_settings['pinned_posts'])
     return default_settings
 
 def save_lifecycle_settings(config):
@@ -145,6 +158,12 @@ def save_lifecycle_settings(config):
     saved['lifecycle_config'] = config
     saved['pinned_posts'] = config.get('pinned_posts', [])
     safe_write_json(SETTINGS_FILE, saved)
+    try:
+        import supabase_client as supa
+        if supa.is_supabase_configured():
+            supa.save_settings_to_supabase(saved)
+    except Exception as e:
+        print("Notice: Lifecycle Supabase save exception:", e)
 
 def pin_post(slug):
     config = load_lifecycle_settings()
