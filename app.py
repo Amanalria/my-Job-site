@@ -2489,10 +2489,15 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                         days_rem = (parsed_d - today_date).days if parsed_d else None
                         
                         if is_pin:
-                            badge_text = "Date Extended!" if is_ext else ("Last Date Today!" if days_rem == 0 else f"{days_rem} Days Left!" if days_rem is not None else "3 Days Left!")
-                            badge_class = "agy-extended-blink" if is_ext else "agy-urgent-blink"
-                            cp['badge_markup'] = f' - <span class="agy-blinking-badge {badge_class}">{badge_text}</span>'
-                            cp['calc_priority'] = 100000 - min(days_rem or 10, 10)
+                            if is_ext:
+                                cp['badge_markup'] = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
+                            elif days_rem == 0:
+                                cp['badge_markup'] = ' - <span class="agy-blinking-badge agy-urgent-blink">Last Date Today!</span>'
+                            elif days_rem is not None and 0 < days_rem <= urgent_threshold:
+                                cp['badge_markup'] = f' - <span class="agy-blinking-badge agy-urgent-blink">{days_rem} Days Left!</span>'
+                            else:
+                                cp['badge_markup'] = ''
+                            cp['calc_priority'] = 100000 - min(days_rem or 100, 100)
                         elif days_rem is not None and 0 <= days_rem <= urgent_threshold:
                             badge_text = "Last Date Today!" if days_rem == 0 else f"{days_rem} Days Left!"
                             cp['badge_markup'] = f' - <span class="agy-blinking-badge agy-urgent-blink">{badge_text}</span>'
@@ -3745,9 +3750,15 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                 p_priority = -1000 + days_remaining
             elif is_pinned:
                 p_state = 'URGENT_PINNED'
-                badge_text = "Date Extended!" if is_extended else ("Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!")
-                p_badge = f' - <span class="agy-blinking-badge {"agy-extended-blink" if is_extended else "agy-urgent-blink"}">{badge_text}</span>'
-                p_priority = 100000 - min(days_remaining, 10)
+                if is_extended:
+                    p_badge = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
+                elif days_remaining == 0:
+                    p_badge = ' - <span class="agy-blinking-badge agy-urgent-blink">Last Date Today!</span>'
+                elif 0 < days_remaining <= urgent_threshold:
+                    p_badge = f' - <span class="agy-blinking-badge agy-urgent-blink">{days_remaining} Days Left!</span>'
+                else:
+                    p_badge = ''
+                p_priority = 100000 - min(days_remaining, 100)
             elif days_remaining <= urgent_threshold:
                 p_state = 'URGENT'
                 txt = "Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!"
@@ -4184,6 +4195,12 @@ def admin_lifecycle():
 def api_pin_post(slug):
     try:
         lifecycle.pin_post(slug)
+        _RENDERED_PAGE_CACHE.clear()
+        if supa.is_supabase_configured():
+            try:
+                supa.save_settings_to_supabase(load_settings())
+            except Exception:
+                pass
         return jsonify({"success": True, "slug": slug, "is_pinned": True})
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
@@ -4194,6 +4211,12 @@ def api_pin_post(slug):
 def api_unpin_post(slug):
     try:
         lifecycle.unpin_post(slug)
+        _RENDERED_PAGE_CACHE.clear()
+        if supa.is_supabase_configured():
+            try:
+                supa.save_settings_to_supabase(load_settings())
+            except Exception:
+                pass
         return jsonify({"success": True, "slug": slug, "is_pinned": False})
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
@@ -4206,6 +4229,12 @@ def api_unpin_post(slug):
 def api_toggle_pin_post(slug):
     try:
         is_pinned = lifecycle.toggle_pin_post(slug)
+        _RENDERED_PAGE_CACHE.clear()
+        if supa.is_supabase_configured():
+            try:
+                supa.save_settings_to_supabase(load_settings())
+            except Exception:
+                pass
         return jsonify({"success": True, "slug": slug, "is_pinned": is_pinned})
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500

@@ -148,27 +148,46 @@ def save_lifecycle_settings(config):
 
 def pin_post(slug):
     config = load_lifecycle_settings()
-    pinned = config.get('pinned_posts', [])
-    if slug not in pinned:
-        pinned.insert(0, slug)
-        config['pinned_posts'] = pinned
-        save_lifecycle_settings(config)
-        audit_and_execute_lifecycle()
+    pinned = [s for s in config.get('pinned_posts', []) if s != slug]
+    pinned.insert(0, slug)
+    config['pinned_posts'] = pinned
+    save_lifecycle_settings(config)
+    
+    # Update is_pinned in json files
+    for fname in ['custom_posts.json', 'all_posts.json']:
+        fpath = os.path.join(DATA_DIR, fname)
+        if os.path.exists(fpath):
+            posts = safe_read_json(fpath, [])
+            for p in posts:
+                if p.get('slug') == slug:
+                    p['is_pinned'] = True
+            safe_write_json(fpath, posts)
+            
+    audit_and_execute_lifecycle()
     return True
 
 def unpin_post(slug):
     config = load_lifecycle_settings()
-    pinned = config.get('pinned_posts', [])
-    if slug in pinned:
-        pinned.remove(slug)
-        config['pinned_posts'] = pinned
-        save_lifecycle_settings(config)
-        audit_and_execute_lifecycle()
+    pinned = [s for s in config.get('pinned_posts', []) if s != slug]
+    config['pinned_posts'] = pinned
+    save_lifecycle_settings(config)
+    
+    # Update is_pinned in json files
+    for fname in ['custom_posts.json', 'all_posts.json']:
+        fpath = os.path.join(DATA_DIR, fname)
+        if os.path.exists(fpath):
+            posts = safe_read_json(fpath, [])
+            for p in posts:
+                if p.get('slug') == slug:
+                    p['is_pinned'] = False
+            safe_write_json(fpath, posts)
+            
+    audit_and_execute_lifecycle()
     return True
 
 def toggle_pin_post(slug):
     config = load_lifecycle_settings()
-    pinned = config.get('pinned_posts', [])
+    pinned = list(config.get('pinned_posts', []))
     if slug in pinned:
         pinned.remove(slug)
         is_pinned = False
@@ -177,6 +196,16 @@ def toggle_pin_post(slug):
         is_pinned = True
     config['pinned_posts'] = pinned
     save_lifecycle_settings(config)
+    
+    for fname in ['custom_posts.json', 'all_posts.json']:
+        fpath = os.path.join(DATA_DIR, fname)
+        if os.path.exists(fpath):
+            posts = safe_read_json(fpath, [])
+            for p in posts:
+                if p.get('slug') == slug:
+                    p['is_pinned'] = is_pinned
+            safe_write_json(fpath, posts)
+            
     audit_and_execute_lifecycle()
     return is_pinned
 
@@ -309,11 +338,22 @@ def audit_and_execute_lifecycle():
                 # Manually Pinned -> Absolute Top
                 post['lifecycle_state'] = 'URGENT_PINNED'
                 post['days_remaining'] = days_remaining
-                badge_text = "Date Extended!" if is_extended else ("Last Date Today!" if days_remaining == 0 else f"{days_remaining} Days Left!")
-                badge_class = "agy-extended-blink" if is_extended else "agy-urgent-blink"
-                post['badge_html'] = f' - <span class="agy-blinking-badge {badge_class}">{badge_text}</span>'
-                post['lifecycle_badge'] = badge_text
-                post['sort_priority'] = 100000 - min(days_remaining, 10)
+                if is_extended:
+                    badge_text = "Date Extended!"
+                    post['badge_html'] = ' - <span class="agy-blinking-badge agy-extended-blink">Date Extended!</span>'
+                    post['lifecycle_badge'] = badge_text
+                elif days_remaining == 0:
+                    badge_text = "Last Date Today!"
+                    post['badge_html'] = ' - <span class="agy-blinking-badge agy-urgent-blink">Last Date Today!</span>'
+                    post['lifecycle_badge'] = badge_text
+                elif 0 < days_remaining <= urgent_threshold:
+                    badge_text = f"{days_remaining} Days Left!"
+                    post['badge_html'] = f' - <span class="agy-blinking-badge agy-urgent-blink">{badge_text}</span>'
+                    post['lifecycle_badge'] = badge_text
+                else:
+                    post['badge_html'] = ''
+                    post['lifecycle_badge'] = ''
+                post['sort_priority'] = 100000 - min(days_remaining, 100)
 
             elif days_remaining <= urgent_threshold:
                 # Urgent: Closing Soon (<= urgent_days_threshold) -> Pinned to top
