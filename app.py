@@ -3806,15 +3806,35 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
         if col:
             ul = col.find('ul')
             if ul:
-                ul.clear()
                 cat_list = posts_by_category.get(cat_key, [])
-                for item in cat_list[:12]:
-                    li = soup.new_tag('li')
-                    title_raw = item.get('title', '')
-                    badge_html = item.get('calculated_badge', '')
-                    markup = f'<a href="/{item.get("slug")}/" class="wp-block-latest-posts__post-title">{title_raw}{badge_html}</a>'
-                    li.append(BeautifulSoup(markup, 'html.parser'))
-                    ul.append(li)
+                if cat_list:
+                    ul.clear()
+                    for item in cat_list[:15]:
+                        li = soup.new_tag('li')
+                        title_raw = item.get('title', '')
+                        badge_html = item.get('calculated_badge', '')
+                        markup = f'<a href="/{item.get("slug")}/" class="wp-block-latest-posts__post-title">{title_raw}{badge_html}</a>'
+                        li.append(BeautifulSoup(markup, 'html.parser'))
+                        ul.append(li)
+
+    # Dynamic Top 8 Colorful Highlight Cards
+    highlight_cards_cols = [
+        'gb-grid-column-2f6de309', 'gb-grid-column-6de8e6a5', 'gb-grid-column-f69a2a15', 'gb-grid-column-cb185b36',
+        'gb-grid-column-962a1393', 'gb-grid-column-48ff7430', 'gb-grid-column-3b560729', 'gb-grid-column-659c2f86'
+    ]
+    sorted_all_active = sorted(all_posts, key=lambda x: x.get('calculated_priority', 0), reverse=True)
+    for idx, col_cls in enumerate(highlight_cards_cols):
+        col_div = soup.find(class_=col_cls)
+        if col_div:
+            p_tag = col_div.find('p')
+            if p_tag and idx < len(sorted_all_active):
+                h_post = sorted_all_active[idx]
+                h_title = h_post.get('title', '')
+                h_slug = h_post.get('slug', '')
+                h_badge = h_post.get('calculated_badge', '')
+                p_tag.clear()
+                card_markup = f'<a href="/{h_slug}/" rel="noreferrer noopener">{h_title}{h_badge}</a>'
+                p_tag.append(BeautifulSoup(card_markup, 'html.parser'))
     
     # 1h. SEO & Accessibility: Descriptive aria-labels for generic "Click Here" / "Download" links
     post_title_for_aria = ""

@@ -212,53 +212,7 @@
     "admission_header_bg": "#cd0808"
   },
   "title_weight": "900",
-  "deleted_posts": [
-    "railway-rrb-group-d-level-1-recruitment-2026-online",
-    "bpsc-school-teacher-tre-4-0-2026",
-    "csbc-bihar-prohibition-constable-2026",
-    "bihar-police-csbc-constable-operator-2026",
-    "kvs-nvs-teaching-non-teaching-2026",
-    "up-police-constable-recruitment-2026-online",
-    "bihar-police-csbc-constable-2026",
-    "upsssc-vdo-2023",
-    "nta-aiapget-2026",
-    "nbems-various-post-2026",
-    "up-home-guard-2026",
-    "ibps-po-mt-xvi-2026",
-    "bpsc-project-manager-2026",
-    "nta-ugc-net-june-2025",
-    "rajasthan-safai-karmchari-2026",
-    "ibps-clerk-16th-2026",
-    "rrvunl-je-junior-assistant-2026",
-    "rpsc-1st-grade-teacher-2025",
-    "ssc-chsl-2026",
-    "indian-airforce-musician-intake-01-2027",
-    "rssb-forester-2026",
-    "uppsc-assistant-professor-2025",
-    "upsssc-pet-2026",
-    "ib-security-assistant-executive-2025",
-    "delhi-high-court-hjs-2026",
-    "upsssc-lower-pcs-2026",
-    "nta-csir-ugc-net-june-2026",
-    "bpsc-exam-calendar-2026",
-    "bihar-vidhan-parishad-pa-deo-ldc-steno-2026",
-    "rssb-nhm-rajmes-2025",
-    "mpesb-van-rakshak-jail-prahari-2026",
-    "rssb-junior-technical-assistant-jta-result-2025",
-    "rssb-ayush-officer-2026",
-    "upsssc-assistant-accountant-mains-result-2025",
-    "bpsc-72nd-pre-2026",
-    "upsc-capf-ac-2025",
-    "upsc-civil-services-ias-ifs-2026",
-    "cbse-12th-result-2026",
-    "bihar-police-bpssc-si-prohibition-2026",
-    "bhu-school-teacher-tgt-pgt-prt-principal-2026",
-    "rssb-lab-assistant-2026",
-    "bpssc-havildar-instructor-2026",
-    "hpsc-pgt-computer-science-2026",
-    "bihar-police-bpssc-asi-operation-2026",
-    "post_f39dc3e1"
-  ],
+  "deleted_posts": [],
   "info_sections": [
     {
       "title": "Study Topper 10+2 & Graduate Latest Jobs 2026",
@@ -292,36 +246,36 @@
   "pad_top_mobile": "43",
   "highlight_cards": [
     {
-      "url": "https://studytopper.in/igcar-apprentice-2026/",
-      "title": "IGCAR Trade Apprentice Online Form 2026"
+      "title": "BPSC School Teacher TRE 4.0 Online Form 2026",
+      "url": "/bpsc-school-teacher-tre-4-0-2026/"
     },
     {
-      "url": "#",
-      "title": "SAV Bihar Class 6 Entrance Exam Online Form "
+      "title": "IBPS Clerk (CSA) 16th Online Form 2026",
+      "url": "/ibps-clerk-16th-2026/"
     },
     {
-      "url": "#",
-      "title": "Bihar Secondary Teachers Eligibility Test STET 2026"
+      "title": "",
+      "url": "#"
     },
     {
-      "url": "#",
-      "title": "UPESSC Principal Online Form 2026"
+      "title": "",
+      "url": "#"
     },
     {
-      "url": "#",
-      "title": "BPSC School Teacher TRE 4.0 Online Form 2026"
+      "title": "",
+      "url": "#"
     },
     {
-      "url": "#",
-      "title": ""
+      "title": "",
+      "url": "#"
     },
     {
-      "url": "#",
-      "title": ""
+      "title": "",
+      "url": "#"
     },
     {
-      "url": "#",
-      "title": ""
+      "title": "",
+      "url": "#"
     }
   ],
   "pad_bot_desktop": "58",
@@ -479,14 +433,14 @@
     "auto_git_sync": true,
     "auto_detect_date_extension": true,
     "pinned_posts": [
-      "railway-nfr-2026",
-      "sav-bihar-class-6-2026"
+      "bpsc-school-teacher-tre-4-0-2026",
+      "ibps-clerk-16th-2026"
     ],
     "last_run_timestamp": "2026-08-21T02:49:11.591295",
     "last_purged_posts": []
   },
   "pinned_posts": [
-    "railway-nfr-2026",
-    "sav-bihar-class-6-2026"
+    "bpsc-school-teacher-tre-4-0-2026",
+    "ibps-clerk-16th-2026"
   ]
 }

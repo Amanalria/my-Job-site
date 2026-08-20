@@ -35,19 +35,18 @@ MONTH_MAP = {
 }
 
 def safe_read_json(filepath, default_value=None):
-    filename = os.path.basename(filepath)
-    tmp_path = os.path.join(TMP_DATA_DIR, filename)
-    
-    if os.path.exists(tmp_path):
+    if os.path.exists(filepath):
         try:
-            with open(tmp_path, 'r', encoding='utf-8') as f:
+            with open(filepath, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except Exception:
             pass
 
-    if os.path.exists(filepath):
+    filename = os.path.basename(filepath)
+    tmp_path = os.path.join(TMP_DATA_DIR, filename)
+    if os.path.exists(tmp_path):
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(tmp_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except Exception:
             pass

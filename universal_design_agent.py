@@ -217,42 +217,64 @@ class UniversalDesignAgent:
 <div class="gb-container gb-container-659bd175"><p style="color: #cd0808; font-weight: 700; font-size: 15px; margin: 2px 0 7px 0; text-align: left; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">Post Date: {post_date}</p></div>
 <p class="gb-headline gb-headline-550ae316 short_Details gb-headline-text" style="width: 100%; max-width: 100%; font-size: 16.8px; line-height: 1.55; color: #000000; text-align: justify; text-justify: inter-word; margin: 8px 0 14px 0; display: block; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{overview_html}</p>
 <div class="gb-container gb-container-9849916c"><div class="social-buttons-compact" style="display: flex; justify-content: flex-start; align-items: center; gap: 10px; margin: 10px 0 16px 0; width: 100%;"><a class="social-btn-compact wa" href="https://whatsapp.com/channel/0029Va9xyz" rel="noopener" style="background-color: #00d084; color: #ffffff; padding: 10px 18px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 15.5px; display: inline-flex; align-items: center; justify-content: center; height: auto;" target="_blank">WhatsApp</a><a class="social-btn-compact tg" href="https://t.me/studytopperofficial" rel="noopener" style="background-color: #0088cc; color: #ffffff; padding: 10px 18px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 15.5px; display: inline-flex; align-items: center; justify-content: center; height: auto;" target="_blank">Telegram</a></div></div>
-<div class="gb-container gb-container-f58e6ca1">
-<h2 class="gb-headline gb-headline-2ca5a791 gb-headline-text" style="font-size: 15.5px; font-weight: 700; text-align: center; color: #ef0303; line-height: 1.3; padding: 2px 2px; margin: 3px 0 1px 0; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{title} – Latest Details &amp; Updates</h2>
-<h3 class="gb-headline gb-headline-7d5f86e8 gb-headline-text" style="font-size: 16px; font-weight: 600; text-align: center; color: #009703; line-height: 1.25; margin: 1px 0 2px 0; padding: 0; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{data.get('organization', 'Recruitment')} Examination 2026 : Short Details</h3>
-<p class="gb-headline gb-headline-79adf169 gb-headline-text" style="margin-top: 0; margin-bottom: 2px; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; text-align: center;"><a href="/">StudyTopper.in</a></p>
-<div class="gb-grid-wrapper gb-grid-wrapper-303102a8">
-<div class="gb-grid-column gb-grid-column-d96c68be"><div class="gb-container gb-container-d96c68be">
-<div class="gb-container gb-container-16a90584">
-<h4 class="gb-headline gb-headline-22b2e02b gb-headline-text"><strong>Important Dates</strong></h4>
-<div class="gb-headline gb-headline-3b2f0e17 gb-headline-text"><ul style="text-align: left !important; list-style-position: outside !important">{dates_li}</ul></div>
-</div>
-</div></div>
-<div class="gb-grid-column gb-grid-column-fcbb81ff"><div class="gb-container gb-container-fcbb81ff">
-<h4 class="gb-headline gb-headline-4ddaf9ee gb-headline-text"><strong>Application Fee</strong></h4>
-<div class="gb-headline gb-headline-989f3ffd gb-headline-text"><ul style="text-align: left !important; list-style-position: outside !important">{fee_li}</ul>
-<ul style="text-align: left !important; list-style-position: outside !important">
-<li style="text-align: left !important"><span style="font-size: 14pt;"><strong>Payment Mode (Online):</strong> Payment can be made using Debit Card, Credit Card, Net Banking, or UPI.</span></li>
-</ul></div>
-</div></div>
-</div>
-</div>
-<div class="gb-container gb-container-6b6fbcac">
-<div class="gb-grid-wrapper gb-grid-wrapper-8aa46b64">
-<div class="gb-grid-column gb-grid-column-0f18d865"><div class="gb-container gb-container-0f18d865">
-<h5 class="gb-headline gb-headline-0b3ada47 gb-headline-text">{data.get('organization', 'Recruitment')} : Age Limits As On {data.get('age_as_on', '01 August 2026')}</h5>
-<div class="gb-headline gb-headline-28dede61 gb-headline-text"><ul style="text-align: left !important; list-style-position: outside !important">{age_li}</ul></div>
-</div></div>
-<div class="gb-grid-column gb-grid-column-860b2712"><div class="gb-container gb-container-860b2712">
-<h5 class="gb-headline gb-headline-f2184b83 gb-headline-text"><strong>Total Post</strong></h5>
-<div class="gb-headline gb-headline-4259c0c2 gb-headline-text">{total_posts}</div>
-</div></div>
+<div class="gb-container gb-container-f58e6ca1" style="border: 2px solid #5b032f; border-radius: 4px; overflow: hidden; margin: 15px 0 20px 0; background-color: #ffffff; width: 100%; box-sizing: border-box;">
+<h2 class="gb-headline gb-headline-2ca5a791 gb-headline-text" style="font-size: 16px; font-weight: 700; text-align: center; color: #ef0303; line-height: 1.3; padding: 6px 4px; margin: 0; background: #ffffff; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{title} – Latest Details &amp; Updates</h2>
+<h3 class="gb-headline gb-headline-7d5f86e8 gb-headline-text" style="font-size: 16px; font-weight: 600; text-align: center; color: #009703; line-height: 1.25; margin: 0; padding: 2px 4px 6px 4px; background: #ffffff; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{data.get('organization', 'Recruitment')} Examination 2026 : Short Details</h3>
+<p class="gb-headline gb-headline-79adf169 gb-headline-text" style="margin: 0 0 6px 0; font-family: Hind, 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; text-align: center; font-size: 18px; font-weight: 700;"><a href="/" style="color: #0000ff; text-decoration: underline;">StudyTopper.in</a></p>
+
+<!-- 2-COL BOX 1: IMPORTANT DATES & APPLICATION FEE -->
+<table style="width: 100%; border-collapse: collapse; border-top: 2px solid #5b032f; margin: 0; padding: 0;">
+<tbody>
+<tr>
+<td style="width: 50%; vertical-align: top; border-right: 1px solid #5b032f; padding: 0; margin: 0;">
+  <div style="background-color: #5b032f; color: #ffffff; padding: 8px 10px; font-size: 20px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">Important Dates</div>
+  <div style="padding: 12px 14px; background-color: #ffffff;">
+    <ul style="padding-left: 20px; margin: 0; list-style-type: disc; text-align: left; font-size: 14pt; line-height: 1.6; font-family: Hind, 'Open Sans', sans-serif;">
+      {dates_li}
+    </ul>
+  </div>
+</td>
+<td style="width: 50%; vertical-align: top; padding: 0; margin: 0;">
+  <div style="background-color: #5b032f; color: #ffffff; padding: 8px 10px; font-size: 20px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">Application Fee</div>
+  <div style="padding: 12px 14px; background-color: #ffffff;">
+    <ul style="padding-left: 20px; margin: 0; list-style-type: disc; text-align: left; font-size: 14pt; line-height: 1.6; font-family: Hind, 'Open Sans', sans-serif;">
+      {fee_li}
+    </ul>
+    <div style="margin-top: 10px; font-size: 14pt; line-height: 1.5; color: #000000; border-top: 1px dashed #ccc; padding-top: 8px; font-family: Hind, 'Open Sans', sans-serif;">
+      <strong>Payment Mode (Online):</strong> Payment can be made using Debit Card, Credit Card, Net Banking, or UPI.
+    </div>
+  </div>
+</td>
+</tr>
+</tbody>
+</table>
+
+<!-- 2-COL BOX 2: AGE LIMITS & TOTAL POST -->
+<table style="width: 100%; border-collapse: collapse; border-top: 2px solid #5b032f; margin: 0; padding: 0;">
+<tbody>
+<tr>
+<td style="width: 50%; vertical-align: top; border-right: 1px solid #5b032f; padding: 0; margin: 0;">
+  <div style="background-color: #046132; color: #ffffff; padding: 8px 10px; font-size: 17px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">{data.get('organization', 'Recruitment')} : Age Limits As On {data.get('age_as_on', '01 August 2026')}</div>
+  <div style="padding: 12px 14px; background-color: #ffffff;">
+    <ul style="padding-left: 20px; margin: 0; list-style-type: disc; text-align: left; font-size: 14pt; line-height: 1.6; font-family: Hind, 'Open Sans', sans-serif;">
+      {age_li}
+    </ul>
+  </div>
+</td>
+<td style="width: 50%; vertical-align: top; padding: 0; margin: 0;">
+  <div style="background-color: #f53c00; color: #ffffff; padding: 8px 10px; font-size: 20px; font-weight: 700; text-align: center; font-family: Hind, 'Open Sans', sans-serif;">Total Post</div>
+  <div style="padding: 24px 10px; background-color: #ffffff; text-align: center;">
+    <span style="font-size: 28px; font-weight: 800; color: #000000; font-family: Hind, 'Open Sans', sans-serif;">{total_posts}</span>
+  </div>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9762662687323163"></script>
 <!-- Study Topper -->
 <ins class="adsbygoogle" data-ad-client="ca-pub-9762662687323163" data-ad-format="auto" data-ad-slot="7596594071" data-full-width-responsive="true" style="display:block"></ins>
 <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>
 <div class="gb-container gb-container-ec1f6e4c">
 <h6 class="gb-headline gb-headline-c7683bda gb-headline-text">{title} : Vacancy Details</h6>
 <div class="gb-headline gb-headline-60ccea19 gb-headline-text">
@@ -396,6 +418,19 @@ class UniversalDesignAgent:
         with open(out_file, "w", encoding="utf-8") as f:
             f.write(html_code)
         print(f"[Post] Saved HTML: {out_file} ({len(html_code)} bytes)")
+
+        # Remove from deleted_posts in settings.json
+        settings_path = os.path.join(self.data_dir, "settings.json")
+        if os.path.exists(settings_path):
+            try:
+                with open(settings_path, "r", encoding="utf-8") as f:
+                    s_data = json.load(f)
+                if "deleted_posts" in s_data and slug in s_data["deleted_posts"]:
+                    s_data["deleted_posts"].remove(slug)
+                with open(settings_path, "w", encoding="utf-8") as f:
+                    json.dump(s_data, f, indent=2)
+            except Exception:
+                pass
 
         # 3. Update Database (all_posts.json & custom_posts.json)
         entry = {
