@@ -1756,7 +1756,8 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     
 
 
-/* Full Large Big Red Header (Fine-Tuned Description & Spacing) */
+
+/* Full Large Big Red Header (50% Reduced Between-Title Spacing) */
 .site-header {{
     background-color: #cd0808 !important;
     color: #ffffff !important;
@@ -1778,7 +1779,7 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     text-transform: uppercase !important;
     font-size: 51px !important;
     font-weight: 900 !important;
-    line-height: 1.15 !important;
+    line-height: 1.1 !important;
     margin: 0 !important;
     letter-spacing: 0.8px !important;
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
@@ -1792,9 +1793,9 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     font-weight: 700 !important;
     font-size: 25.8px !important;
     letter-spacing: 0.3px !important;
-    line-height: 1.25 !important;
+    line-height: 1.2 !important;
     color: #ffffff !important;
-    margin: 5px 0 0 0 !important;
+    margin: 2px 0 0 0 !important;
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
 }}
 @media (max-width: 768px) {{
@@ -1805,13 +1806,15 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     .main-title {{
         font-size: 36px !important;
         letter-spacing: 0.8px !important;
-        line-height: 1.15 !important;
+        line-height: 1.1 !important;
     }}
     .site-description {{
         font-size: 18.8px !important;
-        margin-top: 5px !important;
+        margin-top: 2px !important;
     }}
 }}
+
+    
 
     
 
