@@ -886,9 +886,12 @@ def render_single_post_html(post, settings):
     <meta property="og:url" content="https://{domain}/{slug}/">
     <meta property="og:site_name" content="{site_name}">
     <meta property="og:image" content="https://{domain}{banner_url}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700|Roboto:400,500,700|Open+Sans:400,600,700&display=swap">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap"></noscript>
     <link rel="stylesheet" href="/wp-content/themes/generatepress/assets/css/main.min.css?ver=3.5.1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     {get_nav_search_styles_html()}
     <style>
         body {{ background-color:#ffffff; color:#000000; font-family:Open Sans, Arial, Helvetica, sans-serif; margin:0; padding:0; }}
@@ -1410,34 +1413,123 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     soup = BeautifulSoup(html_content, 'html.parser')
     settings = load_settings()
     theme = settings.get('theme_colors', {})
+    seo_cfg = settings.get('seo', {})
 
-    # 1. Strip external ads and tracking scripts
+    # 0. HTML Lang & Viewport & Canonical Absolute Optimization
+    if soup.html:
+        soup.html['lang'] = 'en-US'
+
+    domain_name = 'studytopper.in'
+    current_path = '/'
+    try:
+        from flask import request
+        if request and request.path:
+            current_path = request.path
+    except Exception:
+        pass
+    
+    canon_tag = soup.find('link', rel='canonical')
+    if canon_tag and canon_tag.get('href'):
+        old_href = canon_tag['href'].strip()
+        if old_href.startswith('http'):
+            old_path = re.sub(r'^https?://[^/]+', '', old_href)
+            canon_tag['href'] = f"https://{domain_name}{old_path if old_path else '/'}"
+        else:
+            old_path = old_href if old_href.startswith('/') else f"/{old_href}"
+            canon_tag['href'] = f"https://{domain_name}{old_path}"
+    else:
+        canonical_url = f"https://{domain_name}{current_path}"
+        if soup.head:
+            soup.head.append(soup.new_tag('link', rel='canonical', href=canonical_url))
+
+    # 1. Strip ALL legacy external ads, foreign tracking scripts & duplicate GTM from templates
     for s in soup.find_all(['script', 'iframe', 'ins']):
-        src = s.get('src', '')
+        src = (s.get('src') or '').lower()
+        content = (s.string or s.get_text() or '').lower()
         classes = s.get('class', [])
-        if any(ad in src for ad in ['googlesyndication', 'doubleclick', 'google-analytics', 'izooto']):
+        if any(ad in src for ad in ['googlesyndication', 'doubleclick', 'google-analytics', 'googletagmanager', 'izooto', 'cloudflare-static']):
+            s.decompose()
+        elif any(bad in content for bad in ['g-bx9pepg50m', 'g-lz32t0n2xe', 'googletagmanager', 'gtag(\'config\'', 'izooto']):
             s.decompose()
         elif 'adsbygoogle' in classes:
             s.decompose()
 
-    # 1b. Inject Blinking Animation CSS for Urgent & Extended Vacancies
+    # 1a. Clean broken font links and dead /cf-fonts/ CSS
+    for st in soup.find_all('style'):
+        st_text = st.get_text()
+        if '/cf-fonts/' in st_text or st.get('id') == 'generate-google-fonts-css':
+            st.decompose()
+
+    for link in soup.find_all('link', rel='stylesheet'):
+        href = link.get('href', '')
+        if 'fonts.googleapis.com' in href:
+            if any(bad in href for bad in ['Helvetica', 'Arial', 'Lato:', 'Source+Sans+Pro:200']):
+                link.decompose()
+        # Make secondary non-critical CSS non-blocking
+        elif any(c in href for c in ['style-32.css', 'featured-images.min.css']):
+            link['media'] = 'print'
+            link['onload'] = "this.media='all'"
+
+    # 1b. Inject Fast Preconnect & Google Fonts
+    if soup.head and not soup.find('link', href=re.compile(r'fonts\.googleapis\.com/css2\?family=Open\+Sans')):
+        pconn1 = soup.new_tag('link', rel='preconnect', href='https://fonts.googleapis.com')
+        pconn2 = soup.new_tag('link', rel='preconnect', href='https://fonts.gstatic.com', crossorigin=True)
+        font_link = soup.new_tag('link', rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap', media='print', onload="this.media='all'")
+        noscript = soup.new_tag('noscript')
+        ns_link = soup.new_tag('link', rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap')
+        noscript.append(ns_link)
+        soup.head.append(pconn1)
+        soup.head.append(pconn2)
+        soup.head.append(font_link)
+        soup.head.append(noscript)
+
+    # 1c. Defer all local JavaScript
+    for s in soup.find_all('script'):
+        if s.get('src') and not s.get('defer') and not s.get('async'):
+            s['defer'] = True
+
+    # 1d. Images Performance & Accessibility (0 CLS + Lazy Loading)
+    for img in soup.find_all('img'):
+        if not img.get('alt'):
+            img['alt'] = settings.get('site_name', 'Study Topper')
+        if not img.get('loading') and not img.get('fetchpriority'):
+            img['loading'] = 'lazy'
+            img['decoding'] = 'async'
+
+    # 1e. Inject Blinking Animation CSS for Urgent & Extended Vacancies
     if not soup.find(id='agy-lifecycle-blink-css') and soup.head:
         soup.head.append(BeautifulSoup(lifecycle.BLINKING_CSS, 'html.parser'))
 
-    # 2. Inject Google Analytics (GA4) if ID is provided
-    seo_cfg = settings.get('seo', {})
+    # 2. Inject Zero-Latency High Performance Google Analytics (GA4)
     ga_id = seo_cfg.get('google_analytics_id', '').strip()
-    if ga_id and soup.head:
-        ga_script = soup.new_tag('script', src=f"https://www.googletagmanager.com/gtag/js?id={ga_id}", crossorigin="anonymous", **{'async': True})
-        soup.head.append(ga_script)
-        ga_inline = soup.new_tag('script')
-        ga_inline.string = f"""
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){{dataLayer.push(arguments);}}
-        gtag('js', new Date());
-        gtag('config', '{ga_id}');
+    if ga_id and soup.body:
+        lazy_ga = soup.new_tag('script')
+        lazy_ga.string = f"""
+        (function() {{
+            var gaLoaded = false;
+            function initGA() {{
+                if (gaLoaded) return;
+                gaLoaded = true;
+                var s = document.createElement('script');
+                s.src = 'https://www.googletagmanager.com/gtag/js?id={ga_id}';
+                s.async = true;
+                document.head.appendChild(s);
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){{dataLayer.push(arguments);}}
+                gtag('js', new Date());
+                gtag('config', '{ga_id}');
+            }}
+            window.addEventListener('scroll', initGA, {{once: true, passive: true}});
+            window.addEventListener('touchstart', initGA, {{once: true, passive: true}});
+            window.addEventListener('mousemove', initGA, {{once: true, passive: true}});
+            if ('requestIdleCallback' in window) {{
+                requestIdleCallback(function() {{ setTimeout(initGA, 3500); }});
+            }} else {{
+                setTimeout(initGA, 4000);
+            }}
+        }})();
         """
-        soup.head.append(ga_inline)
+        soup.body.append(lazy_ga)
 
     # 3. Inject Google Search Console Verification Meta
     gsc_meta = seo_cfg.get('google_site_verification', '').strip()
@@ -1448,12 +1540,12 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             soup.head.append(soup.new_tag('meta', attrs={'name': 'google-site-verification', 'content': gsc_meta}))
 
     # 4. Inject Global Meta Description & Keywords
-    if seo_cfg.get('meta_description') and soup.head:
-        meta_desc = soup.find('meta', attrs={'name': 'description'})
-        if meta_desc:
-            meta_desc['content'] = seo_cfg.get('meta_description')
-        else:
-            soup.head.append(soup.new_tag('meta', attrs={'name': 'description', 'content': seo_cfg.get('meta_description')}))
+    meta_desc_val = seo_cfg.get('meta_description') or "Study Topper (studytopper.in) - Latest Sarkari Naukri, Online Forms, Results, Admit Card, Answer Key, Syllabus, and Educational Career Guidance."
+    meta_desc_tag = soup.find('meta', attrs={'name': 'description'})
+    if meta_desc_tag:
+        meta_desc_tag['content'] = meta_desc_val
+    elif soup.head:
+        soup.head.append(soup.new_tag('meta', attrs={'name': 'description', 'content': meta_desc_val}))
 
     # 5. Inject Custom <head> & <body> Code
     if seo_cfg.get('custom_head_code') and soup.head:
