@@ -4614,18 +4614,28 @@ def post_preview_page():
         return Response(sanitized, mimetype='text/html')
     abort(404)
 
+@app.route('/demo/universal-template')
+@app.route('/demo/universal-template/')
+def demo_universal_template():
+    ref_file = os.path.join(BASE_DIR, 'universal_post_reference.html')
+    if os.path.exists(ref_file):
+        with open(ref_file, 'r', encoding='utf-8') as f:
+            html = f.read()
+        return sanitize_html(html, request.host)
+    return "Universal Post Reference Template Not Found", 404
+
 if __name__ == '__main__':
     print("===================================================================")
     print("Starting STUDY TOPPER PRO PORTAL (PORT 9093)")
-    print(" - Official Homepage:     http://127.0.0.1:9093")
-    print(" - /alria Visual Editor:  http://127.0.0.1:9093/alria")
-    print(" - ads.txt:               http://127.0.0.1:9093/ads.txt")
-    print(" - robots.txt:            http://127.0.0.1:9093/robots.txt")
-    print(" - sitemap.xml:           http://127.0.0.1:9093/sitemap.xml")
-    print(" - Admin Dashboard:       http://127.0.0.1:9093/admin/dashboard")
-    print(" - Auto-Lifecycle Engine: http://127.0.0.1:9093/admin/lifecycle")
-    print(" - Category Manager:      http://127.0.0.1:9093/admin/categories")
-    print(" - SEO & Settings:        http://127.0.0.1:9093/admin/settings")
+    print(" - Official Homepage:     http://127.0.0.1:9095")
+    print(" - /alria Visual Editor:  http://127.0.0.1:9095/alria")
+    print(" - ads.txt:               http://127.0.0.1:9095/ads.txt")
+    print(" - robots.txt:            http://127.0.0.1:9095/robots.txt")
+    print(" - sitemap.xml:           http://127.0.0.1:9095/sitemap.xml")
+    print(" - Admin Dashboard:       http://127.0.0.1:9095/admin/dashboard")
+    print(" - Auto-Lifecycle Engine: http://127.0.0.1:9095/admin/lifecycle")
+    print(" - Category Manager:      http://127.0.0.1:9095/admin/categories")
+    print(" - SEO & Settings:        http://127.0.0.1:9095/admin/settings")
     print("===================================================================")
     
     # Initialize and start automated vacancy lifecycle background worker
@@ -4636,4 +4646,5 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"Notice: Lifecycle startup warning ({e})")
 
-    app.run(host='0.0.0.0', port=9093, debug=False)
+    app.run(host='0.0.0.0', port=9095, debug=False)
+

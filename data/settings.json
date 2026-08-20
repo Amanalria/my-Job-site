@@ -432,9 +432,13 @@
     "expired_grace_period_days": 1,
     "auto_git_sync": true,
     "auto_detect_date_extension": true,
-    "pinned_posts": [],
-    "last_run_timestamp": "2026-08-21T03:49:11.728342",
+    "pinned_posts": [
+      "ibps-clerk-16th-2026"
+    ],
+    "last_run_timestamp": "2026-08-21T04:09:24.721236",
     "last_purged_posts": []
   },
-  "pinned_posts": []
+  "pinned_posts": [
+    "ibps-clerk-16th-2026"
+  ]
 }

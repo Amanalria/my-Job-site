@@ -67,9 +67,10 @@ class UniversalDesignAgent:
 
     def get_reference_template(self) -> str:
         ref_candidates = [
-            os.path.join(self.pages_dir, "rrb-je-2026.html"),
-            os.path.join(self.pages_dir, "ssc-cgl-2026.html"),
-            os.path.join(self.pages_dir, "railway-nfr-2026.html"),
+            os.path.join(self.base_dir, "universal_post_reference.html"),
+            os.path.join(self.base_dir, "templates", "UNIVERSAL_POST_TEMPLATE.html"),
+            os.path.join(self.pages_dir, "bpsc-school-teacher-tre-4-0-2026.html"),
+            os.path.join(self.pages_dir, "ibps-clerk-16th-2026.html"),
             os.path.join(self.pages_dir, "index.html"),
             os.path.join(self.base_dir, "original_index.html"),
             os.path.join(self.base_dir, "raw_clone", "pages", "index.html")
