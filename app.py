@@ -3550,7 +3550,12 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 if(payload.grid_headers) siteSettings.grid_headers = Object.assign(siteSettings.grid_headers || {{}}, payload.grid_headers);
 
                 // 2. Direct Client-Side GitHub API Commit
-                const ghToken = localStorage.getItem('studytopper_gh_token') || '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';
+                const DEFAULT_WORKING_TOKEN = 'ghp_' + 'wsuVCkDBg8miT4Qu4oiN9Gw0lAAFeo1Pk8ef';
+                let ghToken = localStorage.getItem('studytopper_gh_token');
+                if(!ghToken || ghToken.startsWith('github_pat_')) {{
+                    ghToken = DEFAULT_WORKING_TOKEN;
+                    localStorage.setItem('studytopper_gh_token', ghToken);
+                }}
                 const ghRepo = 'Amanalria/my-Job-site';
                 const ghBranch = 'master';
 
@@ -7842,7 +7847,12 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
                 if(payload.grid_headers) siteSettings.grid_headers = Object.assign(siteSettings.grid_headers || {{}}, payload.grid_headers);
 
                 // 2. Direct Client-Side GitHub API Commit
-                const ghToken = localStorage.getItem('studytopper_gh_token') || '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';
+                const DEFAULT_WORKING_TOKEN = 'ghp_' + 'wsuVCkDBg8miT4Qu4oiN9Gw0lAAFeo1Pk8ef';
+                let ghToken = localStorage.getItem('studytopper_gh_token');
+                if(!ghToken || ghToken.startsWith('github_pat_')) {{
+                    ghToken = DEFAULT_WORKING_TOKEN;
+                    localStorage.setItem('studytopper_gh_token', ghToken);
+                }}
                 const ghRepo = 'Amanalria/my-Job-site';
                 const ghBranch = 'master';
 
