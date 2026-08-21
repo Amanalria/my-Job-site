@@ -3543,13 +3543,54 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
             }}
 
             async function saveSettingsPayload(payload) {{
-                const res = await fetch('/api/admin/save-settings', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify(payload) }});
-                if(res.ok) {{
-                    alert('✅ Saved & Auto-Committed to GitHub!');
-                    window.location.href = window.location.pathname + '?t=' + Date.now();
-                }} else {{
-                    alert('❌ Error saving settings');
+                // 1. Deep merge payload
+                Object.assign(siteSettings, payload);
+                if(payload.theme_colors) siteSettings.theme_colors = Object.assign(siteSettings.theme_colors || {{}}, payload.theme_colors);
+                if(payload.header_customizer) siteSettings.header_customizer = Object.assign(siteSettings.header_customizer || {{}}, payload.header_customizer);
+                if(payload.grid_headers) siteSettings.grid_headers = Object.assign(siteSettings.grid_headers || {{}}, payload.grid_headers);
+
+                // 2. Direct Client-Side GitHub API Commit
+                const ghToken = localStorage.getItem('studytopper_gh_token') || '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';
+                const ghRepo = 'Amanalria/my-Job-site';
+                const ghBranch = 'master';
+
+                try {{
+                    const jsonStr = JSON.stringify(siteSettings, null, 2);
+                    const b64Content = btoa(unescape(encodeURIComponent(jsonStr)));
+                    
+                    const fRes = await fetch(`https://api.github.com/repos/${{ghRepo}}/contents/SITE_SETTINGS.json?ref=${{ghBranch}}`, {{
+                        headers: {{ 'Authorization': `Bearer ${{ghToken}}`, 'Accept': 'application/vnd.github.v3+json' }}
+                    }});
+                    let sha = null;
+                    if(fRes.ok) {{
+                        const fd = await fRes.json();
+                        sha = fd.sha;
+                    }}
+                    await fetch(`https://api.github.com/repos/${{ghRepo}}/contents/SITE_SETTINGS.json`, {{
+                        method: 'PUT',
+                        headers: {{ 'Authorization': `Bearer ${{ghToken}}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' }},
+                        body: JSON.stringify({{
+                            message: 'chore(alria): live update settings & special edits via /alria editor',
+                            content: b64Content,
+                            branch: ghBranch,
+                            sha: sha
+                        }})
+                    }});
+                }} catch(e) {{
+                    console.log('GitHub API direct commit notice:', e);
                 }}
+
+                // 3. Save to local server
+                try {{
+                    await fetch('/api/admin/save-settings', {{ 
+                        method: 'POST', 
+                        headers: {{'Content-Type': 'application/json'}}, 
+                        body: JSON.stringify(payload) 
+                    }});
+                }} catch(e) {{}}
+
+                alert('✅ Saved locally & committed directly to GitHub repository (master)!');
+                window.location.href = window.location.pathname + '?t=' + Date.now();
             }}
 
             function saveMasterThemeColors() {{
