@@ -195,18 +195,19 @@ class UniversalDesignAgent:
 </div>'''
 
         faqs = self.build_structured_faqs(data, category, title)
-        faq_rows = ""
+        faq_items_html = ""
         for idx, (q, a) in enumerate(faqs, 1):
-            bg = "#ffffff" if idx % 2 != 0 else "#f9f9f9"
-            faq_rows += f'''
-<tr style="background-color: {bg}; border-bottom: 1px solid #e0e0e0;">
-  <td style="padding: 12px 14px; vertical-align: top; width: 35%; border-right: 1px solid #e0e0e0; font-weight: 600; color: #000080; font-size: 14.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+            is_last = (idx == len(faqs))
+            mb = "0" if is_last else "12px"
+            faq_items_html += f'''
+<div style="margin-bottom: {mb}; border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; background: #ffffff;">
+  <div style="background-color: #f1f5f9; padding: 9px 14px; font-weight: 700; color: #000080; font-size: 14.5px; border-bottom: 1px solid #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
     Q{idx}. {q}
-  </td>
-  <td style="padding: 12px 14px; vertical-align: top; font-size: 14.5px; line-height: 1.55; color: #222222; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  </div>
+  <div style="padding: 10px 14px; font-size: 14px; line-height: 1.6; color: #222222; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
     {a}
-  </td>
-</tr>'''
+  </div>
+</div>'''
 
         latest_links = [
             ("IBPS Clerk 16th Recruitment 2026", "/ibps-clerk-16th-2026/"),
@@ -227,17 +228,15 @@ class UniversalDesignAgent:
         latest_html = "".join([f'<p style="margin: 6px 0; font-size: 14px;"><a href="{url}" style="color: #0056b3; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in latest_links])
         related_html = "".join([f'<p style="margin: 6px 0; font-size: 14px;"><a href="{url}" style="color: #0056b3; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in related_links])
 
-        return f'''<!-- SECTION 1: 5 STRUCTURED FREQUENTLY ASKED QUESTIONS (FAQ) -->
-<table style="border-collapse: collapse; width: 100%; margin-top: 20px; border: 1px solid #000080;">
-<tbody>
-<tr>
-<td colspan="2" style="background-color: #000080; color: #ffffff; font-size: 15.5px; font-weight: 700; text-align: center; padding: 10px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-  {title} : Frequently Asked Questions (FAQ)
-</td>
-</tr>
-{faq_rows}
-</tbody>
-</table>
+        return f'''<!-- SECTION 1: 5 STRUCTURED FREQUENTLY ASKED QUESTIONS (FAQ - QUESTION TOP / ANSWER BELOW) -->
+<div class="st-faq-section" style="margin-top: 25px; margin-bottom: 20px; width: 100%;">
+  <div style="background-color: #000080; color: #ffffff; font-size: 15.5px; font-weight: 700; text-align: center; padding: 10px 14px; border-radius: 4px 4px 0 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    {title} : Frequently Asked Questions (FAQ)
+  </div>
+  <div style="border: 1px solid #000080; border-top: none; border-radius: 0 0 4px 4px; padding: 14px; background: #ffffff;">
+    {faq_items_html}
+  </div>
+</div>
 
 <!-- SECTION 2: POST WEBP FEATURED IMAGE THUMBNAIL (OPTIMIZED FOR 100 PAGESPEED & 0 CLS) -->
 <div class="st-post-thumbnail-box" style="text-align: center; margin: 25px 0 15px 0;">
@@ -656,24 +655,124 @@ class UniversalDesignAgent:
     def generate_thumbnail(self, data: Dict[str, Any]) -> str:
         slug = data.get("slug", slugify(data.get("title", "recruitment-2026")))
         out_path = os.path.join(self.thumbnails_dir, f"{slug}.webp")
+        
         try:
             from PIL import Image, ImageDraw, ImageFont
-            img = Image.new("RGB", (1200, 675), color=(10, 25, 47))
+            import textwrap
+
+            width = 640
+            height = 330
+            img = Image.new('RGB', (width, height), color='#ffffff')
             draw = ImageDraw.Draw(img)
-            draw.rectangle([0, 0, 1200, 15], fill=(239, 3, 3))
-            draw.rectangle([0, 660, 1200, 675], fill=(91, 3, 47))
+            draw.rectangle([(0, 0), (width - 1, height - 1)], outline='#881337', width=3)
             
-            # Watermark branding
-            draw.text((60, 50), "STUDYTOPPER.IN", fill=(255, 204, 0))
-            draw.text((60, 120), data.get("title", "Recruitment 2026")[:45], fill=(255, 255, 255))
-            draw.text((60, 220), f"Total Posts / Details: {data.get('total_posts', 'Various Posts')}", fill=(0, 210, 255))
-            draw.text((60, 300), f"Organization: {data.get('organization', 'Govt Authority')[:50]}", fill=(200, 200, 200))
-            draw.text((60, 380), f"Last Date / Event: {data.get('last_date', 'Upcoming')}", fill=(255, 80, 80))
-            draw.text((60, 540), "100% REAL SOURCE VERIFIED", fill=(0, 255, 128))
+            # Header gradient (Burgundy)
+            top_h = 52
+            for y in range(3, top_h):
+                r = int(171 + (136 - 171) * (y - 3) / top_h)
+                g = int(24 + (19 - 24) * (y - 3) / top_h)
+                b = int(61 + (55 - 61) * (y - 3) / top_h)
+                draw.line([(3, y), (width - 4, y)], fill=(r, g, b))
+
+            # Gold accent stripe
+            draw.rectangle([(3, top_h), (width - 4, top_h + 3)], fill='#fbbf24')
             
-            img.save(out_path, "WEBP", quality=85)
-            print(f"[Thumbnail] Generated: {out_path}")
+            # Fonts
+            font_bold_path = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+            font_reg_path = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+            
+            def get_f(path, size):
+                try:
+                    return ImageFont.truetype(path, size)
+                except Exception:
+                    return ImageFont.load_default()
+
+            # Header text
+            draw.text((18, 14), 'STUDY TOPPER™', fill='#ffffff', font=get_f(font_bold_path, 20))
+            draw.text((width - 180, 18), 'WWW.STUDYTOPPER.IN', fill='#fef08a', font=get_f(font_bold_path, 12))
+
+            # Inner subtle canvas
+            draw.rounded_rectangle([(14, top_h + 12), (width - 15, height - 42)], radius=6, fill='#fcfcfc', outline='#e2e8f0', width=1)
+
+            # Title Wrap & Render
+            clean_title = data.get("title", "Govt Recruitment 2026").strip()
+            lines = textwrap.wrap(clean_title, width=32)
+            if len(lines) > 2:
+                lines = lines[:2]
+                lines[1] = lines[1][:28] + "..."
+
+            if len(lines) == 1:
+                title_font_size = 24
+                title_y = 112
+                line_spacing = 0
+            else:
+                title_font_size = 20
+                title_y = 96
+                line_spacing = 26
+
+            title_font = get_f(font_bold_path, title_font_size)
+            for i, line in enumerate(lines):
+                y = title_y + (i * line_spacing)
+                draw.text((width // 2, y), line, fill='#0b213f', font=title_font, anchor='mm')
+
+            # Meta Line (Posts & Last Date in Red/Crimson)
+            meta_y = 162 if len(lines) == 1 else 170
+            category = data.get("category", "latest-jobs").lower()
+            
+            meta_parts = []
+            if category == "result":
+                meta_parts.append("Result Declared")
+                meta_parts.append("Score Card Available")
+            elif category == "admit-card":
+                meta_parts.append("Admit Card Active")
+                meta_parts.append(f"Exam: {data.get('exam_date', 'Upcoming')}")
+            elif category == "answer-key":
+                meta_parts.append("Answer Key Released")
+                meta_parts.append("Objection Active")
+            elif category == "syllabus":
+                meta_parts.append("Exam Syllabus PDF")
+                meta_parts.append("Pattern & Marking")
+            else: # latest-jobs / admission
+                tot_p = data.get("total_posts", "")
+                if tot_p:
+                    posts_str = str(tot_p).strip()
+                    if not posts_str.lower().endswith("posts") and not posts_str.lower().endswith("post") and not posts_str.lower().endswith("seats"):
+                        posts_str += " Posts"
+                    meta_parts.append(f"Total Posts: {posts_str}")
+                else:
+                    meta_parts.append("Official Notification")
+                
+                ld = data.get("last_date", "")
+                if ld:
+                    meta_parts.append(f"Last Date: {ld}")
+                else:
+                    meta_parts.append("Apply Online Active")
+
+            meta_text = "   |   ".join(meta_parts)
+            meta_font = get_f(font_bold_path, 16 if len(meta_text) < 45 else 14)
+            draw.text((width // 2, meta_y), meta_text, fill='#b91c1c', font=meta_font, anchor='mm')
+
+            # Subtitle / Eligibility
+            sub_y = meta_y + 44
+            sub_text = f"Organization: {data.get('organization', 'Govt Authority')[:40]} • 100% Real Updates"
+            sub_font = get_f(font_bold_path, 12)
+            draw.text((width // 2, sub_y), sub_text, fill='#475569', font=sub_font, anchor='mm')
+
+            # Footer
+            draw.rectangle([(3, height - 38), (width - 4, height - 4)], fill='#0f172a')
+            draw.text((width // 2, height - 21), 'Fastest Sarkari Naukri & Result Updates • Free Mock Tests & PDF', fill='#ffffff', font=get_f(font_bold_path, 11), anchor='mm')
+
+            # Save WebP strictly < 10KB
+            q = 75
+            while q >= 20:
+                img.save(out_path, 'WEBP', quality=q, method=6)
+                if os.path.getsize(out_path) / 1024.0 <= 9.8:
+                    break
+                q -= 5
+
+            print(f"[Thumbnail] Generated: {out_path} ({os.path.getsize(out_path)/1024.0:.1f} KB)")
         except Exception as e:
+            print(f"[Thumbnail Error] {e}")
             with open(out_path, "wb") as f:
                 f.write(bytes.fromhex("52494646240000005745425056503820180000003001009d012a0100010002003425a400037000fefbfd0000"))
         return out_path
