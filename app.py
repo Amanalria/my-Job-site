@@ -4161,6 +4161,373 @@ def search_page():
                 
     return Response(render_search_page_html(query, results, settings), mimetype='text/html')
 
+
+# ==================== FULL CONVERSATION CHAT HISTORY VIEWER ====================
+
+def get_full_chat_history_messages():
+    log_file = "/root/.gemini/antigravity-cli/brain/df307692-919c-4eda-832b-bd9462aa9c3d/.system_generated/logs/transcript.jsonl"
+    messages = []
+    
+    if os.path.exists(log_file):
+        with open(log_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if not line: continue
+                try:
+                    data = json.loads(line)
+                    step_type = data.get('type')
+                    content = data.get('content', '')
+                    created_at = data.get('created_at', '')
+                    
+                    if step_type == 'USER_INPUT' and content:
+                        clean_content = content
+                        m = re.search(r'<USER_REQUEST>([\s\S]*?)</USER_REQUEST>', content)
+                        if m:
+                            clean_content = m.group(1).strip()
+                        elif '<SYSTEM_MESSAGE>' in content:
+                            continue
+                        elif 'Select workflow' in content:
+                            clean_content = content.strip()
+                            
+                        if clean_content:
+                            messages.append({
+                                'role': 'User',
+                                'time': created_at[:19].replace('T', ' '),
+                                'content': clean_content
+                            })
+                    elif step_type == 'PLANNER_RESPONSE' and content:
+                        messages.append({
+                            'role': 'Antigravity AI',
+                            'time': created_at[:19].replace('T', ' '),
+                            'content': content.strip()
+                        })
+                except Exception:
+                    pass
+
+    return messages
+
+@app.route('/chat-history')
+@app.route('/chat-history/')
+@app.route('/history')
+@app.route('/history/')
+def chat_history_viewer():
+    messages = get_full_chat_history_messages()
+    messages_json = json.dumps(messages)
+    
+    html_page = f"""<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💬 StudyTopper Chat History &amp; Conversation Transcript</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {{
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --card-user-bg: #1e293b;
+            --card-ai-bg: #0f172a;
+            --border-color: #334155;
+            --accent-user: #3b82f6;
+            --accent-ai: #10b981;
+            --code-bg: #090d16;
+        }}
+        body.light-theme {{
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --card-user-bg: #e0f2fe;
+            --card-ai-bg: #ffffff;
+            --border-color: #cbd5e1;
+            --accent-user: #0284c7;
+            --accent-ai: #059669;
+            --code-bg: #f1f5f9;
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }}
+        
+        /* Sticky Header */
+        .chat-nav {{
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--card-user-bg);
+            border-bottom: 2px solid var(--border-color);
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }}
+        .chat-title {{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 16px;
+        }}
+        .chat-badge {{
+            background: #ef4444;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }}
+        .controls-group {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }}
+        .search-box {{
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 13px;
+            outline: none;
+            width: 180px;
+        }}
+        .nav-btn {{
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }}
+        .nav-btn:hover {{
+            border-color: var(--accent-user);
+        }}
+        
+        /* Chat Feed Container */
+        .chat-container {{
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }}
+        
+        /* Message Card */
+        .msg-card {{
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            word-break: break-word;
+        }}
+        .msg-card.user {{
+            background: var(--card-user-bg);
+            border-left: 5px solid var(--accent-user);
+        }}
+        .msg-card.ai {{
+            background: var(--card-ai-bg);
+            border-left: 5px solid var(--accent-ai);
+        }}
+        
+        .msg-header {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }}
+        .msg-author {{
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }}
+        .msg-author.user {{ color: var(--accent-user); }}
+        .msg-author.ai {{ color: var(--accent-ai); }}
+        .msg-time {{
+            font-size: 12px;
+            color: #94a3b8;
+        }}
+        
+        /* Markdown formatting inside messages */
+        .msg-body {{
+            font-size: 14.5px;
+            line-height: 1.65;
+        }}
+        .msg-body h1, .msg-body h2, .msg-body h3 {{
+            margin: 12px 0 6px;
+            font-weight: 700;
+        }}
+        .msg-body p {{ margin-bottom: 8px; }}
+        .msg-body ul, .msg-body ol {{
+            margin: 8px 0 8px 24px;
+        }}
+        .msg-body pre {{
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 13px;
+        }}
+        .msg-body code {{
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: monospace;
+        }}
+        .msg-body a {{
+            color: var(--accent-user);
+            text-decoration: underline;
+        }}
+        .msg-body table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }}
+        .msg-body th, .msg-body td {{
+            border: 1px solid var(--border-color);
+            padding: 6px 10px;
+            font-size: 13px;
+            text-align: left;
+        }}
+        .msg-body th {{
+            background: rgba(255,255,255,0.05);
+        }}
+        
+        /* Floating Navigation Pill */
+        .floating-nav {{
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+        }}
+        .float-btn {{
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }}
+        .float-btn:hover {{
+            transform: scale(1.1);
+        }}
+    </style>
+</head>
+<body>
+
+    <header class="chat-nav">
+        <div class="chat-title">
+            <i class="fa-solid fa-comments" style="color:#ef4444;"></i>
+            <span>StudyTopper Chat History</span>
+            <span id="msgCountBadge" class="chat-badge">{len(messages)} Turns</span>
+        </div>
+        <div class="controls-group">
+            <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search text in chat..." onkeyup="filterMessages()">
+            <button class="nav-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> Theme</button>
+            <a href="/" class="nav-btn"><i class="fa-solid fa-home"></i> Website</a>
+            <a href="/admin/dashboard" class="nav-btn"><i class="fa-solid fa-gauge"></i> Admin</a>
+        </div>
+    </header>
+
+    <main class="chat-container" id="chatContainer">
+        <!-- Messages rendered here via JS -->
+    </main>
+
+    <div class="floating-nav">
+        <button class="float-btn" onclick="window.scrollTo({{top: 0, behavior: 'smooth'}})" title="Scroll to Top"><i class="fa-solid fa-arrow-up"></i></button>
+        <button class="float-btn" onclick="window.scrollTo({{top: document.body.scrollHeight, behavior: 'smooth'}})" title="Scroll to Bottom"><i class="fa-solid fa-arrow-down"></i></button>
+    </div>
+
+    <script>
+        const chatData = {messages_json};
+        const container = document.getElementById('chatContainer');
+
+        function renderMessages(filterText = '') {{
+            container.innerHTML = '';
+            const lowerFilter = filterText.toLowerCase();
+            let visibleCount = 0;
+
+            chatData.forEach((msg, idx) => {{
+                if (filterText && !msg.content.toLowerCase().includes(lowerFilter)) {{
+                    return;
+                }}
+                visibleCount++;
+
+                const isUser = msg.role === 'User';
+                const card = document.createElement('div');
+                card.className = `msg-card ${{isUser ? 'user' : 'ai'}}`;
+                card.id = `msg-${{idx+1}}`;
+
+                const renderedMarkdown = marked.parse(msg.content);
+
+                card.innerHTML = `
+                    <div class="msg-header">
+                        <span class="msg-author ${{isUser ? 'user' : 'ai'}}">
+                            <i class="${{isUser ? 'fa-solid fa-user' : 'fa-solid fa-robot'}}"></i>
+                            ${{isUser ? 'User' : 'Antigravity AI'}} [Turn #${{idx+1}}]
+                        </span>
+                        <span class="msg-time">${{msg.time || ''}}</span>
+                    </div>
+                    <div class="msg-body">${{renderedMarkdown}}</div>
+                `;
+                container.appendChild(card);
+            }});
+
+            document.getElementById('msgCountBadge').innerText = `${{visibleCount}} / ${{chatData.length}} Messages`;
+        }}
+
+        function filterMessages() {{
+            const val = document.getElementById('searchInput').value.trim();
+            renderMessages(val);
+        }}
+
+        function toggleTheme() {{
+            document.body.classList.toggle('light-theme');
+            localStorage.setItem('chat_theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        }}
+
+        // Init on load
+        if (localStorage.getItem('chat_theme') === 'light') {{
+            document.body.classList.add('light-theme');
+        }}
+        renderMessages();
+    </script>
+</body>
+</html>"""
+    return Response(html_page, mimetype='text/html')
+
 # ==================== CLEAN TOP-LEVEL SLUG ROUTING ====================
 
 @app.route('/<path:slug>/')
