@@ -1,39 +1,9 @@
 {
   "latest-jobs": [
     {
-      "title": "RPSC Physiotherapist Recruitment 2026",
-      "title_raw": "RPSC Physiotherapist Recruitment 2026",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">Last Date Today!</span>",
-      "url": "/rpsc-physiotherapist-2026/",
-      "short_desc": "RPSC Physiotherapist announces RPSC Physiotherapist Recruitment 2026 (20 Posts).",
-      "date": "21 August 2026",
-      "lifecycle_state": "URGENT_PINNED",
-      "is_pinned": false
-    },
-    {
-      "title": "SKAU Kurukshetra Non Teaching Post Recruitment 2026",
-      "title_raw": "SKAU Kurukshetra Non Teaching Post Recruitment 2026",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">Last Date Today!</span>",
-      "url": "/skau-non-teaching-2026/",
-      "short_desc": "SKAU Kurukshetra Non Teaching Post announces SKAU Kurukshetra Non Teaching Post Recruitment 2026 (60 Posts).",
-      "date": "21 August 2026",
-      "lifecycle_state": "URGENT_PINNED",
-      "is_pinned": false
-    },
-    {
-      "title": "IBPS Clerk (CSA) 16th Recruitment 2026",
-      "title_raw": "IBPS Clerk (CSA) 16th Recruitment 2026",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">Last Date Today!</span>",
-      "url": "/ibps-clerk-16th-2026/",
-      "short_desc": "IBPS Clerk (CSA) 16th announces IBPS Clerk (CSA) 16th Recruitment 2026 (11,403 Posts).",
-      "date": "21 August 2026",
-      "lifecycle_state": "URGENT_PINNED",
-      "is_pinned": false
-    },
-    {
       "title": "MPESB Group-2 Sub Group-4 Patwari Recruitment 2026",
       "title_raw": "MPESB Group-2 Sub Group-4 Patwari Recruitment 2026",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">2 Days Left!</span>",
+      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">1 Days Left!</span>",
       "url": "/mpesb-group-2-sub-group-4-patwari-2026/",
       "short_desc": "MPESB Group-2 Sub Group-4 Patwari announces MPESB Group-2 Sub Group-4 Patwari Recruitment 2026 (2106 Posts).",
       "date": "23 August 2026 Extended",
@@ -43,11 +13,11 @@
     {
       "title": "RRVUNL JE, Junior Assistant Recruitment 2026",
       "title_raw": "RRVUNL JE, Junior Assistant Recruitment 2026",
-      "badge_html": "",
+      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">3 Days Left!</span>",
       "url": "/rrvunl-je-junior-assistant-2026/",
       "short_desc": "RRVUNL JE, Junior Assistant announces RRVUNL JE, Junior Assistant Recruitment 2026 (2005 Posts).",
       "date": "25 August 2026",
-      "lifecycle_state": "ACTIVE",
+      "lifecycle_state": "URGENT_PINNED",
       "is_pinned": false
     },
     {
@@ -231,6 +201,36 @@
       "is_pinned": false
     },
     {
+      "title": "RPSC Physiotherapist Recruitment 2026",
+      "title_raw": "RPSC Physiotherapist Recruitment 2026",
+      "badge_html": "",
+      "url": "/rpsc-physiotherapist-2026/",
+      "short_desc": "RPSC Physiotherapist announces RPSC Physiotherapist Recruitment 2026 (20 Posts).",
+      "date": "21 August 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "SKAU Kurukshetra Non Teaching Post Recruitment 2026",
+      "title_raw": "SKAU Kurukshetra Non Teaching Post Recruitment 2026",
+      "badge_html": "",
+      "url": "/skau-non-teaching-2026/",
+      "short_desc": "SKAU Kurukshetra Non Teaching Post announces SKAU Kurukshetra Non Teaching Post Recruitment 2026 (60 Posts).",
+      "date": "21 August 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "IBPS Clerk (CSA) 16th Recruitment 2026",
+      "title_raw": "IBPS Clerk (CSA) 16th Recruitment 2026",
+      "badge_html": "",
+      "url": "/ibps-clerk-16th-2026/",
+      "short_desc": "IBPS Clerk (CSA) 16th announces IBPS Clerk (CSA) 16th Recruitment 2026 (11,403 Posts).",
+      "date": "21 August 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
       "title": "UPESSC Principal Recruitment 2026",
       "title_raw": "UPESSC Principal Recruitment 2026",
       "badge_html": "",
@@ -248,78 +248,6 @@
       "short_desc": "ISRO Assistant & Junior Personal Assistant announces ISRO Assistant & Junior Personal Assistant Recruitment 2026 (242 Posts).",
       "date": "20 August 2026 Extended",
       "lifecycle_state": "EXPIRED_DEMOTED",
-      "is_pinned": false
-    }
-  ],
-  "syllabus": [
-    {
-      "title": "IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">Last Date Today!</span>",
-      "url": "/ibps-clerk-16th-2026-syllabus/",
-      "short_desc": "IBPS Clerk (CSA) 16th announces IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026 (11,403 Posts).",
-      "date": "21 August 2026",
-      "lifecycle_state": "URGENT_PINNED",
-      "is_pinned": false
-    },
-    {
-      "title": "SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/sbi-junior-associates-clerk-2026-syllabus/",
-      "short_desc": "SBI Junior Associates Clerk announces SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026 (9124 Posts).",
-      "date": "31 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/upsssc-pet-2026-syllabus/",
-      "short_desc": "UPSSSC PET announces UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026 (2482 Posts).",
-      "date": "01 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/upsc-epfo-2026-syllabus/",
-      "short_desc": "UPSC EPFO EO / AO / APFC announces UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026 (80 Posts).",
-      "date": "11 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/rrb-je-2026-syllabus/",
-      "short_desc": "Railway RRB Junior Engineer JE announces RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026 (4029 Posts).",
-      "date": "13 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/rajasthan-safai-karmchari-2026-syllabus/",
-      "short_desc": "Rajasthan Safai Karmchari announces Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026 (24,752 posts).",
-      "date": "28 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/bpsc-school-teacher-tre-4-0-2026-syllabus/",
-      "short_desc": "BPSC School Teacher TRE 4.0 Examination 2025 announces BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026 (32,388 Posts).",
-      "date": "30 September 2026",
-      "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
   ],
@@ -393,6 +321,118 @@
       "date": "31 October 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
+    },
+    {
+      "title": "Bihar BSEB DElEd Common Application Form 2026",
+      "title_raw": "Bihar BSEB DElEd Common Application Form 2026",
+      "badge_html": "",
+      "url": "/bihar-bseb-deled-2026/",
+      "short_desc": "BSEB Bihar DELED announces Bihar BSEB DElEd Common Application Form 2026 (2482 Posts).",
+      "date": "24 January 2026 (Extended)",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    }
+  ],
+  "syllabus": [
+    {
+      "title": "SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/sbi-junior-associates-clerk-2026-syllabus/",
+      "short_desc": "SBI Junior Associates Clerk announces SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026 (9124 Posts).",
+      "date": "31 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/upsssc-pet-2026-syllabus/",
+      "short_desc": "UPSSSC PET announces UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026 (2482 Posts).",
+      "date": "01 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/upsc-epfo-2026-syllabus/",
+      "short_desc": "UPSC EPFO EO / AO / APFC announces UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026 (80 Posts).",
+      "date": "11 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/rrb-je-2026-syllabus/",
+      "short_desc": "Railway RRB Junior Engineer JE announces RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026 (4029 Posts).",
+      "date": "13 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/rajasthan-safai-karmchari-2026-syllabus/",
+      "short_desc": "Rajasthan Safai Karmchari announces Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026 (24,752 posts).",
+      "date": "28 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/bpsc-school-teacher-tre-4-0-2026-syllabus/",
+      "short_desc": "BPSC School Teacher TRE 4.0 Examination 2025 announces BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026 (32,388 Posts).",
+      "date": "30 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/ibps-clerk-16th-2026-syllabus/",
+      "short_desc": "IBPS Clerk (CSA) 16th announces IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026 (11,403 Posts).",
+      "date": "21 August 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar Police Prohibition Constable Result 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "Bihar Police Prohibition Constable Result 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/csbc-bihar-prohibition-constable-2026-syllabus/",
+      "short_desc": "Bihar Police CSBC Constable Examination 2025 announces Bihar Police Prohibition Constable Result 2026 Syllabus & Exam Pattern 2026 (4210 Posts).",
+      "date": "05 November 2025",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026",
+      "title_raw": "SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/ssc-chsl-2026-syllabus/",
+      "short_desc": "SSC 10+2 CHSL Examination 2025 announces SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026 (3522 Posts).",
+      "date": "18 July 2025",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/rpsc-rajasthan-police-si-telecom-2025-syllabus/",
+      "short_desc": "RPSC SI Telecom Examination 2025 announces RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026 (98 Post).",
+      "date": "27 December 2024",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
     }
   ],
   "result": [
@@ -404,6 +444,86 @@
       "short_desc": "NTA SWAYAM announces NTA SWAYAM Result 2026 (2482 Posts).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar Police CSBC Constable Operator Result 2026",
+      "title_raw": "Bihar Police CSBC Constable Operator Result 2026",
+      "badge_html": "",
+      "url": "/bihar-police-csbc-constable-operator-2026/",
+      "short_desc": "Bihar Police CSBC Constable Operator announces Bihar Police CSBC Constable Operator Result 2026 (993 Posts).",
+      "date": "31 March 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar Police CSBC Constable GD Result 2026",
+      "title_raw": "Bihar Police CSBC Constable GD Result 2026",
+      "badge_html": "",
+      "url": "/bihar-police-csbc-constable-2026/",
+      "short_desc": "Bihar Police CSBC Constable announces Bihar Police CSBC Constable GD Result 2026 (83 Posts).",
+      "date": "05 March 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "RSSB Forester Result 2026",
+      "title_raw": "RSSB Forester Result 2026",
+      "badge_html": "",
+      "url": "/rssb-forester-2026/",
+      "short_desc": "RSSB Forester announces RSSB Forester Result 2026 (259 Post).",
+      "date": "11 February 2026 (Extended)",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "KVS NVS Teaching & Non-Teaching Tier-II Result 2026",
+      "title_raw": "KVS NVS Teaching & Non-Teaching Tier-II Result 2026",
+      "badge_html": "",
+      "url": "/kvs-nvs-teaching-non-teaching-2026/",
+      "short_desc": "KVS NVS Teaching & Non-Teaching Examination 2025 announces KVS NVS Teaching & Non-Teaching Tier-II Result 2026 (15,762 Posts).",
+      "date": "11 December 2025",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar Police Prohibition Constable Result 2026",
+      "title_raw": "Bihar Police Prohibition Constable Result 2026",
+      "badge_html": "",
+      "url": "/csbc-bihar-prohibition-constable-2026/",
+      "short_desc": "Bihar Police CSBC Constable Examination 2025 announces Bihar Police Prohibition Constable Result 2026 (4210 Posts).",
+      "date": "05 November 2025",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "RPSC School Lecturer PGT Result 2026",
+      "title_raw": "RPSC School Lecturer PGT Result 2026",
+      "badge_html": "",
+      "url": "/rpsc-1st-grade-teacher-2025/",
+      "short_desc": "RPSC School Lecturer Examination 2025 announces RPSC School Lecturer PGT Result 2026 (3225 Post).",
+      "date": "12 September 2025",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "SSC 10+2 CHSL 2025 FRTA Result",
+      "title_raw": "SSC 10+2 CHSL 2025 FRTA Result",
+      "badge_html": "",
+      "url": "/ssc-chsl-2026/",
+      "short_desc": "SSC 10+2 CHSL Examination 2025 announces SSC 10+2 CHSL 2025 FRTA Result (3522 Posts).",
+      "date": "18 July 2025",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "RPSC Rajasthan Police SI Telecom Final Result 2026",
+      "title_raw": "RPSC Rajasthan Police SI Telecom Final Result 2026",
+      "badge_html": "",
+      "url": "/rpsc-rajasthan-police-si-telecom-2025/",
+      "short_desc": "RPSC SI Telecom Examination 2025 announces RPSC Rajasthan Police SI Telecom Final Result 2026 (98 Post).",
+      "date": "27 December 2024",
+      "lifecycle_state": "EXPIRED_DEMOTED",
       "is_pinned": false
     }
   ],
@@ -426,6 +546,86 @@
       "short_desc": "NTA AIAPGET Admissions announces NTA AIAPGET Admit Card 2026 (2482 Posts).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "NICL Assistant Pre Admit Card 2026",
+      "title_raw": "NICL Assistant Pre Admit Card 2026",
+      "badge_html": "",
+      "url": "/nicl-assistant-2026/",
+      "short_desc": "National Insurance NICL Assistant announces NICL Assistant Pre Admit Card 2026 (500 Posts).",
+      "date": "07 August 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "NBEMS Group A, B & C Various Post Exam City Details 2026",
+      "title_raw": "NBEMS Group A, B & C Various Post Exam City Details 2026",
+      "badge_html": "",
+      "url": "/nbems-various-post-2026/",
+      "short_desc": "NBEMS Group A, B & C Various Post announces NBEMS Group A, B & C Various Post Exam City Details 2026 (53 Posts).",
+      "date": "31 July 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "Cotton Corporation CCI Various Post Admit Card 2026",
+      "title_raw": "Cotton Corporation CCI Various Post Admit Card 2026",
+      "badge_html": "",
+      "url": "/cci-various-post-2026/",
+      "short_desc": "Cotton Corporation of India CCIL Various Post announces Cotton Corporation CCI Various Post Admit Card 2026 (148 Posts).",
+      "date": "24 July 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "BSNL Junior Telecom Officer JTO Admit Card 2026",
+      "title_raw": "BSNL Junior Telecom Officer JTO Admit Card 2026",
+      "badge_html": "",
+      "url": "/bsnl-junior-telecom-officer-jto-2026/",
+      "short_desc": "BSNL Junior Telecom Officer JTO announces BSNL Junior Telecom Officer JTO Admit Card 2026 (100 Posts).",
+      "date": "03 July 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC Lower PCS Admit Card 2026",
+      "title_raw": "UPSSSC Lower PCS Admit Card 2026",
+      "badge_html": "",
+      "url": "/upsssc-lower-pcs-2026/",
+      "short_desc": "UPSSSC Lower PCS announces UPSSSC Lower PCS Admit Card 2026 (2587 Posts).",
+      "date": "25 June 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "BPSSC Bihar Police Havildar Instructor PET Admit Card 2026",
+      "title_raw": "BPSSC Bihar Police Havildar Instructor PET Admit Card 2026",
+      "badge_html": "",
+      "url": "/bpssc-havildar-instructor-2026/",
+      "short_desc": "BPSSC Havildar Instructor announces BPSSC Bihar Police Havildar Instructor PET Admit Card 2026 (122 Posts).",
+      "date": "01 June 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "Railway RRB Group D Admit Card 2026",
+      "title_raw": "Railway RRB Group D Admit Card 2026",
+      "badge_html": "",
+      "url": "/railway-rrb-group-d-level-1-recruitment-2026-online/",
+      "short_desc": "Railway RRB Group-D (Level-1) announces Railway RRB Group D Admit Card 2026 (22,195 Posts).",
+      "date": "09 March 2026 Extended",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "BSF HCM & ASI Steno Admit Card 2026",
+      "title_raw": "BSF HCM & ASI Steno Admit Card 2026",
+      "badge_html": "",
+      "url": "/bsf-hcm-asi-steno-2025/",
+      "short_desc": "BSF ASI Stenographer and Head Constable Examination 2025 announces BSF HCM & ASI Steno Admit Card 2026 (2 posts).",
+      "date": "08 July 2024",
+      "lifecycle_state": "EXPIRED_DEMOTED",
       "is_pinned": false
     }
   ],
@@ -458,6 +658,76 @@
       "short_desc": "Delhi DSSSB Sub Station announces Delhi DSSSB July Answer Key 2026 (2482 Posts).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "AFCAT 02/2026 Answer Key",
+      "title_raw": "AFCAT 02/2026 Answer Key",
+      "badge_html": "",
+      "url": "/afcat-02-2026/",
+      "short_desc": "Indian Air Force AFCAT 02/2026 Online Form announces AFCAT 02/2026 Answer Key (142 Posts).",
+      "date": "21 June 2026 (Extended)",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
+      "title_raw": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
+      "badge_html": "",
+      "url": "/upsssc-agriculture-technical-assistant-group-c-2026/",
+      "short_desc": "UPSSSC Agriculture Technical Assistant Group-C announces UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026 (2759 Posts).",
+      "date": "11 June 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC UP Pollution Control Board Various Post Final Answer Key 2026",
+      "title_raw": "UPSSSC UP Pollution Control Board Various Post Final Answer Key 2026",
+      "badge_html": "",
+      "url": "/upsssc-up-pollution-control-board-2026/",
+      "short_desc": "UPSSSC UP Pollution Control Board Various Post Final Answer Key 2026 announces UPSSSC UP Pollution Control Board Various Post Final Answer Key 2026 (115 Posts).",
+      "date": "29 April 2026 (Extended)",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC Pharmacist Final Answer Key 2026",
+      "title_raw": "UPSSSC Pharmacist Final Answer Key 2026",
+      "badge_html": "",
+      "url": "/upsssc-pharmacist-2026/",
+      "short_desc": "UPSSSC Pharmacist announces UPSSSC Pharmacist Final Answer Key 2026 (560 Posts).",
+      "date": "31 March 2026 (Extended)",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar BPSC APO Answer Key 2026",
+      "title_raw": "Bihar BPSC APO Answer Key 2026",
+      "badge_html": "",
+      "url": "/bpsc-apo-2026/",
+      "short_desc": "Bihar BPSC APO announces Bihar BPSC APO Answer Key 2026 (300 Posts).",
+      "date": "20 March 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "JSSC Field Worker Answer Key 2026",
+      "title_raw": "JSSC Field Worker Answer Key 2026",
+      "badge_html": "",
+      "url": "/jssc-field-worker-2024/",
+      "short_desc": "JSSC Field Worker Examination 2024 announces JSSC Field Worker Answer Key 2026 (510 Posts).",
+      "date": "31 August 2024",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC BCG Technician Final Answer Key 2026",
+      "title_raw": "UPSSSC BCG Technician Final Answer Key 2026",
+      "badge_html": "",
+      "url": "/upsssc-bcg-technician-2024/",
+      "short_desc": "UPSSSC BCG Technician Examination 2024 announces UPSSSC BCG Technician Final Answer Key 2026 (255 Posts).",
+      "date": "07 August 2024",
+      "lifecycle_state": "EXPIRED_DEMOTED",
       "is_pinned": false
     }
   ]
