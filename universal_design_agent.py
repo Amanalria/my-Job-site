@@ -24,7 +24,22 @@ class UniversalDesignAgent:
         os.makedirs(self.data_dir, exist_ok=True)
         os.makedirs(self.thumbnails_dir, exist_ok=True)
 
-    def get_reference_template(self) -> str:
+    def get_reference_template(self, category: str = "latest-jobs") -> str:
+        cat_file_map = {
+            "latest-jobs": "reference_latest_jobs.html",
+            "result": "reference_result.html",
+            "admit-card": "reference_admit_card.html",
+            "answer-key": "reference_answer_key.html",
+            "syllabus": "reference_syllabus.html",
+            "admission": "reference_admission.html"
+        }
+        ref_dir = os.path.join(self.base_dir, "templates", "reference")
+        fname = cat_file_map.get(category.lower(), "reference_latest_jobs.html")
+        fpath = os.path.join(ref_dir, fname)
+        if os.path.exists(fpath):
+            with open(fpath, "r", encoding="utf-8") as f:
+                return f.read()
+
         if os.path.exists(self.ref_template_path):
             with open(self.ref_template_path, "r", encoding="utf-8") as f:
                 return f.read()
@@ -348,7 +363,8 @@ class UniversalDesignAgent:
         return rows_html
 
     def build_post_html(self, data: Dict[str, Any]) -> str:
-        template = self.get_reference_template()
+        category = data.get("category", "latest-jobs").lower()
+        template = self.get_reference_template(category)
         slug = data.get("slug", slugify(data.get("title", "recruitment-2026")))
         title = data.get("title", "Govt Job Recruitment 2026")
         category = data.get("category", "latest-jobs").lower()
