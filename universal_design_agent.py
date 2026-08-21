@@ -500,6 +500,14 @@ class UniversalDesignAgent:
             except Exception as e:
                 print(f"[Homepage] Error updating index.html: {e}")
 
+
+        # Trigger Automated Vacancy Lifecycle Engine (Auto-promote urgent posts & sort)
+        try:
+            import vacancy_lifecycle_engine as lifecycle
+            lifecycle.audit_and_execute_lifecycle()
+        except Exception as e:
+            print(f"[Lifecycle Notice]: {e}")
+
         return out_file
 
 

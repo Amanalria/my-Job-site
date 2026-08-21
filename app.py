@@ -3740,6 +3740,16 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
         
         is_extended = 'extend' in last_date_str.lower() or 'extend' in title.lower() or p.get('custom_badge') == 'Date Extended'
         parsed_date = lifecycle.parse_date_string(last_date_str)
+        if not parsed_date and os.path.exists(os.path.join(PAGES_DIR, f"{slug}.html")):
+            try:
+                with open(os.path.join(PAGES_DIR, f"{slug}.html"), 'r', encoding='utf-8') as hf:
+                    h_txt = hf.read()
+                dm = re.search(r'(?:Online Apply Last Date|Pay Exam Fee Last Date|Last Date for Apply Online|Last Date to Apply Online|Application Last Date|Last Date for Fee Payment|Last Date to Apply|Last Date)\s*[:\-–]?\s*([0-9]{1,2}\s+[a-zA-Z]+\s+[0-9]{4})', h_txt, re.I)
+                if dm:
+                    candidate_d = dm.group(1).strip()
+                    parsed_date = lifecycle.parse_date_string(candidate_d)
+            except Exception:
+                pass
         
         days_remaining = (parsed_date - today).days if parsed_date else None
         
@@ -4144,6 +4154,8 @@ def admin_lifecycle():
     settings = load_settings()
     config = lifecycle.load_lifecycle_settings()
     custom_posts = load_custom_posts()
+    if not custom_posts:
+        custom_posts = load_all_active_posts()
     pinned_set = set(config.get('pinned_posts', []))
     urgent_threshold = int(config.get('urgent_days_threshold', 3))
     today = datetime.now().date()
@@ -4159,6 +4171,16 @@ def admin_lifecycle():
         
         last_date_str = p.get('application_last_date', '')
         parsed_date = lifecycle.parse_date_string(last_date_str)
+        if not parsed_date and os.path.exists(os.path.join(PAGES_DIR, f"{slug}.html")):
+            try:
+                with open(os.path.join(PAGES_DIR, f"{slug}.html"), 'r', encoding='utf-8') as hf:
+                    h_txt = hf.read()
+                dm = re.search(r'(?:Online Apply Last Date|Pay Exam Fee Last Date|Last Date for Apply Online|Last Date to Apply Online|Application Last Date|Last Date for Fee Payment|Last Date to Apply|Last Date)\s*[:\-–]?\s*([0-9]{1,2}\s+[a-zA-Z]+\s+[0-9]{4})', h_txt, re.I)
+                if dm:
+                    candidate_d = dm.group(1).strip()
+                    parsed_date = lifecycle.parse_date_string(candidate_d)
+            except Exception:
+                pass
         days_rem = (parsed_date - today).days if parsed_date else None
         p['days_remaining'] = days_rem
         

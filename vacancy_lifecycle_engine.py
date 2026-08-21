@@ -88,35 +88,54 @@ def parse_date_string(date_str):
         return None
 
     s = date_str.strip().lower()
+    # Remove ordinal suffixes (1st, 2nd, 3rd, 4th, etc.)
+    s = re.sub(r'(\d+)(st|nd|rd|th)', r'\1', s)
 
-    extended_match = re.search(r'(\d{1,2})\s+([a-z]+)\s+(\d{4})', s)
-    if extended_match:
-        d = int(extended_match.group(1))
-        m_str = extended_match.group(2)
-        y = int(extended_match.group(3))
+    # 1. Day Month Year (e.g. 21 August 2026, 21 Aug 2026, 21-aug-2026)
+    dmy_word = re.search(r'(\d{1,2})[\s\-\/\.]+([a-z]+)[\s\-\/\.]+(\d{4})', s)
+    if dmy_word:
+        d = int(dmy_word.group(1))
+        m_str = dmy_word.group(2)
+        y = int(dmy_word.group(3))
         if m_str in MONTH_MAP:
             try:
                 return date(y, MONTH_MAP[m_str], d)
             except Exception:
                 pass
 
-    dmy_match = re.search(r'(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})', s)
-    if dmy_match:
+    # 2. Month Day Year (e.g. August 21, 2026)
+    mdy_word = re.search(r'([a-z]+)[\s\-\/\.]+(\d{1,2})[\s\-\/\,]+(\d{4})', s)
+    if mdy_word:
+        m_str = mdy_word.group(1)
+        d = int(mdy_word.group(2))
+        y = int(mdy_word.group(3))
+        if m_str in MONTH_MAP:
+            try:
+                return date(y, MONTH_MAP[m_str], d)
+            except Exception:
+                pass
+
+    # 3. Numeric DD/MM/YYYY or DD-MM-YYYY
+    dmy_num = re.search(r'(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})', s)
+    if dmy_num:
         try:
-            d = int(dmy_match.group(1))
-            m = int(dmy_match.group(2))
-            y = int(dmy_match.group(3))
-            return date(y, m, d)
+            d = int(dmy_num.group(1))
+            m = int(dmy_num.group(2))
+            y = int(dmy_num.group(3))
+            if 1 <= m <= 12 and 1 <= d <= 31:
+                return date(y, m, d)
         except Exception:
             pass
 
-    ymd_match = re.search(r'(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})', s)
-    if ymd_match:
+    # 4. Numeric YYYY-MM-DD
+    ymd_num = re.search(r'(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})', s)
+    if ymd_num:
         try:
-            y = int(ymd_match.group(1))
-            m = int(ymd_match.group(2))
-            d = int(ymd_match.group(3))
-            return date(y, m, d)
+            y = int(ymd_num.group(1))
+            m = int(ymd_num.group(2))
+            d = int(ymd_num.group(3))
+            if 1 <= m <= 12 and 1 <= d <= 31:
+                return date(y, m, d)
         except Exception:
             pass
 
@@ -303,6 +322,28 @@ def audit_and_execute_lifecycle():
         category = post.get('category', 'latest-jobs')
         last_date_str = post.get('application_last_date', '')
         html_file = os.path.join(PAGES_DIR, f"{slug}.html")
+
+        # Extract precise last date from HTML if missing or vague
+        if os.path.exists(html_file):
+            try:
+                with open(html_file, 'r', encoding='utf-8') as hf:
+                    html_text = hf.read()
+                
+                # Check for exact last date patterns in HTML
+                date_patterns = [
+                    r'(?:Online Apply Last Date|Pay Exam Fee Last Date|Last Date for Apply Online|Last Date to Apply Online|Application Last Date|Last Date for Fee Payment|Last Date to Apply)\s*[:\-–]?\s*([0-9]{1,2}\s+[a-zA-Z]+\s+[0-9]{4})',
+                    r'(?:Online Apply Last Date|Last Date for Apply Online|Last Date to Apply Online|Application Last Date|Last Date)\s*[:\-–]?\s*([0-9]{1,2}[\/\-\.]+[0-9]{1,2}[\/\-\.]+[0-9]{4})'
+                ]
+                for dp in date_patterns:
+                    dm = re.search(dp, html_text, re.I)
+                    if dm:
+                        candidate_date = dm.group(1).strip()
+                        if parse_date_string(candidate_date):
+                            post['application_last_date'] = candidate_date
+                            last_date_str = candidate_date
+                            break
+            except Exception:
+                pass
 
         # Check for date extension in HTML content or title
         is_extended = 'extend' in last_date_str.lower() or 'extend' in title.lower() or post.get('custom_badge') == 'Date Extended'
@@ -527,7 +568,15 @@ def audit_and_execute_lifecycle():
     sync_homepage_boxes(os.path.join(PAGES_DIR, 'index.html'))
     sync_homepage_boxes(os.path.join(BASE_DIR, 'original_index.html'))
 
-    config['last_run_timestamp'] = datetime.now().isoformat()
+    # Invalidate rendered page cache in Flask app if running
+    try:
+        import app
+        if hasattr(app, '_RENDERED_PAGE_CACHE'):
+            app._RENDERED_PAGE_CACHE.clear()
+    except Exception:
+        pass
+
+        config['last_run_timestamp'] = datetime.now().isoformat()
     if purged_slugs:
         config['last_purged_posts'] = purged_slugs
     save_lifecycle_settings(config)
