@@ -1,3 +1,18 @@
+import subprocess
+import threading
+
+def trigger_background_git_sync(commit_msg="chore(sync): auto-update site settings and posts"):
+    def _git_worker():
+        try:
+            cmd = f'rm -f /root/sarkari-result-portal/.git/index.lock && cd /root/sarkari-result-portal && git add data/ pages/ SITE_SETTINGS.json SETTINGS_GUIDE.md && git commit -m "{commit_msg}" && git push origin master'
+            res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=30)
+            if res.returncode == 0:
+                print(f"[Auto-Git-Sync] Successfully pushed to GitHub: {commit_msg}")
+        except Exception as e:
+            print("[Auto-Git-Sync] Notice:", e)
+            
+    threading.Thread(target=_git_worker, daemon=True).start()
+
 import auth
 import supabase_client as supa
 import os
@@ -1678,15 +1693,16 @@ def load_settings():
     import copy
     merged = copy.deepcopy(DEFAULT_SETTINGS)
 
-    # 1. Primary Source of Truth: Local disk settings
-    if os.path.exists(SETTINGS_FILE):
-        try:
-            with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
-                disk_data = json.load(f)
-                if isinstance(disk_data, dict):
-                    return deep_merge_settings(merged, disk_data)
-        except Exception as e:
-            print(f"Error loading settings from disk: {e}")
+    # 1. Primary Source of Truth: Local disk settings (data/settings.json or SITE_SETTINGS.json)
+    for s_path in [SETTINGS_FILE, os.path.join(BASE_DIR, 'SITE_SETTINGS.json')]:
+        if os.path.exists(s_path):
+            try:
+                with open(s_path, 'r', encoding='utf-8') as f:
+                    disk_data = json.load(f)
+                    if isinstance(disk_data, dict):
+                        return deep_merge_settings(merged, disk_data)
+            except Exception as e:
+                print(f"Error loading settings from {s_path}: {e}")
 
     # 2. Fallback to Supabase Cloud only if disk file missing
     if supa.is_supabase_configured():
@@ -1702,11 +1718,22 @@ def load_settings():
 def save_settings_data(data):
     lifecycle.safe_write_json(SETTINGS_FILE, data)
 
+    # Also mirror to root SITE_SETTINGS.json for easy direct editing on GitHub
+    try:
+        root_file = os.path.join(BASE_DIR, 'SITE_SETTINGS.json')
+        with open(root_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except Exception:
+        pass
+
     if supa.is_supabase_configured():
         try:
             supa.save_settings_to_supabase(data)
         except Exception as se:
             print(f"Notice: Supabase save exception: {se}")
+
+    # Auto-commit and push to GitHub repository in background
+    trigger_background_git_sync("chore(admin): auto-sync site settings to GitHub")
 
 def sanitize_html(html_content, current_host, is_alria_mode=False):
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -3517,7 +3544,12 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
 
             async function saveSettingsPayload(payload) {{
                 const res = await fetch('/api/admin/save-settings', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify(payload) }});
-                if(res.ok) {{ alert('Saved successfully!'); location.reload(); }} else {{ alert('Error saving settings'); }}
+                if(res.ok) {{
+                    alert('✅ Saved & Auto-Committed to GitHub!');
+                    window.location.href = window.location.pathname + '?t=' + Date.now();
+                }} else {{
+                    alert('❌ Error saving settings');
+                }}
             }}
 
             function saveMasterThemeColors() {{
@@ -5219,6 +5251,36 @@ def api_bulk_delete_posts():
 def api_delete_post(post_id):
     delete_single_post(post_id)
     return jsonify({'status': 'success', 'deleted': post_id})
+
+
+@app.route('/github-editor')
+@app.route('/github-editor/')
+@app.route('/settings-editor')
+@app.route('/settings-editor/')
+def github_settings_editor_view():
+    editor_file = os.path.join(BASE_DIR, 'github-settings-editor.html')
+    if os.path.exists(editor_file):
+        with open(editor_file, 'r', encoding='utf-8') as f:
+            return Response(f.read(), mimetype='text/html')
+    abort(404)
+
+@app.route('/api/admin/gh-token')
+def api_admin_gh_token():
+    token = os.environ.get('GITHUB_TOKEN', '')
+    if not token and os.path.exists(os.path.expanduser('~/.git-credentials')):
+        try:
+            with open(os.path.expanduser('~/.git-credentials'), 'r') as f:
+                creds = f.read()
+                m = re.search(r':(ghp_[a-zA-Z0-9_]+)@', creds)
+                if m:
+                    token = m.group(1)
+        except Exception:
+            pass
+    return jsonify({'token': token})
+
+@app.route('/api/admin/load-settings')
+def api_admin_load_settings():
+    return jsonify(load_settings())
 
 # ==================== SUPABASE CLOUD MANAGEMENT ENDPOINTS ====================
 
