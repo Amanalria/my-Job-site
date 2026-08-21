@@ -327,7 +327,117 @@
                                 </div>
                             </div>
                         </div>
-                <!-- 3.5. Mobile App Download CTA & Vocab Customizer -->
+                
+                <!-- 3.2. Top 8 Highlight Cards Customizer (Special Edit) -->
+                <div class="postbox" style="grid-column: 1 / -1; border-left: 4px solid #f97316;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <h2 style="margin:0; font-size:16px; color:#1e293b;"><i class="fa-solid fa-layer-group" style="color:#f97316; margin-right:6px;"></i> Top 8 Highlight Cards Customizer (Special Edit)</h2>
+                        <a href="/alria" target="_blank" style="background:#f97316; color:#fff; padding:4px 10px; border-radius:4px; font-size:11px; font-weight:700; text-decoration:none;"><i class="fa-solid fa-eye"></i> Live Visual Editor</a>
+                    </div>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:14px;">Independently customize titles, links, and vibrant background colors for the 8 top highlight boxes on the homepage. Leave title blank to automatically show top priority posts.</p>
+
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+                        {% set default_card_colors = ['#fb0303', '#fb5e03', '#ed13e3', '#0d13b5', '#868a08', '#0080ff', '#5f0000', '#077822'] %}
+                        {% set default_cards = [
+                            {"title": "Railway NFR Apprentice Online Form 2026", "url": "/railway-nfr-2026/"},
+                            {"title": "SAV Bihar Class 6 Entrance Exam Online Form 2027-28", "url": "/sav-bihar-class-6-2026/"},
+                            {"title": "IGCAR Trade Apprentice Online Form 2026", "url": "/igcar-apprentice-2026/"},
+                            {"title": "IBPS Clerk (CSA) 16th Online Form 2026", "url": "/ibps-clerk-16th-2026/"},
+                            {"title": "UPESSC Principal Online Form 2026", "url": "/upessc-principal-2026/"},
+                            {"title": "Bihar Secondary Teachers Eligibility Test STET 2026", "url": "/bihar-stet-2026/"},
+                            {"title": "BPSC School Teacher TRE 4.0 Online Form 2026", "url": "/bpsc-school-teacher-tre-4-0-2026/"},
+                            {"title": "RRB JE Online Form 2026 (3993 Posts)", "url": "/rrb-je-2026/"}
+                        ] %}
+                        {% for i in range(8) %}
+                        {% set c = settings.highlight_cards[i] if settings.highlight_cards and i < settings.highlight_cards|length else default_cards[i] %}
+                        {% set c_col = settings.theme_colors['card_' ~ (i+1) ~ '_bg'] if settings.theme_colors and settings.theme_colors['card_' ~ (i+1) ~ '_bg'] else default_card_colors[i] %}
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <label style="font-size:12px; font-weight:700; color:#334155;">Card {{ i+1 }}</label>
+                                <div style="display:flex; align-items:center; gap:6px;">
+                                    <span style="font-size:10px; color:#64748b;">Color:</span>
+                                    <input type="color" name="card_color_{{ i }}" value="{{ c_col }}" class="color-picker" style="width:30px; height:24px; padding:1px;">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:6px;">
+                                <input type="text" name="card_title_{{ i }}" class="wp-input" value="{{ c.title if c else '' }}" placeholder="Card {{ i+1 }} Title" style="font-size:12px; font-weight:600;">
+                            </div>
+                            <div class="form-group" style="margin:0;">
+                                <input type="text" name="card_url_{{ i }}" class="wp-input" value="{{ c.url if c else '' }}" placeholder="URL (e.g. /railway-nfr-2026/)" style="font-size:11px;">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 3.3. 6 Category Grid Column Titles & Header Colors (Special Edit) -->
+                <div class="postbox" style="grid-column: 1 / -1; border-left: 4px solid #8b5cf6;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <h2 style="margin:0; font-size:16px; color:#1e293b;"><i class="fa-solid fa-table-columns" style="color:#8b5cf6; margin-right:6px;"></i> 6 Category Grid Column Titles &amp; Header Colors (Special Edit)</h2>
+                    </div>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:14px;">Customize column header text and background colors for all 6 main category columns on the homepage.</p>
+
+                    {% set gh = settings.grid_headers if settings.grid_headers else {} %}
+                    {% set tc = settings.theme_colors if settings.theme_colors else {} %}
+                    
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px;">
+                        <!-- Col 1: Result -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <label style="font-size:12px; font-weight:700; color:#1e293b;">1. Result Column</label>
+                                <input type="color" name="grid_color_result" value="{{ tc.result_header_bg if tc.result_header_bg else '#ab183d' }}" class="color-picker" style="width:30px; height:24px; padding:1px;">
+                            </div>
+                            <input type="text" name="grid_title_result" class="wp-input" value="{{ gh['result'].title if gh['result'] else 'Result' }}" placeholder="Result" style="font-size:12px; font-weight:600;">
+                        </div>
+
+                        <!-- Col 2: Admit Card -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <label style="font-size:12px; font-weight:700; color:#1e293b;">2. Admit Card Column</label>
+                                <input type="color" name="grid_color_admit_card" value="{{ tc.admit_header_bg if tc.admit_header_bg else '#ab183d' }}" class="color-picker" style="width:30px; height:24px; padding:1px;">
+                            </div>
+                            <input type="text" name="grid_title_admit_card" class="wp-input" value="{{ gh['admit-card'].title if gh['admit-card'] else 'Admit Card' }}" placeholder="Admit Card" style="font-size:12px; font-weight:600;">
+                        </div>
+
+                        <!-- Col 3: Latest Jobs -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <label style="font-size:12px; font-weight:700; color:#1e293b;">3. Latest Jobs Column</label>
+                                <input type="color" name="grid_color_latest_jobs" value="{{ tc.jobs_header_bg if tc.jobs_header_bg else '#ab183d' }}" class="color-picker" style="width:30px; height:24px; padding:1px;">
+                            </div>
+                            <input type="text" name="grid_title_latest_jobs" class="wp-input" value="{{ gh['latest-jobs'].title if gh['latest-jobs'] else 'Latest Jobs' }}" placeholder="Latest Jobs" style="font-size:12px; font-weight:600;">
+                        </div>
+
+                        <!-- Col 4: Answer Key -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <label style="font-size:12px; font-weight:700; color:#1e293b;">4. Answer Key Column</label>
+                                <input type="color" name="grid_color_answer_key" value="{{ tc.answer_header_bg if tc.answer_header_bg else '#ab183d' }}" class="color-picker" style="width:30px; height:24px; padding:1px;">
+                            </div>
+                            <input type="text" name="grid_title_answer_key" class="wp-input" value="{{ gh['answer-key'].title if gh['answer-key'] else 'Answer Key' }}" placeholder="Answer Key" style="font-size:12px; font-weight:600;">
+                        </div>
+
+                        <!-- Col 5: Syllabus -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <label style="font-size:12px; font-weight:700; color:#1e293b;">5. Syllabus Column</label>
+                                <input type="color" name="grid_color_syllabus" value="{{ tc.syllabus_header_bg if tc.syllabus_header_bg else '#ab183d' }}" class="color-picker" style="width:30px; height:24px; padding:1px;">
+                            </div>
+                            <input type="text" name="grid_title_syllabus" class="wp-input" value="{{ gh['syllabus'].title if gh['syllabus'] else 'Syllabus' }}" placeholder="Syllabus" style="font-size:12px; font-weight:600;">
+                        </div>
+
+                        <!-- Col 6: Admission -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <label style="font-size:12px; font-weight:700; color:#1e293b;">6. Admission Column</label>
+                                <input type="color" name="grid_color_admission" value="{{ tc.admission_header_bg if tc.admission_header_bg else '#ab183d' }}" class="color-picker" style="width:30px; height:24px; padding:1px;">
+                            </div>
+                            <input type="text" name="grid_title_admission" class="wp-input" value="{{ gh['admission'].title if gh['admission'] else 'Admission' }}" placeholder="Admission" style="font-size:12px; font-weight:600;">
+                        </div>
+                    </div>
+                </div>
+
+<!-- 3.5. Mobile App Download CTA & Vocab Customizer -->
                 <div class="postbox" style="grid-column: 1 / -1; border-left: 4px solid #046132;">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
                         <h2 style="margin:0; font-size:16px; color:#1e293b;"><i class="fa-solid fa-mobile-screen-button" style="color:#046132; margin-right:6px;"></i> 📱 Mobile App Download CTA &amp; Vocab Banner Customizer</h2>

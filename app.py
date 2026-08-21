@@ -1498,23 +1498,209 @@ COL_MAPPING = {
     '51daea0e': 'admission'
 }
 
+DEFAULT_SETTINGS = {
+    "site_name": "STUDY TOPPER™",
+    "domain": "studytopper.in",
+    "tagline": "Latest Jobs, Results, Etc.",
+    "top_banner_text": "Study Topper : studytopper.in",
+    "meta_description": "StudyTopper.in provides fastest and verified notifications for Government Jobs, Sarkari Result, Admit Cards, Answer Keys, Syllabus and Admissions.",
+    "meta_keywords": "sarkari result, study topper, studytopper, latest jobs, admit card, answer key, syllabus, admission",
+    "header_customizer": {
+        "title_text": "STUDY TOPPER™",
+        "title_size_desktop": 51.0,
+        "title_size_mobile": 36.0,
+        "title_weight": "900",
+        "title_font": "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        "title_color": "#ffffff",
+        "title_letter_spacing": 0.8,
+        "desc_text": "Latest Jobs, Results, Etc.",
+        "desc_size_desktop": 25.8,
+        "desc_size_mobile": 18.8,
+        "desc_weight": "700",
+        "desc_font": "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        "desc_color": "#ffffff",
+        "desc_letter_spacing": 0.3,
+        "gap_spacing": 2.0,
+        "header_bg": "#cd0808",
+        "pad_top_desktop": 58,
+        "pad_bot_desktop": 58,
+        "min_height_desktop": 150,
+        "pad_top_mobile": 43,
+        "pad_bot_mobile": 40,
+        "min_height_mobile": 130
+    },
+    "theme_colors": {
+        "header_bg": "#cd0808",
+        "header_text": "#ffffff",
+        "nav_bg": "#0c2340",
+        "nav_text": "#ffffff",
+        "whatsapp_btn_bg": "#00a82d",
+        "whatsapp_btn_text": "#ffffff",
+        "result_header_bg": "#ab183d",
+        "admit_header_bg": "#ab183d",
+        "jobs_header_bg": "#ab183d",
+        "answer_header_bg": "#ab183d",
+        "syllabus_header_bg": "#ab183d",
+        "admission_header_bg": "#ab183d",
+        "footer_bg": "#1d2327",
+        "footer_text": "#ffffff",
+        "card_1_bg": "#fb0303",
+        "card_2_bg": "#fb5e03",
+        "card_3_bg": "#ed13e3",
+        "card_4_bg": "#0d13b5",
+        "card_5_bg": "#868a08",
+        "card_6_bg": "#0080ff",
+        "card_7_bg": "#5f0000",
+        "card_8_bg": "#077822"
+    },
+    "highlight_cards": [
+        {"title": "Railway NFR Apprentice Online Form 2026", "url": "/railway-nfr-2026/"},
+        {"title": "SAV Bihar Class 6 Entrance Exam Online Form 2027-28", "url": "/sav-bihar-class-6-2026/"},
+        {"title": "IGCAR Trade Apprentice Online Form 2026", "url": "/igcar-apprentice-2026/"},
+        {"title": "IBPS Clerk (CSA) 16th Online Form 2026", "url": "/ibps-clerk-16th-2026/"},
+        {"title": "UPESSC Principal Online Form 2026", "url": "/upessc-principal-2026/"},
+        {"title": "Bihar Secondary Teachers Eligibility Test STET 2026", "url": "/bihar-stet-2026/"},
+        {"title": "BPSC School Teacher TRE 4.0 Online Form 2026", "url": "/bpsc-school-teacher-tre-4-0-2026/"},
+        {"title": "RRB JE Online Form 2026 (3993 Posts)", "url": "/rrb-je-2026/"}
+    ],
+    "top_pages_table": [
+        {"text": "Bharat Result", "url": "/result/"},
+        {"text": "UP Police Result", "url": "/up-police-constable-result-2024/"},
+        {"text": "Bihar Police Result", "url": "/bihar-police-constable-result-2024/"},
+        {"text": "Study Topper Exam", "url": "/latest-jobs/"},
+        {"text": "Study Topper Hindi", "url": "/"},
+        {"text": "Study Topper NTPC", "url": "/railway-rrb-alp-2026/"},
+        {"text": "Study Topper 2026", "url": "/latest-jobs/"},
+        {"text": "Study Topper", "url": "/"},
+        {"text": "Study Topper Center", "url": "/"},
+        {"text": "Sarkari Naukri", "url": "/latest-jobs/"},
+        {"text": "Study Topper 10th", "url": "/latest-jobs/"},
+        {"text": "Study Topper SSC", "url": "/ssc-chsl-2026/"},
+        {"text": "Study Topper 10+2", "url": "/latest-jobs/"},
+        {"text": "StudyTopper.in", "url": "/"},
+        {"text": "Study Topper Railway", "url": "/railway-nfr-2026/"}
+    ],
+    "info_sections": [
+        {
+            "title": "Study Topper 10+2 & Graduate Latest Jobs 2026",
+            "content": "Find verified updates for 10+2 Intermediate and graduate government vacancies across India. StudyTopper.in provides direct official application links, notification PDFs, eligibility criteria, age relaxation, syllabus downloads, and deadline alerts for Railway RRB, SSC CHSL, Defence, Police Bharti, and state recruitment boards updated daily."
+        },
+        {
+            "title": "Study Topper Results 2026",
+            "content": "Study Topper Results: Study Topper (studytopper.in) delivers instant, verified alerts for central and state government examination results, provisional answer keys, scorecards, cutoff marks, and merit lists. Candidates across all states rely on our fast servers to check their selection status without delay."
+        },
+        {
+            "title": "Study Topper Bihar & Northern State Vacancies",
+            "content": "Get comprehensive recruitment coverage for Bihar and Northern states including BPSC TRE School Teacher, Bihar Police Constable, CSBC Operator, Bihar STET, BSSC Inter Level, OFSS Intermediate Admission, and High Court recruitment forms, exam schedules, and results updated in real-time."
+        },
+        {
+            "title": "Study Topper Hindi & Regional Language Portal",
+            "content": "Uttar Pradesh (UP Board, UPPSC, UPSSSC) and Hindi-medium aspirants receive clear, step-by-step guidance on online application procedures, eligibility rules, syllabus breakdowns, and exam dates in simple Hindi and English for maximum ease and accessibility."
+        },
+        {
+            "title": "StudyTopper.in Official Information & Disclaimer",
+            "content": "studytopper.in is the official portal of Study Topper™ (Since 2026), presenting all latest career notices, employment news, admit card releases, exam keys, and direct online application links for job aspirants across India."
+        }
+    ],
+    "faq_items": [
+        {
+            "q": "What is Study Topper (studytopper.in) and what updates does it provide?",
+            "a": "Study Topper (studytopper.in) is a leading educational and employment alert portal providing real-time, verified notifications for online application forms, government exam results, admit cards, official answer keys, syllabus PDFs, and admission forms across all central and state recruitment boards."
+        },
+        {
+            "q": "How can I find 10th and 12th pass government jobs on Study Topper?",
+            "a": "You can easily browse 10th Pass and 12th (10+2) Intermediate vacancies by visiting the Latest Jobs category table or the top quick links matrix on studytopper.in. Each post includes direct official application links, eligibility details, age criteria, and notification PDFs."
+        },
+        {
+            "q": "Are the application links and notification PDFs on studytopper.in official?",
+            "a": "Yes, 100% of recruitment notices, application links, and PDF files published on studytopper.in are verified against official recruitment portals (such as SSC, UPSC, Railway RRB, State PSCs, and Education Boards) to ensure complete authenticity."
+        },
+        {
+            "q": "How do I check my Sarkari Exam Result or download Admit Card?",
+            "a": "Navigate to the Result or Admit Card columns on our homepage, select your specific examination, and click on the direct official download link. Follow the step-by-step guide on the post page to log in using your Roll Number or Registration ID."
+        },
+        {
+            "q": "Is Study Topper affiliated with any government agency?",
+            "a": "No, studytopper.in is an independent educational portal established to assist aspirants with accurate examination schedules and career updates. We do not represent any government department or recruitment commission directly."
+        }
+    ],
+    "grid_headers": {
+        "result": {"title": "Result", "more_url": "/result/"},
+        "admit-card": {"title": "Admit Card", "more_url": "/admit-card/"},
+        "latest-jobs": {"title": "Latest Jobs", "more_url": "/latest-jobs/"},
+        "answer-key": {"title": "Answer Key", "more_url": "/answer-key/"},
+        "syllabus": {"title": "Syllabus", "more_url": "/syllabus/"},
+        "admission": {"title": "Admission", "more_url": "/admission/"}
+    },
+    "socials": {
+        "whatsapp": "https://whatsapp.com/channel/0029Va9xyz",
+        "telegram": "https://t.me/studytopperofficial",
+        "instagram": "https://instagram.com/",
+        "youtube": "https://youtube.com/@",
+        "facebook": "https://facebook.com/",
+        "twitter": "https://x.com/"
+    },
+    "footer": {
+        "connect_title": "Connect With Us",
+        "social_links": [
+            {"name": "Study Topper @X", "url": "https://x.com/"},
+            {"name": "Study Topper @Telegram", "url": "https://t.me/studytopperofficial"},
+            {"name": "Study Topper @WhatsApp", "url": "https://whatsapp.com/channel/0029Va9xyz"},
+            {"name": "Study Topper @Instagram", "url": "https://instagram.com/"},
+            {"name": "Study Topper @Facebook", "url": "https://facebook.com/"},
+            {"name": "Study Topper @YouTube", "url": "https://youtube.com/@"}
+        ],
+        "nav_links": [
+            {"label": "Home", "url": "/"},
+            {"label": "Contact", "url": "/contact/"},
+            {"label": "Privacy Policy", "url": "/privacy-policy/"},
+            {"label": "Disclaimer", "url": "/disclaimer/"}
+        ],
+        "copyright_text": "Copyright © 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance."
+    },
+    "app_cta": {
+        "enabled": True,
+        "title": "StudyTopper.in",
+        "subtitle": "Fastest Government Job Updates, Results, Admit Cards & Exam Syllabus Portal",
+        "button_text": "📱 Download StudyTopper Mobile App & English Vocab",
+        "button_url": "https://play.google.com/store/apps/details?id=in.qmaths.blackbook",
+        "bg_color": "#fdfaf2",
+        "button_color": "#046132"
+    }
+}
+
+def deep_merge_settings(target, source):
+    import copy
+    res = copy.deepcopy(target)
+    for k, v in source.items():
+        if isinstance(v, dict) and k in res and isinstance(res[k], dict):
+            res[k] = deep_merge_settings(res[k], v)
+        else:
+            res[k] = v
+    return res
+
 def load_settings():
+    import copy
+    merged = copy.deepcopy(DEFAULT_SETTINGS)
+    
     if supa.is_supabase_configured():
         try:
             supa_settings = supa.fetch_settings_from_supabase()
-            if supa_settings:
-                return supa_settings
+            if supa_settings and isinstance(supa_settings, dict):
+                return deep_merge_settings(merged, supa_settings)
         except Exception:
             pass
 
     try:
         if os.path.exists(SETTINGS_FILE):
             with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
-    except Exception:
-        pass
+                disk_data = json.load(f)
+                if isinstance(disk_data, dict):
+                    return deep_merge_settings(merged, disk_data)
+    except Exception as e:
+        print(f"Error loading settings from disk: {e}")
 
-    return DEFAULT_SETTINGS
+    return merged
 
 def save_settings_data(data):
     lifecycle.safe_write_json(SETTINGS_FILE, data)
@@ -3838,23 +4024,40 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                         ul.append(li)
 
     # Dynamic Top 8 Colorful Highlight Cards
+    settings_obj = load_settings()
+    custom_cards = settings_obj.get('highlight_cards', [])
+    theme_cfg = settings_obj.get('theme_colors', {})
+    
     highlight_cards_cols = [
         'gb-grid-column-2f6de309', 'gb-grid-column-6de8e6a5', 'gb-grid-column-f69a2a15', 'gb-grid-column-cb185b36',
         'gb-grid-column-962a1393', 'gb-grid-column-48ff7430', 'gb-grid-column-3b560729', 'gb-grid-column-659c2f86'
     ]
+    default_card_bgs = ['#fb0303', '#fb5e03', '#ed13e3', '#0d13b5', '#868a08', '#0080ff', '#5f0000', '#077822']
     sorted_all_active = sorted(all_posts, key=lambda x: x.get('calculated_priority', 0), reverse=True)
+    
     for idx, col_cls in enumerate(highlight_cards_cols):
         col_div = soup.find(class_=col_cls)
         if col_div:
             p_tag = col_div.find('p')
-            if p_tag and idx < len(sorted_all_active):
-                h_post = sorted_all_active[idx]
-                h_title = h_post.get('title', '')
-                h_slug = h_post.get('slug', '')
-                h_badge = h_post.get('calculated_badge', '')
-                p_tag.clear()
-                card_markup = f'<a href="/{h_slug}/" rel="noreferrer noopener">{h_title}{h_badge}</a>'
-                p_tag.append(BeautifulSoup(card_markup, 'html.parser'))
+            if p_tag:
+                card_bg = theme_cfg.get(f'card_{idx+1}_bg') or default_card_bgs[idx]
+                p_tag['style'] = f'background-color:{card_bg} !important; color:#ffffff !important; border-radius:5px !important; min-height:52px !important; height:52px !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; padding:4px 6px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important; width:100% !important;'
+                
+                c_data = custom_cards[idx] if (idx < len(custom_cards) and custom_cards[idx].get('title')) else None
+                if c_data and c_data.get('title'):
+                    c_title = c_data.get('title', '')
+                    c_url = c_data.get('url', '#')
+                    p_tag.clear()
+                    card_markup = f'<a href="{c_url}" rel="noreferrer noopener" target="_blank" style="color:#ffffff !important; text-decoration:none !important; font-weight:700 !important; font-size:13.5px !important; font-family:Arial,Helvetica,sans-serif !important; line-height:1.25 !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; width:100% !important; height:100% !important;">{c_title}</a>'
+                    p_tag.append(BeautifulSoup(card_markup, 'html.parser'))
+                elif idx < len(sorted_all_active):
+                    h_post = sorted_all_active[idx]
+                    h_title = h_post.get('title', '')
+                    h_slug = h_post.get('slug', '')
+                    h_badge = h_post.get('calculated_badge', '')
+                    p_tag.clear()
+                    card_markup = f'<a href="/{h_slug}/" rel="noreferrer noopener" style="color:#ffffff !important; text-decoration:none !important; font-weight:700 !important; font-size:13.5px !important; font-family:Arial,Helvetica,sans-serif !important; line-height:1.25 !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; width:100% !important; height:100% !important;">{h_title}{h_badge}</a>'
+                    p_tag.append(BeautifulSoup(card_markup, 'html.parser'))
     
     # 1h. SEO & Accessibility: Descriptive aria-labels for generic "Click Here" / "Download" links
     post_title_for_aria = ""
@@ -4322,24 +4525,22 @@ def api_lifecycle_save_config():
 
 # ==================== API ADMIN ENDPOINTS ====================
 
-@app.route('/api/admin/save-settings', methods=['GET', 'POST'])
-@app.route('/api/admin/save-settings/', methods=['GET', 'POST'])
-@auth.admin_required
+@app.route('/api/admin/save-settings', methods=['POST'])
 def api_save_settings():
-    if request.method == 'GET':
-        return redirect('/admin/settings')
+    if not auth.is_authenticated():
+        if request.is_json:
+            return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+        return redirect('/admin/login')
 
     try:
         settings = load_settings()
-        if 'header_customizer' not in settings:
-            settings['header_customizer'] = {}
 
         if request.is_json:
-            data = request.get_json(silent=True) or {}
+            data = request.get_json() or {}
         else:
             data = request.form.to_dict()
 
-        # Parse and update Header Customizer (Special Edit) fields
+        # 1. Header Customizer (Special Edit)
         hc_fields = {
             'title_text': str,
             'title_size_desktop': float,
@@ -4364,6 +4565,8 @@ def api_save_settings():
             'pad_bot_mobile': int,
             'min_height_mobile': int
         }
+        if 'header_customizer' not in settings:
+            settings['header_customizer'] = {}
 
         for field, f_type in hc_fields.items():
             if field in data and data[field] is not None and str(data[field]).strip() != '':
@@ -4380,44 +4583,78 @@ def api_save_settings():
                 except (ValueError, TypeError):
                     pass
 
-        for k, v in data.items():
-            if k == 'socials' and isinstance(v, dict):
-                if 'socials' not in settings: settings['socials'] = {}
-                settings['socials'].update(v)
-            elif k.startswith('social_'):
-                soc_k = k.replace('social_', '')
-                if 'socials' not in settings: settings['socials'] = {}
-                settings['socials'][soc_k] = v
-            elif k in ['telegram', 'whatsapp', 'youtube', 'instagram', 'facebook', 'twitter']:
-                if 'socials' not in settings: settings['socials'] = {}
-                settings['socials'][k] = v
-            elif k in ['google_analytics_id', 'google_site_verification', 'meta_description', 'meta_keywords', 'custom_head_code', 'custom_footer_code']:
-                if 'seo' not in settings: settings['seo'] = {}
-                settings['seo'][k] = v
-            elif k == 'theme_colors' and isinstance(v, dict):
-                if 'theme_colors' not in settings: settings['theme_colors'] = {}
-                settings['theme_colors'].update(v)
-            elif k.startswith('theme_'):
-                col_k = k.replace('theme_', '')
-                if 'theme_colors' not in settings: settings['theme_colors'] = {}
-                settings['theme_colors'][col_k] = v
-            elif k in ['adsense_id', 'adsense_client']:
-                if 'adsense' not in settings: settings['adsense'] = {}
-                settings['adsense']['client_id'] = v
-                settings['adsense']['enabled'] = bool(v)
-            elif k in ['adsense_enabled']:
-                if 'adsense' not in settings: settings['adsense'] = {}
-                settings['adsense']['enabled'] = bool(v)
-            elif k in ['supabase_url', 'supabase_key']:
-                if 'supabase' not in settings: settings['supabase'] = {}
-                sub_k = 'url' if k == 'supabase_url' else 'key'
-                settings['supabase'][sub_k] = v
-            else:
-                settings[k] = v
+        # 2. General Settings
+        if 'site_name' in data and data['site_name']:
+            settings['site_name'] = str(data['site_name']).strip()
+            settings['header_customizer']['title_text'] = str(data['site_name']).strip()
+        if 'domain' in data and data['domain']:
+            settings['domain'] = str(data['domain']).strip()
+        if 'tagline' in data:
+            settings['tagline'] = str(data['tagline']).strip()
+            settings['header_customizer']['desc_text'] = str(data['tagline']).strip()
+        if 'top_banner_text' in data:
+            settings['top_banner_text'] = str(data['top_banner_text']).strip()
+        if 'meta_description' in data:
+            settings['meta_description'] = str(data['meta_description']).strip()
+        if 'meta_keywords' in data:
+            settings['meta_keywords'] = str(data['meta_keywords']).strip()
+        if 'ads_txt' in data:
+            settings['ads_txt'] = str(data['ads_txt']).strip()
+        if 'robots_txt' in data:
+            settings['robots_txt'] = str(data['robots_txt']).strip()
+        if 'google_analytics_id' in data:
+            settings['google_analytics_id'] = str(data['google_analytics_id']).strip()
+        if 'google_site_verification' in data:
+            settings['google_site_verification'] = str(data['google_site_verification']).strip()
+        if 'adsense_client' in data:
+            if 'adsense' not in settings: settings['adsense'] = {}
+            settings['adsense']['client_id'] = str(data['adsense_client']).strip()
+            settings['adsense']['enabled'] = bool(data['adsense_client'])
 
-        # Parse form collections if submitted via regular HTML form
-        if not request.is_json:
-            # 1. top_pages_table
+        # 3. Socials
+        if 'socials' not in settings: settings['socials'] = {}
+        for soc in ['whatsapp', 'telegram', 'instagram', 'youtube', 'facebook', 'twitter']:
+            form_k = f'social_{soc}'
+            if form_k in data:
+                settings['socials'][soc] = str(data[form_k]).strip()
+            elif soc in data:
+                settings['socials'][soc] = str(data[soc]).strip()
+
+        # 4. Master Theme Colors
+        if 'theme_colors' not in settings: settings['theme_colors'] = {}
+        if 'theme_colors' in data and isinstance(data['theme_colors'], dict):
+            settings['theme_colors'].update(data['theme_colors'])
+        for col_k in ['header_bg', 'header_text', 'nav_bg', 'nav_text', 'whatsapp_btn_bg', 'whatsapp_btn_text',
+                      'result_header_bg', 'admit_header_bg', 'jobs_header_bg', 'answer_header_bg',
+                      'syllabus_header_bg', 'admission_header_bg', 'footer_bg', 'footer_text']:
+            form_col_k = f'theme_{col_k}'
+            if form_col_k in data and data[form_col_k]:
+                settings['theme_colors'][col_k] = str(data[form_col_k]).strip()
+
+        # 5. Top 8 Highlight Cards
+        if 'highlight_cards' in data and isinstance(data['highlight_cards'], list):
+            settings['highlight_cards'] = data['highlight_cards']
+        elif not request.is_json:
+            form_cards = []
+            has_cards = False
+            for i in range(8):
+                t_k = f'card_title_{i}'
+                u_k = f'card_url_{i}'
+                c_k = f'card_color_{i}'
+                if t_k in data or u_k in data:
+                    has_cards = True
+                    t_val = data.get(t_k, '').strip()
+                    u_val = data.get(u_k, '').strip()
+                    form_cards.append({'title': t_val, 'url': u_val})
+                if c_k in data and data[c_k]:
+                    settings['theme_colors'][f'card_{i+1}_bg'] = str(data[c_k]).strip()
+            if has_cards:
+                settings['highlight_cards'] = form_cards
+
+        # 6. Top Pages Matrix Table (15 Links)
+        if 'top_pages_table' in data and isinstance(data['top_pages_table'], list):
+            settings['top_pages_table'] = data['top_pages_table']
+        elif not request.is_json:
             form_top_pages = []
             has_top_pages = False
             for i in range(15):
@@ -4432,7 +4669,10 @@ def api_save_settings():
             if has_top_pages:
                 settings['top_pages_table'] = form_top_pages
 
-            # 2. info_sections
+        # 7. 5 Red Info Sections
+        if 'info_sections' in data and isinstance(data['info_sections'], list):
+            settings['info_sections'] = data['info_sections']
+        elif not request.is_json:
             form_info_secs = []
             has_info_secs = False
             for i in range(5):
@@ -4444,68 +4684,118 @@ def api_save_settings():
                         'title': data.get(t_k, '').strip(),
                         'content': data.get(c_k, '').strip()
                     })
-            # 4. footer form parsing
-            if any(k.startswith('footer_') for k in data):
-                footer_cfg = settings.get('footer', {})
-                if 'footer_connect_title' in data:
-                    footer_cfg['connect_title'] = data['footer_connect_title'].strip()
-                if 'footer_copyright_text' in data:
-                    footer_cfg['copyright_text'] = data['footer_copyright_text'].strip()
-                    settings['footer_text'] = footer_cfg['copyright_text']
-                
-                soc_list = []
-                for i in range(20):
-                    n_k = f'footer_soc_name_{i}'
-                    u_k = f'footer_soc_url_{i}'
-                    if n_k in data and data[n_k].strip():
-                        soc_list.append({'name': data[n_k].strip(), 'url': data.get(u_k, '').strip()})
-                if soc_list:
-                    footer_cfg['social_links'] = soc_list
+            if has_info_secs:
+                settings['info_sections'] = form_info_secs
 
-                nav_list = []
-                for i in range(10):
-                    l_k = f'footer_nav_lbl_{i}'
-                    u_k = f'footer_nav_url_{i}'
-                    if l_k in data and data[l_k].strip():
-                        nav_list.append({'label': data[l_k].strip(), 'url': data.get(u_k, '').strip()})
-                if nav_list:
-                    footer_cfg['nav_links'] = nav_list
+        # 8. 6 Category Grid Headers & Colors
+        if 'grid_headers' in data and isinstance(data['grid_headers'], dict):
+            if 'grid_headers' not in settings: settings['grid_headers'] = {}
+            settings['grid_headers'].update(data['grid_headers'])
+        elif not request.is_json:
+            if 'grid_headers' not in settings: settings['grid_headers'] = {}
+            for cat_id, cat_lbl in [('result', 'Result'), ('admit_card', 'Admit Card'), ('latest_jobs', 'Latest Jobs'),
+                                    ('answer_key', 'Answer Key'), ('syllabus', 'Syllabus'), ('admission', 'Admission')]:
+                slug_key = cat_id.replace('_', '-')
+                title_k = f'grid_title_{cat_id}'
+                color_k = f'grid_color_{cat_id}'
+                if title_k in data:
+                    settings['grid_headers'][slug_key] = {
+                        'title': data.get(title_k, cat_lbl).strip(),
+                        'more_url': f'/{slug_key}/'
+                    }
+                if color_k in data and data[color_k]:
+                    col_prop = f'{cat_id}_header_bg'
+                    settings['theme_colors'][col_prop] = str(data[color_k]).strip()
 
-                settings['footer'] = footer_cfg
+        # 9. FAQ Items
+        if 'faq_items' in data and isinstance(data['faq_items'], list):
+            settings['faq_items'] = data['faq_items']
+        elif not request.is_json:
+            form_faqs = []
+            has_faqs = False
+            for i in range(20):
+                q_k = f'faq_q_{i}'
+                a_k = f'faq_a_{i}'
+                if q_k in data or a_k in data:
+                    has_faqs = True
+                    q_val = data.get(q_k, '').strip()
+                    a_val = data.get(a_k, '').strip()
+                    if q_val or a_val:
+                        form_faqs.append({'q': q_val, 'a': a_val})
+            if has_faqs:
+                settings['faq_items'] = form_faqs
 
-            # Parse Mobile App CTA Box
-            if 'app_cta' not in settings:
-                settings['app_cta'] = {}
+        # 10. Footer
+        if 'footer' in data and isinstance(data['footer'], dict):
+            if 'footer' not in settings: settings['footer'] = {}
+            settings['footer'].update(data['footer'])
+        elif not request.is_json and any(k.startswith('footer_') for k in data):
+            if 'footer' not in settings: settings['footer'] = {}
+            if 'footer_connect_title' in data:
+                settings['footer']['connect_title'] = data['footer_connect_title'].strip()
+            if 'footer_copyright_text' in data:
+                settings['footer']['copyright_text'] = data['footer_copyright_text'].strip()
+                settings['footer_text'] = settings['footer']['copyright_text']
+            
+            soc_list = []
+            for i in range(20):
+                n_k = f'footer_soc_name_{i}'
+                u_k = f'footer_soc_url_{i}'
+                if n_k in data and data[n_k].strip():
+                    soc_list.append({'name': data[n_k].strip(), 'url': data.get(u_k, '').strip()})
+            if soc_list:
+                settings['footer']['social_links'] = soc_list
 
-            if 'app_cta_enabled' in data:
-                settings['app_cta']['enabled'] = str(data.get('app_cta_enabled')).lower() in ['true', '1', 'on', 'yes']
-            elif not request.is_json and any(k.startswith('app_cta_') for k in data):
-                settings['app_cta']['enabled'] = False
+            nav_list = []
+            for i in range(10):
+                l_k = f'footer_nav_lbl_{i}'
+                u_k = f'footer_nav_url_{i}'
+                if l_k in data and data[l_k].strip():
+                    nav_list.append({'label': data[l_k].strip(), 'url': data.get(u_k, '').strip()})
+            if nav_list:
+                settings['footer']['nav_links'] = nav_list
 
-            if 'app_cta_title' in data:
-                settings['app_cta']['title'] = data['app_cta_title'].strip()
-            if 'app_cta_subtitle' in data:
-                settings['app_cta']['subtitle'] = data['app_cta_subtitle'].strip()
-            if 'app_cta_button_text' in data:
-                settings['app_cta']['button_text'] = data['app_cta_button_text'].strip()
-            if 'app_cta_button_url' in data:
-                settings['app_cta']['button_url'] = data['app_cta_button_url'].strip()
-            if 'app_cta_bg_color' in data:
-                settings['app_cta']['bg_color'] = data['app_cta_bg_color'].strip()
-            if 'app_cta_button_color' in data:
-                settings['app_cta']['button_color'] = data['app_cta_button_color'].strip()
+        # 11. Mobile App CTA Box
+        if 'app_cta' not in settings:
+            settings['app_cta'] = {}
+        if 'app_cta_enabled' in data:
+            settings['app_cta']['enabled'] = str(data.get('app_cta_enabled')).lower() in ['true', '1', 'on', 'yes']
+        elif not request.is_json and any(k.startswith('app_cta_') for k in data):
+            settings['app_cta']['enabled'] = False
 
+        if 'app_cta_title' in data:
+            settings['app_cta']['title'] = data['app_cta_title'].strip()
+        if 'app_cta_subtitle' in data:
+            settings['app_cta']['subtitle'] = data['app_cta_subtitle'].strip()
+        if 'app_cta_button_text' in data:
+            settings['app_cta']['button_text'] = data['app_cta_button_text'].strip()
+        if 'app_cta_button_url' in data:
+            settings['app_cta']['button_url'] = data['app_cta_button_url'].strip()
+        if 'app_cta_bg_color' in data:
+            settings['app_cta']['bg_color'] = data['app_cta_bg_color'].strip()
+        if 'app_cta_button_color' in data:
+            settings['app_cta']['button_color'] = data['app_cta_button_color'].strip()
+
+        # 12. Supabase Settings
+        if 'supabase_url' in data or 'supabase_key' in data:
+            if 'supabase' not in settings: settings['supabase'] = {}
+            if 'supabase_url' in data: settings['supabase']['url'] = data['supabase_url'].strip()
+            if 'supabase_key' in data: settings['supabase']['key'] = data['supabase_key'].strip()
+
+        # Save to disk and Supabase
         save_settings_data(settings)
         _RENDERED_PAGE_CACHE.clear()
+
         if request.is_json:
             return jsonify({'status': 'success', 'settings': settings})
         return redirect('/admin/settings')
+
     except Exception as e:
         import traceback
         traceback.print_exc()
         if request.is_json:
             return jsonify({'status': 'error', 'message': str(e)}), 500
-        return f"<h3>Settings Saved</h3><p>{str(e)}</p><a href='/admin/settings'>Go Back</a>"
+        return f"<h3>Settings Error</h3><p>{str(e)}</p><a href='/admin/settings'>Go Back</a>"
 
 @app.route('/api/admin/save-post', methods=['POST'])
 def api_save_post():
