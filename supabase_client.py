@@ -90,6 +90,31 @@ def save_post_to_supabase(post_data):
     except Exception:
         return False
 
+def save_posts_batch_to_supabase(posts_list):
+    import uuid
+    url, key = get_supabase_credentials()
+    if not url or not key:
+        return False
+    try:
+        allowed_cols = {'id', 'slug', 'title', 'category', 'short_desc', 'application_start_date', 'application_last_date', 'custom_badge', 'is_pinned', 'created_at', 'html_content'}
+        filtered_batch = []
+        for p in posts_list:
+            filtered = {k: v for k, v in p.items() if k in allowed_cols}
+            slug = filtered.get('slug', 'default')
+            raw_id = filtered.get('id', '')
+            if not raw_id or len(raw_id) != 36:
+                filtered['id'] = str(uuid.uuid5(uuid.NAMESPACE_DNS, slug))
+            filtered_batch.append(filtered)
+            
+        headers = get_headers(key)
+        headers['Prefer'] = 'resolution=merge-duplicates'
+        req_url = f"{url}/rest/v1/posts"
+        res = requests.post(req_url, headers=headers, json=filtered_batch, timeout=15)
+        return res.status_code in [200, 201, 204]
+    except Exception as e:
+        print("Batch save exception:", e)
+        return False
+
 def delete_post_from_supabase(post_id_or_slug):
     url, key = get_supabase_credentials()
     if not url or not key:

@@ -4876,27 +4876,11 @@ def api_supabase_sync():
     # 1. Sync settings
     supa.save_settings_to_supabase(settings)
     
-    # 2. Sync all local post pages
-    post_count = 0
-    if os.path.exists(PAGES_DIR):
-        for f in os.listdir(PAGES_DIR):
-            if f.endswith('.html') and f not in ['index.html']:
-                slug = f[:-5]
-                with open(os.path.join(PAGES_DIR, f), 'r', encoding='utf-8') as hf:
-                    html_c = hf.read()
+    # 2. Sync all active posts in batch
+    all_posts = load_all_active_posts()
+    supa.save_posts_batch_to_supabase(all_posts)
                 
-                post_data = {
-                    'id': f"post_{slug}",
-                    'slug': slug,
-                    'title': slug.replace('-', ' ').title(),
-                    'category': 'latest-jobs',
-                    'html_content': html_c,
-                    'is_temporary': True
-                }
-                supa.save_post_to_supabase(post_data)
-                post_count += 1
-                
-    return jsonify({'status': 'success', 'message': f'Synced settings and {post_count} posts to Supabase successfully!'})
+    return jsonify({'status': 'success', 'message': f'Synced settings and {len(all_posts)} posts to Supabase successfully!'})
 
 @app.route('/api/admin/supabase/wipe-temporary', methods=['POST'])
 def api_supabase_wipe_temporary():
