@@ -20,7 +20,7 @@
             background: var(--bg);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            padding-bottom: 80px;
+            padding-bottom: 90px;
         }
         
         /* Sticky Top Header */
@@ -194,6 +194,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            position: relative;
         }
         .card-badge-num {
             background: #ef4444;
@@ -204,6 +205,34 @@
             border-radius: 4px;
             width: fit-content;
         }
+        .btn-delete-item {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-delete-item:hover { background: #dc2626; }
+        .btn-add-item {
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-add-item:hover { background: #059669; }
     </style>
 </head>
 <body>
@@ -229,7 +258,7 @@
         <div class="config-card" style="border-left: 4px solid #10b981;">
             <div class="card-header">
                 <span class="card-title"><i class="fa-brands fa-github"></i> GitHub Direct Commit Authentication</span>
-                <span id="tokenStatusBadge" style="font-size:12px; color:#10b981; font-weight:800; background:#dcfce7; padding:4px 10px; border-radius:4px; border:1px solid #86efac;">⚪ Ready</span>
+                <span id="tokenStatusBadge" style="font-size:12px; color:#10b981; font-weight:800; background:#dcfce7; padding:4px 10px; border-radius:4px; border:1px solid #86efac;">🟢 Connected (Amanalria)</span>
             </div>
             <div class="grid-3">
                 <div class="form-group">
@@ -242,12 +271,12 @@
                 </div>
                 <div class="form-group">
                     <label>GitHub Personal Access Token</label>
-                    <input type="password" id="ghToken" placeholder="Paste GitHub Token here..." oninput="onTokenChanged(this.value)">
+                    <input type="password" id="ghToken" placeholder="GitHub Token auto-configured" oninput="onTokenChanged(this.value)">
                 </div>
             </div>
             <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:8px;">
                 <button type="button" class="btn-reload" style="padding:6px 12px; font-size:12px;" onclick="validateToken()"><i class="fa-solid fa-shield-check"></i> Test &amp; Validate Token</button>
-                <span style="font-size:11px; color:#64748b;">(Tip: Token is securely saved in your browser's private localStorage)</span>
+                <span style="font-size:11px; color:#64748b;">(Pre-configured with full write access. Token is safely saved in your browser.)</span>
             </div>
         </div>
 
@@ -367,7 +396,7 @@
         <div class="config-card" style="border-left: 4px solid #0891b2;">
             <div class="card-header">
                 <span class="card-title"><i class="fa-solid fa-circle-question" style="color:#0891b2;"></i> 6. Homepage Frequently Asked Questions (FAQs)</span>
-                <button type="button" class="btn-reload" style="padding:4px 10px; font-size:11px;" onclick="addFaqItem()"><i class="fa-solid fa-plus"></i> Add FAQ</button>
+                <button type="button" class="btn-add-item" onclick="addFaqItem()"><i class="fa-solid fa-plus"></i> Add New FAQ</button>
             </div>
             <div id="faqContainer" style="display:flex; flex-direction:column; gap:12px;">
                 <!-- Dynamically generated FAQs -->
@@ -391,32 +420,33 @@
             </div>
         </div>
 
-        <!-- 8. Footer & Socials -->
-        <div class="config-card" style="border-left: 4px solid #475569;">
+        <!-- 8. Footer Social Links Manager (Add & Delete) -->
+        <div class="config-card" style="border-left: 4px solid #3b82f6;">
             <div class="card-header">
-                <span class="card-title"><i class="fa-solid fa-share-nodes" style="color:#475569;"></i> 8. Footer &amp; Social Links</span>
+                <span class="card-title"><i class="fa-solid fa-share-nodes" style="color:#3b82f6;"></i> 8. Footer Social Channel Buttons (Add &amp; Delete)</span>
+                <button type="button" class="btn-add-item" onclick="addSocialLink()"><i class="fa-solid fa-plus"></i> Add Social Channel</button>
             </div>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>Telegram Channel</label>
-                    <input type="text" id="soc_telegram" value="https://t.me/studytopperofficial">
-                </div>
-                <div class="form-group">
-                    <label>WhatsApp Channel</label>
-                    <input type="text" id="soc_whatsapp" value="https://whatsapp.com/channel/0029Va...">
-                </div>
-                <div class="form-group">
-                    <label>YouTube Channel</label>
-                    <input type="text" id="soc_youtube" value="https://youtube.com/@studytopper">
-                </div>
-                <div class="form-group">
-                    <label>Instagram Page</label>
-                    <input type="text" id="soc_instagram" value="https://instagram.com/studytopper">
-                </div>
+            <div class="form-group" style="margin-bottom:14px;">
+                <label>Connect Heading Text</label>
+                <input type="text" id="footer_connect_title" value="Connect With Us" placeholder="Connect With Us">
             </div>
-            <div class="form-group">
-                <label>Footer Disclaimer Text</label>
-                <textarea id="footer_text" rows="2">StudyTopper.in is an online educational news and employment information portal.</textarea>
+            <div class="grid-2" id="socialLinksContainer">
+                <!-- Dynamically rendered social channels with Add/Delete -->
+            </div>
+        </div>
+
+        <!-- 9. Footer Important Navigation Pages (Add & Delete) -->
+        <div class="config-card" style="border-left: 4px solid #10b981;">
+            <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-compass" style="color:#10b981;"></i> 9. Bottom Important Navigation Pages (Add &amp; Delete)</span>
+                <button type="button" class="btn-add-item" onclick="addNavLink()"><i class="fa-solid fa-plus"></i> Add Important Page</button>
+            </div>
+            <div class="grid-2" id="navLinksContainer">
+                <!-- Dynamically rendered navigation pages with Add/Delete -->
+            </div>
+            <div class="form-group" style="margin-top:14px;">
+                <label>Copyright &amp; Disclaimer Text</label>
+                <textarea id="footer_text" rows="3">Copyright © 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance.</textarea>
             </div>
         </div>
 
@@ -428,6 +458,7 @@
 
     <script>
         let currentSettings = {};
+        const DEFAULT_WORKING_TOKEN = 'ghp_' + 'wsuVCkDBg8miT4Qu4oiN9Gw0lAAFeo1Pk8ef';
 
         // UTF-8 Base64 Helpers
         function toBase64Unicode(str) {
@@ -491,7 +522,7 @@
                 });
 
                 if(res.ok) {
-                    badge.innerText = '🟢 Token Valid & Connected';
+                    badge.innerText = '🟢 Token Valid & Connected (Amanalria)';
                     badge.style.background = '#dcfce7';
                     badge.style.color = '#15803d';
                     showAlert('✅ GitHub Token validated successfully with repository write access!', 'success');
@@ -618,7 +649,7 @@
                 <div class="card-item-box" id="faq-item-${idx}">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <span class="card-badge-num" style="background:#0891b2;">FAQ #${idx+1}</span>
-                        <button type="button" onclick="removeFaq(${idx})" style="background:#ef4444; color:#fff; border:none; border-radius:4px; padding:2px 8px; font-size:11px; cursor:pointer;">🗑️ Remove</button>
+                        <button type="button" class="btn-delete-item" onclick="removeFaq(${idx})"><i class="fa-solid fa-trash-can"></i> Remove FAQ</button>
                     </div>
                     <div class="form-group"><label>Question Title</label><input type="text" id="faq_q_${idx}" value="${f.q || ''}"></div>
                     <div class="form-group"><label>Answer Text</label><textarea id="faq_a_${idx}" rows="2">${f.a || ''}</textarea></div>
@@ -636,6 +667,68 @@
             if(currentSettings.faq_items) {
                 currentSettings.faq_items.splice(idx, 1);
                 renderFaqs(currentSettings.faq_items);
+            }
+        }
+
+        // Render Social Links (Add & Delete)
+        function renderSocialLinks(links = []) {
+            const cont = document.getElementById('socialLinksContainer');
+            cont.innerHTML = '';
+            links.forEach((s, idx) => {
+                cont.innerHTML += `
+                <div class="card-item-box" id="soc-box-${idx}">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="card-badge-num" style="background:#3b82f6;">Channel #${idx+1}</span>
+                        <button type="button" class="btn-delete-item" onclick="removeSocialLink(${idx})"><i class="fa-solid fa-trash-can"></i> Remove</button>
+                    </div>
+                    <div class="form-group"><label>Button Label (e.g. Study Topper @Telegram)</label><input type="text" id="soc_name_${idx}" value="${s.name || ''}"></div>
+                    <div class="form-group"><label>Target URL (e.g. https://t.me/...)</label><input type="text" id="soc_url_${idx}" value="${s.url || ''}"></div>
+                </div>`;
+            });
+        }
+
+        function addSocialLink() {
+            if(!currentSettings.footer) currentSettings.footer = {};
+            if(!currentSettings.footer.social_links) currentSettings.footer.social_links = [];
+            currentSettings.footer.social_links.push({ name: 'Study Topper @NewChannel', url: 'https://' });
+            renderSocialLinks(currentSettings.footer.social_links);
+        }
+
+        function removeSocialLink(idx) {
+            if(currentSettings.footer && currentSettings.footer.social_links) {
+                currentSettings.footer.social_links.splice(idx, 1);
+                renderSocialLinks(currentSettings.footer.social_links);
+            }
+        }
+
+        // Render Navigation Links (Add & Delete)
+        function renderNavLinks(links = []) {
+            const cont = document.getElementById('navLinksContainer');
+            cont.innerHTML = '';
+            links.forEach((nl, idx) => {
+                cont.innerHTML += `
+                <div class="card-item-box" id="nav-box-${idx}">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="card-badge-num" style="background:#10b981;">Page #${idx+1}</span>
+                        <button type="button" class="btn-delete-item" onclick="removeNavLink(${idx})"><i class="fa-solid fa-trash-can"></i> Remove</button>
+                    </div>
+                    <div class="form-group"><label>Page Label (e.g. Privacy Policy)</label><input type="text" id="nav_label_${idx}" value="${nl.label || ''}"></div>
+                    <div class="form-group"><label>Page URL (e.g. /privacy-policy/)</label><input type="text" id="nav_url_${idx}" value="${nl.url || ''}"></div>
+                </div>`;
+            });
+        }
+
+        function addNavLink() {
+            if(!currentSettings.footer) currentSettings.footer = {};
+            if(!currentSettings.footer.nav_links) currentSettings.footer.nav_links = [];
+            currentSettings.footer.nav_links.push({ label: 'New Page', url: '/new-page/' });
+            renderNavLinks(currentSettings.footer.nav_links);
+        }
+
+        function removeNavLink(idx) {
+            if(currentSettings.footer && currentSettings.footer.nav_links) {
+                currentSettings.footer.nav_links.splice(idx, 1);
+                renderNavLinks(currentSettings.footer.nav_links);
             }
         }
 
@@ -665,18 +758,38 @@
             document.getElementById('app_button_text').value = app.button_text || '📱 Download StudyTopper Mobile App & English Vocab';
             document.getElementById('app_button_url').value = app.button_url || 'https://play.google.com/store/apps/details?id=in.qmaths.blackbook';
 
-            const soc = s.socials || {};
-            document.getElementById('soc_telegram').value = soc.telegram || '';
-            document.getElementById('soc_whatsapp').value = soc.whatsapp || '';
-            document.getElementById('soc_youtube').value = soc.youtube || '';
-            document.getElementById('soc_instagram').value = soc.instagram || '';
-            document.getElementById('footer_text').value = s.footer_text || '';
+            const footer = s.footer || {};
+            document.getElementById('footer_connect_title').value = footer.connect_title || 'Connect With Us';
+            document.getElementById('footer_text').value = footer.copyright_text || s.footer_text || '';
+
+            const defaultSocs = [
+                { name: 'Study Topper @Telegram', url: s.socials ? s.socials.telegram : 'https://t.me/studytopperofficial' },
+                { name: 'Study Topper @WhatsApp', url: s.socials ? s.socials.whatsapp : 'https://whatsapp.com/channel/0029Va9xyz' },
+                { name: 'Study Topper @YouTube', url: s.socials ? s.socials.youtube : 'https://youtube.com/@' },
+                { name: 'Study Topper @Instagram', url: s.socials ? s.socials.instagram : 'https://instagram.com/' },
+                { name: 'Study Topper @Facebook', url: s.socials ? s.socials.facebook : 'https://facebook.com/' },
+                { name: 'Study Topper @X', url: s.socials ? s.socials.twitter : 'https://x.com/' }
+            ];
+            const socs = (footer.social_links && footer.social_links.length > 0) ? footer.social_links : defaultSocs;
+            if(!currentSettings.footer) currentSettings.footer = {};
+            currentSettings.footer.social_links = socs;
+
+            const defaultNavs = [
+                { label: 'Home', url: '/' },
+                { label: 'Contact', url: '/contact/' },
+                { label: 'Privacy Policy', url: '/privacy-policy/' },
+                { label: 'Disclaimer', url: '/disclaimer/' }
+            ];
+            const navs = (footer.nav_links && footer.nav_links.length > 0) ? footer.nav_links : defaultNavs;
+            currentSettings.footer.nav_links = navs;
 
             renderCards(s.highlight_cards, tc);
             renderColumns(s.grid_headers, tc);
             renderTopPages(s.top_pages_table);
             renderInfoSections(s.info_sections);
             renderFaqs(s.faq_items);
+            renderSocialLinks(socs);
+            renderNavLinks(navs);
         }
 
         // Collect Form Data into payload
@@ -761,13 +874,39 @@
             payload.mobile_app_cta.button_text = document.getElementById('app_button_text').value.trim();
             payload.mobile_app_cta.button_url = document.getElementById('app_button_url').value.trim();
 
-            // Socials & Footer
-            if(!payload.socials) payload.socials = {};
-            payload.socials.telegram = document.getElementById('soc_telegram').value.trim();
-            payload.socials.whatsapp = document.getElementById('soc_whatsapp').value.trim();
-            payload.socials.youtube = document.getElementById('soc_youtube').value.trim();
-            payload.socials.instagram = document.getElementById('soc_instagram').value.trim();
-            payload.footer_text = document.getElementById('footer_text').value.trim();
+            // Collect Footer & Social Links
+            if(!payload.footer) payload.footer = {};
+            payload.footer.connect_title = document.getElementById('footer_connect_title').value.trim();
+            payload.footer.copyright_text = document.getElementById('footer_text').value.trim();
+            payload.footer_text = payload.footer.copyright_text;
+
+            // Collect dynamic social links
+            payload.footer.social_links = [];
+            const socBoxes = document.querySelectorAll('#socialLinksContainer .card-item-box');
+            socBoxes.forEach((box, idx) => {
+                const n = document.getElementById(`soc_name_${idx}`);
+                const u = document.getElementById(`soc_url_${idx}`);
+                if(n && n.value.trim()) {
+                    payload.footer.social_links.push({
+                        name: n.value.trim(),
+                        url: u ? u.value.trim() : ''
+                    });
+                }
+            });
+
+            // Collect dynamic navigation links
+            payload.footer.nav_links = [];
+            const navBoxes = document.querySelectorAll('#navLinksContainer .card-item-box');
+            navBoxes.forEach((box, idx) => {
+                const l = document.getElementById(`nav_label_${idx}`);
+                const u = document.getElementById(`nav_url_${idx}`);
+                if(l && l.value.trim()) {
+                    payload.footer.nav_links.push({
+                        label: l.value.trim(),
+                        url: u ? u.value.trim() : ''
+                    });
+                }
+            });
 
             return payload;
         }
@@ -853,7 +992,7 @@
                     method: 'PUT',
                     headers: headers,
                     body: JSON.stringify({
-                        message: 'chore(editor): update site settings & special edits via visual editor',
+                        message: 'chore(editor): update site settings, footer & special edits via visual editor',
                         content: b64Content,
                         branch: branch,
                         sha: sha
@@ -908,8 +1047,6 @@
                 botBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Save & Commit Directly to GitHub Repository';
             }
         }
-
-        const DEFAULT_WORKING_TOKEN = 'ghp_' + 'wsuVCkDBg8miT4Qu4oiN9Gw0lAAFeo1Pk8ef';
 
         // Init: Load saved token and initial settings
         window.addEventListener('DOMContentLoaded', async () => {

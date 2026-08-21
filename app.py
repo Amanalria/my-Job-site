@@ -4278,6 +4278,18 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                 s_url = s.get('url', '').strip()
                 if s_name and s_url:
                     sarkari_grid.append(BeautifulSoup(f'<a href="{s_url}" target="_blank">{s_name}</a>', 'html.parser'))
+                    
+    # Bottom Important Navigation Pages
+    nav_links = footer_cfg.get('nav_links', [])
+    if nav_links:
+        nav_wrap = soup.find('div', class_='gb-container-658f27a5')
+        if nav_wrap:
+            nav_wrap.clear()
+            for nl in nav_links:
+                l_txt = nl.get('label', '').strip()
+                l_url = nl.get('url', '').strip()
+                if l_txt and l_url:
+                    nav_wrap.append(BeautifulSoup(f'<a class="gb-button gb-button-text" href="{l_url}">{l_txt}</a>', 'html.parser'))
 
     # SEO & Accessibility
     for a_tag in soup.find_all('a'):
