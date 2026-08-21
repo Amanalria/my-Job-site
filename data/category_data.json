@@ -1,142 +1,4 @@
 {
-  "admission": [
-    {
-      "title": "Bihar STET Online Form 2026",
-      "title_raw": "Bihar STET Online Form 2026",
-      "badge_html": "",
-      "url": "/bihar-stet-2026/",
-      "short_desc": "Bihar STET announces Bihar STET Online Form 2026 (2482 Posts).",
-      "date": "31 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT GATE 2027 Admission Form",
-      "title_raw": "IIT GATE 2027 Admission Form",
-      "badge_html": "",
-      "url": "/iit-gate-2027/",
-      "short_desc": "IIT GATE 2027 Admissions Examination announces IIT GATE 2027 Admission Form (2482 Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIM CAT 2026 Admission Form",
-      "title_raw": "IIM CAT 2026 Admission Form",
-      "badge_html": "",
-      "url": "/iim-cat-2026/",
-      "short_desc": "IIM CAT Admissions announces IIM CAT 2026 Admission Form (2482 Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UP Scholarship Online Form 2026-27",
-      "title_raw": "UP Scholarship Online Form 2026-27",
-      "badge_html": "",
-      "url": "/up-scholarship-2026/",
-      "short_desc": "UP Scholarship Scheme 2025-26 announces UP Scholarship Online Form 2026-27 (2482 Posts).",
-      "date": "21 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT JAM Admission Form 2026",
-      "title_raw": "IIT JAM Admission Form 2026",
-      "badge_html": "",
-      "url": "/iit-jam-2027/",
-      "short_desc": "IIT JAM announces IIT JAM Admission Form 2026 (2482 Posts).",
-      "date": "12 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "AIBE 22th Online Form 2026",
-      "title_raw": "AIBE 22th Online Form 2026",
-      "badge_html": "",
-      "url": "/2026-aibe-22th-aug26/",
-      "short_desc": "AIBE 22th announces AIBE 22th Online Form 2026 (2482 Posts).",
-      "date": "27 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "CLAT Admission Form 2026",
-      "title_raw": "CLAT Admission Form 2026",
-      "badge_html": "",
-      "url": "/clat-2026/",
-      "short_desc": "CLAT Admissions announces CLAT Admission Form 2026 (2482 Posts).",
-      "date": "31 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
-  "result": [
-    {
-      "title": "NTA SWAYAM Result 2026",
-      "title_raw": "NTA SWAYAM Result 2026",
-      "badge_html": "",
-      "url": "/nta-swayam-2026/",
-      "short_desc": "NTA SWAYAM announces NTA SWAYAM Result 2026 (2482 Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
-  "admit-card": [
-    {
-      "title": "IBPS SO XVI Pre Admit Card 2026",
-      "title_raw": "IBPS SO XVI Pre Admit Card 2026",
-      "badge_html": "",
-      "url": "/ibps-so-xvi-2026/",
-      "short_desc": "IBPS SO XVI announces IBPS SO XVI Pre Admit Card 2026 (1035 posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "NTA AIAPGET Admit Card 2026",
-      "title_raw": "NTA AIAPGET Admit Card 2026",
-      "badge_html": "",
-      "url": "/nta-aiapget-2026/",
-      "short_desc": "NTA AIAPGET Admissions announces NTA AIAPGET Admit Card 2026 (2482 Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
-  "answer-key": [
-    {
-      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "badge_html": "",
-      "url": "/nta-icar-aieea-pg-and-phd-2026/",
-      "short_desc": "NTA ICAR AIEEA PG and PHd announces NTA ICAR AIEEA PG Ph.D Answer Key 2026 (2026 Post).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "NTA CSIR UGC NET June Answer Key 2026",
-      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
-      "badge_html": "",
-      "url": "/nta-csir-ugc-net-june-2026/",
-      "short_desc": "NTA CSIR UGC NET June announces NTA CSIR UGC NET June Answer Key 2026 (2482 Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Delhi DSSSB July Answer Key 2026",
-      "title_raw": "Delhi DSSSB July Answer Key 2026",
-      "badge_html": "",
-      "url": "/dsssb-various-post-2026/",
-      "short_desc": "Delhi DSSSB Sub Station announces Delhi DSSSB July Answer Key 2026 (2482 Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
   "latest-jobs": [
     {
       "title": "RPSC Physiotherapist Recruitment 2026",
@@ -457,6 +319,144 @@
       "url": "/bpsc-school-teacher-tre-4-0-2026-syllabus/",
       "short_desc": "BPSC School Teacher TRE 4.0 Examination 2025 announces BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026 (32,388 Posts).",
       "date": "30 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ],
+  "admission": [
+    {
+      "title": "Bihar STET Online Form 2026",
+      "title_raw": "Bihar STET Online Form 2026",
+      "badge_html": "",
+      "url": "/bihar-stet-2026/",
+      "short_desc": "Bihar STET announces Bihar STET Online Form 2026 (2482 Posts).",
+      "date": "31 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT GATE 2027 Admission Form",
+      "title_raw": "IIT GATE 2027 Admission Form",
+      "badge_html": "",
+      "url": "/iit-gate-2027/",
+      "short_desc": "IIT GATE 2027 Admissions Examination announces IIT GATE 2027 Admission Form (2482 Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIM CAT 2026 Admission Form",
+      "title_raw": "IIM CAT 2026 Admission Form",
+      "badge_html": "",
+      "url": "/iim-cat-2026/",
+      "short_desc": "IIM CAT Admissions announces IIM CAT 2026 Admission Form (2482 Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UP Scholarship Online Form 2026-27",
+      "title_raw": "UP Scholarship Online Form 2026-27",
+      "badge_html": "",
+      "url": "/up-scholarship-2026/",
+      "short_desc": "UP Scholarship Scheme 2025-26 announces UP Scholarship Online Form 2026-27 (2482 Posts).",
+      "date": "21 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT JAM Admission Form 2026",
+      "title_raw": "IIT JAM Admission Form 2026",
+      "badge_html": "",
+      "url": "/iit-jam-2027/",
+      "short_desc": "IIT JAM announces IIT JAM Admission Form 2026 (2482 Posts).",
+      "date": "12 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "AIBE 22th Online Form 2026",
+      "title_raw": "AIBE 22th Online Form 2026",
+      "badge_html": "",
+      "url": "/2026-aibe-22th-aug26/",
+      "short_desc": "AIBE 22th announces AIBE 22th Online Form 2026 (2482 Posts).",
+      "date": "27 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "CLAT Admission Form 2026",
+      "title_raw": "CLAT Admission Form 2026",
+      "badge_html": "",
+      "url": "/clat-2026/",
+      "short_desc": "CLAT Admissions announces CLAT Admission Form 2026 (2482 Posts).",
+      "date": "31 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ],
+  "result": [
+    {
+      "title": "NTA SWAYAM Result 2026",
+      "title_raw": "NTA SWAYAM Result 2026",
+      "badge_html": "",
+      "url": "/nta-swayam-2026/",
+      "short_desc": "NTA SWAYAM announces NTA SWAYAM Result 2026 (2482 Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ],
+  "admit-card": [
+    {
+      "title": "IBPS SO XVI Pre Admit Card 2026",
+      "title_raw": "IBPS SO XVI Pre Admit Card 2026",
+      "badge_html": "",
+      "url": "/ibps-so-xvi-2026/",
+      "short_desc": "IBPS SO XVI announces IBPS SO XVI Pre Admit Card 2026 (1035 posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "NTA AIAPGET Admit Card 2026",
+      "title_raw": "NTA AIAPGET Admit Card 2026",
+      "badge_html": "",
+      "url": "/nta-aiapget-2026/",
+      "short_desc": "NTA AIAPGET Admissions announces NTA AIAPGET Admit Card 2026 (2482 Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ],
+  "answer-key": [
+    {
+      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
+      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
+      "badge_html": "",
+      "url": "/nta-icar-aieea-pg-and-phd-2026/",
+      "short_desc": "NTA ICAR AIEEA PG and PHd announces NTA ICAR AIEEA PG Ph.D Answer Key 2026 (2026 Post).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "NTA CSIR UGC NET June Answer Key 2026",
+      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
+      "badge_html": "",
+      "url": "/nta-csir-ugc-net-june-2026/",
+      "short_desc": "NTA CSIR UGC NET June announces NTA CSIR UGC NET June Answer Key 2026 (2482 Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Delhi DSSSB July Answer Key 2026",
+      "title_raw": "Delhi DSSSB July Answer Key 2026",
+      "badge_html": "",
+      "url": "/dsssb-various-post-2026/",
+      "short_desc": "Delhi DSSSB Sub Station announces Delhi DSSSB July Answer Key 2026 (2482 Posts).",
+      "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
