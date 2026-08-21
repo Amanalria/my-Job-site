@@ -124,17 +124,7 @@ def load_all_active_posts():
         if slug and slug not in deleted_slugs:
             posts_map[slug] = p
 
-    # 3. Supabase posts
-    if supa.is_supabase_configured():
-        try:
-            supa_posts = supa.fetch_posts_from_supabase()
-            if supa_posts:
-                for p in supa_posts:
-                    slug = p.get('slug')
-                    if slug and slug not in deleted_slugs:
-                        posts_map[slug] = p
-        except Exception:
-            pass
+    # Supabase is synced as cloud backup
 
     result = list(posts_map.values())
     result.sort(key=lambda x: x.get('created_at', x.get('post_date', '')), reverse=True)
@@ -1687,7 +1677,18 @@ def deep_merge_settings(target, source):
 def load_settings():
     import copy
     merged = copy.deepcopy(DEFAULT_SETTINGS)
-    
+
+    # 1. Primary Source of Truth: Local disk settings
+    if os.path.exists(SETTINGS_FILE):
+        try:
+            with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
+                disk_data = json.load(f)
+                if isinstance(disk_data, dict):
+                    return deep_merge_settings(merged, disk_data)
+        except Exception as e:
+            print(f"Error loading settings from disk: {e}")
+
+    # 2. Fallback to Supabase Cloud only if disk file missing
     if supa.is_supabase_configured():
         try:
             supa_settings = supa.fetch_settings_from_supabase()
@@ -1695,15 +1696,6 @@ def load_settings():
                 return deep_merge_settings(merged, supa_settings)
         except Exception:
             pass
-
-    try:
-        if os.path.exists(SETTINGS_FILE):
-            with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
-                disk_data = json.load(f)
-                if isinstance(disk_data, dict):
-                    return deep_merge_settings(merged, disk_data)
-    except Exception as e:
-        print(f"Error loading settings from disk: {e}")
 
     return merged
 
