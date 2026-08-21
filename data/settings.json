@@ -172,5 +172,14 @@
       }
     ]
   },
-  "pinned_posts": []
+  "pinned_posts": [],
+  "app_cta": {
+    "enabled": true,
+    "title": "StudyTopper.in",
+    "subtitle": "Fastest Government Job Updates, Results, Admit Cards & Exam Syllabus Portal",
+    "button_text": "\ud83d\udcf1 Download StudyTopper Mobile App & English Vocab",
+    "button_url": "https://play.google.com/store/apps/details?id=in.qmaths.blackbook",
+    "bg_color": "#fdfaf2",
+    "button_color": "#046132"
+  }
 }

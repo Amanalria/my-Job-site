@@ -1663,13 +1663,12 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
         elif any(k in src for k in ['thumbnail', 'banner', 'wp-content/uploads', '.webp', '.png', '.jpg', '.jpeg']) or 'aligncenter' in img_classes:
             # Post Featured Thumbnails / Banners
             img['width'] = '600'
-            img['height'] = '338'
+            img['height'] = '315'
             if 'aspect-ratio' not in img_style:
-                img['style'] = (img_style + ' max-width: 100% !important; height: auto !important; aspect-ratio: 16/9 !important; display: block !important; margin-left: auto !important; margin-right: auto !important;').strip()
-            if not img.get('loading'):
-                img['loading'] = 'eager'
-                img['fetchpriority'] = 'high'
-                img['decoding'] = 'async'
+                img['style'] = (img_style + ' max-width: 100% !important; height: auto !important; aspect-ratio: 1200/630 !important; display: block !important; margin-left: auto !important; margin-right: auto !important;').strip()
+            img['loading'] = 'lazy'
+            img['fetchpriority'] = 'low'
+            img['decoding'] = 'async'
         else:
             if not img.get('width'): img['width'] = '300'
             if not img.get('height'): img['height'] = '200'
@@ -4474,7 +4473,30 @@ def api_save_settings():
 
                 settings['footer'] = footer_cfg
 
+            # Parse Mobile App CTA Box
+            if 'app_cta' not in settings:
+                settings['app_cta'] = {}
+
+            if 'app_cta_enabled' in data:
+                settings['app_cta']['enabled'] = str(data.get('app_cta_enabled')).lower() in ['true', '1', 'on', 'yes']
+            elif not request.is_json and any(k.startswith('app_cta_') for k in data):
+                settings['app_cta']['enabled'] = False
+
+            if 'app_cta_title' in data:
+                settings['app_cta']['title'] = data['app_cta_title'].strip()
+            if 'app_cta_subtitle' in data:
+                settings['app_cta']['subtitle'] = data['app_cta_subtitle'].strip()
+            if 'app_cta_button_text' in data:
+                settings['app_cta']['button_text'] = data['app_cta_button_text'].strip()
+            if 'app_cta_button_url' in data:
+                settings['app_cta']['button_url'] = data['app_cta_button_url'].strip()
+            if 'app_cta_bg_color' in data:
+                settings['app_cta']['bg_color'] = data['app_cta_bg_color'].strip()
+            if 'app_cta_button_color' in data:
+                settings['app_cta']['button_color'] = data['app_cta_button_color'].strip()
+
         save_settings_data(settings)
+        _RENDERED_PAGE_CACHE.clear()
         if request.is_json:
             return jsonify({'status': 'success', 'settings': settings})
         return redirect('/admin/settings')

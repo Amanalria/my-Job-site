@@ -327,6 +327,57 @@
                                 </div>
                             </div>
                         </div>
+                <!-- 3.5. Mobile App Download CTA & Vocab Customizer -->
+                <div class="postbox" style="grid-column: 1 / -1; border-left: 4px solid #046132;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <h2 style="margin:0; font-size:16px; color:#1e293b;"><i class="fa-solid fa-mobile-screen-button" style="color:#046132; margin-right:6px;"></i> 📱 Mobile App Download CTA &amp; Vocab Banner Customizer</h2>
+                        <label style="display:flex; align-items:center; gap:8px; font-weight:700; cursor:pointer; font-size:13px; color:#046132;">
+                            <input type="checkbox" name="app_cta_enabled" value="true" {% if settings.app_cta is not defined or settings.app_cta.enabled != false %}checked{% endif %} style="width:16px; height:16px;">
+                            <span>Enable App Download Box on All Posts</span>
+                        </label>
+                    </div>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:14px;">Customize or completely hide the StudyTopper Mobile App &amp; English Vocab download button and banner across all post pages.</p>
+
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                            <div class="form-group">
+                                <label>Card Heading (Brand Name)</label>
+                                <input type="text" name="app_cta_title" class="wp-input" value="{{ settings.app_cta.title if settings.app_cta and settings.app_cta.title else 'StudyTopper.in' }}" placeholder="StudyTopper.in">
+                            </div>
+                            <div class="form-group">
+                                <label>Card Subtitle / Description</label>
+                                <input type="text" name="app_cta_subtitle" class="wp-input" value="{{ settings.app_cta.subtitle if settings.app_cta and settings.app_cta.subtitle else 'Fastest Government Job Updates, Results, Admit Cards & Exam Syllabus Portal' }}" placeholder="Fastest Government Job Updates...">
+                            </div>
+                        </div>
+
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                            <div class="form-group">
+                                <label>Button Text (Download Button Label)</label>
+                                <input type="text" name="app_cta_button_text" class="wp-input" value="{{ settings.app_cta.button_text if settings.app_cta and settings.app_cta.button_text else '📱 Download StudyTopper Mobile App & English Vocab' }}" placeholder="📱 Download StudyTopper Mobile App...">
+                                <p class="form-help">Tip: Change text freely or leave blank to hide button.</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Button URL (Google Play Store / Direct App Link)</label>
+                                <input type="url" name="app_cta_button_url" class="wp-input" value="{{ settings.app_cta.button_url if settings.app_cta and settings.app_cta.button_url else 'https://play.google.com/store/apps/details?id=in.qmaths.blackbook' }}" placeholder="https://play.google.com/store/apps/details?id=...">
+                            </div>
+                        </div>
+
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                            <div class="form-group">
+                                <label>Card Background Color</label>
+                                <div class="color-row">
+                                    <input type="color" name="app_cta_bg_color" class="color-picker" value="{{ settings.app_cta.bg_color if settings.app_cta and settings.app_cta.bg_color else '#fdfaf2' }}">
+                                    <input type="text" class="wp-input" value="{{ settings.app_cta.bg_color if settings.app_cta and settings.app_cta.bg_color else '#fdfaf2' }}" readonly style="width:100px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Button Background Color</label>
+                                <div class="color-row">
+                                    <input type="color" name="app_cta_button_color" class="color-picker" value="{{ settings.app_cta.button_color if settings.app_cta and settings.app_cta.button_color else '#046132' }}">
+                                    <input type="text" class="wp-input" value="{{ settings.app_cta.button_color if settings.app_cta and settings.app_cta.button_color else '#046132' }}" readonly style="width:100px;">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

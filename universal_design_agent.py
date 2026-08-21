@@ -92,102 +92,131 @@ class UniversalDesignAgent:
             )
         return overview
 
-    def build_bottom_sections_html(self, data: Dict[str, Any], category: str, title: str, slug: str) -> str:
-        faqs = data.get("faqs", [])
-        last_date = data.get("last_date", "Check notification")
+    def build_structured_faqs(self, data: Dict[str, Any], category: str, title: str) -> List[Tuple[str, str]]:
+        org = data.get("organization", "Recruitment Board")
+        last_date = data.get("last_date", "as per notification")
         total_posts = data.get("total_posts", "Various Posts")
-        org = data.get("organization", "Official Authority")
-        
-        faq_items = []
+
         if category == "result":
-            faq_items = [
-                {"q": f"When was {title} declared / score card released?", "a": f"The result and scorecard have been officially released. Candidates can check the declaration date ({last_date}) in the Important Dates table above."},
-                {"q": f"How can I download score card and merit list for {title}?", "a": f"Click on the 'Download Result / Score Card' link in the Useful Important Links table above, enter your Application Number / Roll Number and Date of Birth to access your marks."},
-                {"q": f"What are the qualifying marks / cutoff for {title}?", "a": f"Category-wise cutoff marks and merit list PDFs are available via the direct official link in the Important Links table on StudyTopper."},
-                {"q": f"What details are required to check {title}?", "a": "Candidates need their Registration Number / Roll Number, Date of Birth, and Password to log in."},
-                {"q": f"What is the official website for {org}?", "a": "The 100% verified official portal link is provided in the Important Links table above."}
+            return [
+                (f"How can I check the {title}?", f"Candidates can check their result by visiting the official portal or clicking the direct 'Download Result' link provided in the Important Links table above."),
+                (f"What details are required to download {title} score card?", f"You will need your Application Number / Roll Number and Date of Birth / Password to access your scorecard."),
+                (f"When was the {title} officially declared?", f"The result was officially declared on {data.get('important_dates', {}).get('Result Declared Date', 'August 2026')}."),
+                (f"What is the next stage after {title} declaration?", f"Qualified candidates will be called for the next stage which may include Mains Exam, Physical Test, Skill Test, or Document Verification."),
+                (f"Where can I find the cut-off marks for {title}?", f"Official category-wise cut-off marks are published along with the result write-up PDF on the official website.")
             ]
         elif category == "admit-card":
-            faq_items = [
-                {"q": f"When will {title} be available for download?", "a": f"Admit cards and exam city advance intimation slips are released as per schedule ({last_date}) in the Important Dates section."},
-                {"q": f"How to download {title}?", "a": "Click on the 'Download Admit Card / Hall Ticket' link in the Useful Important Links table above, enter your User ID and Password / Date of Birth, and download the E-Call Letter PDF."},
-                {"q": f"What documents are required to carry with {title} to exam hall?", "a": "Candidates must carry a printed copy of the Admit Card, original photo ID proof (Aadhar Card/PAN/Voter ID), and recent passport-size photographs."},
-                {"q": f"What to do if there is a mistake in {title}?", "a": f"Immediately contact the official {org} examination helpdesk before the exam date to request correction."},
-                {"q": f"Where can I find the direct official download link for {title}?", "a": "All direct and official server links are provided in the Useful Important Links section on StudyTopper."}
+            return [
+                (f"When will {title} be released?", f"The admit card is released 4 to 7 days before the exam date on the official website."),
+                (f"How to download {title} online?", f"Click on 'Download Admit Card' link in the Useful Links section, enter your Registration Number and DOB, and download your call letter PDF."),
+                (f"What documents are required along with {title} at the exam center?", f"Candidates must carry a clear printed copy of the Admit Card, original Photo ID proof (Aadhaar/PAN/Voter ID), and 2 passport photos."),
+                (f"Is exam city slip and admit card the same for {org}?", f"No, exam city slip intimates your allotted test city in advance, while the admit card contains exact examination venue and reporting time."),
+                (f"What should I do if there is an error in {title}?", f"Immediately contact the official {org} helpline email/phone number mentioned in the official notification before exam day.")
             ]
         elif category == "answer-key":
-            faq_items = [
-                {"q": f"When was {title} released?", "a": f"The answer key and question paper booklets have been officially uploaded on the portal."},
-                {"q": f"How to download {title} and question papers?", "a": "Click on 'Download Final / Provisional Answer Key' in the Important Links table above to view the master question key PDF."},
-                {"q": f"How can I submit an online objection against {title}?", "a": f"Click on the 'Online Objection Link' in the Important Links table above, log in with candidate credentials, select question ID, attach valid proof, and pay the prescribed fee per question before the deadline."},
-                {"q": f"How to calculate tentative scores using {title}?", "a": "Award prescribed marks for each correct response and deduct negative marking penalty (if applicable) according to the official marking scheme."},
-                {"q": f"What is the official website of {org}?", "a": "The direct official portal link is provided in the Useful Important Links table on StudyTopper."}
+            return [
+                (f"How to download {title}?", f"Candidates can download the answer key PDF directly from the links table above or through the official {org} portal."),
+                (f"Can I challenge / raise objections on {title}?", f"Yes, candidates can submit online challenges against incorrect answer keys during the active objection window by paying the requisite challenge fee."),
+                (f"What is the marking scheme for {title}?", f"Scores are calculated according to the official examination pattern (+1 or prescribed mark for correct answers, negative marking if applicable)."),
+                (f"When will the final answer key be released?", f"The final answer key is released after reviewing all candidate objections submitted during the challenge period."),
+                (f"Where can I check the objection challenge link?", f"The online objection link is provided in the Useful Important Links table on this page.")
             ]
         elif category == "syllabus":
-            faq_items = [
-                {"q": f"What is the exam pattern for {title}?", "a": "The detailed section-wise exam pattern, marking scheme, negative marking rules, and time duration are provided in the tables above."},
-                {"q": f"How to download {title} in PDF format?", "a": "Click on the 'Download Detailed Syllabus PDF' link in the Useful Important Links table on StudyTopper to save the official PDF."},
-                {"q": f"What are the major subjects covered in {title}?", "a": "The exam covers General Studies, General Intelligence & Reasoning, Quantitative Aptitude, English/Hindi Comprehension, and Core Technical/Domain Subjects."},
-                {"q": f"Is there negative marking in {title}?", "a": "Negative marking is applicable as per the official recruitment rules (generally 1/3rd or 1/4th mark deducted for each wrong answer)."},
-                {"q": f"Where can I find previous year papers for {title}?", "a": "Direct links to official question papers and notification PDFs are provided in the Important Links table above."}
+            return [
+                (f"What is the exam pattern for {title}?", f"The exam consists of Computer Based Tests / Written Exam covering relevant subjects, general studies, reasoning, and technical subjects as detailed above."),
+                (f"Is there negative marking in {title}?", f"Yes, negative marking is applicable as per the official recruitment rules (typically 1/3rd or 1/4th mark deduction per wrong answer)."),
+                (f"How to download {title} PDF in Hindi / English?", f"Click on the 'Download Syllabus PDF' link in the Important Links table to get the complete official syllabus booklet."),
+                (f"What is the total duration of the examination for {org}?", f"Standard test duration ranges from 90 to 120 minutes depending on the paper scheme."),
+                (f"What are the best preparation tips for {title}?", f"Focus on understanding the syllabus weightage, solving previous years' questions, and attempting regular mock tests.")
             ]
         elif category == "admission":
-            faq_items = [
-                {"q": f"What is the last date to apply online for {title}?", "a": f"The online registration deadline is {last_date}."},
-                {"q": f"What is the eligibility criteria for {title}?", "a": "Candidates must meet the educational qualifications and minimum percentage criteria prescribed in the notification table above."},
-                {"q": f"What is the application fee for {title}?", "a": "Category-wise application fees are detailed in the Application Fee table above and can be paid online via Net Banking, Debit Card, Credit Card, or UPI."},
-                {"q": f"What are the total seats available in {title}?", "a": f"A total of {total_posts} are offered across participating colleges and universities."},
-                {"q": f"What is the official website for {title}?", "a": "Direct official admission portal links are provided in the Useful Important Links table on StudyTopper."}
+            return [
+                (f"What is the eligibility criteria for {title}?", f"Candidates must hold the prescribed minimum qualifying educational degree from a recognized university as outlined in the matrix above."),
+                (f"What is the last date to apply for {title}?", f"The last date for online registration and fee submission is {last_date}."),
+                (f"How to fill {title} application form online?", f"Click on 'Apply Online' in the Useful Links section, complete registration, enter academic credentials, upload documents, and pay the admission fee."),
+                (f"What is the selection process for {title}?", f"Selection is based on Entrance Examination scores, Written Ability Test / GD, Personal Interview, and composite merit rank."),
+                (f"Where can I download the official information bulletin for {title}?", f"The official information bulletin PDF link is provided in the Important Links table above.")
             ]
         else: # latest-jobs
-            faq_items = [
-                {"q": f"What is the start date and last date for {title}?", "a": f"The online application starts as per the Important Dates table, and the last date to apply online is {last_date}."},
-                {"q": f"What is the age limit for {title}?", "a": "The age limit details, cut-off date, and category relaxation rules are detailed in the Age Limits table above."},
-                {"q": f"What is the application fee for {title}?", "a": "Application fee details for General, OBC, EWS, SC, ST, and Female candidates are listed in the Application Fee table above."},
-                {"q": f"How many total vacancies are released for {title}?", "a": f"A total of {total_posts} are notified under this recruitment drive."},
-                {"q": f"How to apply online for {title}?", "a": "Click on 'Apply Online' in the Useful Important Links table above, complete registration, fill candidate details, upload photo/signature using indtool.in, pay fee, and submit before deadline."}
+            return [
+                (f"What is the last date to apply for {title}?", f"The last date for online submission of application is {last_date}."),
+                (f"What is the age limit for {title}?", f"Candidate age should generally be between {data.get('min_age', '18 Years')} and {data.get('max_age', '40 Years')} as on {data.get('age_as_on', '01 August 2026')}. Age relaxation is applicable per rules."),
+                (f"What is the application fee for {title}?", f"Application fee varies by category (e.g., General/OBC: {data.get('application_fee', {}).get('General / OBC / EWS', 'Rs. 100/-')}, SC/ST/PwD: {data.get('application_fee', {}).get('SC / ST / PwD', 'Exempted')})."),
+                (f"How many total posts are available in {title}?", f"A total of {total_posts} have been officially announced for this recruitment drive."),
+                (f"How can I apply online for {title}?", f"Eligible candidates can click the 'Apply Online' link in the Important Links table, register, fill details, resize photo/signature via indtool.in, and submit before {last_date}.")
             ]
 
-        if len(faqs) >= 5:
-            display_faqs = faqs[:5]
-        elif len(faqs) > 0:
-            display_faqs = faqs + faq_items[len(faqs):5]
-        else:
-            display_faqs = faq_items
+    def build_bottom_sections_html(self, data: Dict[str, Any], category: str, title: str, slug: str) -> str:
+        # Load app_cta settings if available
+        settings = {}
+        try:
+            settings_file = "/root/sarkari-result-portal/data/settings.json"
+            if os.path.exists(settings_file):
+                with open(settings_file, "r", encoding="utf-8") as sf:
+                    settings = json.load(sf)
+        except Exception:
+            pass
 
+        app_cta = settings.get("app_cta", {})
+        app_enabled = app_cta.get("enabled", True)
+        app_title = app_cta.get("title", "StudyTopper.in")
+        app_subtitle = app_cta.get("subtitle", "Fastest Government Job Updates, Results, Admit Cards & Exam Syllabus Portal")
+        app_btn_text = app_cta.get("button_text", "📱 Download StudyTopper Mobile App & English Vocab")
+        app_btn_url = app_cta.get("button_url", "https://play.google.com/store/apps/details?id=in.qmaths.blackbook")
+        app_bg = app_cta.get("bg_color", "#fdfaf2")
+        app_btn_bg = app_cta.get("button_color", "#046132")
+
+        app_cta_html = ""
+        if app_enabled and app_btn_text and app_btn_text.strip():
+            app_cta_html = f'''<!-- SECTION 3: APP DOWNLOAD BANNER / CTA BOX -->
+<div class="st-app-download-box gb-container gb-container-ce6e23c9" style="margin: 20px 0; text-align: center; background: {app_bg}; border: 1px solid #e2d7be; border-radius: 6px; padding: 16px;">
+  <p class="gb-headline" style="margin: 0 0 6px 0;"><span style="font-size: 20px; font-weight: 800; color: #5b032f; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{app_title}</span></p>
+  <p style="margin: 6px 0 14px 0; font-size: 14.5px; color: #444444; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">{app_subtitle}</p>
+  <p style="margin: 0;">
+    <a href="{app_btn_url}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: {app_btn_bg}; color: #ffffff; padding: 10px 22px; border-radius: 4px; text-decoration: none; font-size: 16px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+      {app_btn_text}
+    </a>
+  </p>
+</div>'''
+
+        faqs = self.build_structured_faqs(data, category, title)
         faq_rows = ""
-        for idx, f in enumerate(display_faqs, start=1):
-            faq_rows += f"""<tr>
-<td colspan="2" style="padding: 10px 12px; border: 1px solid #ddd; background-color: {'#ffffff' if idx % 2 == 1 else '#f9f9f9'};">
-  <strong style="color: #000080; font-size: 15.5px; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">Q{idx}. {f.get('q', '')}</strong><br/>
-  <span style="color: #222222; font-size: 14.5px; line-height: 1.5; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">Ans: {f.get('a', '')}</span>
-</td>
-</tr>"""
+        for idx, (q, a) in enumerate(faqs, 1):
+            bg = "#ffffff" if idx % 2 != 0 else "#f9f9f9"
+            faq_rows += f'''
+<tr style="background-color: {bg}; border-bottom: 1px solid #e0e0e0;">
+  <td style="padding: 12px 14px; vertical-align: top; width: 35%; border-right: 1px solid #e0e0e0; font-weight: 600; color: #000080; font-size: 14.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    Q{idx}. {q}
+  </td>
+  <td style="padding: 12px 14px; vertical-align: top; font-size: 14.5px; line-height: 1.55; color: #222222; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    {a}
+  </td>
+</tr>'''
 
         latest_links = [
-            ("IBPS Clerk (CSA) 16th Recruitment 2026", "/ibps-clerk-16th-2026/"),
-            ("UPSSSC PET Online Form 2026", "/upsssc-pet-2026/"),
-            ("RRB Junior Engineer JE Recruitment 2026", "/rrb-je-2026/"),
+            ("IBPS Clerk 16th Recruitment 2026", "/ibps-clerk-16th-2026/"),
+            ("Railway RRB Group D Admit Card 2026", "/railway-rrb-group-d-level-1-recruitment-2026-online/"),
             ("NTA SWAYAM Result 2026", "/nta-swayam-2026/"),
-            ("Railway RRB Group D Admit Card 2026", "/railway-rrb-group-d-level-1-recruitment-2026-online/")
+            ("RRB Junior Engineer JE Syllabus 2026", "/rrb-je-2026-syllabus/"),
+            ("IIM CAT 2026 Admission Form", "/iim-cat-2026/")
         ]
 
         related_links = [
-            ("Bank Of Baroda LBO Online Form 2026", "/2026-bank-of-baroda-lbo-aug26/"),
-            ("BPSC School Teacher TRE 4.0 Recruitment 2026", "/bpsc-school-teacher-tre-4-0-2026/"),
-            ("IIM CAT 2026 Admission Form", "/iim-cat-2026/"),
-            ("UPSSSC BCG Technician Final Answer Key 2026", "/upsssc-bcg-technician-2024/"),
+            ("UPSSSC PET Online Form 2026", "/upsssc-pet-2026/"),
+            ("UPSSSC BCG Technician Answer Key 2026", "/upsssc-bcg-technician-2024/"),
+            ("RPSC Rajasthan Police SI Telecom Result", "/rpsc-rajasthan-police-si-telecom-2025/"),
+            ("SBI Junior Associates Clerk Recruitment", "/sbi-junior-associates-clerk-2026/"),
             ("SSC 10+2 CHSL 2025 FRTA Result", "/ssc-chsl-2026/")
         ]
 
-        latest_html = "".join([f'<p style="margin: 6px 0; font-size: 14.5px;"><a href="{url}" style="color: #0000ef; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in latest_links])
-        related_html = "".join([f'<p style="margin: 6px 0; font-size: 14.5px;"><a href="{url}" style="color: #0000ef; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in related_links])
+        latest_html = "".join([f'<p style="margin: 6px 0; font-size: 14px;"><a href="{url}" style="color: #0056b3; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in latest_links])
+        related_html = "".join([f'<p style="margin: 6px 0; font-size: 14px;"><a href="{url}" style="color: #0056b3; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in related_links])
 
-        return f"""<!-- SECTION 1: 5 STRUCTURED FREQUENTLY ASKED QUESTIONS (FAQ) -->
+        return f'''<!-- SECTION 1: 5 STRUCTURED FREQUENTLY ASKED QUESTIONS (FAQ) -->
 <table style="border-collapse: collapse; width: 100%; margin-top: 20px; border: 1px solid #000080;">
 <tbody>
 <tr>
-<td colspan="2" style="background-color: #000080; color: #ffffff; font-size: 16px; font-weight: 700; text-align: center; padding: 10px; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">
+<td colspan="2" style="background-color: #000080; color: #ffffff; font-size: 15.5px; font-weight: 700; text-align: center; padding: 10px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
   {title} : Frequently Asked Questions (FAQ)
 </td>
 </tr>
@@ -195,32 +224,23 @@ class UniversalDesignAgent:
 </tbody>
 </table>
 
-<!-- SECTION 2: POST WEBP FEATURED IMAGE THUMBNAIL -->
+<!-- SECTION 2: POST WEBP FEATURED IMAGE THUMBNAIL (OPTIMIZED FOR 100 PAGESPEED & 0 CLS) -->
 <div class="st-post-thumbnail-box" style="text-align: center; margin: 25px 0 15px 0;">
-  <img src="/static/thumbnails/{slug}.webp" alt="{title} StudyTopper" style="max-width: 100%; height: auto; border: 2px solid #ab183d; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);" loading="lazy" />
+  <img src="/static/thumbnails/{slug}.webp" alt="{title} StudyTopper" width="600" height="315" style="max-width: 100%; height: auto; border: 2px solid #ab183d; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); aspect-ratio: 1200/630;" loading="lazy" decoding="async" fetchpriority="low" />
 </div>
 
-<!-- SECTION 3: APP DOWNLOAD BANNER / CTA BOX -->
-<div class="st-app-download-box gb-container gb-container-ce6e23c9" style="margin: 20px 0; text-align: center; background: #fdfaf2; border: 1px solid #e2d7be; border-radius: 6px; padding: 16px;">
-  <p class="gb-headline" style="margin: 0 0 6px 0;"><span style="font-size: 20px; font-weight: 800; color: #5b032f; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">StudyTopper.in</span></p>
-  <p style="margin: 6px 0 14px 0; font-size: 14.5px; color: #444444; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">Fastest Government Job Updates, Results, Admit Cards & Exam Syllabus Portal</p>
-  <p style="margin: 0;">
-    <a href="https://play.google.com/store/apps/details?id=in.qmaths.blackbook" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #046132; color: #ffffff; padding: 10px 22px; border-radius: 4px; text-decoration: none; font-size: 16px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
-      📱 Download StudyTopper Mobile App & English Vocab
-    </a>
-  </p>
-</div>
+{app_cta_html}
 
 <!-- SECTION 4: LATEST POSTS & RELATED POSTS 2-COLUMN TABLE -->
 <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd; background: #ffffff;">
 <tbody>
 <tr>
   <td style="width: 50%; padding: 14px; vertical-align: top; border-right: 1px solid #ddd; background: #ffffff;">
-    <h3 style="margin: 0 0 10px 0; color: #ef0303; font-size: 17px; font-weight: 700; border-bottom: 2px solid #ef0303; padding-bottom: 4px; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">Latest Posts</h3>
+    <h3 style="margin: 0 0 10px 0; color: #ef0303; font-size: 16px; font-weight: 700; border-bottom: 2px solid #ef0303; padding-bottom: 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">Latest Posts</h3>
     {latest_html}
   </td>
   <td style="width: 50%; padding: 14px; vertical-align: top; background: #ffffff;">
-    <h3 style="margin: 0 0 10px 0; color: #000080; font-size: 17px; font-weight: 700; border-bottom: 2px solid #000080; padding-bottom: 4px; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">Related Posts</h3>
+    <h3 style="margin: 0 0 10px 0; color: #000080; font-size: 16px; font-weight: 700; border-bottom: 2px solid #000080; padding-bottom: 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">Related Posts</h3>
     {related_html}
   </td>
 </tr>
@@ -229,21 +249,21 @@ class UniversalDesignAgent:
 
 <!-- SECTION 5: SOCIAL CHANNELS BUTTONS -->
 <div class="social-buttons" style="display: flex; gap: 12px; justify-content: flex-start; margin: 18px 0;">
-  <a href="https://whatsapp.com/channel/0029Va9xyz" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; padding: 10px 20px; border-radius: 5px; text-decoration: none; color: #ffffff; font-weight: 700; font-size: 15px; background-color: #25D366;">
+  <a href="https://whatsapp.com/channel/0029Va9xyz" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; padding: 9px 18px; border-radius: 5px; text-decoration: none; color: #ffffff; font-weight: 700; font-size: 14.5px; background-color: #25D366;">
     WhatsApp Channel
   </a>
-  <a href="https://t.me/studytopperofficial" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; padding: 10px 20px; border-radius: 5px; text-decoration: none; color: #ffffff; font-weight: 700; font-size: 15px; background-color: #0088cc;">
+  <a href="https://t.me/studytopperofficial" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; padding: 9px 18px; border-radius: 5px; text-decoration: none; color: #ffffff; font-weight: 700; font-size: 14.5px; background-color: #0088cc;">
     Telegram Channel
   </a>
 </div>
 
 <!-- SECTION 6: OFFICIAL TRADEMARK & DISCLAIMER NOTICES -->
-<p style="text-align: center; font-size: 13.5px; line-height: 1.5; color: #333333; margin: 15px 0 8px 0; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">
+<p style="text-align: center; font-size: 13px; line-height: 1.5; color: #333333; margin: 15px 0 8px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
   <strong>Official Website of StudyTopper™ – StudyTopper.in | Since 2026 | Comprehensive Government Recruitment, Result, Admit Card & Syllabus Information Portal.</strong>
 </p>
-<p style="font-size: 12px; line-height: 1.5; color: #666666; text-align: justify; margin: 0 0 25px 0; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">
+<p style="font-size: 11.5px; line-height: 1.5; color: #666666; text-align: justify; margin: 0 0 25px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
   <strong>Disclaimer:</strong> Information regarding examination forms, results, answer keys, admit cards, and syllabus published on StudyTopper.in is for immediate guidance and informational purposes only. While every attempt is made to ensure full accuracy with real verified destination links, StudyTopper does not claim legal liability for unintentional discrepancies. Candidates are requested to refer to the official gazette and official authority portal before taking action.
-</p>"""
+</p>'''
 
     def build_important_links_html(self, data: Dict[str, Any], category: str, title: str) -> str:
         links_list = []
