@@ -1,86 +1,4 @@
 {
-  "result": [
-    {
-      "title": "NTA SWAYAM Result 2026",
-      "title_raw": "NTA SWAYAM Result 2026",
-      "badge_html": "",
-      "url": "/nta-swayam-2026/",
-      "short_desc": "NTA SWAYAM invites online applications for NTA SWAYAM Result 2026 for 2482 Posts.",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "RPSC Rajasthan Police SI Telecom Final Result 2026",
-      "title_raw": "RPSC Rajasthan Police SI Telecom Final Result 2026",
-      "badge_html": "",
-      "url": "/rpsc-rajasthan-police-si-telecom-2025/",
-      "short_desc": "Official Board invites online applications for RPSC Rajasthan Police SI Telecom Final Result 2026 for 98 Post.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar Police Prohibition Constable Result 2026",
-      "title_raw": "Bihar Police Prohibition Constable Result 2026",
-      "badge_html": "",
-      "url": "/csbc-bihar-prohibition-constable-2026/",
-      "short_desc": "Official Board invites online applications for Bihar Police Prohibition Constable Result 2026 for 4210 Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar Police CSBC Constable Operator Result 2026",
-      "title_raw": "Bihar Police CSBC Constable Operator Result 2026",
-      "badge_html": "",
-      "url": "/bihar-police-csbc-constable-operator-2026/",
-      "short_desc": "Official Board invites online applications for Bihar Police CSBC Constable Operator Result 2026 for 993 Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar Police CSBC Constable GD Result 2026",
-      "title_raw": "Bihar Police CSBC Constable GD Result 2026",
-      "badge_html": "",
-      "url": "/bihar-police-csbc-constable-2026/",
-      "short_desc": "Official Board invites online applications for Bihar Police CSBC Constable GD Result 2026 for 83 Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "KVS NVS Teaching & Non-Teaching Tier-II Result 2026",
-      "title_raw": "KVS NVS Teaching & Non-Teaching Tier-II Result 2026",
-      "badge_html": "",
-      "url": "/kvs-nvs-teaching-non-teaching-2026/",
-      "short_desc": "Official Board invites online applications for KVS NVS Teaching & Non-Teaching Tier-II Result 2026 for 15,762 Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "RPSC School Lecturer PGT Result 2026",
-      "title_raw": "RPSC School Lecturer PGT Result 2026",
-      "badge_html": "",
-      "url": "/rpsc-1st-grade-teacher-2025/",
-      "short_desc": "Official Board invites online applications for RPSC School Lecturer PGT Result 2026 for 3225 Post.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "SSC 10+2 CHSL 2025 FRTA Result",
-      "title_raw": "SSC 10+2 CHSL 2025 FRTA Result",
-      "badge_html": "",
-      "url": "/ssc-chsl-2026/",
-      "short_desc": "Official Board invites online applications for SSC 10+2 CHSL 2025 FRTA Result for 3522 Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
   "latest-jobs": [
     {
       "title": "IBPS Clerk (CSA) 16th Recruitment 2026",
@@ -457,16 +375,6 @@
       "is_pinned": false
     },
     {
-      "title": "Bihar BSEB DElEd Common Application Form 2026",
-      "title_raw": "Bihar BSEB DElEd Common Application Form 2026",
-      "badge_html": "",
-      "url": "/bihar-bseb-deled-2026/",
-      "short_desc": "Official Board invites online applications for Bihar BSEB DElEd Common Application Form 2026 for Various Seats.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
       "title": "UP Scholarship Online Form 2026-27",
       "title_raw": "UP Scholarship Online Form 2026-27",
       "badge_html": "",
@@ -503,6 +411,88 @@
       "url": "/clat-2026/",
       "short_desc": "Official Board invites online applications for CLAT Admission Form 2026 for Various Seats.",
       "date": "31 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ],
+  "result": [
+    {
+      "title": "NTA SWAYAM Result 2026",
+      "title_raw": "NTA SWAYAM Result 2026",
+      "badge_html": "",
+      "url": "/nta-swayam-2026/",
+      "short_desc": "NTA SWAYAM invites online applications for NTA SWAYAM Result 2026 for 2482 Posts.",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "RPSC Rajasthan Police SI Telecom Final Result 2026",
+      "title_raw": "RPSC Rajasthan Police SI Telecom Final Result 2026",
+      "badge_html": "",
+      "url": "/rpsc-rajasthan-police-si-telecom-2025/",
+      "short_desc": "Official Board invites online applications for RPSC Rajasthan Police SI Telecom Final Result 2026 for 98 Post.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar Police CSBC Constable Operator Result 2026",
+      "title_raw": "Bihar Police CSBC Constable Operator Result 2026",
+      "badge_html": "",
+      "url": "/bihar-police-csbc-constable-operator-2026/",
+      "short_desc": "Official Board invites online applications for Bihar Police CSBC Constable Operator Result 2026 for 993 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar Police CSBC Constable GD Result 2026",
+      "title_raw": "Bihar Police CSBC Constable GD Result 2026",
+      "badge_html": "",
+      "url": "/bihar-police-csbc-constable-2026/",
+      "short_desc": "Official Board invites online applications for Bihar Police CSBC Constable GD Result 2026 for 83 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "KVS NVS Teaching & Non-Teaching Tier-II Result 2026",
+      "title_raw": "KVS NVS Teaching & Non-Teaching Tier-II Result 2026",
+      "badge_html": "",
+      "url": "/kvs-nvs-teaching-non-teaching-2026/",
+      "short_desc": "Official Board invites online applications for KVS NVS Teaching & Non-Teaching Tier-II Result 2026 for 15,762 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "RPSC School Lecturer PGT Result 2026",
+      "title_raw": "RPSC School Lecturer PGT Result 2026",
+      "badge_html": "",
+      "url": "/rpsc-1st-grade-teacher-2025/",
+      "short_desc": "Official Board invites online applications for RPSC School Lecturer PGT Result 2026 for 3225 Post.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "SSC 10+2 CHSL 2025 FRTA Result",
+      "title_raw": "SSC 10+2 CHSL 2025 FRTA Result",
+      "badge_html": "",
+      "url": "/ssc-chsl-2026/",
+      "short_desc": "Official Board invites online applications for SSC 10+2 CHSL 2025 FRTA Result for 3522 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "RSSB Forester Result 2026",
+      "title_raw": "RSSB Forester Result 2026",
+      "badge_html": "",
+      "url": "/rssb-forester-2026/",
+      "short_desc": "Official Board invites online applications for RSSB Forester Result 2026 for 259 Post.",
+      "date": "September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
@@ -708,6 +698,10 @@
       "short_desc": "Official Board invites online applications for JSSC Field Worker Answer Key 2026 for 510 Posts.",
       "date": "September 2026",
       "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ]
+}   "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
   ]
