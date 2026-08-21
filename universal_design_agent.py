@@ -92,6 +92,159 @@ class UniversalDesignAgent:
             )
         return overview
 
+    def build_bottom_sections_html(self, data: Dict[str, Any], category: str, title: str, slug: str) -> str:
+        faqs = data.get("faqs", [])
+        last_date = data.get("last_date", "Check notification")
+        total_posts = data.get("total_posts", "Various Posts")
+        org = data.get("organization", "Official Authority")
+        
+        faq_items = []
+        if category == "result":
+            faq_items = [
+                {"q": f"When was {title} declared / score card released?", "a": f"The result and scorecard have been officially released. Candidates can check the declaration date ({last_date}) in the Important Dates table above."},
+                {"q": f"How can I download score card and merit list for {title}?", "a": f"Click on the 'Download Result / Score Card' link in the Useful Important Links table above, enter your Application Number / Roll Number and Date of Birth to access your marks."},
+                {"q": f"What are the qualifying marks / cutoff for {title}?", "a": f"Category-wise cutoff marks and merit list PDFs are available via the direct official link in the Important Links table on StudyTopper."},
+                {"q": f"What details are required to check {title}?", "a": "Candidates need their Registration Number / Roll Number, Date of Birth, and Password to log in."},
+                {"q": f"What is the official website for {org}?", "a": "The 100% verified official portal link is provided in the Important Links table above."}
+            ]
+        elif category == "admit-card":
+            faq_items = [
+                {"q": f"When will {title} be available for download?", "a": f"Admit cards and exam city advance intimation slips are released as per schedule ({last_date}) in the Important Dates section."},
+                {"q": f"How to download {title}?", "a": "Click on the 'Download Admit Card / Hall Ticket' link in the Useful Important Links table above, enter your User ID and Password / Date of Birth, and download the E-Call Letter PDF."},
+                {"q": f"What documents are required to carry with {title} to exam hall?", "a": "Candidates must carry a printed copy of the Admit Card, original photo ID proof (Aadhar Card/PAN/Voter ID), and recent passport-size photographs."},
+                {"q": f"What to do if there is a mistake in {title}?", "a": f"Immediately contact the official {org} examination helpdesk before the exam date to request correction."},
+                {"q": f"Where can I find the direct official download link for {title}?", "a": "All direct and official server links are provided in the Useful Important Links section on StudyTopper."}
+            ]
+        elif category == "answer-key":
+            faq_items = [
+                {"q": f"When was {title} released?", "a": f"The answer key and question paper booklets have been officially uploaded on the portal."},
+                {"q": f"How to download {title} and question papers?", "a": "Click on 'Download Final / Provisional Answer Key' in the Important Links table above to view the master question key PDF."},
+                {"q": f"How can I submit an online objection against {title}?", "a": f"Click on the 'Online Objection Link' in the Important Links table above, log in with candidate credentials, select question ID, attach valid proof, and pay the prescribed fee per question before the deadline."},
+                {"q": f"How to calculate tentative scores using {title}?", "a": "Award prescribed marks for each correct response and deduct negative marking penalty (if applicable) according to the official marking scheme."},
+                {"q": f"What is the official website of {org}?", "a": "The direct official portal link is provided in the Useful Important Links table on StudyTopper."}
+            ]
+        elif category == "syllabus":
+            faq_items = [
+                {"q": f"What is the exam pattern for {title}?", "a": "The detailed section-wise exam pattern, marking scheme, negative marking rules, and time duration are provided in the tables above."},
+                {"q": f"How to download {title} in PDF format?", "a": "Click on the 'Download Detailed Syllabus PDF' link in the Useful Important Links table on StudyTopper to save the official PDF."},
+                {"q": f"What are the major subjects covered in {title}?", "a": "The exam covers General Studies, General Intelligence & Reasoning, Quantitative Aptitude, English/Hindi Comprehension, and Core Technical/Domain Subjects."},
+                {"q": f"Is there negative marking in {title}?", "a": "Negative marking is applicable as per the official recruitment rules (generally 1/3rd or 1/4th mark deducted for each wrong answer)."},
+                {"q": f"Where can I find previous year papers for {title}?", "a": "Direct links to official question papers and notification PDFs are provided in the Important Links table above."}
+            ]
+        elif category == "admission":
+            faq_items = [
+                {"q": f"What is the last date to apply online for {title}?", "a": f"The online registration deadline is {last_date}."},
+                {"q": f"What is the eligibility criteria for {title}?", "a": "Candidates must meet the educational qualifications and minimum percentage criteria prescribed in the notification table above."},
+                {"q": f"What is the application fee for {title}?", "a": "Category-wise application fees are detailed in the Application Fee table above and can be paid online via Net Banking, Debit Card, Credit Card, or UPI."},
+                {"q": f"What are the total seats available in {title}?", "a": f"A total of {total_posts} are offered across participating colleges and universities."},
+                {"q": f"What is the official website for {title}?", "a": "Direct official admission portal links are provided in the Useful Important Links table on StudyTopper."}
+            ]
+        else: # latest-jobs
+            faq_items = [
+                {"q": f"What is the start date and last date for {title}?", "a": f"The online application starts as per the Important Dates table, and the last date to apply online is {last_date}."},
+                {"q": f"What is the age limit for {title}?", "a": "The age limit details, cut-off date, and category relaxation rules are detailed in the Age Limits table above."},
+                {"q": f"What is the application fee for {title}?", "a": "Application fee details for General, OBC, EWS, SC, ST, and Female candidates are listed in the Application Fee table above."},
+                {"q": f"How many total vacancies are released for {title}?", "a": f"A total of {total_posts} are notified under this recruitment drive."},
+                {"q": f"How to apply online for {title}?", "a": "Click on 'Apply Online' in the Useful Important Links table above, complete registration, fill candidate details, upload photo/signature using indtool.in, pay fee, and submit before deadline."}
+            ]
+
+        if len(faqs) >= 5:
+            display_faqs = faqs[:5]
+        elif len(faqs) > 0:
+            display_faqs = faqs + faq_items[len(faqs):5]
+        else:
+            display_faqs = faq_items
+
+        faq_rows = ""
+        for idx, f in enumerate(display_faqs, start=1):
+            faq_rows += f"""<tr>
+<td colspan="2" style="padding: 10px 12px; border: 1px solid #ddd; background-color: {'#ffffff' if idx % 2 == 1 else '#f9f9f9'};">
+  <strong style="color: #000080; font-size: 15.5px; font-family: Hind, 'Open Sans', sans-serif;">Q{idx}. {f.get('q', '')}</strong><br/>
+  <span style="color: #222222; font-size: 14.5px; line-height: 1.5; font-family: Hind, 'Open Sans', sans-serif;">Ans: {f.get('a', '')}</span>
+</td>
+</tr>"""
+
+        latest_links = [
+            ("IBPS Clerk (CSA) 16th Recruitment 2026", "/ibps-clerk-16th-2026/"),
+            ("UPSSSC PET Online Form 2026", "/upsssc-pet-2026/"),
+            ("RRB Junior Engineer JE Recruitment 2026", "/rrb-je-2026/"),
+            ("NTA SWAYAM Result 2026", "/nta-swayam-2026/"),
+            ("Railway RRB Group D Admit Card 2026", "/railway-rrb-group-d-level-1-recruitment-2026-online/")
+        ]
+
+        related_links = [
+            ("Bank Of Baroda LBO Online Form 2026", "/2026-bank-of-baroda-lbo-aug26/"),
+            ("BPSC School Teacher TRE 4.0 Recruitment 2026", "/bpsc-school-teacher-tre-4-0-2026/"),
+            ("IIM CAT 2026 Admission Form", "/iim-cat-2026/"),
+            ("UPSSSC BCG Technician Final Answer Key 2026", "/upsssc-bcg-technician-2024/"),
+            ("SSC 10+2 CHSL 2025 FRTA Result", "/ssc-chsl-2026/")
+        ]
+
+        latest_html = "".join([f'<p style="margin: 6px 0; font-size: 14.5px;"><a href="{url}" style="color: #0000ef; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in latest_links])
+        related_html = "".join([f'<p style="margin: 6px 0; font-size: 14.5px;"><a href="{url}" style="color: #0000ef; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in related_links])
+
+        return f"""<!-- SECTION 1: 5 STRUCTURED FREQUENTLY ASKED QUESTIONS (FAQ) -->
+<table style="border-collapse: collapse; width: 100%; margin-top: 20px; border: 1px solid #000080;">
+<tbody>
+<tr>
+<td colspan="2" style="background-color: #000080; color: #ffffff; font-size: 16px; font-weight: 700; text-align: center; padding: 10px; font-family: Hind, 'Open Sans', sans-serif;">
+  {title} : Frequently Asked Questions (FAQ)
+</td>
+</tr>
+{faq_rows}
+</tbody>
+</table>
+
+<!-- SECTION 2: POST WEBP FEATURED IMAGE THUMBNAIL -->
+<div class="st-post-thumbnail-box" style="text-align: center; margin: 25px 0 15px 0;">
+  <img src="/static/thumbnails/{slug}.webp" alt="{title} StudyTopper" style="max-width: 100%; height: auto; border: 2px solid #ab183d; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);" loading="lazy" />
+</div>
+
+<!-- SECTION 3: APP DOWNLOAD BANNER / CTA BOX -->
+<div class="st-app-download-box gb-container gb-container-ce6e23c9" style="margin: 20px 0; text-align: center; background: #fdfaf2; border: 1px solid #e2d7be; border-radius: 6px; padding: 16px;">
+  <p class="gb-headline" style="margin: 0 0 6px 0;"><span style="font-size: 20px; font-weight: 800; color: #5b032f; font-family: Hind, 'Open Sans', sans-serif;">StudyTopper.in</span></p>
+  <p style="margin: 6px 0 14px 0; font-size: 14.5px; color: #444444; font-family: Hind, 'Open Sans', sans-serif;">Fastest Government Job Updates, Results, Admit Cards & Exam Syllabus Portal</p>
+  <p style="margin: 0;">
+    <a href="https://play.google.com/store/apps/details?id=in.qmaths.blackbook" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #046132; color: #ffffff; padding: 10px 22px; border-radius: 4px; text-decoration: none; font-size: 16px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+      📱 Download StudyTopper Mobile App & English Vocab
+    </a>
+  </p>
+</div>
+
+<!-- SECTION 4: LATEST POSTS & RELATED POSTS 2-COLUMN TABLE -->
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd; background: #ffffff;">
+<tbody>
+<tr>
+  <td style="width: 50%; padding: 14px; vertical-align: top; border-right: 1px solid #ddd; background: #ffffff;">
+    <h3 style="margin: 0 0 10px 0; color: #ef0303; font-size: 17px; font-weight: 700; border-bottom: 2px solid #ef0303; padding-bottom: 4px; font-family: Hind, 'Open Sans', sans-serif;">Latest Posts</h3>
+    {latest_html}
+  </td>
+  <td style="width: 50%; padding: 14px; vertical-align: top; background: #ffffff;">
+    <h3 style="margin: 0 0 10px 0; color: #000080; font-size: 17px; font-weight: 700; border-bottom: 2px solid #000080; padding-bottom: 4px; font-family: Hind, 'Open Sans', sans-serif;">Related Posts</h3>
+    {related_html}
+  </td>
+</tr>
+</tbody>
+</table>
+
+<!-- SECTION 5: SOCIAL CHANNELS BUTTONS -->
+<div class="social-buttons" style="display: flex; gap: 12px; justify-content: flex-start; margin: 18px 0;">
+  <a href="https://whatsapp.com/channel/0029Va9xyz" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; padding: 10px 20px; border-radius: 5px; text-decoration: none; color: #ffffff; font-weight: 700; font-size: 15px; background-color: #25D366;">
+    WhatsApp Channel
+  </a>
+  <a href="https://t.me/studytopperofficial" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; padding: 10px 20px; border-radius: 5px; text-decoration: none; color: #ffffff; font-weight: 700; font-size: 15px; background-color: #0088cc;">
+    Telegram Channel
+  </a>
+</div>
+
+<!-- SECTION 6: OFFICIAL TRADEMARK & DISCLAIMER NOTICES -->
+<p style="text-align: center; font-size: 13.5px; line-height: 1.5; color: #333333; margin: 15px 0 8px 0; font-family: Hind, 'Open Sans', sans-serif;">
+  <strong>Official Website of StudyTopper™ – StudyTopper.in | Since 2026 | Comprehensive Government Recruitment, Result, Admit Card & Syllabus Information Portal.</strong>
+</p>
+<p style="font-size: 12px; line-height: 1.5; color: #666666; text-align: justify; margin: 0 0 25px 0; font-family: Hind, 'Open Sans', sans-serif;">
+  <strong>Disclaimer:</strong> Information regarding examination forms, results, answer keys, admit cards, and syllabus published on StudyTopper.in is for immediate guidance and informational purposes only. While every attempt is made to ensure full accuracy with real verified destination links, StudyTopper does not claim legal liability for unintentional discrepancies. Candidates are requested to refer to the official gazette and official authority portal before taking action.
+</p>"""
+
     def build_important_links_html(self, data: Dict[str, Any], category: str, title: str) -> str:
         links_list = []
         
@@ -279,9 +432,7 @@ class UniversalDesignAgent:
 
         selection_li = "".join([f'<li style="text-align: left !important;"><span style="font-size: 14pt;"><strong>{s}</strong></span></li>' for s in data.get("selection_process", ["Computer Based Examination (CBE) / Written Exam", "Document Verification", "Medical Examination"])])
 
-        faq_rows = ""
-        for i, faq in enumerate(data.get("faqs", []), start=1):
-            faq_rows += f"""<tr><td colspan="2"><strong>Q{i}. {faq.get('q', '')}</strong><br/><span style="color:#333333;">Ans: {faq.get('a', '')}</span></td></tr>"""
+        bottom_sections = self.build_bottom_sections_html(data, category, title, slug)
 
         # Build Category-Tailored Useful Important Links
         important_links_rows = self.build_important_links_html(data, category, title)
@@ -457,14 +608,7 @@ class UniversalDesignAgent:
 </tbody>
 </table>
 <p>&nbsp;</p>
-<table style="border-collapse: collapse; width: 100%;">
-<tbody>
-<tr>
-<td colspan="2" style="background-color: #000080; color: #ffffff; font-size: 14pt; font-weight: bold; text-align: center; padding: 6px;"> {title} : Frequently Asked Questions (FAQ) </td>
-</tr>
-{faq_rows}
-</tbody>
-</table>
+{bottom_sections}
 </div>
 </div>
 </div>
