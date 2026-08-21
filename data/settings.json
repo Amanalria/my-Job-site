@@ -228,10 +228,6 @@
     "connect_title": "Connect With Us",
     "social_links": [
       {
-        "name": "Study Topper @X",
-        "url": "https://x.com/"
-      },
-      {
         "name": "Study Topper @Telegram",
         "url": "https://t.me/studytopperofficial"
       },
@@ -242,14 +238,6 @@
       {
         "name": "Study Topper @Instagram",
         "url": "https://instagram.com/"
-      },
-      {
-        "name": "Study Topper @Facebook",
-        "url": "https://facebook.com/"
-      },
-      {
-        "name": "Study Topper @YouTube",
-        "url": "https://youtube.com/@"
       }
     ],
     "nav_links": [
@@ -463,5 +451,5 @@
     "button_text": "📱 Download StudyTopper Mobile App & English Vocab",
     "button_url": "https://studytopper.in/"
   },
-  "footer_text": ""
+  "footer_text": "Copyright © 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance."
 }
