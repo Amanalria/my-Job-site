@@ -1,0 +1,5 @@
+{
+  "purge_expired_posts": false,
+  "auto_git_sync": false,
+  "expired_grace_period_days": 365
+}
