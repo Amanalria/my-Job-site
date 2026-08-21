@@ -9949,6 +9949,98 @@ def download_master_sheet_csv():
         return send_file(csv_path, as_attachment=True, download_name='studytopper_verified_posts_master.csv')
     return "CSV file not found", 404
 
+
+# ==================== GOOGLE INDEXING API ROUTES (100% NO SUPABASE) ====================
+import google_indexing
+
+@app.route('/admin/indexing', methods=['GET'])
+def admin_indexing_page():
+    if not auth.is_authenticated():
+        return redirect('/admin/login')
+        
+    is_cfg = os.path.exists(google_indexing.SERVICE_ACCOUNT_FILE)
+    preview = ""
+    if is_cfg:
+        try:
+            with open(google_indexing.SERVICE_ACCOUNT_FILE, 'r', encoding='utf-8') as f:
+                key_obj = json.load(f)
+                preview = json.dumps({
+                    "type": key_obj.get("type"),
+                    "project_id": key_obj.get("project_id"),
+                    "client_email": key_obj.get("client_email"),
+                    "private_key_id": key_obj.get("private_key_id")
+                }, indent=2)
+        except Exception:
+            pass
+            
+    all_posts = load_all_active_posts()
+    logs = google_indexing.load_indexing_logs()
+    
+    msg = request.args.get('msg')
+    err = request.args.get('err')
+    
+    return render_template('admin/indexing.html',
+                           is_configured=is_cfg,
+                           current_key_preview=preview,
+                           total_active_posts=len(all_posts),
+                           logs=logs,
+                           message=msg,
+                           error=err)
+
+@app.route('/admin/indexing/save-key', methods=['POST'])
+def admin_save_indexing_key():
+    if not auth.is_authenticated():
+        return redirect('/admin/login')
+        
+    json_txt = request.form.get('service_account_json', '').strip()
+    if not json_txt:
+        return redirect('/admin/indexing?err=Please+paste+valid+Service+Account+JSON')
+        
+    try:
+        parsed = json.loads(json_txt)
+        if 'client_email' not in parsed or 'private_key' not in parsed:
+            return redirect('/admin/indexing?err=Invalid+JSON:+Missing+client_email+or+private_key')
+            
+        with open(google_indexing.SERVICE_ACCOUNT_FILE, 'w', encoding='utf-8') as f:
+            json.dump(parsed, f, indent=2)
+            
+        return redirect('/admin/indexing?msg=Service+Account+Key+Saved+Successfully!')
+    except Exception as e:
+        return redirect(f'/admin/indexing?err=JSON+Parse+Error:+{str(e)}')
+
+@app.route('/admin/indexing/submit-url', methods=['POST'])
+def admin_submit_single_url():
+    if not auth.is_authenticated():
+        return redirect('/admin/login')
+        
+    target_url = request.form.get('target_url', '').strip()
+    action_type = request.form.get('action_type', 'URL_UPDATED').strip()
+    
+    if not target_url:
+        return redirect('/admin/indexing?err=Missing+Target+URL')
+        
+    res = google_indexing.submit_url_to_google(target_url, action_type)
+    if res.get('success'):
+        return redirect(f'/admin/indexing?msg=URL+Submitted+Successfully+to+Google!+({target_url})')
+    else:
+        err_detail = res.get('error', 'Submission Failed')
+        return redirect(f'/admin/indexing?err=Google+Indexing+Error:+{err_detail}')
+
+@app.route('/admin/indexing/bulk-index-all', methods=['POST'])
+def admin_bulk_index_all():
+    if not auth.is_authenticated():
+        return redirect('/admin/login')
+        
+    all_posts = load_all_active_posts()
+    urls = [f"https://studytopper.in/{p.get('slug')}/" for p in all_posts if p.get('slug')]
+    urls.insert(0, "https://studytopper.in/")
+    
+    def _bg_bulk():
+        google_indexing.bulk_submit_urls(urls, action_type="URL_UPDATED", delay=0.5)
+        
+    threading.Thread(target=_bg_bulk, daemon=True).start()
+    return redirect(f'/admin/indexing?msg=Bulk+Indexing+Started+in+Background+for+{len(urls)}+URLs!+Check+logs+below.')
+
 if __name__ == '__main__':
     print("===================================================================")
     print("Starting STUDY TOPPER PRO PORTAL (PORT 9093)")
@@ -9972,4 +10064,5 @@ if __name__ == '__main__':
         print(f"Notice: Lifecycle startup warning ({e})")
 
     app.run(host='0.0.0.0', port=9095, debug=False)
+
 
