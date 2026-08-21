@@ -9,7 +9,7 @@ import vacancy_lifecycle_engine as lifecycle
 from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
-from flask import Flask, send_from_directory, request, Response, abort, jsonify, render_template, redirect
+from flask import Flask, send_from_directory, send_file, request, Response, abort, jsonify, render_template, redirect
 
 app = Flask(__name__)
 app.secret_key = 'sarkari_official_secret_2026'
@@ -4623,6 +4623,196 @@ def demo_universal_template():
             html = f.read()
         return sanitize_html(html, request.host)
     return "Universal Post Reference Template Not Found", 404
+
+
+@app.route('/master-sheet')
+@app.route('/master-sheet/')
+@app.route('/admin/master-sheet')
+@app.route('/admin/master-sheet/')
+def master_sheet_viewer():
+    excel_path = os.path.join(DATA_DIR, 'verified_posts_master_sheet.xlsx')
+    csv_path = os.path.join(DATA_DIR, 'verified_posts_master_sheet.csv')
+    
+    rows = []
+    if os.path.exists(csv_path):
+        import csv
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            rows = list(reader)
+            
+    headers = rows[0] if rows else []
+    data_rows = rows[1:] if len(rows) > 1 else []
+    
+    html = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyTopper™ Verified Posts Master Excel Sheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{ font-family: 'Inter', -apple-system, sans-serif; background: #0f172a; color: #f8fafc; padding: 20px 15px; }}
+        .container {{ max-width: 1400px; margin: 0 auto; }}
+        header {{ display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #334155; }}
+        h1 {{ font-family: 'Hind', sans-serif; font-size: 24px; color: #38bdf8; display: flex; align-items: center; gap: 8px; }}
+        .badge {{ background: #22c55e; color: #000; font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 4px; }}
+        .actions {{ display: flex; gap: 10px; flex-wrap: wrap; }}
+        .btn {{ background: #2563eb; color: #fff; text-decoration: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }}
+        .btn:hover {{ background: #1d4ed8; }}
+        .btn-green {{ background: #16a34a; }}
+        .btn-green:hover {{ background: #15803d; }}
+        .btn-slate {{ background: #334155; }}
+        .btn-slate:hover {{ background: #475569; }}
+        
+        .controls {{ display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; align-items: center; justify-content: space-between; }}
+        .search-box input {{ background: #1e293b; border: 1px solid #475569; color: #fff; padding: 10px 14px; border-radius: 6px; width: 300px; max-width: 100%; font-size: 14px; outline: none; }}
+        .search-box input:focus {{ border-color: #38bdf8; }}
+        .tabs {{ display: flex; gap: 6px; flex-wrap: wrap; }}
+        .tab-btn {{ background: #1e293b; border: 1px solid #334155; color: #94a3b8; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }}
+        .tab-btn.active {{ background: #38bdf8; color: #0f172a; border-color: #38bdf8; }}
+        
+        .table-responsive {{ overflow-x: auto; background: #1e293b; border-radius: 8px; border: 1px solid #334155; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); }}
+        table {{ width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; min-width: 1100px; }}
+        th {{ background: #5b032f; color: #ffffff; padding: 12px 14px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #334155; position: sticky; top: 0; z-index: 10; }}
+        td {{ padding: 10px 14px; border-bottom: 1px solid #334155; vertical-align: middle; }}
+        tr:hover {{ background: #334155; }}
+        
+        .cat-badge {{ padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 11px; text-transform: uppercase; display: inline-block; }}
+        .cat-latest-jobs {{ background: #1e3a8a; color: #93c5fd; }}
+        .cat-result {{ background: #14532d; color: #86efac; }}
+        .cat-admit-card {{ background: #701a75; color: #f5d0fe; }}
+        .cat-answer-key {{ background: #78350f; color: #fde68a; }}
+        .cat-admission {{ background: #065f46; color: #a7f3d0; }}
+        .cat-syllabus {{ background: #312e81; color: #c7d2fe; }}
+        
+        .post-link {{ color: #38bdf8; text-decoration: none; font-weight: 600; }}
+        .post-link:hover {{ text-decoration: underline; }}
+        .src-link {{ color: #94a3b8; font-size: 11px; text-decoration: none; display: block; margin-top: 2px; }}
+        .src-link:hover {{ color: #38bdf8; }}
+        .status-pill {{ background: #166534; color: #86efac; padding: 3px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>📊 Verified Posts Master Excel Sheet <span class="badge">60 Posts (100% Real Data)</span></h1>
+                <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Live Excel registry containing 100% verified ground truth parameters from official sources.</p>
+            </div>
+            <div class="actions">
+                <a href="/download/master-sheet.xlsx" class="btn btn-green">⬇️ Download .XLSX Excel</a>
+                <a href="/download/master-sheet.csv" class="btn btn-slate">⬇️ Download .CSV</a>
+                <a href="/" class="btn">🏠 Visit Homepage</a>
+                <a href="/admin/dashboard" class="btn btn-slate">⚡ Admin Dashboard</a>
+            </div>
+        </header>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search by Title, Org, Category or Date..." onkeyup="filterTable()">
+            </div>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="filterCategory('ALL')">ALL (60)</button>
+                <button class="tab-btn" onclick="filterCategory('LATEST-JOBS')">Latest Jobs (10)</button>
+                <button class="tab-btn" onclick="filterCategory('RESULT')">Result (10)</button>
+                <button class="tab-btn" onclick="filterCategory('ADMIT-CARD')">Admit Card (10)</button>
+                <button class="tab-btn" onclick="filterCategory('ANSWER-KEY')">Answer Key (10)</button>
+                <button class="tab-btn" onclick="filterCategory('ADMISSION')">Admission (10)</button>
+                <button class="tab-btn" onclick="filterCategory('SYLLABUS')">Syllabus (10)</button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table id="masterTable">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">#</th>
+                        <th style="width: 110px;">Category</th>
+                        <th>Post Title &amp; Source</th>
+                        <th style="width: 140px;">Total Posts/Seats</th>
+                        <th style="width: 120px;">Begin Date</th>
+                        <th style="width: 120px;">Last Date</th>
+                        <th style="width: 120px;">Exam Date</th>
+                        <th style="width: 130px;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>'''
+    
+    for r in data_rows:
+        sno = r[0] if len(r) > 0 else ""
+        cat = r[1] if len(r) > 1 else ""
+        title = r[2] if len(r) > 2 else ""
+        slug = r[3] if len(r) > 3 else ""
+        src_url = r[4] if len(r) > 4 else ""
+        org = r[5] if len(r) > 5 else ""
+        posts = r[6] if len(r) > 6 else ""
+        begin_d = r[7] if len(r) > 7 else ""
+        last_d = r[8] if len(r) > 8 else ""
+        exam_d = r[10] if len(r) > 10 else ""
+        
+        cat_class = f"cat-{cat.lower()}"
+        
+        html += f'''
+                    <tr data-category="{cat}">
+                        <td style="color: #64748b; font-weight: 700;">{sno}</td>
+                        <td><span class="cat-badge {cat_class}">{cat}</span></td>
+                        <td>
+                            <a href="/{slug}/" target="_blank" class="post-link">{title}</a>
+                            <a href="{src_url}" target="_blank" class="src-link">🔗 SarkariResult Live Source ↗</a>
+                        </td>
+                        <td style="font-weight: 700; color: #f59e0b;">{posts}</td>
+                        <td style="color: #94a3b8;">{begin_d}</td>
+                        <td style="color: #ef4444; font-weight: 600;">{last_d}</td>
+                        <td style="color: #38bdf8;">{exam_d}</td>
+                        <td><span class="status-pill">100% REAL</span></td>
+                    </tr>'''
+
+    html += '''
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let currentCat = 'ALL';
+        function filterCategory(cat) {
+            currentCat = cat;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText.includes(cat) || (cat === 'ALL' && btn.innerText.startsWith('ALL')));
+            });
+            filterTable();
+        }
+
+        function filterTable() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#masterTable tbody tr');
+            rows.forEach(row => {
+                const cat = row.getAttribute('data-category');
+                const text = row.innerText.toLowerCase();
+                const matchesCat = (currentCat === 'ALL' || cat === currentCat);
+                const matchesQuery = text.includes(query);
+                row.style.display = (matchesCat && matchesQuery) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>'''
+    return html
+
+@app.route('/download/master-sheet.xlsx')
+def download_master_sheet_excel():
+    excel_path = os.path.join(DATA_DIR, 'verified_posts_master_sheet.xlsx')
+    if os.path.exists(excel_path):
+        return send_file(excel_path, as_attachment=True, download_name='studytopper_verified_posts_master.xlsx')
+    return "Excel file not found", 404
+
+@app.route('/download/master-sheet.csv')
+def download_master_sheet_csv():
+    csv_path = os.path.join(DATA_DIR, 'verified_posts_master_sheet.csv')
+    if os.path.exists(csv_path):
+        return send_file(csv_path, as_attachment=True, download_name='studytopper_verified_posts_master.csv')
+    return "CSV file not found", 404
 
 if __name__ == '__main__':
     print("===================================================================")

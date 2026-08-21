@@ -432,32 +432,28 @@
     "expired_grace_period_days": 1,
     "auto_git_sync": true,
     "auto_detect_date_extension": true,
-    "pinned_posts": [
-      "ibps-clerk-16th-2026"
-    ],
-    "last_run_timestamp": "2026-08-21T09:35:48.542442",
+    "pinned_posts": [],
+    "last_run_timestamp": "2026-08-21T09:41:43.342870",
     "last_purged_posts": [
       {
         "slug": "nta-neet-ug-2026",
         "title": "NEET UG Online Counselling 2026",
-        "expired_on": "2026-03-11",
-        "days_ago": 163
+        "days_ago": 163,
+        "expired_on": "2026-03-11"
       },
       {
         "slug": "up-deled-2026",
         "title": "UP DELEd Online Counselling 2026",
-        "expired_on": "2026-08-03",
-        "days_ago": 18
+        "days_ago": 18,
+        "expired_on": "2026-08-03"
       },
       {
         "slug": "upsssc-vdo-2023",
         "title": "UPSSSC VDO 2023 Final Result",
-        "expired_on": "2023-06-12",
-        "days_ago": 1166
+        "days_ago": 1166,
+        "expired_on": "2023-06-12"
       }
     ]
   },
-  "pinned_posts": [
-    "ibps-clerk-16th-2026"
-  ]
+  "pinned_posts": []
 }
