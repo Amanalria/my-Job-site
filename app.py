@@ -4822,6 +4822,38 @@ def master_sheet_viewer():
 </html>'''
     return html
 
+@app.route('/reference')
+@app.route('/reference/')
+def reference_hub():
+    hub_file = os.path.join(BASE_DIR, 'templates', 'reference', 'index.html')
+    if os.path.exists(hub_file):
+        with open(hub_file, 'r', encoding='utf-8') as f:
+            return f.read()
+    return "Reference Hub Not Found", 404
+
+@app.route('/reference/<category>')
+@app.route('/reference/<category>/')
+def reference_template_preview(category):
+    cat_map = {
+        'latest-jobs': 'reference_latest_jobs.html',
+        'jobs': 'reference_latest_jobs.html',
+        'result': 'reference_result.html',
+        'results': 'reference_result.html',
+        'admit-card': 'reference_admit_card.html',
+        'admit': 'reference_admit_card.html',
+        'answer-key': 'reference_answer_key.html',
+        'answer': 'reference_answer_key.html',
+        'syllabus': 'reference_syllabus.html',
+        'admission': 'reference_admission.html'
+    }
+    fname = cat_map.get(category.lower())
+    if fname:
+        fpath = os.path.join(BASE_DIR, 'templates', 'reference', fname)
+        if os.path.exists(fpath):
+            with open(fpath, 'r', encoding='utf-8') as f:
+                return f.read()
+    return f"Reference template for category '{category}' not found", 404
+
 @app.route('/download/master-sheet.xlsx')
 def download_master_sheet_excel():
     excel_path = os.path.join(DATA_DIR, 'verified_posts_master_sheet.xlsx')
