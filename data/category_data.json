@@ -1,4 +1,76 @@
 {
+  "admission": [
+    {
+      "title": "Bihar STET Online Form 2026",
+      "title_raw": "Bihar STET Online Form 2026",
+      "badge_html": "",
+      "url": "/bihar-stet-2026/",
+      "short_desc": "Bihar STET invites online applications for Bihar STET Online Form 2026 for 2482 Posts.",
+      "date": "31 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT GATE 2027 Admission Form",
+      "title_raw": "IIT GATE 2027 Admission Form",
+      "badge_html": "",
+      "url": "/iit-gate-2027/",
+      "short_desc": "IIT GATE 2027 Admissions Examination invites online applications for IIT GATE 2027 Admission Form for 2482 Posts.",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIM CAT 2026 Admission Form",
+      "title_raw": "IIM CAT 2026 Admission Form",
+      "badge_html": "",
+      "url": "/iim-cat-2026/",
+      "short_desc": "IIM CAT Admissions invites online applications for IIM CAT 2026 Admission Form for 2482 Posts.",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UP Scholarship Online Form 2026-27",
+      "title_raw": "UP Scholarship Online Form 2026-27",
+      "badge_html": "",
+      "url": "/up-scholarship-2026/",
+      "short_desc": "UP Scholarship Scheme 2025-26 invites online applications for UP Scholarship Online Form 2026-27 for 2482 Posts.",
+      "date": "21 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "AIBE 22th Online Form 2026",
+      "title_raw": "AIBE 22th Online Form 2026",
+      "badge_html": "",
+      "url": "/2026-aibe-22th-aug26/",
+      "short_desc": "Official Board invites online applications for AIBE 22th Online Form 2026 for Various Seats.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT JAM Admission Form 2026",
+      "title_raw": "IIT JAM Admission Form 2026",
+      "badge_html": "",
+      "url": "/iit-jam-2027/",
+      "short_desc": "Official Board invites online applications for IIT JAM Admission Form 2026 for Various Seats.",
+      "date": "12 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "CLAT Admission Form 2026",
+      "title_raw": "CLAT Admission Form 2026",
+      "badge_html": "",
+      "url": "/clat-2026/",
+      "short_desc": "Official Board invites online applications for CLAT Admission Form 2026 for Various Seats.",
+      "date": "31 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ],
   "latest-jobs": [
     {
       "title": "IBPS Clerk (CSA) 16th Recruitment 2026",
@@ -343,78 +415,6 @@
       "is_pinned": false
     }
   ],
-  "admission": [
-    {
-      "title": "Bihar STET Online Form 2026",
-      "title_raw": "Bihar STET Online Form 2026",
-      "badge_html": "",
-      "url": "/bihar-stet-2026/",
-      "short_desc": "Bihar STET invites online applications for Bihar STET Online Form 2026 for 2482 Posts.",
-      "date": "31 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT GATE 2027 Admission Form",
-      "title_raw": "IIT GATE 2027 Admission Form",
-      "badge_html": "",
-      "url": "/iit-gate-2027/",
-      "short_desc": "IIT GATE 2027 Admissions Examination invites online applications for IIT GATE 2027 Admission Form for 2482 Posts.",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIM CAT 2026 Admission Form",
-      "title_raw": "IIM CAT 2026 Admission Form",
-      "badge_html": "",
-      "url": "/iim-cat-2026/",
-      "short_desc": "IIM CAT Admissions invites online applications for IIM CAT 2026 Admission Form for 2482 Posts.",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UP Scholarship Online Form 2026-27",
-      "title_raw": "UP Scholarship Online Form 2026-27",
-      "badge_html": "",
-      "url": "/up-scholarship-2026/",
-      "short_desc": "Official Board invites online applications for UP Scholarship Online Form 2026-27 for Various Seats.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "AIBE 22th Online Form 2026",
-      "title_raw": "AIBE 22th Online Form 2026",
-      "badge_html": "",
-      "url": "/2026-aibe-22th-aug26/",
-      "short_desc": "Official Board invites online applications for AIBE 22th Online Form 2026 for Various Seats.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT JAM Admission Form 2026",
-      "title_raw": "IIT JAM Admission Form 2026",
-      "badge_html": "",
-      "url": "/iit-jam-2027/",
-      "short_desc": "Official Board invites online applications for IIT JAM Admission Form 2026 for Various Seats.",
-      "date": "12 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "CLAT Admission Form 2026",
-      "title_raw": "CLAT Admission Form 2026",
-      "badge_html": "",
-      "url": "/clat-2026/",
-      "short_desc": "Official Board invites online applications for CLAT Admission Form 2026 for Various Seats.",
-      "date": "31 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
   "result": [
     {
       "title": "NTA SWAYAM Result 2026",
@@ -432,16 +432,6 @@
       "badge_html": "",
       "url": "/rpsc-rajasthan-police-si-telecom-2025/",
       "short_desc": "Official Board invites online applications for RPSC Rajasthan Police SI Telecom Final Result 2026 for 98 Post.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar Police CSBC Constable Operator Result 2026",
-      "title_raw": "Bihar Police CSBC Constable Operator Result 2026",
-      "badge_html": "",
-      "url": "/bihar-police-csbc-constable-operator-2026/",
-      "short_desc": "Official Board invites online applications for Bihar Police CSBC Constable Operator Result 2026 for 993 Posts.",
       "date": "September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
@@ -698,10 +688,6 @@
       "short_desc": "Official Board invites online applications for JSSC Field Worker Answer Key 2026 for 510 Posts.",
       "date": "September 2026",
       "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ]
-}   "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
   ]
