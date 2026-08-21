@@ -9,10 +9,22 @@
     "last_run_timestamp": "2026-08-21T10:07:29.817000",
     "last_purged_posts": [
       {
-        "slug": "ssc-chsl-2026-syllabus",
-        "title": "SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026",
-        "expired_on": "2025-07-18",
-        "days_ago": 399
+        "slug": "nta-neet-ug-2026",
+        "title": "NEET UG Online Counselling 2026",
+        "days_ago": 163,
+        "expired_on": "2026-03-11"
+      },
+      {
+        "slug": "up-deled-2026",
+        "title": "UP DELEd Online Counselling 2026",
+        "days_ago": 18,
+        "expired_on": "2026-08-03"
+      },
+      {
+        "slug": "upsssc-vdo-2023",
+        "title": "UPSSSC VDO 2023 Final Result",
+        "days_ago": 1166,
+        "expired_on": "2023-06-12"
       }
     ]
   },
