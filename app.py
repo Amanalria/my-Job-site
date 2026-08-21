@@ -4,8 +4,8 @@ import threading
 def trigger_background_git_sync(commit_msg="chore(sync): auto-update site settings and posts"):
     def _git_worker():
         try:
-            cmd = f'rm -f /root/sarkari-result-portal/.git/index.lock && cd /root/sarkari-result-portal && git add data/ pages/ SITE_SETTINGS.json SETTINGS_GUIDE.md && git commit -m "{commit_msg}" && git push origin master'
-            res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=30)
+            cmd = f'rm -f /root/sarkari-result-portal/.git/index.lock && cd /root/sarkari-result-portal && git pull --rebase origin master && git add data/ pages/ SITE_SETTINGS.json SETTINGS_GUIDE.md && git commit -m "{commit_msg}" && git push origin master'
+            res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=35)
             if res.returncode == 0:
                 print(f"[Auto-Git-Sync] Successfully pushed to GitHub: {commit_msg}")
         except Exception as e:
@@ -5271,7 +5271,7 @@ def api_admin_gh_token():
         try:
             with open(os.path.expanduser('~/.git-credentials'), 'r') as f:
                 creds = f.read()
-                m = re.search(r':(ghp_[a-zA-Z0-9_]+)@', creds)
+                m = re.search(r':(github_pat_[a-zA-Z0-9_]+|ghp_[a-zA-Z0-9_]+)@', creds)
                 if m:
                     token = m.group(1)
         except Exception:
