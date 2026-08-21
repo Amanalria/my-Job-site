@@ -373,8 +373,11 @@ def audit_and_execute_lifecycle():
         post['is_pinned'] = is_pinned
 
         # Classify state and priority
+        is_archive_category = (cat in ['result', 'admit-card', 'answer-key', 'syllabus', 'admission'])
+        should_purge = config.get('purge_expired_posts', False) and not is_archive_category
+
         if days_remaining is not None:
-            if days_remaining < -grace_period:
+            if days_remaining < -grace_period and should_purge:
                 purged_slugs.append({
                     "slug": slug,
                     "title": title,
