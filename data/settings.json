@@ -1,19 +1,19 @@
 {
-  "site_name": "STUDY TOPPER\u2122",
+  "site_name": "STUDY TOPPER™",
   "domain": "studytopper.in",
   "tagline": "India's Leading Govt Job Portal",
   "top_banner_text": "Study Topper : studytopper.in",
   "meta_description": "StudyTopper.in provides fastest and verified notifications for Government Jobs, Sarkari Result, Admit Cards, Answer Keys, Syllabus and Admissions.",
   "meta_keywords": "sarkari result, study topper, studytopper, latest jobs, admit card, answer key, syllabus, admission",
   "header_customizer": {
-    "title_text": "STUDY TOPPER\u2122",
-    "title_size_desktop": 51.0,
-    "title_size_mobile": 36.0,
+    "title_text": "STUDY TOPPER™",
+    "title_size_desktop": 51,
+    "title_size_mobile": 36,
     "title_weight": "900",
     "title_font": "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     "title_color": "#ffffff",
     "title_letter_spacing": 0.8,
-    "desc_text": "India's Leading Govt Job Portal",
+    "desc_text": "studytopper.in",
     "desc_size_desktop": 25.8,
     "desc_size_mobile": 18.8,
     "desc_weight": "700",
@@ -30,20 +30,6 @@
     "min_height_mobile": 130
   },
   "theme_colors": {
-    "header_bg": "#cd0808",
-    "header_text": "#ffffff",
-    "nav_bg": "#0c2340",
-    "nav_text": "#ffffff",
-    "whatsapp_btn_bg": "#00a82d",
-    "whatsapp_btn_text": "#ffffff",
-    "result_header_bg": "#ab183d",
-    "admit_header_bg": "#ab183d",
-    "jobs_header_bg": "#ab183d",
-    "answer_header_bg": "#ab183d",
-    "syllabus_header_bg": "#ab183d",
-    "admission_header_bg": "#ab183d",
-    "footer_bg": "#1d2327",
-    "footer_text": "#ffffff",
     "card_1_bg": "#fb0303",
     "card_2_bg": "#fb5e03",
     "card_3_bg": "#ed13e3",
@@ -52,10 +38,17 @@
     "card_6_bg": "#0080ff",
     "card_7_bg": "#5f0000",
     "card_8_bg": "#077822",
+    "header_bg": "#cd0808",
+    "header_text": "#ffffff",
+    "result_header_bg": "#ab183d",
     "admit_card_header_bg": "#ab183d",
+    "admit_header_bg": "#ab183d",
     "latest_jobs_header_bg": "#ab183d",
+    "latest_header_bg": "#ab183d",
     "answer_key_header_bg": "#ab183d",
-    "latest_header_bg": "#ab183d"
+    "answer_header_bg": "#ab183d",
+    "syllabus_header_bg": "#ab183d",
+    "admission_header_bg": "#ab183d"
   },
   "highlight_cards": [
     {
@@ -63,7 +56,7 @@
       "url": "/railway-rrb-alp-2026/"
     },
     {
-      "title": "SAV Bihar Class 6 Entrance Exam Online Form",
+      "title": "SAV Bihar Class 6 Entrance Exam Form",
       "url": "/sav-bihar-class-6-2026/"
     },
     {
@@ -98,11 +91,11 @@
     },
     {
       "text": "UP Police Result",
-      "url": "/up-police-constable-result-2024/"
+      "url": "/"
     },
     {
       "text": "Bihar Police Result",
-      "url": "/bihar-police-constable-result-2024/"
+      "url": "/"
     },
     {
       "text": "Study Topper Exam",
@@ -172,7 +165,7 @@
     },
     {
       "title": "StudyTopper.in Official Information & Disclaimer",
-      "content": "studytopper.in is the official portal of Study Topper\u2122 (Since 2026), presenting all latest career notices, employment news, admit card releases, exam keys, and direct online application links for job aspirants across India."
+      "content": "studytopper.in is the official portal of Study Topper™ (Since 2026), presenting all latest career notices, employment news, admit card releases, exam keys, and direct online application links for job aspirants across India."
     }
   ],
   "faq_items": [
@@ -227,7 +220,7 @@
     "whatsapp": "https://whatsapp.com/channel/0029Va9xyz",
     "telegram": "https://t.me/studytopperofficial",
     "instagram": "https://instagram.com/",
-    "youtube": "https://youtube.com/@",
+    "youtube": "",
     "facebook": "https://facebook.com/",
     "twitter": "https://x.com/"
   },
@@ -277,13 +270,13 @@
         "url": "/disclaimer/"
       }
     ],
-    "copyright_text": "Copyright \u00a9 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance."
+    "copyright_text": "Copyright © 2026. All Rights Reserved. Not affiliated with any government agency. Information published for educational guidance."
   },
   "app_cta": {
     "enabled": true,
     "title": "StudyTopper.in",
     "subtitle": "Fastest Government Job Updates, Results, Admit Cards & Exam Syllabus Portal",
-    "button_text": "\ud83d\udcf1 Download StudyTopper Mobile App & English Vocab",
+    "button_text": "📱 Download StudyTopper Mobile App & English Vocab",
     "button_url": "https://play.google.com/store/apps/details?id=in.qmaths.blackbook",
     "bg_color": "#fdfaf2",
     "button_color": "#046132"
@@ -467,7 +460,7 @@
     "key": ""
   },
   "mobile_app_cta": {
-    "button_text": "\ud83d\udcf1 Download StudyTopper Mobile App & English Vocab",
+    "button_text": "📱 Download StudyTopper Mobile App & English Vocab",
     "button_url": "https://play.google.com/store/apps/details?id=in.qmaths.blackbook"
   },
   "footer_text": ""
