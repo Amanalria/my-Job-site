@@ -9,10 +9,16 @@
     "last_run_timestamp": "2026-08-21T10:07:29.817000",
     "last_purged_posts": [
       {
-        "slug": "upsssc-lower-pcs-2026",
-        "title": "UPSSSC Lower PCS Admit Card 2026",
-        "expired_on": "2026-06-25",
-        "days_ago": 57
+        "slug": "bsf-hcm-asi-steno-2025",
+        "title": "BSF HCM & ASI Steno Admit Card 2026",
+        "expired_on": "2024-07-08",
+        "days_ago": 774
+      },
+      {
+        "slug": "upsssc-agriculture-technical-assistant-group-c-2026",
+        "title": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
+        "expired_on": "2026-06-11",
+        "days_ago": 71
       }
     ]
   },
