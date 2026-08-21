@@ -7,8 +7,8 @@
   "meta_keywords": "sarkari result, study topper, studytopper, latest jobs, admit card, answer key, syllabus, admission",
   "header_customizer": {
     "title_text": "STUDY TOPPER™",
-    "title_size_desktop": 51.0,
-    "title_size_mobile": 36.0,
+    "title_size_desktop": 51,
+    "title_size_mobile": 36,
     "title_weight": "900",
     "title_font": "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     "title_color": "#ffffff",
@@ -30,20 +30,6 @@
     "min_height_mobile": 130
   },
   "theme_colors": {
-    "header_bg": "#cd0808",
-    "header_text": "#ffffff",
-    "nav_bg": "#0c2340",
-    "nav_text": "#ffffff",
-    "whatsapp_btn_bg": "#00a82d",
-    "whatsapp_btn_text": "#ffffff",
-    "result_header_bg": "#ab183d",
-    "admit_header_bg": "#ab183d",
-    "jobs_header_bg": "#ab183d",
-    "answer_header_bg": "#ab183d",
-    "syllabus_header_bg": "#ab183d",
-    "admission_header_bg": "#ab183d",
-    "footer_bg": "#1d2327",
-    "footer_text": "#ffffff",
     "card_1_bg": "#fb0303",
     "card_2_bg": "#fb5e03",
     "card_3_bg": "#ed13e3",
@@ -51,11 +37,7 @@
     "card_5_bg": "#868a08",
     "card_6_bg": "#0080ff",
     "card_7_bg": "#5f0000",
-    "card_8_bg": "#077822",
-    "admit_card_header_bg": "#ab183d",
-    "latest_jobs_header_bg": "#ab183d",
-    "answer_key_header_bg": "#ab183d",
-    "latest_header_bg": "#ab183d"
+    "card_8_bg": "#077822"
   },
   "highlight_cards": [
     {
@@ -63,7 +45,7 @@
       "url": "/railway-rrb-alp-2026/"
     },
     {
-      "title": "SAV Bihar Class 6 Entrance Exam Online Form",
+      "title": "SAV Bihar Class 6 Entrance Exam Form",
       "url": "/sav-bihar-class-6-2026/"
     },
     {
