@@ -198,16 +198,9 @@ class UniversalDesignAgent:
         faq_items_html = ""
         for idx, (q, a) in enumerate(faqs, 1):
             is_last = (idx == len(faqs))
-            mb = "0" if is_last else "12px"
-            faq_items_html += f'''
-<div style="margin-bottom: {mb}; border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; background: #ffffff;">
-  <div style="background-color: #f1f5f9; padding: 9px 14px; font-weight: 700; color: #000080; font-size: 14.5px; border-bottom: 1px solid #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-    Q{idx}. {q}
-  </div>
-  <div style="padding: 10px 14px; font-size: 14px; line-height: 1.6; color: #222222; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-    {a}
-  </div>
-</div>'''
+            mb = "0" if is_last else "16px"
+            faq_items_html += f'''<p style="margin: 0 0 4px 0;"><strong style="color: #000080;">Q{idx}. {q}</strong></p>
+<p style="margin: 0 0 {mb} 0; color: #333333; line-height: 1.6;">Ans. {a}</p>'''
 
         latest_links = [
             ("IBPS Clerk 16th Recruitment 2026", "/ibps-clerk-16th-2026/"),
@@ -228,12 +221,12 @@ class UniversalDesignAgent:
         latest_html = "".join([f'<p style="margin: 6px 0; font-size: 14px;"><a href="{url}" style="color: #0056b3; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in latest_links])
         related_html = "".join([f'<p style="margin: 6px 0; font-size: 14px;"><a href="{url}" style="color: #0056b3; text-decoration: none; font-weight: 600;">• {txt}</a></p>' for txt, url in related_links])
 
-        return f'''<!-- SECTION 1: 5 STRUCTURED FREQUENTLY ASKED QUESTIONS (FAQ - QUESTION TOP / ANSWER BELOW) -->
-<div class="st-faq-section" style="margin-top: 25px; margin-bottom: 20px; width: 100%;">
-  <div style="background-color: #000080; color: #ffffff; font-size: 15.5px; font-weight: 700; text-align: center; padding: 10px 14px; border-radius: 4px 4px 0 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+        return f'''<!-- SECTION 1: FREQUENTLY ASKED QUESTIONS (FAQ - SIMPLE & CLEAN) -->
+<div class="st-faq-section" style="margin: 25px 0 20px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <h3 style="color: #000080; font-size: 16.5px; font-weight: 700; border-bottom: 2px solid #000080; padding-bottom: 6px; margin: 0 0 16px 0;">
     {title} : Frequently Asked Questions (FAQ)
-  </div>
-  <div style="border: 1px solid #000080; border-top: none; border-radius: 0 0 4px 4px; padding: 14px; background: #ffffff;">
+  </h3>
+  <div style="font-size: 14.5px; line-height: 1.65; color: #222222;">
     {faq_items_html}
   </div>
 </div>
@@ -660,41 +653,29 @@ class UniversalDesignAgent:
             from PIL import Image, ImageDraw, ImageFont
             import textwrap
 
-            width = 640
-            height = 330
-            img = Image.new('RGB', (width, height), color='#ffffff')
-            draw = ImageDraw.Draw(img)
-            draw.rectangle([(0, 0), (width - 1, height - 1)], outline='#881337', width=3)
+            # 1. Load Real Base Image
+            base_img_path = os.path.join(self.static_dir, "images", "studytopper_banner_base.webp")
+            if not os.path.exists(base_img_path):
+                base_img_path = os.path.join(self.static_dir, "images", "base_templates", "template_1_classic_crimson.webp")
             
-            # Header gradient (Burgundy)
-            top_h = 52
-            for y in range(3, top_h):
-                r = int(171 + (136 - 171) * (y - 3) / top_h)
-                g = int(24 + (19 - 24) * (y - 3) / top_h)
-                b = int(61 + (55 - 61) * (y - 3) / top_h)
-                draw.line([(3, y), (width - 4, y)], fill=(r, g, b))
+            if os.path.exists(base_img_path):
+                img = Image.open(base_img_path).convert('RGB')
+            else:
+                width, height = 640, 330
+                img = Image.new('RGB', (width, height), color='#ffffff')
 
-            # Gold accent stripe
-            draw.rectangle([(3, top_h), (width - 4, top_h + 3)], fill='#fbbf24')
+            draw = ImageDraw.Draw(img)
+            width, height = img.size
             
-            # Fonts
             font_bold_path = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
-            font_reg_path = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
             
-            def get_f(path, size):
+            def get_f(size):
                 try:
-                    return ImageFont.truetype(path, size)
+                    return ImageFont.truetype(font_bold_path, size)
                 except Exception:
                     return ImageFont.load_default()
 
-            # Header text
-            draw.text((18, 14), 'STUDY TOPPER™', fill='#ffffff', font=get_f(font_bold_path, 20))
-            draw.text((width - 180, 18), 'WWW.STUDYTOPPER.IN', fill='#fef08a', font=get_f(font_bold_path, 12))
-
-            # Inner subtle canvas
-            draw.rounded_rectangle([(14, top_h + 12), (width - 15, height - 42)], radius=6, fill='#fcfcfc', outline='#e2e8f0', width=1)
-
-            # Title Wrap & Render
+            # Title Wrap & Render on Base Image
             clean_title = data.get("title", "Govt Recruitment 2026").strip()
             lines = textwrap.wrap(clean_title, width=32)
             if len(lines) > 2:
@@ -702,15 +683,15 @@ class UniversalDesignAgent:
                 lines[1] = lines[1][:28] + "..."
 
             if len(lines) == 1:
-                title_font_size = 24
+                title_font_size = 23
                 title_y = 112
                 line_spacing = 0
             else:
-                title_font_size = 20
+                title_font_size = 19
                 title_y = 96
-                line_spacing = 26
+                line_spacing = 25
 
-            title_font = get_f(font_bold_path, title_font_size)
+            title_font = get_f(title_font_size)
             for i, line in enumerate(lines):
                 y = title_y + (i * line_spacing)
                 draw.text((width // 2, y), line, fill='#0b213f', font=title_font, anchor='mm')
@@ -749,28 +730,18 @@ class UniversalDesignAgent:
                     meta_parts.append("Apply Online Active")
 
             meta_text = "   |   ".join(meta_parts)
-            meta_font = get_f(font_bold_path, 16 if len(meta_text) < 45 else 14)
+            meta_font = get_f(15 if len(meta_text) < 45 else 13)
             draw.text((width // 2, meta_y), meta_text, fill='#b91c1c', font=meta_font, anchor='mm')
 
-            # Subtitle / Eligibility
+            # Subtitle / Organization Line
             sub_y = meta_y + 44
             sub_text = f"Organization: {data.get('organization', 'Govt Authority')[:40]} • 100% Real Updates"
-            sub_font = get_f(font_bold_path, 12)
+            sub_font = get_f(12)
             draw.text((width // 2, sub_y), sub_text, fill='#475569', font=sub_font, anchor='mm')
 
-            # Footer
-            draw.rectangle([(3, height - 38), (width - 4, height - 4)], fill='#0f172a')
-            draw.text((width // 2, height - 21), 'Fastest Sarkari Naukri & Result Updates • Free Mock Tests & PDF', fill='#ffffff', font=get_f(font_bold_path, 11), anchor='mm')
-
-            # Save WebP strictly < 10KB
-            q = 75
-            while q >= 20:
-                img.save(out_path, 'WEBP', quality=q, method=6)
-                if os.path.getsize(out_path) / 1024.0 <= 9.8:
-                    break
-                q -= 5
-
-            print(f"[Thumbnail] Generated: {out_path} ({os.path.getsize(out_path)/1024.0:.1f} KB)")
+            # Save WebP strictly < 15KB
+            img.save(out_path, 'WEBP', quality=85, method=6)
+            print(f"[Thumbnail] Generated on Base Image: {out_path} ({os.path.getsize(out_path)/1024.0:.1f} KB)")
         except Exception as e:
             print(f"[Thumbnail Error] {e}")
             with open(out_path, "wb") as f:
