@@ -144,6 +144,7 @@ def parse_date_string(date_str):
 def load_lifecycle_settings():
     default_settings = {
         "lifecycle_enabled": True,
+        "purge_expired_posts": True,
         "urgent_days_threshold": 3,
         "expired_grace_period_days": 1,
         "auto_git_sync": True,
@@ -165,6 +166,10 @@ def load_lifecycle_settings():
         saved = safe_read_json(SETTINGS_FILE, {})
         
     lifecycle_config = saved.get('lifecycle_config', {})
+    lifecycle_direct_file = os.path.join(DATA_DIR, 'lifecycle_settings.json')
+    if os.path.exists(lifecycle_direct_file):
+        direct_cfg = safe_read_json(lifecycle_direct_file, {})
+        lifecycle_config.update(direct_cfg)
     default_settings.update(lifecycle_config)
     if 'pinned_posts' in saved:
         default_settings['pinned_posts'] = saved.get('pinned_posts', default_settings['pinned_posts'])
