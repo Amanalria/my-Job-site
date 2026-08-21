@@ -329,8 +329,18 @@
       "title_raw": "Bihar STET Online Form 2026",
       "badge_html": "",
       "url": "/bihar-stet-2026/",
-      "short_desc": "Bihar STET invites online applications for Bihar STET Online Form 2026 for 2482 Posts.",
+      "short_desc": "Bihar STET announces Bihar STET Online Form 2026 (2482 Posts).",
       "date": "31 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT GATE 2027 Admission Form",
+      "title_raw": "IIT GATE 2027 Admission Form",
+      "badge_html": "",
+      "url": "/iit-gate-2027/",
+      "short_desc": "IIT GATE 2027 Admissions Examination announces IIT GATE 2027 Admission Form (2482 Posts).",
+      "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
@@ -340,16 +350,6 @@
       "badge_html": "",
       "url": "/iim-cat-2026/",
       "short_desc": "IIM CAT Admissions announces IIM CAT 2026 Admission Form (2482 Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT GATE 2027 Admission Form",
-      "title_raw": "IIT GATE 2027 Admission Form",
-      "badge_html": "",
-      "url": "/iit-gate-2027/",
-      "short_desc": "IIT GATE 2027 Admissions Examination invites online applications for IIT GATE 2027 Admission Form for 2482 Posts.",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
