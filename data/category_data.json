@@ -425,68 +425,6 @@
       "is_pinned": false
     }
   ],
-  "admit-card": [
-    {
-      "title": "IBPS SO XVI Pre Admit Card 2026",
-      "title_raw": "IBPS SO XVI Pre Admit Card 2026",
-      "badge_html": "",
-      "url": "/ibps-so-xvi-2026/",
-      "short_desc": "IBPS SO XVI invites online applications for IBPS SO XVI Pre Admit Card 2026 for 1035 posts.",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Railway RRB Group D Admit Card 2026",
-      "title_raw": "Railway RRB Group D Admit Card 2026",
-      "badge_html": "",
-      "url": "/railway-rrb-group-d-level-1-recruitment-2026-online/",
-      "short_desc": "Official Board invites online applications for Railway RRB Group D Admit Card 2026 for 22,195 Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "BPSSC Bihar Police Havildar Instructor PET Admit Card 2026",
-      "title_raw": "BPSSC Bihar Police Havildar Instructor PET Admit Card 2026",
-      "badge_html": "",
-      "url": "/bpssc-havildar-instructor-2026/",
-      "short_desc": "Official Board invites online applications for BPSSC Bihar Police Havildar Instructor PET Admit Card 2026 for 122 Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UPSSSC Lower PCS Admit Card 2026",
-      "title_raw": "UPSSSC Lower PCS Admit Card 2026",
-      "badge_html": "",
-      "url": "/upsssc-lower-pcs-2026/",
-      "short_desc": "Official Board invites online applications for UPSSSC Lower PCS Admit Card 2026 for 2587 Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Cotton Corporation of India CCI Various Post Exam City Details 2026",
-      "title_raw": "Cotton Corporation of India CCI Various Post Exam City Details 2026",
-      "badge_html": "",
-      "url": "/cci-various-post-2026/",
-      "short_desc": "Official Board invites online applications for Cotton Corporation of India CCI Various Post Exam City Details 2026 for 148 Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "NTA AIAPGET Admit Card 2026",
-      "title_raw": "NTA AIAPGET Admit Card 2026",
-      "badge_html": "",
-      "url": "/nta-aiapget-2026/",
-      "short_desc": "Official Board invites online applications for NTA AIAPGET Admit Card 2026 for Various Posts.",
-      "date": "September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
   "result": [
     {
       "title": "NTA SWAYAM Result 2026",
@@ -559,6 +497,88 @@
       "is_pinned": false
     }
   ],
+  "admit-card": [
+    {
+      "title": "Railway RRB Group D Admit Card 2026",
+      "title_raw": "Railway RRB Group D Admit Card 2026",
+      "badge_html": "",
+      "url": "/railway-rrb-group-d-level-1-recruitment-2026-online/",
+      "short_desc": "Official Board invites online applications for Railway RRB Group D Admit Card 2026 for 22,195 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IBPS SO XVI Pre Admit Card 2026",
+      "title_raw": "IBPS SO XVI Pre Admit Card 2026",
+      "badge_html": "",
+      "url": "/ibps-so-xvi-2026/",
+      "short_desc": "Official Board invites online applications for IBPS SO XVI Pre Admit Card 2026 for 1035 posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "BSNL Junior Telecom Officer JTO Admit Card 2026",
+      "title_raw": "BSNL Junior Telecom Officer JTO Admit Card 2026",
+      "badge_html": "",
+      "url": "/bsnl-junior-telecom-officer-jto-2026/",
+      "short_desc": "Official Board invites online applications for BSNL Junior Telecom Officer JTO Admit Card 2026 for 100 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC Lower PCS Admit Card 2026",
+      "title_raw": "UPSSSC Lower PCS Admit Card 2026",
+      "badge_html": "",
+      "url": "/upsssc-lower-pcs-2026/",
+      "short_desc": "Official Board invites online applications for UPSSSC Lower PCS Admit Card 2026 for 2587 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "BSF HCM & ASI Steno Admit Card 2026",
+      "title_raw": "BSF HCM & ASI Steno Admit Card 2026",
+      "badge_html": "",
+      "url": "/bsf-hcm-asi-steno-2025/",
+      "short_desc": "Official Board invites online applications for BSF HCM & ASI Steno Admit Card 2026 for 2 posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Cotton Corporation of India CCI Various Post Exam City Details 2026",
+      "title_raw": "Cotton Corporation of India CCI Various Post Exam City Details 2026",
+      "badge_html": "",
+      "url": "/cci-various-post-2026/",
+      "short_desc": "Official Board invites online applications for Cotton Corporation of India CCI Various Post Exam City Details 2026 for 148 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "NTA AIAPGET Admit Card 2026",
+      "title_raw": "NTA AIAPGET Admit Card 2026",
+      "badge_html": "",
+      "url": "/nta-aiapget-2026/",
+      "short_desc": "Official Board invites online applications for NTA AIAPGET Admit Card 2026 for Various Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "NBEMS Group A, B & C Various Post Exam City Details 2026",
+      "title_raw": "NBEMS Group A, B & C Various Post Exam City Details 2026",
+      "badge_html": "",
+      "url": "/nbems-various-post-2026/",
+      "short_desc": "Official Board invites online applications for NBEMS Group A, B & C Various Post Exam City Details 2026 for 53 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ],
   "answer-key": [
     {
       "title": "UPSSSC BCG Technician Final Answer Key 2026",
@@ -616,6 +636,16 @@
       "badge_html": "",
       "url": "/bpsc-apo-2026/",
       "short_desc": "Official Board invites online applications for Bihar BPSC APO Answer Key 2026 for 300 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
+      "title_raw": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
+      "badge_html": "",
+      "url": "/upsssc-agriculture-technical-assistant-group-c-2026/",
+      "short_desc": "Official Board invites online applications for UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026 for 2759 Posts.",
       "date": "September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
