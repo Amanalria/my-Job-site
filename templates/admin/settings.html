@@ -89,6 +89,17 @@
     <div class="wp-main">
         <h1 class="wp-heading-inline">SEO, Webmaster &amp; Cloud Database Settings</h1>
 
+                <!-- Green Success Alert on Save -->
+        {% if request.args.get('saved') == '1' %}
+        <div id="savedAlert" style="background:#dcfce7; border:2px solid #22c55e; color:#15803d; padding:16px 20px; border-radius:8px; margin-top:16px; margin-bottom:20px; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 6px 16px rgba(34,197,94,0.18);">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <i class="fa-solid fa-circle-check" style="font-size:24px; color:#16a34a;"></i>
+                <span>Settings Successfully Saved Locally &amp; Auto-Committed to GitHub Repository!</span>
+            </div>
+            <button type="button" onclick="document.getElementById('savedAlert').style.display='none'" style="background:none; border:none; color:#15803d; font-size:22px; cursor:pointer; font-weight:bold;">&times;</button>
+        </div>
+        {% endif %}
+
         <form action="/api/admin/save-settings" method="POST">
             <div class="settings-grid">
                 <!-- 1. General & SEO -->
@@ -659,73 +670,10 @@
         </form>
     </div>
 
-        <script>
+            <script>
         function toggleSidebar() {
             document.getElementById('wpSidebar').classList.toggle('open');
             document.getElementById('sidebarBackdrop').classList.toggle('open');
-        }
-
-        const GH_TOKEN = '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';
-        const GH_REPO = 'Amanalria/my-Job-site';
-        const GH_BRANCH = 'master';
-
-        // Direct GitHub API Form Committer
-        const sForm = document.getElementById('settingsForm');
-        if(sForm) {
-            sForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const submitBtn = this.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '⏳ Saving & Committing directly to GitHub...';
-
-                const formData = new FormData(this);
-                
-                try {
-                    // 1. Submit locally
-                    const res = await fetch('/api/admin/save-settings', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const data = await res.json();
-                    
-                    // 2. Direct GitHub API commit using Fine-Grained Token
-                    if(data.settings) {
-                        try {
-                            const jsonStr = JSON.stringify(data.settings, null, 2);
-                            const b64Content = btoa(unescape(encodeURIComponent(jsonStr)));
-                            
-                            const fRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/SITE_SETTINGS.json?ref=${GH_BRANCH}`, {
-                                headers: { 'Authorization': `Bearer ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
-                            });
-                            let sha = null;
-                            if(fRes.ok) {
-                                const fd = await fRes.json();
-                                sha = fd.sha;
-                            }
-                            await fetch(`https://api.github.com/repos/${GH_REPO}/contents/SITE_SETTINGS.json`, {
-                                method: 'PUT',
-                                headers: { 'Authorization': `Bearer ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    message: 'chore(admin): save all settings directly from /admin dashboard',
-                                    content: b64Content,
-                                    branch: GH_BRANCH,
-                                    sha: sha
-                                })
-                            });
-                        } catch(ghErr) {
-                            console.log('GitHub API direct commit notice:', ghErr);
-                        }
-                    }
-
-                    alert('✅ Settings saved locally & committed directly to GitHub repository (master)!');
-                    window.location.href = window.location.pathname + '?t=' + Date.now();
-                } catch(err) {
-                    alert('❌ Error saving settings: ' + err.message);
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
-                }
-            });
         }
     </script>
 </body>
