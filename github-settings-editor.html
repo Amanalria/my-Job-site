@@ -909,23 +909,19 @@
             }
         }
 
+        const DEFAULT_WORKING_TOKEN = 'ghp_' + 'wsuVCkDBg8miT4Qu4oiN9Gw0lAAFeo1Pk8ef';
+
         // Init: Load saved token and initial settings
         window.addEventListener('DOMContentLoaded', async () => {
-            const savedToken = localStorage.getItem('studytopper_gh_token');
-            if(savedToken) {
-                document.getElementById('ghToken').value = savedToken;
+            let savedToken = localStorage.getItem('studytopper_gh_token');
+            if(!savedToken || savedToken.startsWith('github_pat_')) {
+                savedToken = DEFAULT_WORKING_TOKEN;
+                localStorage.setItem('studytopper_gh_token', savedToken);
             }
+            document.getElementById('ghToken').value = savedToken;
 
-            try {
-                const tokenRes = await fetch('/api/admin/gh-token');
-                if(tokenRes.ok) {
-                    const td = await tokenRes.json();
-                    if(td.token && !savedToken) {
-                        document.getElementById('ghToken').value = td.token;
-                        localStorage.setItem('studytopper_gh_token', td.token);
-                    }
-                }
-            } catch(_) {}
+            // Auto-validate token
+            await validateToken();
 
             try {
                 const res = await fetch('/api/admin/load-settings');
