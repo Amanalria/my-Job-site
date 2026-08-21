@@ -606,6 +606,7 @@ def audit_and_execute_lifecycle():
 
     sync_homepage_boxes(os.path.join(PAGES_DIR, 'index.html'))
     sync_homepage_boxes(os.path.join(BASE_DIR, 'original_index.html'))
+    sync_homepage_boxes(os.path.join(BASE_DIR, 'index.html'))
 
     # Invalidate rendered page cache in Flask app if running
     try:
@@ -621,8 +622,8 @@ def audit_and_execute_lifecycle():
     save_lifecycle_settings(config)
 
     git_synced = False
-    if purged_slugs and auto_git:
-        commit_msg = f"chore(lifecycle): auto-purge {len(purged_slugs)} expired vacancies past grace period"
+    if auto_git:
+        commit_msg = f"chore(lifecycle): daily auto-sort & expire vacancies ({len(purged_slugs)} purged)" if purged_slugs else "chore(lifecycle): daily auto-sort vacancies and update active dates"
         git_synced = run_git_sync(commit_msg)
 
     return {
