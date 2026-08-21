@@ -50,6 +50,11 @@ _RENDERED_PAGE_CACHE = {}
 _RENDERED_PAGE_CACHE_TIME = {}
 PAGE_CACHE_TTL_SECONDS = 60
 
+def clear_all_caches():
+    global _RENDERED_PAGE_CACHE, _RENDERED_PAGE_CACHE_TIME
+    _RENDERED_PAGE_CACHE = {}
+    _RENDERED_PAGE_CACHE_TIME = {}
+
 def get_cached_response(cache_key: str):
     now = time.time()
     if cache_key in _RENDERED_PAGE_CACHE:
@@ -59,7 +64,7 @@ def get_cached_response(cache_key: str):
 
 def set_cached_response(cache_key: str, content: str):
     if len(_RENDERED_PAGE_CACHE) > 500:
-        _RENDERED_PAGE_CACHE.clear()
+        clear_all_caches()
         _RENDERED_PAGE_CACHE_TIME.clear()
     _RENDERED_PAGE_CACHE[cache_key] = content
     _RENDERED_PAGE_CACHE_TIME[cache_key] = time.time()
@@ -2732,17 +2737,17 @@ def sanitize_html(html_content, current_host, is_alria_mode=False):
     # 12b. Dynamic 5 Red Info Sections
     info_sections = settings.get('info_sections', [])
     if info_sections:
-        c08 = soup.find(class_='gb-container-08c3e704')
-        if c08:
-            info_h2s = [h for h in c08.find_all('h2') if 'FAQ' not in h.get_text() and 'Frequently' not in h.get_text()]
-            for idx, h2_tag in enumerate(info_h2s):
-                if idx < len(info_sections):
-                    sec = info_sections[idx]
-                    if sec.get('title'):
-                        h2_tag.string = sec.get('title')
-                    next_p = h2_tag.find_next_sibling('p')
-                    if next_p and sec.get('content'):
-                        next_p.string = sec.get('content')
+        all_info_h2s = [h for h in soup.find_all('h2') if 'FAQ' not in h.get_text() and 'Frequently' not in h.get_text() and not h.find_parent(class_='gb-grid-wrapper-180dce95')]
+        for idx, h2_tag in enumerate(all_info_h2s):
+            if idx < len(info_sections):
+                sec = info_sections[idx]
+                if sec.get('title'):
+                    h2_tag.clear()
+                    h2_tag.append(sec.get('title'))
+                next_p = h2_tag.find_next_sibling('p')
+                if next_p and sec.get('content'):
+                    next_p.clear()
+                    next_p.append(sec.get('content'))
 
     # 12c. Dynamic FAQ Items Rendering
     faq_items = settings.get('faq_items', [])
@@ -4103,8 +4108,12 @@ def add_performance_and_cache_headers(response):
         response.headers['Content-Type'] = 'text/markdown; charset=utf-8'
         response.headers['Cache-Control'] = 'public, max-age=3600'
     elif response.mimetype == 'text/html':
-        if not path.startswith('/admin') and request.method == 'GET':
-            response.headers['Cache-Control'] = 'public, max-age=120, stale-while-revalidate=600'
+        if path.startswith(('/admin', '/alria', '/api')) or auth.is_authenticated():
+            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+            response.headers['Pragma'] = 'no-cache'
+            response.headers['Expires'] = '0'
+        elif request.method == 'GET':
+            response.headers['Cache-Control'] = 'public, max-age=15, stale-while-revalidate=30'
     
     # 2. Performance & Security Headers
     response.headers['X-Content-Type-Options'] = 'nosniff'
@@ -4440,7 +4449,7 @@ def admin_lifecycle():
 def api_pin_post(slug):
     try:
         lifecycle.pin_post(slug)
-        _RENDERED_PAGE_CACHE.clear()
+        clear_all_caches()
         if supa.is_supabase_configured():
             try:
                 supa.save_settings_to_supabase(load_settings())
@@ -4456,7 +4465,7 @@ def api_pin_post(slug):
 def api_unpin_post(slug):
     try:
         lifecycle.unpin_post(slug)
-        _RENDERED_PAGE_CACHE.clear()
+        clear_all_caches()
         if supa.is_supabase_configured():
             try:
                 supa.save_settings_to_supabase(load_settings())
@@ -4474,7 +4483,7 @@ def api_unpin_post(slug):
 def api_toggle_pin_post(slug):
     try:
         is_pinned = lifecycle.toggle_pin_post(slug)
-        _RENDERED_PAGE_CACHE.clear()
+        clear_all_caches()
         if supa.is_supabase_configured():
             try:
                 supa.save_settings_to_supabase(load_settings())
@@ -4784,7 +4793,7 @@ def api_save_settings():
 
         # Save to disk and Supabase
         save_settings_data(settings)
-        _RENDERED_PAGE_CACHE.clear()
+        clear_all_caches()
 
         if request.is_json:
             return jsonify({'status': 'success', 'settings': settings})

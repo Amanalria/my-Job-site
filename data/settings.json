@@ -51,7 +51,10 @@
     "card_5_bg": "#868a08",
     "card_6_bg": "#0080ff",
     "card_7_bg": "#5f0000",
-    "card_8_bg": "#077822"
+    "card_8_bg": "#077822",
+    "admit_card_header_bg": "#ab183d",
+    "latest_jobs_header_bg": "#ab183d",
+    "answer_key_header_bg": "#ab183d"
   },
   "highlight_cards": [
     {
