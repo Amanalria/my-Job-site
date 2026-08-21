@@ -9973,7 +9973,8 @@ def admin_indexing_page():
         except Exception:
             pass
             
-    all_posts = load_all_active_posts()
+    active_urls = google_indexing.load_active_urls()
+    deindex_urls = google_indexing.load_deindex_urls()
     logs = google_indexing.load_indexing_logs()
     
     msg = request.args.get('msg')
@@ -9982,10 +9983,42 @@ def admin_indexing_page():
     return render_template('admin/indexing.html',
                            is_configured=is_cfg,
                            current_key_preview=preview,
-                           total_active_posts=len(all_posts),
+                           active_count=len(active_urls),
+                           deindex_count=len(deindex_urls),
+                           active_urls_text="\n".join(active_urls),
+                           deindex_urls_text="\n".join(deindex_urls),
                            logs=logs,
                            message=msg,
                            error=err)
+
+@app.route('/admin/indexing/bulk-index-active', methods=['POST'])
+def admin_bulk_index_active():
+    if not auth.is_authenticated():
+        return redirect('/admin/login')
+        
+    urls = google_indexing.load_active_urls()
+    
+    def _bg_bulk_active():
+        google_indexing.bulk_submit_urls(urls, action_type="URL_UPDATED", delay=0.4)
+        
+    threading.Thread(target=_bg_bulk_active, daemon=True).start()
+    return redirect(f'/admin/indexing?msg=Bulk+Indexing+Started+in+Background+for+{len(urls)}+Active+URLs!+Check+logs+below.')
+
+@app.route('/admin/indexing/bulk-deindex-expired', methods=['POST'])
+def admin_bulk_deindex_expired():
+    if not auth.is_authenticated():
+        return redirect('/admin/login')
+        
+    urls = google_indexing.load_deindex_urls()
+    if not urls:
+        return redirect('/admin/indexing?err=No+expired+or+deleted+URLs+found+to+de-index.')
+        
+    def _bg_bulk_deindex():
+        google_indexing.bulk_submit_urls(urls, action_type="URL_DELETED", delay=0.4)
+        
+    threading.Thread(target=_bg_bulk_deindex, daemon=True).start()
+    return redirect(f'/admin/indexing?msg=Bulk+De-indexing+Started+in+Background+for+{len(urls)}+Deleted+URLs!+Check+logs+below.')
+
 
 @app.route('/admin/indexing/save-key', methods=['POST'])
 def admin_save_indexing_key():
@@ -10040,6 +10073,12 @@ def admin_bulk_index_all():
         
     threading.Thread(target=_bg_bulk, daemon=True).start()
     return redirect(f'/admin/indexing?msg=Bulk+Indexing+Started+in+Background+for+{len(urls)}+URLs!+Check+logs+below.')
+
+
+@app.errorhandler(404)
+def handle_404_redirect(e):
+    # SEO Safe 301 Permanent Redirect for all dead/expired links to Homepage
+    return redirect('/', code=301)
 
 if __name__ == '__main__':
     print("===================================================================")

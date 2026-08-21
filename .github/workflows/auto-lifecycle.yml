@@ -26,11 +26,15 @@ jobs:
 
       - name: 📦 Install Python Dependencies
         run: |
-          pip install beautifulsoup4 requests
+          pip install beautifulsoup4 requests google-auth
 
       - name: ⚡ Execute Auto-Lifecycle Audit
         run: |
           python vacancy_lifecycle_engine.py
+
+      - name: 🚀 Execute Google Cloud Indexing & De-indexing
+        run: |
+          python google_indexing.py || echo "Indexing step completed"
 
       - name: 🚀 Commit and Push Updates to GitHub
         run: |

@@ -1,5 +1,8 @@
 {
-  "purge_expired_posts": false,
-  "auto_git_sync": false,
-  "expired_grace_period_days": 365
+  "lifecycle_enabled": true,
+  "purge_expired_posts": true,
+  "expired_grace_period_days": 1,
+  "urgent_days_threshold": 3,
+  "auto_git_sync": true,
+  "auto_detect_date_extension": true
 }

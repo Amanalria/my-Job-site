@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Google Indexing API ‹ StudyTopper Admin</title>
+    <title>Google Indexing &amp; De-indexing Engine ‹ StudyTopper Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dashicons/0.9.0/css/dashicons.min.css">
     <style>
@@ -24,6 +24,15 @@
 
         .wp-main { flex: 1; padding: 25px 30px; overflow-y: auto; }
         .wp-heading-inline { font-size: 23px; font-weight: 400; line-height: 1.3; color: #1d2327; margin-bottom: 20px; }
+
+        .card-box { background: #ffffff; border: 1px solid #c3c4c7; padding: 20px; box-shadow: 0 1px 1px rgba(0,0,0,0.04); margin-bottom: 20px; }
+        .card-title { font-size: 16px; font-weight: 700; color: #1d2327; margin: 0 0 14px 0; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+        
+        .btn-index { background: #10b981; color: #fff; border: none; padding: 9px 18px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-index:hover { background: #059669; }
+        .btn-deindex { background: #ef4444; color: #fff; border: none; padding: 9px 18px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-deindex:hover { background: #dc2626; }
+        .btn-primary { background: #2271b1; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
 
         @media (max-width: 768px) {
             body { display: block; padding-top: 50px; }
@@ -67,12 +76,14 @@
     <div class="wp-main">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
             <div>
-                <h1 class="wp-heading-inline" style="margin: 0;">🚀 Google Indexing API Engine</h1>
-                <p style="color: #64748b; margin: 4px 0 0 0; font-size: 13px;">Submit real-time URL updates to Googlebot without any third-party database (100% Local &amp; Fast)</p>
+                <h1 class="wp-heading-inline" style="margin: 0;">🚀 Google Indexing &amp; De-indexing Engine</h1>
+                <p style="color: #64748b; margin: 4px 0 0 0; font-size: 13px;">Index active posts and instantly de-index expired/deleted 404 posts from Google Search Console</p>
             </div>
-            <a href="https://search.google.com/search-console" target="_blank" style="background: #2271b1; color: #fff; text-decoration: none; padding: 7px 14px; border-radius: 4px; font-weight: 600; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Google Search Console
-            </a>
+            <div style="display:flex; gap:10px;">
+                <a href="https://search.google.com/search-console" target="_blank" class="btn-primary">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Google Search Console
+                </a>
+            </div>
         </div>
 
         {% if message %}
@@ -87,71 +98,110 @@
         </div>
         {% endif %}
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 24px;">
-            <!-- 1. Google Service Account Key Setup -->
-            <div style="background: #ffffff; border: 1px solid #c3c4c7; padding: 20px; box-shadow: 0 1px 1px rgba(0,0,0,0.04);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;">
-                    <h2 style="font-size: 16px; font-weight: 700; color: #1d2327; margin: 0;"><i class="fa-solid fa-key" style="color:#f59e0b;"></i> Service Account Key</h2>
-                    {% if is_configured %}
-                    <span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; border: 1px solid #86efac;">🟢 Configured</span>
-                    {% else %}
-                    <span style="background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; border: 1px solid #fca5a5;">🔴 Key Missing</span>
-                    {% endif %}
+        <!-- 1. Google Service Account Key Setup -->
+        <div class="card-box" style="border-left: 4px solid #f59e0b;">
+            <div class="card-title">
+                <span><i class="fa-solid fa-key" style="color:#f59e0b;"></i> Google Service Account Key (service_account.json)</span>
+                {% if is_configured %}
+                <span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; border: 1px solid #86efac;">🟢 Configured &amp; Active</span>
+                {% else %}
+                <span style="background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; border: 1px solid #fca5a5;">🔴 Key Missing</span>
+                {% endif %}
+            </div>
+            
+            <form method="POST" action="/admin/indexing/save-key">
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 6px;">Paste Service Account JSON Key:</label>
+                    <textarea name="service_account_json" rows="4" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 12px; outline: none; box-sizing: border-box;" placeholder='{ "type": "service_account", "project_id": "...", "client_email": "...", "private_key": "..." }'>{{ current_key_preview }}</textarea>
                 </div>
-                
-                <form method="POST" action="/admin/indexing/save-key">
-                    <div style="margin-bottom: 12px;">
-                        <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 6px;">Paste Service Account JSON Content (service_account.json):</label>
-                        <textarea name="service_account_json" rows="7" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 12px; outline: none; box-sizing: border-box;" placeholder='{ "type": "service_account", "project_id": "...", "private_key": "...", "client_email": "..." }'>{{ current_key_preview }}</textarea>
-                    </div>
-                    <button type="submit" style="background: #2271b1; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <button type="submit" class="btn-primary">
                         💾 Save Service Account Key
                     </button>
-                </form>
-                <div style="margin-top: 14px; font-size: 11px; color: #64748b; line-height: 1.5; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
-                    <b>📌 Setup Note:</b> Add your Service Account Email as an <b>Owner</b> in Google Search Console for <code>https://studytopper.in/</code>.
+                    <span style="font-size: 11px; color: #64748b;">(Must be added as an <b>Owner</b> in Google Search Console for <code>https://studytopper.in/</code>)</span>
                 </div>
+            </form>
+        </div>
+
+        <!-- 2. Dual Bulk Actions: Index Active & Deindex Expired -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 24px;">
+            
+            <!-- Bulk Index Active Posts -->
+            <div class="card-box" style="border-left: 4px solid #10b981; margin-bottom: 0;">
+                <div class="card-title">
+                    <span><i class="fa-solid fa-cloud-arrow-up" style="color:#10b981;"></i> 1. Bulk Index Active Posts</span>
+                    <span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px;">{{ active_count }} Active URLs</span>
+                </div>
+                <p style="font-size: 12px; color: #64748b; margin-bottom: 14px;">Submit all current live vacancy pages, admit cards, and results to Google Search with <code>URL_UPDATED</code>.</p>
+                <form method="POST" action="/admin/indexing/bulk-index-active">
+                    <button type="submit" class="btn-index" style="width: 100%; justify-content: center; padding: 12px;">
+                        <i class="fa-solid fa-rocket"></i> 🚀 Index All {{ active_count }} Active Posts Now
+                    </button>
+                </form>
             </div>
 
-            <!-- 2. Single URL & Bulk Submission Controls -->
-            <div style="background: #ffffff; border: 1px solid #c3c4c7; padding: 20px; box-shadow: 0 1px 1px rgba(0,0,0,0.04);">
-                <h2 style="font-size: 16px; font-weight: 700; color: #1d2327; margin: 0 0 14px 0; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;"><i class="fa-solid fa-bolt" style="color:#3b82f6;"></i> Instant URL Submission</h2>
-                
-                <!-- Single URL Form -->
-                <form method="POST" action="/admin/indexing/submit-url" style="margin-bottom: 18px;">
-                    <div style="margin-bottom: 10px;">
-                        <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">Target URL to Index:</label>
-                        <input type="url" name="target_url" value="https://studytopper.in/" required style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;">
-                    </div>
-                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                        <select name="action_type" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; background: #fff;">
-                            <option value="URL_UPDATED">URL_UPDATED (Publish / Update)</option>
-                            <option value="URL_DELETED">URL_DELETED (Remove URL)</option>
-                        </select>
-                        <button type="submit" style="background: #10b981; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer;">
-                            🚀 Submit to Google
-                        </button>
-                    </div>
-                </form>
-
-                <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 16px 0;">
-
-                <!-- Bulk All Posts -->
-                <div>
-                    <h3 style="font-size: 14px; font-weight: 700; color: #1e293b; margin: 0 0 6px 0;">📦 Bulk Index All Active Posts ({{ total_active_posts }} Posts)</h3>
-                    <p style="font-size: 12px; color: #64748b; margin: 0 0 10px 0;">Sends instant Google Indexing notifications for all active jobs, admit cards, and results.</p>
-                    <form method="POST" action="/admin/indexing/bulk-index-all">
-                        <button type="submit" style="background: #2271b1; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-                            🔥 Bulk Index All {{ total_active_posts }} Posts Now
-                        </button>
-                    </form>
+            <!-- Bulk De-index Expired/Deleted Posts -->
+            <div class="card-box" style="border-left: 4px solid #ef4444; margin-bottom: 0;">
+                <div class="card-title">
+                    <span><i class="fa-solid fa-trash-can" style="color:#ef4444;"></i> 2. Bulk De-index Expired/Deleted Posts</span>
+                    <span style="background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px;">{{ deindex_count }} Deleted URLs</span>
                 </div>
+                <p style="font-size: 12px; color: #64748b; margin-bottom: 14px;">Instantly notify Googlebot to remove expired/deleted 404 pages from Google Index with <code>URL_DELETED</code>.</p>
+                <form method="POST" action="/admin/indexing/bulk-deindex-expired">
+                    <button type="submit" class="btn-deindex" style="width: 100%; justify-content: center; padding: 12px;" {% if deindex_count == 0 %}disabled style="opacity:0.6; cursor:not-allowed;"{% endif %}>
+                        <i class="fa-solid fa-ban"></i> 🗑️ De-index All {{ deindex_count }} Deleted Posts Now
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- 3. Single Custom URL Index / De-index Form -->
+        <div class="card-box" style="border-left: 4px solid #3b82f6;">
+            <div class="card-title">
+                <span><i class="fa-solid fa-link" style="color:#3b82f6;"></i> 3. Manual Single URL Instant Action</span>
+            </div>
+            <form method="POST" action="/admin/indexing/submit-url">
+                <div style="display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: flex-end;">
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">Target URL:</label>
+                        <input type="url" name="target_url" placeholder="https://studytopper.in/rpsc-physiotherapist-2026/" required style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; outline: none; box-sizing: border-box;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">Action Type:</label>
+                        <select name="action_type" style="padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; outline: none; background: #fff;">
+                            <option value="URL_UPDATED">🟢 URL_UPDATED (Publish / Fast Index)</option>
+                            <option value="URL_DELETED">🔴 URL_DELETED (Remove / De-index)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary" style="padding: 9px 20px;">
+                        ⚡ Execute Action
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 4. Separate URL Registries (Active vs De-index) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 24px;">
+            <div class="card-box" style="margin-bottom: 0;">
+                <div class="card-title">
+                    <span><i class="fa-solid fa-file-lines" style="color:#10b981;"></i> Active URLs Registry (data/active_urls.txt)</span>
+                </div>
+                <textarea readonly rows="6" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: monospace; font-size: 11px; background: #f8fafc; color: #334155; box-sizing: border-box;">{{ active_urls_text }}</textarea>
+            </div>
+            <div class="card-box" style="margin-bottom: 0;">
+                <div class="card-title">
+                    <span><i class="fa-solid fa-file-circle-xmark" style="color:#ef4444;"></i> De-index URLs Registry (data/deindex_urls.txt)</span>
+                </div>
+                <textarea readonly rows="6" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: monospace; font-size: 11px; background: #f8fafc; color: #334155; box-sizing: border-box;">{{ deindex_urls_text }}</textarea>
             </div>
         </div>
 
-        <!-- 3. Indexing Audit Logs Table -->
-        <div style="background: #ffffff; border: 1px solid #c3c4c7; padding: 20px; box-shadow: 0 1px 1px rgba(0,0,0,0.04);">
-            <h2 style="font-size: 16px; font-weight: 700; color: #1d2327; margin: 0 0 14px 0; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;"><i class="fa-solid fa-list-check" style="color:#10b981;"></i> Live Indexing Audit Logs</h2>
+        <!-- 5. Live Indexing Audit Logs Table -->
+        <div class="card-box">
+            <div class="card-title">
+                <span><i class="fa-solid fa-list-check" style="color:#3b82f6;"></i> Live Googlebot Indexing Audit Logs</span>
+            </div>
             
             {% if logs and logs|length > 0 %}
             <div style="overflow-x: auto;">
@@ -161,7 +211,7 @@
                             <th style="padding: 10px 12px; font-weight: 700; color: #475569;">Time</th>
                             <th style="padding: 10px 12px; font-weight: 700; color: #475569;">URL</th>
                             <th style="padding: 10px 12px; font-weight: 700; color: #475569;">Action</th>
-                            <th style="padding: 10px 12px; font-weight: 700; color: #475569;">Status</th>
+                            <th style="padding: 10px 12px; font-weight: 700; color: #475569;">Google Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -169,7 +219,13 @@
                         <tr style="border-bottom: 1px solid #f1f5f9;">
                             <td style="padding: 10px 12px; color: #64748b; white-space: nowrap;">{{ l.timestamp[:19].replace('T', ' ') }}</td>
                             <td style="padding: 10px 12px; font-weight: 600;"><a href="{{ l.url }}" target="_blank" style="color: #2271b1; text-decoration: none;">{{ l.url }}</a></td>
-                            <td style="padding: 10px 12px;"><span style="background: #e0f2fe; color: #0369a1; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">{{ l.type }}</span></td>
+                            <td style="padding: 10px 12px;">
+                                {% if l.type == 'URL_UPDATED' %}
+                                <span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">🟢 URL_UPDATED</span>
+                                {% else %}
+                                <span style="background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">🔴 URL_DELETED</span>
+                                {% endif %}
+                            </td>
                             <td style="padding: 10px 12px;">
                                 {% if l.status_code == 200 %}
                                 <span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">✅ 200 OK</span>
@@ -184,7 +240,7 @@
             </div>
             {% else %}
             <div style="text-align: center; padding: 30px; color: #64748b; font-size: 13px;">
-                No indexing requests sent yet. Save your Google Service Account key and submit a URL above to start instant indexing.
+                No indexing requests sent yet. Save your Google Service Account key and trigger an action above.
             </div>
             {% endif %}
         </div>

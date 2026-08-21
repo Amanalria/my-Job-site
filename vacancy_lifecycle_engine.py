@@ -377,13 +377,32 @@ def audit_and_execute_lifecycle():
         should_purge = config.get('purge_expired_posts', False) and not is_archive_category
 
         if days_remaining is not None:
-            if days_remaining < -grace_period and should_purge:
-                purged_slugs.append({
+            if days_remaining <= -grace_period and should_purge:
+                deleted_record = {
                     "slug": slug,
                     "title": title,
+                    "url": f"https://studytopper.in/{slug}/",
+                    "category": category,
                     "expired_on": parsed_date.isoformat(),
+                    "deleted_on": datetime.now().isoformat(),
                     "days_ago": abs(days_remaining)
-                })
+                }
+                purged_slugs.append(deleted_record)
+
+                # Append to permanent expired_deleted_posts.json registry
+                deleted_registry_file = os.path.join(DATA_DIR, 'expired_deleted_posts.json')
+                existing_deleted = safe_read_json(deleted_registry_file, [])
+                if not any(d.get('slug') == slug for d in existing_deleted):
+                    existing_deleted.insert(0, deleted_record)
+                    safe_write_json(deleted_registry_file, existing_deleted)
+
+                # Append to deindex_urls.txt
+                deindex_txt_file = os.path.join(DATA_DIR, 'deindex_urls.txt')
+                try:
+                    with open(deindex_txt_file, 'a', encoding='utf-8') as df:
+                        df.write(f"https://studytopper.in/{slug}/\n")
+                except Exception:
+                    pass
 
                 safe_delete_file(html_file)
                 safe_delete_file(os.path.join(RAW_CLONE_DIR, f"{slug}.html"))
@@ -567,6 +586,18 @@ def audit_and_execute_lifecycle():
                 pass
         except Exception as e:
             print(f"Notice: Homepage box sync ({e})")
+
+    # Generate fresh active_urls.txt
+    active_txt_file = os.path.join(DATA_DIR, 'active_urls.txt')
+    try:
+        active_urls = ["https://studytopper.in/"]
+        for p in sorted_all_posts:
+            if p.get('slug'):
+                active_urls.append(f"https://studytopper.in/{p.get('slug')}/")
+        with open(active_txt_file, 'w', encoding='utf-8') as af:
+            af.write("\n".join(active_urls) + "\n")
+    except Exception as e:
+        print("[Lifecycle] active_urls.txt error:", e)
 
     sync_homepage_boxes(os.path.join(PAGES_DIR, 'index.html'))
     sync_homepage_boxes(os.path.join(BASE_DIR, 'original_index.html'))
