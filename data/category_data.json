@@ -375,12 +375,22 @@
       "is_pinned": false
     },
     {
+      "title": "Bihar BSEB DElEd Common Application Form 2026",
+      "title_raw": "Bihar BSEB DElEd Common Application Form 2026",
+      "badge_html": "",
+      "url": "/bihar-bseb-deled-2026/",
+      "short_desc": "Official Board invites online applications for Bihar BSEB DElEd Common Application Form 2026 for Various Seats.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
       "title": "UP Scholarship Online Form 2026-27",
       "title_raw": "UP Scholarship Online Form 2026-27",
       "badge_html": "",
       "url": "/up-scholarship-2026/",
-      "short_desc": "UP Scholarship Scheme 2025-26 invites online applications for UP Scholarship Online Form 2026-27 for 2482 Posts.",
-      "date": "21 September 2026",
+      "short_desc": "Official Board invites online applications for UP Scholarship Online Form 2026-27 for Various Seats.",
+      "date": "September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
@@ -437,21 +447,31 @@
       "is_pinned": false
     },
     {
-      "title": "Bihar Police CSBC Constable GD Result 2026",
-      "title_raw": "Bihar Police CSBC Constable GD Result 2026",
+      "title": "Bihar Police Prohibition Constable Result 2026",
+      "title_raw": "Bihar Police Prohibition Constable Result 2026",
       "badge_html": "",
-      "url": "/bihar-police-csbc-constable-2026/",
-      "short_desc": "Official Board invites online applications for Bihar Police CSBC Constable GD Result 2026 for 83 Posts.",
+      "url": "/csbc-bihar-prohibition-constable-2026/",
+      "short_desc": "Official Board invites online applications for Bihar Police Prohibition Constable Result 2026 for 4210 Posts.",
       "date": "September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
     {
-      "title": "KVS NVS Teaching & Non-Teaching Tier-II Result 2026",
-      "title_raw": "KVS NVS Teaching & Non-Teaching Tier-II Result 2026",
+      "title": "Bihar Police CSBC Constable Operator Result 2026",
+      "title_raw": "Bihar Police CSBC Constable Operator Result 2026",
       "badge_html": "",
-      "url": "/kvs-nvs-teaching-non-teaching-2026/",
-      "short_desc": "Official Board invites online applications for KVS NVS Teaching & Non-Teaching Tier-II Result 2026 for 15,762 Posts.",
+      "url": "/bihar-police-csbc-constable-operator-2026/",
+      "short_desc": "Official Board invites online applications for Bihar Police CSBC Constable Operator Result 2026 for 993 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar Police CSBC Constable GD Result 2026",
+      "title_raw": "Bihar Police CSBC Constable GD Result 2026",
+      "badge_html": "",
+      "url": "/bihar-police-csbc-constable-2026/",
+      "short_desc": "Official Board invites online applications for Bihar Police CSBC Constable GD Result 2026 for 83 Posts.",
       "date": "September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
@@ -465,9 +485,29 @@
       "date": "September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
+    },
+    {
+      "title": "SSC 10+2 CHSL 2025 FRTA Result",
+      "title_raw": "SSC 10+2 CHSL 2025 FRTA Result",
+      "badge_html": "",
+      "url": "/ssc-chsl-2026/",
+      "short_desc": "Official Board invites online applications for SSC 10+2 CHSL 2025 FRTA Result for 3522 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
     }
   ],
   "admit-card": [
+    {
+      "title": "Railway RRB Group D Admit Card 2026",
+      "title_raw": "Railway RRB Group D Admit Card 2026",
+      "badge_html": "",
+      "url": "/railway-rrb-group-d-level-1-recruitment-2026-online/",
+      "short_desc": "Official Board invites online applications for Railway RRB Group D Admit Card 2026 for 22,195 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
     {
       "title": "IBPS SO XVI Pre Admit Card 2026",
       "title_raw": "IBPS SO XVI Pre Admit Card 2026",
@@ -499,11 +539,31 @@
       "is_pinned": false
     },
     {
+      "title": "BPSSC Bihar Police Havildar Instructor PET Admit Card 2026",
+      "title_raw": "BPSSC Bihar Police Havildar Instructor PET Admit Card 2026",
+      "badge_html": "",
+      "url": "/bpssc-havildar-instructor-2026/",
+      "short_desc": "Official Board invites online applications for BPSSC Bihar Police Havildar Instructor PET Admit Card 2026 for 122 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
       "title": "UPSSSC Lower PCS Admit Card 2026",
       "title_raw": "UPSSSC Lower PCS Admit Card 2026",
       "badge_html": "",
       "url": "/upsssc-lower-pcs-2026/",
       "short_desc": "Official Board invites online applications for UPSSSC Lower PCS Admit Card 2026 for 2587 Posts.",
+      "date": "September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "BSF HCM & ASI Steno Admit Card 2026",
+      "title_raw": "BSF HCM & ASI Steno Admit Card 2026",
+      "badge_html": "",
+      "url": "/bsf-hcm-asi-steno-2025/",
+      "short_desc": "Official Board invites online applications for BSF HCM & ASI Steno Admit Card 2026 for 2 posts.",
       "date": "September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
