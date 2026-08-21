@@ -15,6 +15,16 @@ import re
 import json
 from typing import Dict, Any, Tuple, Optional
 
+def is_unwanted_line(t: str) -> bool:
+    tl = t.lower()
+    unwanted_tokens = [
+        'question', 'answer', 'q.', 'ans.', 'you may also check',
+        'related post', 'some useful', 'click here', 'whatsapp', 'telegram',
+        'follow us', 'official website for', 'join group', 'what is the',
+        'how to apply', 'frequently asked', 'contact us', 'disclaimer', 'privacy policy'
+    ]
+    return any(token in tl for token in unwanted_tokens)
+
 class FactCheckerAgent:
     def __init__(self, timeout: int = 12):
         self.role = "DataAuthenticityGuard"
@@ -56,18 +66,28 @@ class FactCheckerAgent:
                     
                     for li in soup.find_all('li'):
                         txt = re.sub(r'\s+', ' ', li.get_text()).strip()
-                        if any(k in txt.lower() for k in ['start date', 'application begin', 'last date', 'fee payment', 'exam date', 'admit card', 'result', 'answer key']):
-                            if ':' in txt:
-                                p = txt.split(':', 1)
-                                dates[p[0].strip()] = p[1].strip()
-                        elif any(k in txt.lower() for k in ['general', 'obc', 'sc', 'st', 'female', 'fee', 'payment mode']):
-                            if ':' in txt:
-                                p = txt.split(':', 1)
-                                fees[p[0].strip()] = p[1].strip()
-                        elif any(k in txt.lower() for k in ['minimum age', 'maximum age', 'age as on', 'age relaxation', 'age limit']):
-                            if ':' in txt:
-                                p = txt.split(':', 1)
-                                ages[p[0].strip()] = p[1].strip()
+                        if not txt or is_unwanted_line(txt):
+                            continue
+                        if ':' in txt:
+                            k, v = txt.split(':', 1)
+                            k, v = k.strip(), v.strip()
+                        elif '-' in txt:
+                            k, v = txt.split('-', 1)
+                            k, v = k.strip(), v.strip()
+                        else:
+                            continue
+                        if is_unwanted_line(k) or is_unwanted_line(v):
+                            continue
+                        kl = k.lower()
+                        vl = v.lower()
+                        if any(x in kl for x in ['minimum age', 'maximum age', 'age limit', 'age calculated', 'age as on', 'age relaxation']):
+                            ages[k] = v
+                        elif any(x in kl for x in ['correction charge', 'correction fee']):
+                            fees[k] = v
+                        elif any(x in kl for x in ['apply start', 'apply begin', 'application start', 'application begin', 'online apply', 'registration start', 'start date', 'begin date', 'last date', 'closing date', 'correction date', 'exam date', 'cbt date', 'admit card', 'result date', 'score card', 'merit list', 'notification']):
+                            dates[k] = v
+                        elif any(x in kl for x in ['general', 'obc', 'sc', 'st', 'ews', 'female', 'ph', 'payment mode', 'fee', 'charge']) or any(x in vl for x in ['₹', 'rs.', 'exempted', 'nil']):
+                            fees[k] = v
 
                     # Links
                     apply_link = ""

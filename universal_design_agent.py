@@ -11,6 +11,18 @@ def slugify(text: str) -> str:
     text = re.sub(r'[^a-z0-9]+', '-', text)
     return text.strip('-')
 
+def is_unwanted_line(t: str) -> bool:
+    if not t:
+        return True
+    tl = str(t).lower()
+    unwanted_tokens = [
+        'question', 'answer', 'q.', 'ans.', 'you may also check',
+        'related post', 'some useful', 'click here', 'whatsapp', 'telegram',
+        'follow us', 'official website for', 'join group', 'what is the',
+        'how to apply', 'frequently asked', 'contact us', 'disclaimer', 'privacy policy'
+    ]
+    return any(token in tl for token in unwanted_tokens)
+
 class UniversalDesignAgent:
     def __init__(self):
         self.base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -383,10 +395,14 @@ class UniversalDesignAgent:
         template = re.sub(r'<meta content="https://studytopper\.in/[^"]*?" property="og:url"/>', f'<meta content="https://studytopper.in/{slug}/" property="og:url"/>', template, count=1)
         template = re.sub(r'<meta content="https://studytopper\.in/static/thumbnails/[^"]*?" property="og:image"/>', f'<meta content="https://studytopper.in/static/thumbnails/{slug}.webp" property="og:image"/>', template, count=1)
 
-        # 1. Dates & Fee Lists
-        dates_li = "".join([f'<li><span style="font-size: 14pt;">{k} : <strong>{v}</strong></span></li>' if "Last Date" not in k else f'<li><span style="font-size: 14pt;">{k} : <span style="color: #ff0000;"><strong>{v}</strong></span></span></li>' for k, v in data.get("important_dates", {}).items()])
-        fee_li = "".join([f'<li><span style="font-size: 14pt;">{k} : <strong>{v}</strong></span></li>' for k, v in data.get("application_fee", {}).items()])
-        age_li = "".join([f'<li><span style="font-size: 14pt;">{k} : <strong>{v}</strong></span></li>' for k, v in data.get("age_limits", {}).items()])
+        # 1. Clean Dates, Fee & Age Lists (Filter out any inline FAQs or questions)
+        clean_dates = {k: v for k, v in data.get("important_dates", {}).items() if not is_unwanted_line(k) and not is_unwanted_line(v)}
+        clean_fees = {k: v for k, v in data.get("application_fee", {}).items() if not is_unwanted_line(k) and not is_unwanted_line(v)}
+        clean_ages = {k: v for k, v in data.get("age_limits", {}).items() if not is_unwanted_line(k) and not is_unwanted_line(v)}
+
+        dates_li = "".join([f'<li><span style="font-size: 14pt;">{k} : <strong>{v}</strong></span></li>' if "Last Date" not in k else f'<li><span style="font-size: 14pt;">{k} : <span style="color: #ff0000;"><strong>{v}</strong></span></span></li>' for k, v in clean_dates.items()])
+        fee_li = "".join([f'<li><span style="font-size: 14pt;">{k} : <strong>{v}</strong></span></li>' for k, v in clean_fees.items()])
+        age_li = "".join([f'<li><span style="font-size: 14pt;">{k} : <strong>{v}</strong></span></li>' for k, v in clean_ages.items()])
 
         # 2. Category-Specific Box Titles
         if category == "result":
@@ -547,7 +563,7 @@ class UniversalDesignAgent:
   </div>
 </div>
 </div>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9762662687323163"></script>
+
 <!-- Study Topper -->
 <ins class="adsbygoogle" data-ad-client="ca-pub-9762662687323163" data-ad-format="auto" data-ad-slot="7596594071" data-full-width-responsive="true" style="display:block"></ins>
 <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
@@ -620,7 +636,7 @@ class UniversalDesignAgent:
 </tbody>
 </table>
 </div>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9762662687323163"></script>
+
 <!-- Study Topper -->
 <ins class="adsbygoogle" data-ad-client="ca-pub-9762662687323163" data-ad-format="auto" data-ad-slot="7596594071" data-full-width-responsive="true" style="display:block"></ins>
 <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
