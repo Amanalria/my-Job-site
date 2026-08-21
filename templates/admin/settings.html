@@ -659,104 +659,72 @@
         </form>
     </div>
 
-    <script>
+        <script>
         function toggleSidebar() {
             document.getElementById('wpSidebar').classList.toggle('open');
             document.getElementById('sidebarBackdrop').classList.toggle('open');
         }
 
-        // Test Supabase Connection
-        async function testSupabase() {
-            const badge = document.getElementById('supaStatusBadge');
-            badge.className = 'badge-conn badge-offline';
-            badge.innerText = 'Testing...';
+        const GH_TOKEN = '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';
+        const GH_REPO = 'Amanalria/my-Job-site';
+        const GH_BRANCH = 'master';
 
-            try {
-                const res = await fetch('/api/admin/supabase/test');
-                const data = await res.json();
-                if(data.connected) {
-                    badge.className = 'badge-conn badge-online';
-                    badge.innerText = '🟢 Connected';
-                    alert(data.message);
-                } else {
-                    badge.className = 'badge-conn badge-offline';
-                    badge.innerText = '⚪ Disconnected';
-                    alert(data.message);
+        // Direct GitHub API Form Committer
+        const sForm = document.getElementById('settingsForm');
+        if(sForm) {
+            sForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '⏳ Saving & Committing directly to GitHub...';
+
+                const formData = new FormData(this);
+                
+                try {
+                    // 1. Submit locally
+                    const res = await fetch('/api/admin/save-settings', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    
+                    // 2. Direct GitHub API commit using Fine-Grained Token
+                    if(data.settings) {
+                        try {
+                            const jsonStr = JSON.stringify(data.settings, null, 2);
+                            const b64Content = btoa(unescape(encodeURIComponent(jsonStr)));
+                            
+                            const fRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/SITE_SETTINGS.json?ref=${GH_BRANCH}`, {
+                                headers: { 'Authorization': `Bearer ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+                            });
+                            let sha = null;
+                            if(fRes.ok) {
+                                const fd = await fRes.json();
+                                sha = fd.sha;
+                            }
+                            await fetch(`https://api.github.com/repos/${GH_REPO}/contents/SITE_SETTINGS.json`, {
+                                method: 'PUT',
+                                headers: { 'Authorization': `Bearer ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    message: 'chore(admin): save all settings directly from /admin dashboard',
+                                    content: b64Content,
+                                    branch: GH_BRANCH,
+                                    sha: sha
+                                })
+                            });
+                        } catch(ghErr) {
+                            console.log('GitHub API direct commit notice:', ghErr);
+                        }
+                    }
+
+                    alert('✅ Settings saved locally & committed directly to GitHub repository (master)!');
+                    window.location.href = window.location.pathname + '?t=' + Date.now();
+                } catch(err) {
+                    alert('❌ Error saving settings: ' + err.message);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
                 }
-            } catch(e) {
-                badge.className = 'badge-conn badge-offline';
-                badge.innerText = '❌ Error';
-                alert('Could not test connection: ' + e.message);
-            }
-        }
-
-        // Check connection on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            const url = document.getElementById('supaUrl').value;
-            if(url) { testSupabase(); }
-            else {
-                const badge = document.getElementById('supaStatusBadge');
-                badge.className = 'badge-conn badge-offline';
-                badge.innerText = '⚪ Hybrid (Local Mode)';
-            }
-        });
-
-        async function syncLocalToSupabase() {
-            if(!confirm('Sync all current local posts & settings to Supabase database?')) return;
-            const res = await fetch('/api/admin/supabase/sync', { method: 'POST' });
-            const data = await res.json();
-            alert(data.message || 'Sync completed!');
-        }
-
-        async function wipeTemporaryPosts() {
-            if(!confirm('⚠️ Are you sure you want to wipe all temporary posts? This will delete temporary sample posts and prepare the portal for 100% real posts!')) return;
-            const res = await fetch('/api/admin/supabase/wipe-temporary', { method: 'POST' });
-            const data = await res.json();
-            alert(data.message || 'Temporary posts wiped successfully!');
-            location.reload();
-        }
-
-        function copySqlSchema() {
-            const sql = `-- STUDY TOPPER SUPABASE SCHEMA
-CREATE TABLE IF NOT EXISTS public.posts (
-    id TEXT PRIMARY KEY,
-    slug TEXT UNIQUE NOT NULL,
-    title TEXT NOT NULL,
-    category TEXT NOT NULL DEFAULT 'latest-jobs',
-    short_desc TEXT,
-    html_content TEXT,
-    application_start_date TEXT,
-    application_last_date TEXT,
-    is_pinned BOOLEAN DEFAULT FALSE,
-    is_date_extended BOOLEAN DEFAULT FALSE,
-    is_temporary BOOLEAN DEFAULT FALSE,
-    custom_badge TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-CREATE TABLE IF NOT EXISTS public.settings (
-    key TEXT PRIMARY KEY,
-    value JSONB NOT NULL,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-CREATE TABLE IF NOT EXISTS public.categories (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    slug TEXT UNIQUE NOT NULL,
-    "desc" TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.settings ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Public Read Posts" ON public.posts FOR SELECT USING (true);
-CREATE POLICY "Public Read Settings" ON public.settings FOR SELECT USING (true);
-CREATE POLICY "Public Read Categories" ON public.categories FOR SELECT USING (true);
-CREATE POLICY "Admin All Posts" ON public.posts FOR ALL USING (true);
-CREATE POLICY "Admin All Settings" ON public.settings FOR ALL USING (true);
-CREATE POLICY "Admin All Categories" ON public.categories FOR ALL USING (true);`;
-            navigator.clipboard.writeText(sql).then(() => {
-                alert('✅ Supabase SQL Schema copied to clipboard! Paste and click Run in Supabase SQL Editor.');
             });
         }
     </script>

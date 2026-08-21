@@ -5227,9 +5227,7 @@ def api_save_settings():
         save_settings_data(settings)
         clear_all_caches()
 
-        if request.is_json:
-            return jsonify({'status': 'success', 'settings': settings})
-        return redirect('/admin/settings')
+        return jsonify({'status': 'success', 'settings': settings})
 
     except Exception as e:
         import traceback
