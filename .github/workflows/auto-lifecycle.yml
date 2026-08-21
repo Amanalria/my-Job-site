@@ -1,0 +1,40 @@
+name: 🔄 Daily Auto-Lifecycle & Expired Vacancy Cleaner
+
+on:
+  schedule:
+    # Runs every day at 00:05 UTC (05:35 AM IST)
+    - cron: '5 0 * * *'
+  workflow_dispatch: # Allows manual run anytime from GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  run-daily-lifecycle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install Python Dependencies
+        run: |
+          pip install beautifulsoup4 requests
+
+      - name: ⚡ Execute Auto-Lifecycle Audit
+        run: |
+          python vacancy_lifecycle_engine.py
+
+      - name: 🚀 Commit and Push Updates to GitHub
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(lifecycle): daily cloud audit & auto-clean expired vacancies" && git push origin master)
