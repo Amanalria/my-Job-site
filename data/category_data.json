@@ -1,4 +1,178 @@
 {
+  "admission": [
+    {
+      "title": "Bihar STET Online Form 2026",
+      "title_raw": "Bihar STET Online Form 2026",
+      "badge_html": "",
+      "url": "/bihar-stet-2026/",
+      "short_desc": "Bihar STET announces Bihar STET Online Form 2026 (Various Posts).",
+      "date": "31 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT GATE 2027 Admission Form",
+      "title_raw": "IIT GATE 2027 Admission Form",
+      "badge_html": "",
+      "url": "/iit-gate-2027/",
+      "short_desc": "IIT GATE  Admission Form announces IIT GATE 2027 Admission Form (Various Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIM CAT 2026 Admission Form",
+      "title_raw": "IIM CAT 2026 Admission Form",
+      "badge_html": "",
+      "url": "/iim-cat-2026/",
+      "short_desc": "IIM CAT  Admission Form announces IIM CAT 2026 Admission Form (Various Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT JAM Admission Form 2026",
+      "title_raw": "IIT JAM Admission Form 2026",
+      "badge_html": "",
+      "url": "/iit-jam-2027/",
+      "short_desc": "IIT JAM Admission Form announces IIT JAM Admission Form 2026 (Various Posts).",
+      "date": "12 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "AIBE 22th Online Form 2026",
+      "title_raw": "AIBE 22th Online Form 2026",
+      "badge_html": "",
+      "url": "/2026-aibe-22th-aug26/",
+      "short_desc": "AIBE 22th announces AIBE 22th Online Form 2026 (Various Posts).",
+      "date": "27 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "CLAT Admission Form 2026",
+      "title_raw": "CLAT Admission Form 2026",
+      "badge_html": "",
+      "url": "/clat-2026/",
+      "short_desc": "CLAT Admission Form announces CLAT Admission Form 2026 (Various Posts).",
+      "date": "31 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar BSEB DElEd Common Application Form 2026",
+      "title_raw": "Bihar BSEB DElEd Common Application Form 2026",
+      "badge_html": "",
+      "url": "/bihar-bseb-deled-2026/",
+      "short_desc": "Bihar BSEB DElEd Common Application Form announces Bihar BSEB DElEd Common Application Form 2026 (Various Posts).",
+      "date": "24 January 2026 (Extended)",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    }
+  ],
+  "syllabus": [
+    {
+      "title": "SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/sbi-junior-associates-clerk-2026-syllabus/",
+      "short_desc": "State Bank of India (SBI) announces SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "31 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/upsssc-pet-2026-syllabus/",
+      "short_desc": "Uttar Pradesh Subordinate Services Selection Commission (UPSSSC) announces UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "01 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/upsc-epfo-2026-syllabus/",
+      "short_desc": "Union Public Service Commission (UPSC) announces UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "11 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/rrb-je-2026-syllabus/",
+      "short_desc": "Railway Recruitment Board (RRB) announces RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "13 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/rajasthan-safai-karmchari-2026-syllabus/",
+      "short_desc": "Rajasthan Safai Karmchari    & Exam Pattern announces Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "28 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/bpsc-school-teacher-tre-4-0-2026-syllabus/",
+      "short_desc": "Bihar Public Service Commission (BPSC) announces BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "30 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/ibps-clerk-16th-2026-syllabus/",
+      "short_desc": "Institute of Banking Personnel Selection (IBPS) announces IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "21 August 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar Police Prohibition Constable Result 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "Bihar Police Prohibition Constable Result 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/csbc-bihar-prohibition-constable-2026-syllabus/",
+      "short_desc": "Bihar Police Subordinate Services Commission (BPSSC) announces Bihar Police Prohibition Constable Result 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "05 November 2025",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026",
+      "title_raw": "SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/ssc-chsl-2026-syllabus/",
+      "short_desc": "Staff Selection Commission (SSC) announces SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "18 July 2025",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    },
+    {
+      "title": "RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026",
+      "title_raw": "RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026",
+      "badge_html": "",
+      "url": "/rpsc-rajasthan-police-si-telecom-2025-syllabus/",
+      "short_desc": "Rajasthan Public Service Commission (RPSC) announces RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
+      "date": "27 December 2024",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    }
+  ],
   "latest-jobs": [
     {
       "title": "UP Sewayojan Vibhag Recruitment 2026 Multi Tasking Staff MTS Apply Online for 45 Post",
@@ -171,16 +345,6 @@
       "is_pinned": false
     },
     {
-      "title": "Bihar State Eligibility Test BSEB STET 2026 Apply Online",
-      "title_raw": "Bihar State Eligibility Test BSEB STET 2026 Apply Online",
-      "badge_html": "",
-      "url": "/bseb-stet-august26/",
-      "short_desc": "Bihar State Eligibility Test BSEB STET announces Bihar State Eligibility Test BSEB STET 2026 Apply Online (29114 post).",
-      "date": "31/08/2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
       "title": "SBI Junior Associates Clerk Recruitment 2026",
       "title_raw": "SBI Junior Associates Clerk Recruitment 2026",
       "badge_html": "",
@@ -197,6 +361,26 @@
       "url": "/sbi-j-a-clerk-august26/",
       "short_desc": "State Bank of India (SBI) announces State Bank of India SBI Junior Associates Clerk Recruitment 2026 : Apply Online for 9124 Post (9124Post).",
       "date": "31/08/2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar State Eligibility Test BSEB STET 2026 Apply Online",
+      "title_raw": "Bihar State Eligibility Test BSEB STET 2026 Apply Online",
+      "badge_html": "",
+      "url": "/bseb-stet-august26/",
+      "short_desc": "Bihar State Eligibility Test BSEB STET announces Bihar State Eligibility Test BSEB STET 2026 Apply Online (29114 post).",
+      "date": "31/08/2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UPPSC Assistant Professor & Professor Recruitment 2026 Apply Online for 1156 Post",
+      "title_raw": "UPPSC Assistant Professor & Professor Recruitment 2026 Apply Online for 1156 Post",
+      "badge_html": "",
+      "url": "/uppsc-direct-d1-e1-aug26/",
+      "short_desc": "Uttar Pradesh Public Service Commission (UPPSC) announces UPPSC Assistant Professor & Professor Recruitment 2026 Apply Online for 1156 Post (1156 Post).",
+      "date": "01/09/2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
@@ -237,16 +421,6 @@
       "url": "/upsssc-pet-2026/",
       "short_desc": "Uttar Pradesh Subordinate Services Selection Commission (UPSSSC) announces UPSSSC PET Online Form 2026 (Various Posts).",
       "date": "01 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UPPSC Assistant Professor & Professor Recruitment 2026 Apply Online for 1156 Post",
-      "title_raw": "UPPSC Assistant Professor & Professor Recruitment 2026 Apply Online for 1156 Post",
-      "badge_html": "",
-      "url": "/uppsc-direct-d1-e1-aug26/",
-      "short_desc": "Uttar Pradesh Public Service Commission (UPPSC) announces UPPSC Assistant Professor & Professor Recruitment 2026 Apply Online for 1156 Post (1156 Post).",
-      "date": "01/09/2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
@@ -718,180 +892,6 @@
       "short_desc": "CLAT Common Law Admission Test   Form announces CLAT Common Law Admission Test 2027 Apply Online Form 2026 (27559 post).",
       "date": "31/10/2026",
       "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
-  "syllabus": [
-    {
-      "title": "SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/sbi-junior-associates-clerk-2026-syllabus/",
-      "short_desc": "State Bank of India (SBI) announces SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "31 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/upsssc-pet-2026-syllabus/",
-      "short_desc": "Uttar Pradesh Subordinate Services Selection Commission (UPSSSC) announces UPSSSC PET Online Form 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "01 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/upsc-epfo-2026-syllabus/",
-      "short_desc": "Union Public Service Commission (UPSC) announces UPSC EPFO / APFC Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "11 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/rrb-je-2026-syllabus/",
-      "short_desc": "Railway Recruitment Board (RRB) announces RRB Junior Engineer JE Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "13 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/rajasthan-safai-karmchari-2026-syllabus/",
-      "short_desc": "Rajasthan Safai Karmchari    & Exam Pattern announces Rajasthan Safai Karmchari Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "28 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/bpsc-school-teacher-tre-4-0-2026-syllabus/",
-      "short_desc": "Bihar Public Service Commission (BPSC) announces BPSC School Teacher TRE 4.0 Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "30 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/ibps-clerk-16th-2026-syllabus/",
-      "short_desc": "Institute of Banking Personnel Selection (IBPS) announces IBPS Clerk (CSA) 16th Recruitment 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "21 August 2026",
-      "lifecycle_state": "EXPIRED_DEMOTED",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar Police Prohibition Constable Result 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "Bihar Police Prohibition Constable Result 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/csbc-bihar-prohibition-constable-2026-syllabus/",
-      "short_desc": "Bihar Police Subordinate Services Commission (BPSSC) announces Bihar Police Prohibition Constable Result 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "05 November 2025",
-      "lifecycle_state": "EXPIRED_DEMOTED",
-      "is_pinned": false
-    },
-    {
-      "title": "SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026",
-      "title_raw": "SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/ssc-chsl-2026-syllabus/",
-      "short_desc": "Staff Selection Commission (SSC) announces SSC 10+2 CHSL 2025 FRTA Result Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "18 July 2025",
-      "lifecycle_state": "EXPIRED_DEMOTED",
-      "is_pinned": false
-    },
-    {
-      "title": "RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026",
-      "title_raw": "RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026",
-      "badge_html": "",
-      "url": "/rpsc-rajasthan-police-si-telecom-2025-syllabus/",
-      "short_desc": "Rajasthan Public Service Commission (RPSC) announces RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
-      "date": "27 December 2024",
-      "lifecycle_state": "EXPIRED_DEMOTED",
-      "is_pinned": false
-    }
-  ],
-  "admission": [
-    {
-      "title": "Bihar STET Online Form 2026",
-      "title_raw": "Bihar STET Online Form 2026",
-      "badge_html": "",
-      "url": "/bihar-stet-2026/",
-      "short_desc": "Bihar STET announces Bihar STET Online Form 2026 (Various Posts).",
-      "date": "31 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT GATE 2027 Admission Form",
-      "title_raw": "IIT GATE 2027 Admission Form",
-      "badge_html": "",
-      "url": "/iit-gate-2027/",
-      "short_desc": "IIT GATE  Admission Form announces IIT GATE 2027 Admission Form (Various Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIM CAT 2026 Admission Form",
-      "title_raw": "IIM CAT 2026 Admission Form",
-      "badge_html": "",
-      "url": "/iim-cat-2026/",
-      "short_desc": "IIM CAT  Admission Form announces IIM CAT 2026 Admission Form (Various Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT JAM Admission Form 2026",
-      "title_raw": "IIT JAM Admission Form 2026",
-      "badge_html": "",
-      "url": "/iit-jam-2027/",
-      "short_desc": "IIT JAM Admission Form announces IIT JAM Admission Form 2026 (Various Posts).",
-      "date": "12 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "AIBE 22th Online Form 2026",
-      "title_raw": "AIBE 22th Online Form 2026",
-      "badge_html": "",
-      "url": "/2026-aibe-22th-aug26/",
-      "short_desc": "AIBE 22th announces AIBE 22th Online Form 2026 (Various Posts).",
-      "date": "27 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "CLAT Admission Form 2026",
-      "title_raw": "CLAT Admission Form 2026",
-      "badge_html": "",
-      "url": "/clat-2026/",
-      "short_desc": "CLAT Admission Form announces CLAT Admission Form 2026 (Various Posts).",
-      "date": "31 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar BSEB DElEd Common Application Form 2026",
-      "title_raw": "Bihar BSEB DElEd Common Application Form 2026",
-      "badge_html": "",
-      "url": "/bihar-bseb-deled-2026/",
-      "short_desc": "Bihar BSEB DElEd Common Application Form announces Bihar BSEB DElEd Common Application Form 2026 (Various Posts).",
-      "date": "24 January 2026 (Extended)",
-      "lifecycle_state": "EXPIRED_DEMOTED",
       "is_pinned": false
     }
   ],
