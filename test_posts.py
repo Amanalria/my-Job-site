@@ -66,8 +66,8 @@ async def test_post(page, file_path):
             errors.append("Missing 'SOME USEFUL IMPORTANT LINKS' header.")
             
         # Check FAQs
-        q1_exists = await page.locator("text='Q1.'").count() > 0
-        q5_exists = await page.locator("text='Q5.'").count() > 0
+        q1_exists = await page.locator(":has-text('Q1.')").count() > 0
+        q5_exists = await page.locator(":has-text('Q5.')").count() > 0
         if not (q1_exists and q5_exists):
             errors.append("Missing FAQs (Q1 to Q5).")
 
