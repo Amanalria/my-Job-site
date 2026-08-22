@@ -1,36 +1,4 @@
 {
-  "answer-key": [
-    {
-      "title": "Delhi DSSSB July Answer Key 2026",
-      "title_raw": "Delhi DSSSB July Answer Key 2026",
-      "badge_html": "",
-      "url": "/dsssb-various-post-2026/",
-      "short_desc": "Sarkari announces Delhi DSSSB July Answer Key 2026 (545 Post).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "NTA CSIR UGC NET June Answer Key 2026",
-      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
-      "badge_html": "",
-      "url": "/nta-csir-ugc-net-june-2026/",
-      "short_desc": "Sarkari announces NTA CSIR UGC NET June Answer Key 2026 (545 Post).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "badge_html": "",
-      "url": "/nta-icar-aieea-pg-and-phd-2026/",
-      "short_desc": "Sarkari announces NTA ICAR AIEEA PG Ph.D Answer Key 2026 (545 Post).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
   "latest-jobs": [
     {
       "title": "UP Sewayojan Vibhag Recruitment 2026 Multi Tasking Staff MTS Apply Online for 45 Post",
@@ -924,6 +892,38 @@
       "short_desc": "RPSC SI Telecom Examination 2025 announces RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026 (98 Post).",
       "date": "27 December 2024",
       "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    }
+  ],
+  "answer-key": [
+    {
+      "title": "Delhi DSSSB July Answer Key 2026",
+      "title_raw": "Delhi DSSSB July Answer Key 2026",
+      "badge_html": "",
+      "url": "/dsssb-various-post-2026/",
+      "short_desc": "Sarkari announces Delhi DSSSB July Answer Key 2026 (545 Post).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "NTA CSIR UGC NET June Answer Key 2026",
+      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
+      "badge_html": "",
+      "url": "/nta-csir-ugc-net-june-2026/",
+      "short_desc": "Sarkari announces NTA CSIR UGC NET June Answer Key 2026 (545 Post).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
+      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
+      "badge_html": "",
+      "url": "/nta-icar-aieea-pg-and-phd-2026/",
+      "short_desc": "Sarkari announces NTA ICAR AIEEA PG Ph.D Answer Key 2026 (545 Post).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
   ],
