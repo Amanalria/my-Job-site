@@ -171,16 +171,6 @@
       "is_pinned": false
     },
     {
-      "title": "Bihar State Eligibility Test BSEB STET 2026 Apply Online",
-      "title_raw": "Bihar State Eligibility Test BSEB STET 2026 Apply Online",
-      "badge_html": "",
-      "url": "/bseb-stet-august26/",
-      "short_desc": "Bihar State Eligibility Test BSEB STET announces Bihar State Eligibility Test BSEB STET 2026 Apply Online (29114 post).",
-      "date": "31/08/2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
       "title": "SBI Junior Associates Clerk Recruitment 2026",
       "title_raw": "SBI Junior Associates Clerk Recruitment 2026",
       "badge_html": "",
@@ -201,12 +191,22 @@
       "is_pinned": false
     },
     {
-      "title": "UP UPSSSC Preliminary Examination Test PET 2026 Apply Online Form 2026",
-      "title_raw": "UP UPSSSC Preliminary Examination Test PET 2026 Apply Online Form 2026",
+      "title": "Bihar State Eligibility Test BSEB STET 2026 Apply Online",
+      "title_raw": "Bihar State Eligibility Test BSEB STET 2026 Apply Online",
       "badge_html": "",
-      "url": "/upsssc-pet-exam-jun26/",
-      "short_desc": "Uttar Pradesh Subordinate Services Selection Commission (UPSSSC) announces UP UPSSSC Preliminary Examination Test PET 2026 Apply Online Form 2026 (25269 post).",
-      "date": "01/09/2026",
+      "url": "/bseb-stet-august26/",
+      "short_desc": "Bihar State Eligibility Test BSEB STET announces Bihar State Eligibility Test BSEB STET 2026 Apply Online (29114 post).",
+      "date": "31/08/2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC PET Online Form 2026",
+      "title_raw": "UPSSSC PET Online Form 2026",
+      "badge_html": "",
+      "url": "/upsssc-pet-2026/",
+      "short_desc": "Uttar Pradesh Subordinate Services Selection Commission (UPSSSC) announces UPSSSC PET Online Form 2026 (Various Posts).",
+      "date": "01 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
@@ -231,21 +231,21 @@
       "is_pinned": false
     },
     {
-      "title": "UPSSSC PET Online Form 2026",
-      "title_raw": "UPSSSC PET Online Form 2026",
-      "badge_html": "",
-      "url": "/upsssc-pet-2026/",
-      "short_desc": "Uttar Pradesh Subordinate Services Selection Commission (UPSSSC) announces UPSSSC PET Online Form 2026 (Various Posts).",
-      "date": "01 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
       "title": "UPPSC Assistant Professor & Professor Recruitment 2026 Apply Online for 1156 Post",
       "title_raw": "UPPSC Assistant Professor & Professor Recruitment 2026 Apply Online for 1156 Post",
       "badge_html": "",
       "url": "/uppsc-direct-d1-e1-aug26/",
       "short_desc": "Uttar Pradesh Public Service Commission (UPPSC) announces UPPSC Assistant Professor & Professor Recruitment 2026 Apply Online for 1156 Post (1156 Post).",
+      "date": "01/09/2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UP UPSSSC Preliminary Examination Test PET 2026 Apply Online Form 2026",
+      "title_raw": "UP UPSSSC Preliminary Examination Test PET 2026 Apply Online Form 2026",
+      "badge_html": "",
+      "url": "/upsssc-pet-exam-jun26/",
+      "short_desc": "Uttar Pradesh Subordinate Services Selection Commission (UPSSSC) announces UP UPSSSC Preliminary Examination Test PET 2026 Apply Online Form 2026 (25269 post).",
       "date": "01/09/2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
@@ -261,21 +261,21 @@
       "is_pinned": false
     },
     {
-      "title": "MPESB Middle School and Primary School Teacher MSPSTET 2026 Apply Online",
-      "title_raw": "MPESB Middle School and Primary School Teacher MSPSTET 2026 Apply Online",
-      "badge_html": "",
-      "url": "/mpesb-mspstet-2026/",
-      "short_desc": "Madhya Pradesh Employees Selection Board (MPESB) announces MPESB Middle School and Primary School Teacher MSPSTET 2026 Apply Online (29419 post).",
-      "date": "04/09/2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
       "title": "JSSC Jharkhand JILCCE Inter Level Recruitment 2026 Apply Online for 326 Post",
       "title_raw": "JSSC Jharkhand JILCCE Inter Level Recruitment 2026 Apply Online for 326 Post",
       "badge_html": "",
       "url": "/jssc-jilcce-inter-level-july26/",
       "short_desc": "JSSC Jharkhand JILCCE Inter Level    for 326 announces JSSC Jharkhand JILCCE Inter Level Recruitment 2026 Apply Online for 326 Post (326 Post).",
+      "date": "04/09/2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "MPESB Middle School and Primary School Teacher MSPSTET 2026 Apply Online",
+      "title_raw": "MPESB Middle School and Primary School Teacher MSPSTET 2026 Apply Online",
+      "badge_html": "",
+      "url": "/mpesb-mspstet-2026/",
+      "short_desc": "Madhya Pradesh Employees Selection Board (MPESB) announces MPESB Middle School and Primary School Teacher MSPSTET 2026 Apply Online (29419 post).",
       "date": "04/09/2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
@@ -721,6 +721,78 @@
       "is_pinned": false
     }
   ],
+  "admission": [
+    {
+      "title": "Bihar STET Online Form 2026",
+      "title_raw": "Bihar STET Online Form 2026",
+      "badge_html": "",
+      "url": "/bihar-stet-2026/",
+      "short_desc": "Bihar STET announces Bihar STET Online Form 2026 (Various Posts).",
+      "date": "31 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT GATE 2027 Admission Form",
+      "title_raw": "IIT GATE 2027 Admission Form",
+      "badge_html": "",
+      "url": "/iit-gate-2027/",
+      "short_desc": "IIT GATE  Admission Form announces IIT GATE 2027 Admission Form (Various Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIM CAT 2026 Admission Form",
+      "title_raw": "IIM CAT 2026 Admission Form",
+      "badge_html": "",
+      "url": "/iim-cat-2026/",
+      "short_desc": "IIM CAT  Admission Form announces IIM CAT 2026 Admission Form (Various Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT JAM Admission Form 2026",
+      "title_raw": "IIT JAM Admission Form 2026",
+      "badge_html": "",
+      "url": "/iit-jam-2027/",
+      "short_desc": "IIT JAM Admission Form announces IIT JAM Admission Form 2026 (Various Posts).",
+      "date": "12 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "AIBE 22th Online Form 2026",
+      "title_raw": "AIBE 22th Online Form 2026",
+      "badge_html": "",
+      "url": "/2026-aibe-22th-aug26/",
+      "short_desc": "AIBE 22th announces AIBE 22th Online Form 2026 (Various Posts).",
+      "date": "27 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "CLAT Admission Form 2026",
+      "title_raw": "CLAT Admission Form 2026",
+      "badge_html": "",
+      "url": "/clat-2026/",
+      "short_desc": "CLAT Admission Form announces CLAT Admission Form 2026 (Various Posts).",
+      "date": "31 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar BSEB DElEd Common Application Form 2026",
+      "title_raw": "Bihar BSEB DElEd Common Application Form 2026",
+      "badge_html": "",
+      "url": "/bihar-bseb-deled-2026/",
+      "short_desc": "Bihar BSEB DElEd Common Application Form announces Bihar BSEB DElEd Common Application Form 2026 (Various Posts).",
+      "date": "24 January 2026 (Extended)",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    }
+  ],
   "syllabus": [
     {
       "title": "SBI Junior Associates Clerk Recruitment 2026 Syllabus & Exam Pattern 2026",
@@ -819,78 +891,6 @@
       "url": "/rpsc-rajasthan-police-si-telecom-2025-syllabus/",
       "short_desc": "Rajasthan Public Service Commission (RPSC) announces RPSC Rajasthan Police SI Telecom Final Result 2026 Syllabus & Exam Pattern 2026 (Various Posts).",
       "date": "27 December 2024",
-      "lifecycle_state": "EXPIRED_DEMOTED",
-      "is_pinned": false
-    }
-  ],
-  "admission": [
-    {
-      "title": "Bihar STET Online Form 2026",
-      "title_raw": "Bihar STET Online Form 2026",
-      "badge_html": "",
-      "url": "/bihar-stet-2026/",
-      "short_desc": "Bihar STET announces Bihar STET Online Form 2026 (Various Posts).",
-      "date": "31 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT GATE 2027 Admission Form",
-      "title_raw": "IIT GATE 2027 Admission Form",
-      "badge_html": "",
-      "url": "/iit-gate-2027/",
-      "short_desc": "IIT GATE  Admission Form announces IIT GATE 2027 Admission Form (Various Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIM CAT 2026 Admission Form",
-      "title_raw": "IIM CAT 2026 Admission Form",
-      "badge_html": "",
-      "url": "/iim-cat-2026/",
-      "short_desc": "IIM CAT  Admission Form announces IIM CAT 2026 Admission Form (Various Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT JAM Admission Form 2026",
-      "title_raw": "IIT JAM Admission Form 2026",
-      "badge_html": "",
-      "url": "/iit-jam-2027/",
-      "short_desc": "IIT JAM Admission Form announces IIT JAM Admission Form 2026 (Various Posts).",
-      "date": "12 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "AIBE 22th Online Form 2026",
-      "title_raw": "AIBE 22th Online Form 2026",
-      "badge_html": "",
-      "url": "/2026-aibe-22th-aug26/",
-      "short_desc": "AIBE 22th announces AIBE 22th Online Form 2026 (Various Posts).",
-      "date": "27 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "CLAT Admission Form 2026",
-      "title_raw": "CLAT Admission Form 2026",
-      "badge_html": "",
-      "url": "/clat-2026/",
-      "short_desc": "CLAT Admission Form announces CLAT Admission Form 2026 (Various Posts).",
-      "date": "31 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar BSEB DElEd Common Application Form 2026",
-      "title_raw": "Bihar BSEB DElEd Common Application Form 2026",
-      "badge_html": "",
-      "url": "/bihar-bseb-deled-2026/",
-      "short_desc": "Bihar BSEB DElEd Common Application Form announces Bihar BSEB DElEd Common Application Form 2026 (Various Posts).",
-      "date": "24 January 2026 (Extended)",
       "lifecycle_state": "EXPIRED_DEMOTED",
       "is_pinned": false
     }
