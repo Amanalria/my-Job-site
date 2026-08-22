@@ -410,6 +410,57 @@ class UniversalDesignAgent:
 
         return rows_html
 
+    def generate_faqs(self, data: Dict[str, Any]) -> List[Dict[str, str]]:
+        title = data.get("title", "Recruitment 2026")
+        org = data.get("organization") or extract_clean_organization(title)
+        category = data.get("category", "latest-jobs").lower()
+        last_date = data.get("last_date", "As per Official Notification")
+        total_posts = data.get("total_posts", "Various Posts")
+        
+        # Determine last date text
+        for k, v in data.get("important_dates", {}).items():
+            if 'last date' in k.lower() or 'apply' in k.lower():
+                last_date = v
+                break
+                
+        # Determine age limit text
+        age_text = "As per official notification rules. General age range is 18 to 40 years with relaxation extra per category rules."
+        if data.get("age_limits"):
+            age_parts = [f"{k}: {v}" for k, v in data["age_limits"].items() if len(k) > 1]
+            if age_parts:
+                age_text = "; ".join(age_parts[:3])
+                
+        # Determine fee text
+        fee_text = "Check official notification for exact category-wise application fee."
+        if data.get("application_fee"):
+            fee_parts = [f"{k}: {v}" for k, v in data["application_fee"].items() if len(k) > 1]
+            if fee_parts:
+                fee_text = "; ".join(fee_parts[:3])
+
+        faqs = [
+            {
+                "question": f"What is the last date to apply online for {title}?",
+                "answer": f"The last date for submission of online application is {last_date}."
+            },
+            {
+                "question": f"What is the eligibility criteria and age limit for {org} {title}?",
+                "answer": f"{age_text} Candidates must hold the prescribed educational qualification from any recognized Board or University in India."
+            },
+            {
+                "question": f"What is the application fee for {title}?",
+                "answer": f"{fee_text} Fee can be paid through online Net Banking, Debit Card, Credit Card, or UPI modes."
+            },
+            {
+                "question": f"How many total posts/vacancies are announced for {title}?",
+                "answer": f"A total of {total_posts} have been officially announced by {org} under this recruitment notice."
+            },
+            {
+                "question": f"How to apply online or download documents for {title}?",
+                "answer": f"Eligible candidates can scroll down to the 'Important Links' section on StudyTopper.in, click on the direct link, complete registration, resize documents via indtool.in, and submit the form."
+            }
+        ]
+        return faqs
+
     def build_post_html(self, data: Dict[str, Any]) -> str:
         category = data.get("category", "latest-jobs").lower()
         template = self.get_reference_template(category)
