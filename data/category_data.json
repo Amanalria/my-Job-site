@@ -1,26 +1,4 @@
 {
-  "result": [
-    {
-      "title": "NTA SWAYAM Result 2026",
-      "title_raw": "NTA SWAYAM Result 2026",
-      "badge_html": "",
-      "url": "/nta-swayam-2026/",
-      "short_desc": "Sarkari announces NTA SWAYAM Result 2026 (545 Post).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post",
-      "title_raw": "BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post",
-      "badge_html": "",
-      "url": "/bihar-police-bpssc-si-prohibition-result-2026/",
-      "short_desc": "BPSSC announces BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post (78 Post).",
-      "date": "27/02/2026",
-      "lifecycle_state": "EXPIRED_DEMOTED",
-      "is_pinned": false
-    }
-  ],
   "latest-jobs": [
     {
       "title": "UP Sewayojan Vibhag Recruitment 2026 Multi Tasking Staff MTS Apply Online for 45 Post",
@@ -556,6 +534,16 @@
       "title": "UP SCHOLARSHIP PREMATRIC AND POST MATRICS 9&10 11 & 12 AND OTHER COURSES BA BSC MSC BED BTC ONLINE FORM 2026",
       "title_raw": "UP SCHOLARSHIP PREMATRIC AND POST MATRICS 9&10 11 & 12 AND OTHER COURSES BA BSC MSC BED BTC ONLINE FORM 2026",
       "badge_html": "",
+      "url": "/up-scholarship-2026/",
+      "short_desc": "UP announces UP SCHOLARSHIP PREMATRIC AND POST MATRICS 9&10 11 & 12 AND OTHER COURSES BA BSC MSC BED BTC ONLINE FORM 2026 (27482 post).",
+      "date": "21/09/2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UP SCHOLARSHIP PREMATRIC AND POST MATRICS 9&10 11 & 12 AND OTHER COURSES BA BSC MSC BED BTC ONLINE FORM 2026",
+      "title_raw": "UP SCHOLARSHIP PREMATRIC AND POST MATRICS 9&10 11 & 12 AND OTHER COURSES BA BSC MSC BED BTC ONLINE FORM 2026",
+      "badge_html": "",
       "url": "/up-scholarship-postmatric-jul26/",
       "short_desc": "UP announces UP SCHOLARSHIP PREMATRIC AND POST MATRICS 9&10 11 & 12 AND OTHER COURSES BA BSC MSC BED BTC ONLINE FORM 2026 (27482 post).",
       "date": "21/09/2026",
@@ -867,16 +855,6 @@
       "is_pinned": false
     },
     {
-      "title": "UP Scholarship Online Form 2026-27",
-      "title_raw": "UP Scholarship Online Form 2026-27",
-      "badge_html": "",
-      "url": "/up-scholarship-2026/",
-      "short_desc": "Sarkari announces UP Scholarship Online Form 2026-27 (545 Post).",
-      "date": "21 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
       "title": "IIT JAM Admission Form 2026",
       "title_raw": "IIT JAM Admission Form 2026",
       "badge_html": "",
@@ -913,6 +891,28 @@
       "url": "/bihar-bseb-deled-2026/",
       "short_desc": "Sarkari announces Bihar BSEB DElEd Common Application Form 2026 (545 Post).",
       "date": "24 January 2026 (Extended)",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    }
+  ],
+  "result": [
+    {
+      "title": "NTA SWAYAM Result 2026",
+      "title_raw": "NTA SWAYAM Result 2026",
+      "badge_html": "",
+      "url": "/nta-swayam-2026/",
+      "short_desc": "Sarkari announces NTA SWAYAM Result 2026 (545 Post).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post",
+      "title_raw": "BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post",
+      "badge_html": "",
+      "url": "/bihar-police-bpssc-si-prohibition-result-2026/",
+      "short_desc": "BPSSC announces BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post (78 Post).",
+      "date": "27/02/2026",
       "lifecycle_state": "EXPIRED_DEMOTED",
       "is_pinned": false
     }
