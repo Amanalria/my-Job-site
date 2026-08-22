@@ -461,6 +461,21 @@ class UniversalDesignAgent:
             tbl4_title = f"{org} Recruitment 2026 : Mode Of Selection"
 
         cat_rows = "".join([f'<tr><td style="text-align: center;">{k}</td><td style="text-align: center; font-weight: {"bold" if "Total" in k else "normal"}; color: {"#ff0000" if "Total" in k else "inherit"};">{v}</td></tr>' for k, v in data.get("category_vacancies", {}).items()])
+        cat_table_html = ""
+        if cat_rows:
+            cat_table_html = f'''<table style="border-collapse: collapse; width: 100%; height: 150px;">
+<tbody>
+<tr style="height: 25px;">
+<td colspan="2" style="width: 50%; text-align: center; height: 25px;"><span style="background-color: #000080; color: #ffffff; font-size: 14pt;"><strong> {tbl1_title} </strong></span></td>
+</tr>
+<tr style="height: 25px;">
+<td style="width: 50%; height: 25px; text-align: center;"><span style="font-size: 14pt;"><strong>Category / Particulars</strong></span></td>
+<td style="width: 50%; height: 25px; text-align: center;"><span style="font-size: 14pt;"><strong>Count / Status</strong></span></td>
+</tr>
+{cat_rows}
+</tbody>
+</table>
+<p>&nbsp;</p>'''
 
         post_rows = ""
         for p_item in data.get("post_matrix", []):
@@ -469,6 +484,20 @@ class UniversalDesignAgent:
 <td style="padding: 8px; border: 1px solid #ddd; text-align: center; font-weight: bold;">{p_item.get('posts', '')}</td>
 <td style="padding: 8px; border: 1px solid #ddd;">{p_item.get('eligibility', '')}</td>
 </tr>"""
+
+        post_table_html = ""
+        if post_rows:
+            post_table_html = f'''<table style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<th style="background-color: #f53c00; color: #ffffff; padding: 6px 10px; text-align: center; border: 1px solid #d35400; font-size: 15px; font-weight: 700; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">{tbl2_th1}</th>
+<th style="background-color: #f53c00; color: #ffffff; padding: 6px 10px; text-align: center; border: 1px solid #d35400; font-size: 15px; font-weight: 700; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">{tbl2_th2}</th>
+<th style="background-color: #f53c00; color: #ffffff; padding: 6px 10px; text-align: center; border: 1px solid #d35400; font-size: 15px; font-weight: 700; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">{tbl2_th3}</th>
+</tr>
+{post_rows}
+</tbody>
+</table>
+<p>&nbsp;</p>'''
 
         how_to_steps = "".join([f'<li style="margin-bottom:6px; text-align: left !important;">{s}</li>' for s in data.get("how_to_fill", [])])
         if "indtool.in" not in how_to_steps and category in ["latest-jobs", "admission"]:
@@ -570,29 +599,8 @@ class UniversalDesignAgent:
 <div class="gb-container gb-container-ec1f6e4c">
 <h2 class="gb-headline gb-headline-c7683bda gb-headline-text" style="font-size: 24px; font-weight: 800; text-align: center; color: #ef0303; line-height: 1.35; margin: 20px 0 12px 0; padding: 6px 4px; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">{title} : Key Overview &amp; Matrix</h2>
 <div class="gb-headline gb-headline-60ccea19 gb-headline-text">
-<table style="border-collapse: collapse; width: 100%; height: 150px;">
-<tbody>
-<tr style="height: 25px;">
-<td colspan="2" style="width: 50%; text-align: center; height: 25px;"><span style="background-color: #000080; color: #ffffff; font-size: 14pt;"><strong> {tbl1_title} </strong></span></td>
-</tr>
-<tr style="height: 25px;">
-<td style="width: 50%; height: 25px; text-align: center;"><span style="font-size: 14pt;"><strong>Category / Particulars</strong></span></td>
-<td style="width: 50%; height: 25px; text-align: center;"><span style="font-size: 14pt;"><strong>Count / Status</strong></span></td>
-</tr>
-{cat_rows}
-</tbody>
-</table>
-<p>&nbsp;</p>
-<table style="border-collapse: collapse; width: 100%;">
-<tbody>
-<tr>
-<th style="background-color: #f53c00; color: #ffffff; padding: 6px 10px; text-align: center; border: 1px solid #d35400; font-size: 15px; font-weight: 700; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">{tbl2_th1}</th>
-<th style="background-color: #f53c00; color: #ffffff; padding: 6px 10px; text-align: center; border: 1px solid #d35400; font-size: 15px; font-weight: 700; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">{tbl2_th2}</th>
-<th style="background-color: #f53c00; color: #ffffff; padding: 6px 10px; text-align: center; border: 1px solid #d35400; font-size: 15px; font-weight: 700; font-family: '-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif', Times, serif, Hind, sans-serif;">{tbl2_th3}</th>
-</tr>
-{post_rows}
-</tbody>
-</table>
+{cat_table_html}
+{post_table_html}
 <p>&nbsp;</p>
 
 {extra_sections_html}
