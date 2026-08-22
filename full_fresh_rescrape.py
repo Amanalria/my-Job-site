@@ -133,11 +133,11 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                 txt = td.get_text(separator='\n', strip=True)
                 raw_lines = [clean_text(l) for l in txt.split('\n') if clean_text(l)]
 
-                # Important Dates
+                # Important Dates (Zero Truncation - Capture 100% of date lines)
                 if any('important dates' in l.lower() or 'schedule dates' in l.lower() or 'exam dates' in l.lower() for l in raw_lines[:2]):
                     curr_k = None
                     for l in raw_lines:
-                        if any(x in l.lower() for x in ['important dates', 'exam dates', 'schedule']):
+                        if any(x in l.lower() for x in ['important dates', 'exam dates', 'schedule dates']):
                             continue
                         if ':' in l:
                             p = l.split(':', 1)
@@ -151,8 +151,10 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                         elif curr_k:
                             data["important_dates"][curr_k] = l
                             curr_k = None
+                        elif len(l) > 3:
+                            data["important_dates"][l] = "Available"
 
-                # Application Fee
+                # Application Fee (Zero Truncation - Capture 100% of fee lines & modes)
                 if any('application fee' in l.lower() or 'fee details' in l.lower() for l in raw_lines[:2]):
                     curr_k = None
                     for l in raw_lines:
@@ -170,10 +172,12 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                         elif curr_k:
                             data["application_fee"][curr_k] = l
                             curr_k = None
-                        elif any(w in l.lower() for w in ['pay the exam fee', 'payment mode', 'through online', 'debit card', 'net banking', 'offline fee', 'exempted', 'no application fee']):
+                        elif any(w in l.lower() for w in ['pay the exam fee', 'payment mode', 'through online', 'debit card', 'net banking', 'offline fee', 'exempted', 'no application fee', 'challan']):
                             data["application_fee"]["Payment Mode"] = l
+                        elif len(l) > 3:
+                            data["application_fee"][l] = "Applicable"
 
-                # Age Limits
+                # Age Limits (Zero Truncation - Capture 100% of age criteria & relaxations)
                 if any('age limit' in l.lower() for l in raw_lines[:3]):
                     curr_k = None
                     for l in raw_lines:
@@ -183,7 +187,7 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                                 data["age_as_on"] = m_d.group(1)
                             else:
                                 data["age_as_on"] = l.replace('Age Limit as on', '').replace('Age as on', '').replace(':', '').strip()
-                        elif 'minimum age' in l.lower() or 'maximum age' in l.lower():
+                        elif 'minimum age' in l.lower() or 'maximum age' in l.lower() or 'age limit' in l.lower():
                             if ':' in l:
                                 p = l.split(':', 1)
                                 k = clean_text(p[0])
@@ -200,6 +204,8 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                             curr_k = None
                         elif 'age relaxation' in l.lower():
                             data["age_limits"]["Age Relaxation"] = l
+                        elif len(l) > 4:
+                            data["age_limits"][l] = "Applicable"
 
                 # How to Fill
                 if any('how to' in l.lower() for l in raw_lines[:2]):

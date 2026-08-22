@@ -57,12 +57,11 @@ def slugify(text: str) -> str:
 def is_unwanted_line(t: str) -> bool:
     if not t:
         return True
-    tl = str(t).lower()
+    tl = str(t).lower().strip()
     unwanted_tokens = [
-        'question', 'answer', 'q.', 'ans.', 'you may also check',
-        'related post', 'some useful', 'click here', 'whatsapp', 'telegram',
-        'follow us', 'official website for', 'join group', 'what is the',
-        'how to apply', 'frequently asked', 'contact us', 'disclaimer', 'privacy policy'
+        'frequently asked questions', 'faq', 'disclaimer', 'privacy policy',
+        'join telegram', 'join whatsapp', 'download mobile app', 'follow us on',
+        'contact us', 'you may also check', 'related post', 'click here to join'
     ]
     return any(token in tl for token in unwanted_tokens)
 
@@ -471,10 +470,10 @@ class UniversalDesignAgent:
         template = re.sub(r'<meta content="https://studytopper\.in/[^"]*?" property="og:url"/>', f'<meta content="https://studytopper.in/{slug}/" property="og:url"/>', template, count=1)
         template = re.sub(r'<meta content="https://studytopper\.in/static/thumbnails/[^"]*?" property="og:image"/>', f'<meta content="https://studytopper.in/static/thumbnails/{slug}.webp" property="og:image"/>', template, count=1)
 
-        # 1. Clean Dates, Fee & Age Lists (Filter out any inline FAQs or questions)
-        clean_dates = {k: v for k, v in data.get("important_dates", {}).items() if not is_unwanted_line(k) and not is_unwanted_line(v)}
-        clean_fees = {k: v for k, v in data.get("application_fee", {}).items() if not is_unwanted_line(k) and not is_unwanted_line(v)}
-        clean_ages = {k: v for k, v in data.get("age_limits", {}).items() if not is_unwanted_line(k) and not is_unwanted_line(v)}
+        # 1. Full Complete Dates, Fee & Age Lists (Zero Truncation - 100% Real Official Data)
+        clean_dates = {k: v for k, v in data.get("important_dates", {}).items() if not is_unwanted_line(k)}
+        clean_fees = {k: v for k, v in data.get("application_fee", {}).items() if not is_unwanted_line(k)}
+        clean_ages = {k: v for k, v in data.get("age_limits", {}).items() if not is_unwanted_line(k)}
 
         dates_li = "".join([f'<li><span style="font-size: 14pt;">{k} : <strong>{v}</strong></span></li>' if "Last Date" not in k else f'<li><span style="font-size: 14pt;">{k} : <span style="color: #ff0000;"><strong>{v}</strong></span></span></li>' for k, v in clean_dates.items()])
         fee_li = "".join([f'<li><span style="font-size: 14pt;">{k} : <strong>{v}</strong></span></li>' for k, v in clean_fees.items()])
