@@ -1,22 +1,32 @@
 {
-  "result": [
+  "admit-card": [
     {
-      "title": "NTA SWAYAM Result 2026",
-      "title_raw": "NTA SWAYAM Result 2026",
+      "title": "NTA AIAPGET Admit Card 2026",
+      "title_raw": "NTA AIAPGET Admit Card 2026",
       "badge_html": "",
-      "url": "/nta-swayam-2026/",
-      "short_desc": "National Testing Agency (NTA) announces NTA SWAYAM Result 2026 (Various Posts).",
+      "url": "/nta-aiapget-2026/",
+      "short_desc": "National Testing Agency (NTA) announces NTA AIAPGET Admit Card 2026 (Various Posts).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
     {
-      "title": "BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post",
-      "title_raw": "BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post",
+      "title": "IBPS SO XVI Pre Admit Card 2026",
+      "title_raw": "IBPS SO XVI Pre Admit Card 2026",
       "badge_html": "",
-      "url": "/bihar-police-bpssc-si-prohibition-result-2026/",
-      "short_desc": "BPSSC announces BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post (78 Post).",
-      "date": "27/02/2026",
+      "url": "/ibps-so-xvi-2026/",
+      "short_desc": "Sarkari announces IBPS SO XVI Pre Admit Card 2026 (545 Post).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "NICL Assistant Pre Admit Card 2026",
+      "title_raw": "NICL Assistant Pre Admit Card 2026",
+      "badge_html": "",
+      "url": "/nicl-assistant-2026/",
+      "short_desc": "Sarkari announces NICL Assistant Pre Admit Card 2026 (545 Post).",
+      "date": "07 August 2026",
       "lifecycle_state": "EXPIRED_DEMOTED",
       "is_pinned": false
     }
@@ -917,34 +927,24 @@
       "is_pinned": false
     }
   ],
-  "admit-card": [
+  "result": [
     {
-      "title": "NTA AIAPGET Admit Card 2026",
-      "title_raw": "NTA AIAPGET Admit Card 2026",
+      "title": "NTA SWAYAM Result 2026",
+      "title_raw": "NTA SWAYAM Result 2026",
       "badge_html": "",
-      "url": "/nta-aiapget-2026/",
-      "short_desc": "Sarkari announces NTA AIAPGET Admit Card 2026 (545 Post).",
+      "url": "/nta-swayam-2026/",
+      "short_desc": "National Testing Agency (NTA) announces NTA SWAYAM Result 2026 (Various Posts).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
     {
-      "title": "IBPS SO XVI Pre Admit Card 2026",
-      "title_raw": "IBPS SO XVI Pre Admit Card 2026",
+      "title": "BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post",
+      "title_raw": "BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post",
       "badge_html": "",
-      "url": "/ibps-so-xvi-2026/",
-      "short_desc": "Sarkari announces IBPS SO XVI Pre Admit Card 2026 (545 Post).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "NICL Assistant Pre Admit Card 2026",
-      "title_raw": "NICL Assistant Pre Admit Card 2026",
-      "badge_html": "",
-      "url": "/nicl-assistant-2026/",
-      "short_desc": "Sarkari announces NICL Assistant Pre Admit Card 2026 (545 Post).",
-      "date": "07 August 2026",
+      "url": "/bihar-police-bpssc-si-prohibition-result-2026/",
+      "short_desc": "BPSSC announces BPSSC Sub Inspector SI Prohibition Recruitment 2026 Result for 78 Post (78 Post).",
+      "date": "27/02/2026",
       "lifecycle_state": "EXPIRED_DEMOTED",
       "is_pinned": false
     }
