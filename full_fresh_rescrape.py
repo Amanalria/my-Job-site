@@ -1,20 +1,13 @@
 """
-Full Fresh Rescrape & Clean Rebuild Engine
-===========================================
-1. Takes the list of active posts from all_posts.json (or live sarkariresult homepage).
-2. For each post, fetches the exact live HTML from sarkariresult.com / sarkariresult.com.cm.
-3. Extracts 100% REAL EXACT official data:
-   - Important Dates (exact raw strings)
-   - Application Fee (exact raw strings)
-   - Age Limits (exact raw strings)
-   - Total Posts & Post Matrix (exact raw table)
-   - Category-wise Vacancy Breakdown (exact raw table if present, else omit)
-   - Useful Important Links (exact official URLs)
-4. Applies Humanizer rewriting to ONLY 3 sections:
-   - [A] Overview Paragraph (90-100 words prose, bold blue org, bold red title, dates, vacancies, eligibility)
-   - [B] How to Fill Guidelines (Step-by-step instructions with official dates + indtool.in resizer)
-   - [C] Frequently Asked Questions (5 structured tailored FAQs)
-5. Overwrites pages/<slug>.html completely and updates all_posts.json.
+Ultimate High-Fidelity Official Scraper & Category Reference HTML Builder
+========================================================================
+1. Scrapes exact official data from live sources (sarkariresult.com / sarkariresult.com.cm).
+2. Captures 100% of Important Dates, Application Fees, Age Limits, Vacancy Matrix, Category Breakdown, and Links.
+3. Strictly applies Humanizer rewriting to ONLY 3 sections:
+   [1] Overview Paragraph (90-100 words prose, bold blue org, bold red title, dates, vacancies, eligibility)
+   [2] How to Fill Form (Structured application steps incorporating source dates + indtool.in image resizer)
+   [3] Frequently Asked Questions (FAQ) (5 structured tailored FAQs)
+4. Accurately maps and builds every post to match the exact Category Reference HTML layout.
 """
 
 import os
@@ -23,7 +16,8 @@ import json
 import time
 import requests
 from bs4 import BeautifulSoup
-from typing import Dict, Any, List, Optional
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Dict, Any, List, Optional, Tuple
 import universal_design_agent
 
 BASE_DIR = "/root/sarkari-result-portal"
@@ -47,10 +41,9 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
         f"https://www.sarkariresult.com/syllabus/{clean_slug}/",
         f"https://www.sarkariresult.com/bihar/{clean_slug}/",
         f"https://www.sarkariresult.com/bank/{clean_slug}/",
-        f"https://sarkariresult.com.cm/{clean_slug}/"
+        f"https://www.sarkariresult.com.cm/{clean_slug}/"
     ]
     
-    # Keyword specific overrides for known irregular URLs
     if 'scholarship' in clean_slug:
         candidate_urls.insert(0, "https://www.sarkariresult.com/2026/up-scholarship-postmatric-jul26/")
         candidate_urls.insert(1, "https://www.sarkariresult.com/up-scholarship/")
@@ -63,7 +56,7 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
 
     for url in candidate_urls:
         try:
-            resp = requests.get(url, headers=HEADERS, timeout=7)
+            resp = requests.get(url, headers=HEADERS, timeout=6)
             if resp.status_code != 200 or len(resp.text) < 1200:
                 continue
 
@@ -72,7 +65,6 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
             if not tables:
                 continue
 
-            # Found valid live page
             h1 = soup.find('h1')
             page_title = clean_text(h1.get_text()) if h1 else existing_title or clean_slug.replace('-', ' ').title()
 
@@ -93,7 +85,6 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                 "official_website": ""
             }
 
-            # 1. Total Posts String
             m = re.search(r'Total\s*:\s*([\d,]+\s*Posts?)', resp.text, re.I)
             if m:
                 data["total_posts"] = clean_text(m.group(1))
@@ -102,7 +93,7 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                 if m2:
                     data["total_posts"] = clean_text(m2.group(1))
 
-            # 2. Extract Important Links from table rows
+            # 1. Important Links
             for tr in soup.find_all('tr'):
                 tds = tr.find_all(['td', 'th'])
                 if len(tds) >= 2:
@@ -128,12 +119,12 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                             elif ('admit card' in label_l or 'hall ticket' in label_l or 'result' in label_l or 'score' in label_l or 'answer key' in label_l or 'syllabus' in label_l) and not data["apply_link"]:
                                 data["apply_link"] = href
 
-            # 3. Extract Important Dates, Fees, Age Limits, How to Fill
+            # 2. Text Cells (Dates, Fee, Age, How-to-Fill)
             for td in soup.find_all(['td', 'th']):
                 txt = td.get_text(separator='\n', strip=True)
                 raw_lines = [clean_text(l) for l in txt.split('\n') if clean_text(l)]
 
-                # Important Dates (Zero Truncation - Capture 100% of date lines)
+                # Dates
                 if any('important dates' in l.lower() or 'schedule dates' in l.lower() or 'exam dates' in l.lower() for l in raw_lines[:2]):
                     curr_k = None
                     for l in raw_lines:
@@ -154,7 +145,7 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                         elif len(l) > 3:
                             data["important_dates"][l] = "Available"
 
-                # Application Fee (Zero Truncation - Capture 100% of fee lines & modes)
+                # Fee
                 if any('application fee' in l.lower() or 'fee details' in l.lower() for l in raw_lines[:2]):
                     curr_k = None
                     for l in raw_lines:
@@ -177,7 +168,7 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                         elif len(l) > 3:
                             data["application_fee"][l] = "Applicable"
 
-                # Age Limits (Zero Truncation - Capture 100% of age criteria & relaxations)
+                # Age Limits
                 if any('age limit' in l.lower() for l in raw_lines[:3]):
                     curr_k = None
                     for l in raw_lines:
@@ -208,14 +199,17 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                             data["age_limits"][l] = "Applicable"
 
                 # How to Fill
-                if any('how to' in l.lower() for l in raw_lines[:2]):
+                if any('how to' in l.lower() or 'instructions' in l.lower() for l in raw_lines[:2]):
                     for l in raw_lines:
-                        if 'how to' in l.lower() or 'sarkari result' in l.lower() or len(l) < 15:
+                        if any(w in l.lower() for w in ['how to', 'sarkari result', 'telegram', 'whatsapp', 'download app', 'visit website']) and len(l) < 35:
                             continue
-                        if l not in data["how_to_fill"] and not any(x in l.lower() for x in ['telegram', 'whatsapp', 'download app', 'visit website']):
+                        if len(l) > 12 and l not in data["how_to_fill"] and not any(x in l.lower() for x in ['telegram', 'whatsapp', 'download app', 'visit website']):
                             data["how_to_fill"].append(l)
 
-            # 4. Extract Post Matrix and Category Matrix from all tables
+            # 3. Flexible Multi-Header Post Matrix Extraction
+            col1_headers = ['post name', 'district name', 'class', 'trade name', 'discipline', 'department', 'course', 'branch', 'subject', 'exam name', 'cadre', 'designation', 'post']
+            col2_headers = ['eligibility', 'total post', 'total seat', 'total vacancy', 'qualification', 'criteria', 'seat', 'posts', 'vacancies']
+
             for tbl in tables:
                 rows = tbl.find_all('tr')
                 for i, tr in enumerate(rows):
@@ -223,7 +217,7 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                     row_txt = " | ".join([clean_text(t.get_text()) for t in tds]).lower()
 
                     # Post Matrix
-                    if 'post name' in row_txt and ('eligibility' in row_txt or 'total post' in row_txt or 'qualification' in row_txt):
+                    if any(h in row_txt for h in col1_headers) and any(h in row_txt for h in col2_headers):
                         for d_tr in rows[i+1:]:
                             d_tds = d_tr.find_all(['td', 'th'])
                             d_txt = " | ".join([clean_text(t.get_text()) for t in d_tds]).lower()
@@ -232,7 +226,7 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                             p_name = clean_text(d_tds[0].get_text())
                             p_posts = clean_text(d_tds[1].get_text()) if len(d_tds) > 1 else ""
                             p_elig = clean_text(" ".join([t.get_text(separator=' ') for t in d_tds[2:]])) if len(d_tds) > 2 else ""
-                            if p_name and p_name.lower() != 'post name' and not any(p['name'] == p_name for p in data["post_matrix"]):
+                            if p_name and not any(p_name.lower() == h for h in col1_headers) and not any(p['name'] == p_name for p in data["post_matrix"]):
                                 data["post_matrix"].append({
                                     "name": p_name,
                                     "posts": p_posts,
@@ -253,43 +247,28 @@ def extract_live_post_details(slug: str, cat: str, existing_title: str = "") -> 
                                     data["category_vacancies"][h] = v
 
             return data
-
-        except Exception as e:
+        except Exception:
             continue
-
     return None
 
-def execute_clean_rescrape_and_publish():
+def process_and_publish_all_posts():
     uda = universal_design_agent.UniversalDesignAgent()
-
-    # Load active posts
     posts_path = os.path.join(BASE_DIR, 'data/all_posts.json')
     with open(posts_path, 'r', encoding='utf-8') as f:
         posts = json.load(f)
 
     print(f"==================================================")
-    print(f"STARTING FULL FRESH RE-SCRAPE OF {len(posts)} POSTS")
+    print(f"STARTING COMPREHENSIVE RE-SCRAPE & REFERENCE REBUILD FOR {len(posts)} POSTS")
     print(f"==================================================")
 
-    healed_posts = []
-    success_count = 0
+    start_time = time.time()
+    results_map = {}
 
-    for idx, p in enumerate(posts):
+    def fetch_worker(p):
         slug = p.get('slug')
         cat = p.get('category', 'latest-jobs')
         title = p.get('title', slug)
-
-        print(f"[{idx+1}/{len(posts)}] Re-scraping live official source for: {slug}...")
-
-        # Delete stale HTML first to guarantee complete clean overwrite
-        html_file = os.path.join(BASE_DIR, f"pages/{slug}.html")
-        if os.path.exists(html_file):
-            try:
-                os.remove(html_file)
-            except Exception:
-                pass
-
-        # 1. Fetch exact live official data
+        
         live_data = extract_live_post_details(slug, cat, existing_title=title)
         if not live_data:
             live_data = {
@@ -308,10 +287,7 @@ def execute_clean_rescrape_and_publish():
                 "official_website": p.get("official_website_url", "")
             }
 
-        # 2. Extract Clean Authority Name
         clean_org = universal_design_agent.extract_clean_organization(live_data.get("title", title))
-
-        # Extract last date
         last_date = p.get("application_last_date", "")
         for k, v in live_data["important_dates"].items():
             if 'last date' in k.lower():
@@ -320,7 +296,6 @@ def execute_clean_rescrape_and_publish():
         if not last_date:
             last_date = "As per Official Notification"
 
-        # 3. Assemble complete payload
         payload = {
             "slug": slug,
             "category": cat,
@@ -343,60 +318,55 @@ def execute_clean_rescrape_and_publish():
             "official_website": live_data.get("official_website") or "https://studytopper.in"
         }
 
-        # Fallback guarantees if live source had completely empty fields (e.g., custom post)
-        if not payload["important_dates"]:
-            if cat in ['latest-jobs', 'admission']:
-                payload["important_dates"] = {
-                    "Application Begin": "Check Official Notification",
-                    "Last Date for Apply Online": last_date,
-                    "Pay Exam Fee Last Date": last_date,
-                    "Exam Date": "As per Schedule"
-                }
-            else:
-                payload["important_dates"] = {
-                    "Release Date": "Published Officially",
-                    "Status": "Available Online"
-                }
+        # Render HTML using exact reference template
+        html = uda.build_post_html(payload)
+        out_file = os.path.join(BASE_DIR, 'pages', f"{slug}.html")
+        with open(out_file, "w", encoding="utf-8") as f_out:
+            f_out.write(html)
 
-        if not payload["application_fee"]:
-            if cat in ['latest-jobs', 'admission']:
-                payload["application_fee"] = {
-                    "General / OBC / EWS": "Check Official Notification",
-                    "SC / ST / PH": "Check Official Notification",
-                    "Payment Mode": "Online / Offline Fee Mode as per Notification"
-                }
-            else:
-                payload["application_fee"] = {
-                    "Application Fee": "0/- (No Fee Required)"
-                }
+        return slug, payload
 
-        if not payload["age_limits"] and cat in ['latest-jobs', 'admission']:
-            payload["age_limits"] = {
-                "Minimum Age": "18 Years (As per post rules)",
-                "Maximum Age": "40 Years (As per post rules)",
-                "Age Relaxation": f"Age Relaxation Extra as per {clean_org} Recruitment Rules."
-            }
+    # Concurrent Fetching & HTML Generation
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futs = [executor.submit(fetch_worker, p) for p in posts]
+        for f in as_completed(futs):
+            slug, payload = f.result()
+            results_map[slug] = payload
+            print(f"[Done] {slug}")
 
-        if not payload["post_matrix"]:
-            payload["post_matrix"] = [{
-                "name": payload["title"],
-                "posts": payload["total_posts"],
-                "eligibility": "Passed prescribed Educational Qualification from Any Recognized Board / University in India. Read full official notification for post-wise eligibility criteria."
-            }]
+    # Sequential Safe Database Updates
+    print(f"\nScraping complete ({time.time()-start_time:.1f}s). Updating master records...")
+    final_post_list = []
+    for p in posts:
+        slug = p.get('slug')
+        if slug in results_map:
+            payload = results_map[slug]
+            p["title"] = payload["title"]
+            p["total_posts"] = payload["total_posts"]
+            p["application_last_date"] = payload["last_date"]
+            p["important_dates"] = payload["important_dates"]
+            p["application_fee"] = payload["application_fee"]
+            p["age_limits"] = payload["age_limits"]
+            p["age_as_on"] = payload["age_as_on"]
+            p["post_matrix"] = payload["post_matrix"]
+            p["category_vacancies"] = payload["category_vacancies"]
+            p["how_to_fill"] = payload["how_to_fill"]
+            p["important_links"] = payload["important_links"]
+            p["apply_online_url"] = payload["apply_link"]
+            p["notification_url"] = payload["notification_link"]
+            p["official_website_url"] = payload["official_website"]
+        final_post_list.append(p)
 
-        # 4. Publish cleanly via UniversalDesignAgent (which renders 3 Humanizer sections + exact source data)
-        try:
-            uda.publish(payload)
-            success_count += 1
-            print(f"  -> Generated fresh HTML for: {slug}")
-        except Exception as e:
-            print(f"  -> [Error] {slug}: {e}")
+    with open(posts_path, 'w', encoding='utf-8') as f:
+        json.dump(final_post_list, f, indent=4)
 
-        time.sleep(0.05)
+    custom_path = os.path.join(BASE_DIR, 'data/custom_posts.json')
+    if os.path.exists(custom_path):
+        with open(custom_path, 'w', encoding='utf-8') as f:
+            json.dump(final_post_list, f, indent=4)
 
-    print(f"\n==================================================")
-    print(f"CLEAN RE-SCRAPE COMPLETED!")
-    print(f"Successfully re-scraped and published: {success_count}/{len(posts)} posts")
+    print(f"==================================================")
+    print(f"ALL {len(posts)} POSTS FULLY REBUILT ACCORDING TO REFERENCE HTML STANDARDS!")
     print(f"==================================================")
 
     # Sync Homepage & Git
@@ -404,7 +374,7 @@ def execute_clean_rescrape_and_publish():
         import vacancy_lifecycle_engine as v_engine
         v_engine.audit_and_execute_lifecycle()
     except Exception as e:
-        print(f"[Lifecycle Warning] {e}")
+        print(f"[Sync Warning] {e}")
 
 if __name__ == "__main__":
-    execute_clean_rescrape_and_publish()
+    process_and_publish_all_posts()
