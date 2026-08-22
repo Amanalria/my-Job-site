@@ -504,6 +504,24 @@
     "sort_priority": 87
   },
   {
+    "id": "post_rcf_kapurthala_apprentice_2026",
+    "slug": "rcf-kapurthala-apprentice-2026",
+    "title": "RCF Kapurthala Apprentice Recruitment 2026",
+    "category": "latest-jobs",
+    "short_desc": "Sarkari announces RCF Kapurthala Apprentice Recruitment 2026 (545 Post).",
+    "application_start_date": "",
+    "application_last_date": "05 September 2026",
+    "custom_badge": "545 Post",
+    "tags": "latest-jobs, Sarkari, Study Topper",
+    "created_at": "2026-08-22T11:48:16.138689",
+    "lifecycle_state": "ACTIVE",
+    "is_pinned": false,
+    "days_remaining": 14,
+    "lifecycle_badge": "",
+    "badge_html": "",
+    "sort_priority": 86
+  },
+  {
     "id": "post_up_ecce_educator_chitrakoot_august26",
     "slug": "up-ecce-educator-chitrakoot-august26",
     "title": "Uttar Pradesh UP Basic Education Chitrakoot ECCE Educator Outsourcing Recruitment 2026 Apply Online For 60 Post",
@@ -540,24 +558,6 @@
     "sort_priority": 86
   },
   {
-    "id": "post_rcf_kapurthala_apprentice_2026",
-    "slug": "rcf-kapurthala-apprentice-2026",
-    "title": "RCF Kapurthala Apprentice Recruitment 2026",
-    "category": "latest-jobs",
-    "short_desc": "Sarkari announces RCF Kapurthala Apprentice Recruitment 2026 (545 Post).",
-    "application_start_date": "",
-    "application_last_date": "05 September 2026",
-    "custom_badge": "545 Post",
-    "tags": "latest-jobs, Sarkari, Study Topper",
-    "created_at": "2026-08-22T11:30:20.288031",
-    "lifecycle_state": "ACTIVE",
-    "is_pinned": false,
-    "days_remaining": 14,
-    "lifecycle_badge": "",
-    "badge_html": "",
-    "sort_priority": 86
-  },
-  {
     "id": "post_iocl_md_nr_apprentices_august26",
     "slug": "iocl-md-nr-apprentices-august26",
     "title": "IOCL Marketing Division Northern Region Apprentices Recruitment 2026 Apply Online for 433 Post",
@@ -567,7 +567,7 @@
     "application_last_date": "06/09/2026",
     "custom_badge": "433 Post",
     "tags": "latest-jobs, IOCL, Study Topper",
-    "created_at": "2026-08-22T11:39:40.638110",
+    "created_at": "2026-08-22T11:48:24.758906",
     "lifecycle_state": "ACTIVE",
     "is_pinned": false,
     "days_remaining": 15,
