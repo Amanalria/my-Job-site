@@ -1,4 +1,76 @@
 {
+  "admission": [
+    {
+      "title": "Bihar STET Online Form 2026",
+      "title_raw": "Bihar STET Online Form 2026",
+      "badge_html": "",
+      "url": "/bihar-stet-2026/",
+      "short_desc": "Bihar STET announces Bihar STET Online Form 2026 (Various Posts).",
+      "date": "31 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT GATE 2027 Admission Form",
+      "title_raw": "IIT GATE 2027 Admission Form",
+      "badge_html": "",
+      "url": "/iit-gate-2027/",
+      "short_desc": "IIT GATE  Admission Form announces IIT GATE 2027 Admission Form (Various Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIM CAT 2026 Admission Form",
+      "title_raw": "IIM CAT 2026 Admission Form",
+      "badge_html": "",
+      "url": "/iim-cat-2026/",
+      "short_desc": "IIM CAT  Admission Form announces IIM CAT 2026 Admission Form (Various Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT JAM Admission Form 2026",
+      "title_raw": "IIT JAM Admission Form 2026",
+      "badge_html": "",
+      "url": "/iit-jam-2027/",
+      "short_desc": "IIT JAM Admission Form announces IIT JAM Admission Form 2026 (Various Posts).",
+      "date": "12 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "AIBE 22th Online Form 2026",
+      "title_raw": "AIBE 22th Online Form 2026",
+      "badge_html": "",
+      "url": "/2026-aibe-22th-aug26/",
+      "short_desc": "AIBE 22th announces AIBE 22th Online Form 2026 (Various Posts).",
+      "date": "27 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "CLAT Admission Form 2026",
+      "title_raw": "CLAT Admission Form 2026",
+      "badge_html": "",
+      "url": "/clat-2026/",
+      "short_desc": "CLAT Admission Form announces CLAT Admission Form 2026 (Various Posts).",
+      "date": "31 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar BSEB DElEd Common Application Form 2026",
+      "title_raw": "Bihar BSEB DElEd Common Application Form 2026",
+      "badge_html": "",
+      "url": "/bihar-bseb-deled-2026/",
+      "short_desc": "Bihar BSEB DElEd Common Application Form announces Bihar BSEB DElEd Common Application Form 2026 (Various Posts).",
+      "date": "24 January 2026 (Extended)",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    }
+  ],
   "latest-jobs": [
     {
       "title": "UP Sewayojan Vibhag Recruitment 2026 Multi Tasking Staff MTS Apply Online for 45 Post",
@@ -631,12 +703,12 @@
       "is_pinned": false
     },
     {
-      "title": "UP Uttar Pradesh Anganwadi Helper Bharti Recruitment 2026 Apply Online District Wise Vacancy Details, Ambedkar Nagar, Maharajganj, Kanpur Nagar, Chitrakoot, Kushinagar, Lalitpur",
-      "title_raw": "UP Uttar Pradesh Anganwadi Helper Bharti Recruitment 2026 Apply Online District Wise Vacancy Details, Ambedkar Nagar, Maharajganj, Kanpur Nagar, Chitrakoot, Kushinagar, Lalitpur",
+      "title": "NIELIT CCC Exam 2026 Apply Online Form for Course on Computer Concepts CCC",
+      "title_raw": "NIELIT CCC Exam 2026 Apply Online Form for Course on Computer Concepts CCC",
       "badge_html": "",
-      "url": "/up-anganwadi-helper-june26/",
-      "short_desc": "UP Uttar Pradesh Anganwadi Helper Bharti    District Wise  Details, Ambedkar Nagar, Maharajganj, Kanpur Nagar, Chitrakoot, Kushinagar, Lalitpur announces UP Uttar Pradesh Anganwadi Helper Bharti Recruitment 2026 Apply Online District Wise Vacancy Details, Ambedkar Nagar, Maharajganj, Kanpur Nagar, Chitrakoot, Kushinagar, Lalitpur (25103 post).",
-      "date": "District Wise",
+      "url": "/nielit-ccc-online-form/",
+      "short_desc": "National Institute of Electronics and Information Technology (NIELIT) announces NIELIT CCC Exam 2026 Apply Online Form for Course on Computer Concepts CCC (21490 post).",
+      "date": "Last day of every month",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
@@ -671,22 +743,22 @@
       "is_pinned": false
     },
     {
+      "title": "UP Uttar Pradesh Anganwadi Helper Bharti Recruitment 2026 Apply Online District Wise Vacancy Details, Ambedkar Nagar, Maharajganj, Kanpur Nagar, Chitrakoot, Kushinagar, Lalitpur",
+      "title_raw": "UP Uttar Pradesh Anganwadi Helper Bharti Recruitment 2026 Apply Online District Wise Vacancy Details, Ambedkar Nagar, Maharajganj, Kanpur Nagar, Chitrakoot, Kushinagar, Lalitpur",
+      "badge_html": "",
+      "url": "/up-anganwadi-helper-june26/",
+      "short_desc": "UP Uttar Pradesh Anganwadi Helper Bharti    District Wise  Details, Ambedkar Nagar, Maharajganj, Kanpur Nagar, Chitrakoot, Kushinagar, Lalitpur announces UP Uttar Pradesh Anganwadi Helper Bharti Recruitment 2026 Apply Online District Wise Vacancy Details, Ambedkar Nagar, Maharajganj, Kanpur Nagar, Chitrakoot, Kushinagar, Lalitpur (25103 post).",
+      "date": "District Wise",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
       "title": "SBI Junior Associates Clerk Backlog Recruitment 2026",
       "title_raw": "SBI Junior Associates Clerk Backlog Recruitment 2026",
       "badge_html": "",
       "url": "/sbi-clerk-backlog-2026/",
       "short_desc": "State Bank of India (SBI) announces SBI Junior Associates Clerk Backlog Recruitment 2026 (1538 Posts).",
       "date": "Before Exam",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "NIELIT CCC Exam 2026 Apply Online Form for Course on Computer Concepts CCC",
-      "title_raw": "NIELIT CCC Exam 2026 Apply Online Form for Course on Computer Concepts CCC",
-      "badge_html": "",
-      "url": "/nielit-ccc-online-form/",
-      "short_desc": "National Institute of Electronics and Information Technology (NIELIT) announces NIELIT CCC Exam 2026 Apply Online Form for Course on Computer Concepts CCC (21490 post).",
-      "date": "Last day of every month",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
@@ -823,75 +895,35 @@
       "is_pinned": false
     }
   ],
-  "admission": [
+  "answer-key": [
     {
-      "title": "Bihar STET Online Form 2026",
-      "title_raw": "Bihar STET Online Form 2026",
+      "title": "Delhi DSSSB July Answer Key 2026",
+      "title_raw": "Delhi DSSSB July Answer Key 2026",
       "badge_html": "",
-      "url": "/bihar-stet-2026/",
-      "short_desc": "Bihar STET announces Bihar STET Online Form 2026 (Various Posts).",
-      "date": "31 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT GATE 2027 Admission Form",
-      "title_raw": "IIT GATE 2027 Admission Form",
-      "badge_html": "",
-      "url": "/iit-gate-2027/",
-      "short_desc": "IIT GATE  Admission Form announces IIT GATE 2027 Admission Form (Various Posts).",
+      "url": "/dsssb-various-post-2026/",
+      "short_desc": "Delhi DSSSB July announces Delhi DSSSB July Answer Key 2026 (Various Posts).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
     {
-      "title": "IIM CAT 2026 Admission Form",
-      "title_raw": "IIM CAT 2026 Admission Form",
+      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
+      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
       "badge_html": "",
-      "url": "/iim-cat-2026/",
-      "short_desc": "IIM CAT  Admission Form announces IIM CAT 2026 Admission Form (Various Posts).",
+      "url": "/nta-icar-aieea-pg-and-phd-2026/",
+      "short_desc": "National Testing Agency (NTA) announces NTA ICAR AIEEA PG Ph.D Answer Key 2026 (2026 Post).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
     {
-      "title": "IIT JAM Admission Form 2026",
-      "title_raw": "IIT JAM Admission Form 2026",
+      "title": "NTA CSIR UGC NET June Answer Key 2026",
+      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
       "badge_html": "",
-      "url": "/iit-jam-2027/",
-      "short_desc": "IIT JAM Admission Form announces IIT JAM Admission Form 2026 (Various Posts).",
-      "date": "12 October 2026",
+      "url": "/nta-csir-ugc-net-june-2026/",
+      "short_desc": "National Testing Agency (NTA) announces NTA CSIR UGC NET June Answer Key 2026 (Various Posts).",
+      "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "AIBE 22th Online Form 2026",
-      "title_raw": "AIBE 22th Online Form 2026",
-      "badge_html": "",
-      "url": "/2026-aibe-22th-aug26/",
-      "short_desc": "AIBE 22th announces AIBE 22th Online Form 2026 (Various Posts).",
-      "date": "27 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "CLAT Admission Form 2026",
-      "title_raw": "CLAT Admission Form 2026",
-      "badge_html": "",
-      "url": "/clat-2026/",
-      "short_desc": "CLAT Admission Form announces CLAT Admission Form 2026 (Various Posts).",
-      "date": "31 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar BSEB DElEd Common Application Form 2026",
-      "title_raw": "Bihar BSEB DElEd Common Application Form 2026",
-      "badge_html": "",
-      "url": "/bihar-bseb-deled-2026/",
-      "short_desc": "Bihar BSEB DElEd Common Application Form announces Bihar BSEB DElEd Common Application Form 2026 (Various Posts).",
-      "date": "24 January 2026 (Extended)",
-      "lifecycle_state": "EXPIRED_DEMOTED",
       "is_pinned": false
     }
   ],
@@ -946,38 +978,6 @@
       "short_desc": "NICL Assistant Pre announces NICL Assistant Pre Admit Card 2026 (500 Posts).",
       "date": "07 August 2026",
       "lifecycle_state": "EXPIRED_DEMOTED",
-      "is_pinned": false
-    }
-  ],
-  "answer-key": [
-    {
-      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "badge_html": "",
-      "url": "/nta-icar-aieea-pg-and-phd-2026/",
-      "short_desc": "National Testing Agency (NTA) announces NTA ICAR AIEEA PG Ph.D Answer Key 2026 (2026 Post).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "NTA CSIR UGC NET June Answer Key 2026",
-      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
-      "badge_html": "",
-      "url": "/nta-csir-ugc-net-june-2026/",
-      "short_desc": "National Testing Agency (NTA) announces NTA CSIR UGC NET June Answer Key 2026 (Various Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Delhi DSSSB July Answer Key 2026",
-      "title_raw": "Delhi DSSSB July Answer Key 2026",
-      "badge_html": "",
-      "url": "/dsssb-various-post-2026/",
-      "short_desc": "Delhi DSSSB July announces Delhi DSSSB July Answer Key 2026 (Various Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
   ]
