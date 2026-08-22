@@ -101,8 +101,10 @@ class UniversalDesignAgent:
         return "<html><head></head><body><main id='main'></main></body></html>"
 
     def humanize_overview(self, data: Dict[str, Any]) -> str:
-        org = data.get("organization", "Government Authority")
         title = data.get("title", "Recruitment 2026")
+        org = data.get("organization")
+        if not org or org in ["Govt Board", "Recruitment Authority", "Government Authority"] or len(org) <= 5 or org in ["Uttar", "Bihar", "State", "Madhya", "Rajasthan"]:
+            org = extract_clean_organization(title, default="Government Authority")
         advt = data.get("advt_no", "Official Advt 2026")
         total_posts = data.get("total_posts", "various vacancies")
         last_date = data.get("last_date", "prescribed closing date")
