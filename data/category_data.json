@@ -1,33 +1,33 @@
 {
-  "admit-card": [
+  "answer-key": [
     {
-      "title": "NTA AIAPGET Admit Card 2026",
-      "title_raw": "NTA AIAPGET Admit Card 2026",
+      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
+      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
       "badge_html": "",
-      "url": "/nta-aiapget-2026/",
-      "short_desc": "Sarkari announces NTA AIAPGET Admit Card 2026 (545 Post).",
+      "url": "/nta-icar-aieea-pg-and-phd-2026/",
+      "short_desc": "Sarkari announces NTA ICAR AIEEA PG Ph.D Answer Key 2026 (545 Post).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
     {
-      "title": "IBPS SO XVI Pre Admit Card 2026",
-      "title_raw": "IBPS SO XVI Pre Admit Card 2026",
+      "title": "NTA CSIR UGC NET June Answer Key 2026",
+      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
       "badge_html": "",
-      "url": "/ibps-so-xvi-2026/",
-      "short_desc": "Sarkari announces IBPS SO XVI Pre Admit Card 2026 (545 Post).",
+      "url": "/nta-csir-ugc-net-june-2026/",
+      "short_desc": "NTA CSIR UGC NET June announces NTA CSIR UGC NET June Answer Key 2026 (2482 Posts).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     },
     {
-      "title": "NICL Assistant Pre Admit Card 2026",
-      "title_raw": "NICL Assistant Pre Admit Card 2026",
+      "title": "Delhi DSSSB July Answer Key 2026",
+      "title_raw": "Delhi DSSSB July Answer Key 2026",
       "badge_html": "",
-      "url": "/nicl-assistant-2026/",
-      "short_desc": "National Insurance NICL Assistant announces NICL Assistant Pre Admit Card 2026 (500 Posts).",
-      "date": "07 August 2026",
-      "lifecycle_state": "EXPIRED_DEMOTED",
+      "url": "/dsssb-various-post-2026/",
+      "short_desc": "Delhi DSSSB Sub Station announces Delhi DSSSB July Answer Key 2026 (2482 Posts).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
   ],
@@ -927,6 +927,38 @@
       "is_pinned": false
     }
   ],
+  "admit-card": [
+    {
+      "title": "NTA AIAPGET Admit Card 2026",
+      "title_raw": "NTA AIAPGET Admit Card 2026",
+      "badge_html": "",
+      "url": "/nta-aiapget-2026/",
+      "short_desc": "Sarkari announces NTA AIAPGET Admit Card 2026 (545 Post).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IBPS SO XVI Pre Admit Card 2026",
+      "title_raw": "IBPS SO XVI Pre Admit Card 2026",
+      "badge_html": "",
+      "url": "/ibps-so-xvi-2026/",
+      "short_desc": "Sarkari announces IBPS SO XVI Pre Admit Card 2026 (545 Post).",
+      "date": "15 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "NICL Assistant Pre Admit Card 2026",
+      "title_raw": "NICL Assistant Pre Admit Card 2026",
+      "badge_html": "",
+      "url": "/nicl-assistant-2026/",
+      "short_desc": "National Insurance NICL Assistant announces NICL Assistant Pre Admit Card 2026 (500 Posts).",
+      "date": "07 August 2026",
+      "lifecycle_state": "EXPIRED_DEMOTED",
+      "is_pinned": false
+    }
+  ],
   "result": [
     {
       "title": "NTA SWAYAM Result 2026",
@@ -934,38 +966,6 @@
       "badge_html": "",
       "url": "/nta-swayam-2026/",
       "short_desc": "Sarkari announces NTA SWAYAM Result 2026 (545 Post).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
-  "answer-key": [
-    {
-      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "badge_html": "",
-      "url": "/nta-icar-aieea-pg-and-phd-2026/",
-      "short_desc": "NTA ICAR AIEEA PG and PHd announces NTA ICAR AIEEA PG Ph.D Answer Key 2026 (2026 Post).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "NTA CSIR UGC NET June Answer Key 2026",
-      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
-      "badge_html": "",
-      "url": "/nta-csir-ugc-net-june-2026/",
-      "short_desc": "NTA CSIR UGC NET June announces NTA CSIR UGC NET June Answer Key 2026 (2482 Posts).",
-      "date": "15 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Delhi DSSSB July Answer Key 2026",
-      "title_raw": "Delhi DSSSB July Answer Key 2026",
-      "badge_html": "",
-      "url": "/dsssb-various-post-2026/",
-      "short_desc": "Delhi DSSSB Sub Station announces Delhi DSSSB July Answer Key 2026 (2482 Posts).",
       "date": "15 September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
