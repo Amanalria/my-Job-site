@@ -5,7 +5,7 @@
       "title_raw": "Railway NFR Apprentice Online Form 2026",
       "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">Last Date Today!</span>",
       "url": "/railway-nfr-2026/",
-      "short_desc": "Northeast Frontier Railway (RRC NFR) invites online applications for trade apprentice engagement across diverse mechanical, electrical, and engineering divisions. Selection is based purely on 10th and ITI merit without any written exam.",
+      "short_desc": "Govt Board announces Railway NFR Apprentice Online Form 2026 (6,777 Posts).",
       "date": "22 August 2026",
       "lifecycle_state": "URGENT_PINNED",
       "is_pinned": false
@@ -47,6 +47,110 @@
       "url": "/bpsc-school-teacher-tre-4-0-2026/",
       "short_desc": "Govt Board announces BPSC School Teacher TRE 4.0 Online Form 2026 (32,388 Posts).",
       "date": "05 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ],
+  "answer-key": [
+    {
+      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
+      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
+      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">2 Days Left!</span>",
+      "url": "/nta-icar-aieea-pg-and-phd-2026/",
+      "short_desc": "National Testing Agency (NTA) issues the provisional answer keys and candidate response sheets for Indian Council of Agricultural Research (ICAR) AIEEA PG and AICE JRF/SRF Ph.D entrance examinations.",
+      "date": "Objection Window: 24 August 2026",
+      "lifecycle_state": "URGENT_PINNED",
+      "is_pinned": false
+    },
+    {
+      "title": "NTA CSIR UGC NET June Answer Key 2026",
+      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
+      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">3 Days Left!</span>",
+      "url": "/nta-csir-ugc-net-june-2026/",
+      "short_desc": "NTA publishes the official provisional answer keys and recorded responses for the Joint CSIR UGC NET June examination across chemical, earth, life, mathematical, and physical sciences.",
+      "date": "Objection Window: 25 August 2026",
+      "lifecycle_state": "URGENT_PINNED",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar BPSC Assistant Prosecution Officer APO Answer Key 2026",
+      "title_raw": "Bihar BPSC Assistant Prosecution Officer APO Answer Key 2026",
+      "badge_html": "",
+      "url": "/bpsc-apo-2026/",
+      "short_desc": "Bihar Public Service Commission (BPSC) releases provisional answer keys for General Studies and Law papers in the Assistant Prosecution Officer preliminary test.",
+      "date": "Objection Deadline: 26 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Delhi DSSSB Various Post Answer Key 2026",
+      "title_raw": "Delhi DSSSB Various Post Answer Key 2026",
+      "badge_html": "",
+      "url": "/dsssb-various-post-2026/",
+      "short_desc": "Delhi Subordinate Services Selection Board (DSSSB) releases draft answer keys and objection link for computer-based tests conducted for various teaching, technical, and ministerial posts.",
+      "date": "Objection Last Date: 27 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
+      "title_raw": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
+      "badge_html": "",
+      "url": "/upsssc-agriculture-technical-assistant-group-c-2026/",
+      "short_desc": "UPSSSC publishes provisional answer keys for Agriculture Technical Assistant (Pravidhik Sahayak Group C) examination.",
+      "date": "Objection Date: 28 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    }
+  ],
+  "admission": [
+    {
+      "title": "SAV Bihar Class 6 Entrance Exam Online Form 2027-28",
+      "title_raw": "SAV Bihar Class 6 Entrance Exam Online Form 2027-28",
+      "badge_html": " - <span class=\"agy-blinking-badge agy-extended-blink\">Date Extended!</span>",
+      "url": "/sav-bihar-class-6-2026/",
+      "short_desc": "Bihar School Examination Board (BSEB) invites online applications for entrance admission to Class VI in Simultala Awasiya Vidyalaya (SAV) Jamui for academic session 2027-28.",
+      "date": "28 August 2026 (Extended)",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "Bihar Secondary Teachers Eligibility Test STET 2026",
+      "title_raw": "Bihar Secondary Teachers Eligibility Test STET 2026",
+      "badge_html": "",
+      "url": "/bihar-stet-2026/",
+      "short_desc": "Bihar School Examination Board (BSEB) invites online applications for Bihar Secondary Teachers Eligibility Test (STET 2026) for qualifying prospective Paper 1 (Secondary 9-10) and Paper 2 (Higher Secondary 11-12) teachers.",
+      "date": "31 August 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT GATE 2027 Online Form",
+      "title_raw": "IIT GATE 2027 Online Form",
+      "badge_html": "",
+      "url": "/iit-gate-2027/",
+      "short_desc": "Organizing Institute of Technology invites online applications for Graduate Aptitude Test in Engineering (GATE 2027) for M.Tech/Ph.D admissions and recruitment in premier Public Sector Undertakings (PSUs).",
+      "date": "26 September 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "IIT JAM 2027 Online Form",
+      "title_raw": "IIT JAM 2027 Online Form",
+      "badge_html": "",
+      "url": "/iit-jam-2027/",
+      "short_desc": "Indian Institute of Technology (IIT) invites online applications for Joint Admission Test for Masters (JAM 2027) for admission to M.Sc., Joint M.Sc.-Ph.D., M.Sc.-Ph.D. Dual Degree, and integrated postgraduate science programs across premier IITs and IISc.",
+      "date": "11 October 2026",
+      "lifecycle_state": "ACTIVE",
+      "is_pinned": false
+    },
+    {
+      "title": "UP DELEd (BTC) 2026 Online Counselling",
+      "title_raw": "UP DELEd (BTC) 2026 Online Counselling",
+      "badge_html": "",
+      "url": "/up-deled-2026/",
+      "short_desc": "Examination Regulatory Authority (PNP) Prayagraj, Uttar Pradesh releases state rank cards, counselling schedule, and college seat choice filling portal for Diploma in Elementary Education (D.El.Ed BTC 2026).",
+      "date": "Choice Filling: September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
@@ -155,58 +259,6 @@
       "is_pinned": false
     }
   ],
-  "answer-key": [
-    {
-      "title": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "title_raw": "NTA ICAR AIEEA PG Ph.D Answer Key 2026",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">2 Days Left!</span>",
-      "url": "/nta-icar-aieea-pg-and-phd-2026/",
-      "short_desc": "National Testing Agency (NTA) issues the provisional answer keys and candidate response sheets for Indian Council of Agricultural Research (ICAR) AIEEA PG and AICE JRF/SRF Ph.D entrance examinations.",
-      "date": "Objection Window: 24 August 2026",
-      "lifecycle_state": "URGENT_PINNED",
-      "is_pinned": false
-    },
-    {
-      "title": "NTA CSIR UGC NET June Answer Key 2026",
-      "title_raw": "NTA CSIR UGC NET June Answer Key 2026",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-urgent-blink\">3 Days Left!</span>",
-      "url": "/nta-csir-ugc-net-june-2026/",
-      "short_desc": "NTA publishes the official provisional answer keys and recorded responses for the Joint CSIR UGC NET June examination across chemical, earth, life, mathematical, and physical sciences.",
-      "date": "Objection Window: 25 August 2026",
-      "lifecycle_state": "URGENT_PINNED",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar BPSC Assistant Prosecution Officer APO Answer Key 2026",
-      "title_raw": "Bihar BPSC Assistant Prosecution Officer APO Answer Key 2026",
-      "badge_html": "",
-      "url": "/bpsc-apo-2026/",
-      "short_desc": "Bihar Public Service Commission (BPSC) releases provisional answer keys for General Studies and Law papers in the Assistant Prosecution Officer preliminary test.",
-      "date": "Objection Deadline: 26 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Delhi DSSSB Various Post Answer Key 2026",
-      "title_raw": "Delhi DSSSB Various Post Answer Key 2026",
-      "badge_html": "",
-      "url": "/dsssb-various-post-2026/",
-      "short_desc": "Delhi Subordinate Services Selection Board (DSSSB) releases draft answer keys and objection link for computer-based tests conducted for various teaching, technical, and ministerial posts.",
-      "date": "Objection Last Date: 27 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
-      "title_raw": "UPSSSC Agriculture Technical Assistant Group-C Answer Key 2026",
-      "badge_html": "",
-      "url": "/upsssc-agriculture-technical-assistant-group-c-2026/",
-      "short_desc": "UPSSSC publishes provisional answer keys for Agriculture Technical Assistant (Pravidhik Sahayak Group C) examination.",
-      "date": "Objection Date: 28 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
   "syllabus": [
     {
       "title": "BPSC Annual Examination Calendar 2026",
@@ -255,58 +307,6 @@
       "url": "/up-scholarship-2026/",
       "short_desc": "Social Welfare Department, Government of Uttar Pradesh opens student scholarship registration for Pre-Matric (Class 9-10) and Post-Matric (Class 11-12, UG, PG, Diploma) courses.",
       "date": "31 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    }
-  ],
-  "admission": [
-    {
-      "title": "SAV Bihar Class 6 Entrance Exam Online Form 2027-28",
-      "title_raw": "SAV Bihar Class 6 Entrance Exam Online Form 2027-28",
-      "badge_html": " - <span class=\"agy-blinking-badge agy-extended-blink\">Date Extended!</span>",
-      "url": "/sav-bihar-class-6-2026/",
-      "short_desc": "Bihar School Examination Board (BSEB) invites online applications for entrance admission to Class VI in Simultala Awasiya Vidyalaya (SAV) Jamui for academic session 2027-28.",
-      "date": "28 August 2026 (Extended)",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "Bihar Secondary Teachers Eligibility Test STET 2026",
-      "title_raw": "Bihar Secondary Teachers Eligibility Test STET 2026",
-      "badge_html": "",
-      "url": "/bihar-stet-2026/",
-      "short_desc": "Bihar School Examination Board (BSEB) invites online applications for Bihar Secondary Teachers Eligibility Test (STET 2026) for qualifying prospective Paper 1 (Secondary 9-10) and Paper 2 (Higher Secondary 11-12) teachers.",
-      "date": "31 August 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT GATE 2027 Online Form",
-      "title_raw": "IIT GATE 2027 Online Form",
-      "badge_html": "",
-      "url": "/iit-gate-2027/",
-      "short_desc": "Organizing Institute of Technology invites online applications for Graduate Aptitude Test in Engineering (GATE 2027) for M.Tech/Ph.D admissions and recruitment in premier Public Sector Undertakings (PSUs).",
-      "date": "26 September 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "IIT JAM 2027 Online Form",
-      "title_raw": "IIT JAM 2027 Online Form",
-      "badge_html": "",
-      "url": "/iit-jam-2027/",
-      "short_desc": "Indian Institute of Technology (IIT) invites online applications for Joint Admission Test for Masters (JAM 2027) for admission to M.Sc., Joint M.Sc.-Ph.D., M.Sc.-Ph.D. Dual Degree, and integrated postgraduate science programs across premier IITs and IISc.",
-      "date": "11 October 2026",
-      "lifecycle_state": "ACTIVE",
-      "is_pinned": false
-    },
-    {
-      "title": "UP DELEd (BTC) 2026 Online Counselling",
-      "title_raw": "UP DELEd (BTC) 2026 Online Counselling",
-      "badge_html": "",
-      "url": "/up-deled-2026/",
-      "short_desc": "Examination Regulatory Authority (PNP) Prayagraj, Uttar Pradesh releases state rank cards, counselling schedule, and college seat choice filling portal for Diploma in Elementary Education (D.El.Ed BTC 2026).",
-      "date": "Choice Filling: September 2026",
       "lifecycle_state": "ACTIVE",
       "is_pinned": false
     }
