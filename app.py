@@ -4161,16 +4161,15 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                 
             ul = col.find('ul')
             if ul:
+                ul.clear()
                 cat_list = posts_by_category.get(cat_key, [])
-                if cat_list:
-                    ul.clear()
-                    for item in cat_list[:15]:
-                        li = soup.new_tag('li')
-                        title_raw = item.get('title', '')
-                        badge_html = item.get('calculated_badge', '')
-                        markup = f'<a href="/{item.get("slug")}/" class="wp-block-latest-posts__post-title">{title_raw}{badge_html}</a>'
-                        li.append(BeautifulSoup(markup, 'html.parser'))
-                        ul.append(li)
+                for item in cat_list[:15]:
+                    li = soup.new_tag('li')
+                    title_raw = item.get('title', '')
+                    badge_html = item.get('calculated_badge', '')
+                    markup = f'<a href="/{item.get("slug")}/" class="wp-block-latest-posts__post-title">{title_raw}{badge_html}</a>'
+                    li.append(BeautifulSoup(markup, 'html.parser'))
+                    ul.append(li)
 
     # ==================== 3. DYNAMIC TOP 8 HIGHLIGHT CARDS ====================
     custom_cards = settings_obj.get('highlight_cards', [])
@@ -4186,17 +4185,18 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
         if col_div:
             p_tag = col_div.find('p')
             if p_tag:
-                card_bg = tc.get(f'card_{idx+1}_bg') or default_card_bgs[idx]
-                p_tag['style'] = f'background-color:{card_bg} !important; color:#ffffff !important; border-radius:5px !important; min-height:52px !important; height:52px !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; padding:4px 6px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important; width:100% !important;'
-                
                 c_data = custom_cards[idx] if (idx < len(custom_cards) and custom_cards[idx].get('title')) else None
                 if c_data and c_data.get('title'):
+                    card_bg = tc.get(f'card_{idx+1}_bg') or default_card_bgs[idx]
+                    p_tag['style'] = f'background-color:{card_bg} !important; color:#ffffff !important; border-radius:5px !important; min-height:52px !important; height:52px !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; padding:4px 6px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important; width:100% !important;'
                     c_title = c_data.get('title', '')
                     c_url = c_data.get('url', '#')
                     p_tag.clear()
                     card_markup = f'<a href="{c_url}" rel="noreferrer noopener" target="_blank" style="color:#ffffff !important; text-decoration:none !important; font-weight:700 !important; font-size:13.5px !important; font-family:Arial,Helvetica,sans-serif !important; line-height:1.25 !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; width:100% !important; height:100% !important;">{c_title}</a>'
                     p_tag.append(BeautifulSoup(card_markup, 'html.parser'))
                 elif idx < len(sorted_all_active):
+                    card_bg = tc.get(f'card_{idx+1}_bg') or default_card_bgs[idx]
+                    p_tag['style'] = f'background-color:{card_bg} !important; color:#ffffff !important; border-radius:5px !important; min-height:52px !important; height:52px !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; padding:4px 6px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important; width:100% !important;'
                     h_post = sorted_all_active[idx]
                     h_title = h_post.get('title', '')
                     h_slug = h_post.get('slug', '')
@@ -4204,6 +4204,9 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                     p_tag.clear()
                     card_markup = f'<a href="/{h_slug}/" rel="noreferrer noopener" style="color:#ffffff !important; text-decoration:none !important; font-weight:700 !important; font-size:13.5px !important; font-family:Arial,Helvetica,sans-serif !important; line-height:1.25 !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; width:100% !important; height:100% !important;">{h_title}{h_badge}</a>'
                     p_tag.append(BeautifulSoup(card_markup, 'html.parser'))
+                else:
+                    p_tag.clear()
+                    p_tag['style'] = 'display: none !important;'
 
     # ==================== 4. TOP 15 PAGES MATRIX TABLE ====================
     top_pages = settings_obj.get('top_pages_table', [])
@@ -8396,16 +8399,15 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
         if col:
             ul = col.find('ul')
             if ul:
+                ul.clear()
                 cat_list = posts_by_category.get(cat_key, [])
-                if cat_list:
-                    ul.clear()
-                    for item in cat_list[:15]:
-                        li = soup.new_tag('li')
-                        title_raw = item.get('title', '')
-                        badge_html = item.get('calculated_badge', '')
-                        markup = f'<a href="/{item.get("slug")}/" class="wp-block-latest-posts__post-title">{title_raw}{badge_html}</a>'
-                        li.append(BeautifulSoup(markup, 'html.parser'))
-                        ul.append(li)
+                for item in cat_list[:15]:
+                    li = soup.new_tag('li')
+                    title_raw = item.get('title', '')
+                    badge_html = item.get('calculated_badge', '')
+                    markup = f'<a href="/{item.get("slug")}/" class="wp-block-latest-posts__post-title">{title_raw}{badge_html}</a>'
+                    li.append(BeautifulSoup(markup, 'html.parser'))
+                    ul.append(li)
 
     # Dynamic Top 8 Colorful Highlight Cards
     settings_obj = load_settings()
@@ -8424,17 +8426,18 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
         if col_div:
             p_tag = col_div.find('p')
             if p_tag:
-                card_bg = theme_cfg.get(f'card_{idx+1}_bg') or default_card_bgs[idx]
-                p_tag['style'] = f'background-color:{card_bg} !important; color:#ffffff !important; border-radius:5px !important; min-height:52px !important; height:52px !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; padding:4px 6px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important; width:100% !important;'
-                
                 c_data = custom_cards[idx] if (idx < len(custom_cards) and custom_cards[idx].get('title')) else None
                 if c_data and c_data.get('title'):
+                    card_bg = theme_cfg.get(f'card_{idx+1}_bg') or default_card_bgs[idx]
+                    p_tag['style'] = f'background-color:{card_bg} !important; color:#ffffff !important; border-radius:5px !important; min-height:52px !important; height:52px !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; padding:4px 6px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important; width:100% !important;'
                     c_title = c_data.get('title', '')
                     c_url = c_data.get('url', '#')
                     p_tag.clear()
                     card_markup = f'<a href="{c_url}" rel="noreferrer noopener" target="_blank" style="color:#ffffff !important; text-decoration:none !important; font-weight:700 !important; font-size:13.5px !important; font-family:Arial,Helvetica,sans-serif !important; line-height:1.25 !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; width:100% !important; height:100% !important;">{c_title}</a>'
                     p_tag.append(BeautifulSoup(card_markup, 'html.parser'))
                 elif idx < len(sorted_all_active):
+                    card_bg = theme_cfg.get(f'card_{idx+1}_bg') or default_card_bgs[idx]
+                    p_tag['style'] = f'background-color:{card_bg} !important; color:#ffffff !important; border-radius:5px !important; min-height:52px !important; height:52px !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; padding:4px 6px !important; margin:0 !important; box-sizing:border-box !important; overflow:hidden !important; width:100% !important;'
                     h_post = sorted_all_active[idx]
                     h_title = h_post.get('title', '')
                     h_slug = h_post.get('slug', '')
@@ -8442,6 +8445,9 @@ def render_dynamic_homepage_html(raw_html, host, is_alria_mode=False):
                     p_tag.clear()
                     card_markup = f'<a href="/{h_slug}/" rel="noreferrer noopener" style="color:#ffffff !important; text-decoration:none !important; font-weight:700 !important; font-size:13.5px !important; font-family:Arial,Helvetica,sans-serif !important; line-height:1.25 !important; display:flex !important; align-items:center !important; justify-content:center !important; text-align:center !important; width:100% !important; height:100% !important;">{h_title}{h_badge}</a>'
                     p_tag.append(BeautifulSoup(card_markup, 'html.parser'))
+                else:
+                    p_tag.clear()
+                    p_tag['style'] = 'display: none !important;'
     
     # 1h. SEO & Accessibility: Descriptive aria-labels for generic "Click Here" / "Download" links
     post_title_for_aria = ""
